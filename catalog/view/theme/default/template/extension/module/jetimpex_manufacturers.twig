@@ -1,0 +1,17 @@
+<div class="clearfix"></div>
+<div id="jetimpex_manufactures-{{ module }}" class="owl-carousel manufacturers">
+	<div class="box-heading">
+		<h3>{{ heading_title }}</h3>
+	</div>
+	{% if brands %}
+		{% for brand in brands %}
+			{% if brand.manufacturer %}
+				{% for manufacturer in brand.manufacturer %}
+					<div class="item">
+						<a href="{{ manufacturer.href }}"><img src="{{ manufacturer.image }}" class="img-responsive" alt=""></a>
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+</div>

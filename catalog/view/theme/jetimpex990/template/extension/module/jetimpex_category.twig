@@ -1,0 +1,26 @@
+{% if (categories) %}
+	<div class="jet-category" data-match-height="items-f">
+		<div class="box-heading">
+			<h3>{{ title }}</h3>
+		</div>
+		<ul class="box-content list-unstyled">
+			{% for cat in categories %}
+				<li class="item">
+					<img src="{{ cat.image }}" class="img-responsive" alt="">
+					<div class="categories">
+						<a href="{{ cat.href }}">
+							{{ cat.name }}
+						</a>
+						{% if cat.children %}
+							<ul class="list-unstyled">
+								{% for children in cat.children %}
+									<li><a href="{{ children.href }}">{{ children.name }}</a></li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endif %}
