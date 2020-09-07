@@ -8,7 +8,8 @@ class ControllerExtensionModuleJetimpexParallax extends Controller
 
 		$this->load->model('design/banner');
 		$this->load->model('tool/image');
-
+		
+		
 		$this->document->addScript('catalog/view/theme/' . $this->config->get('theme_' . $this->config->get('config_theme') . '_directory') . '/js/jetimpex_parallax/jquery.rd-parallax.min.js');
 
 		if (is_file(DIR_IMAGE . $setting['image'])) {
@@ -42,7 +43,6 @@ class ControllerExtensionModuleJetimpexParallax extends Controller
 		if (isset($setting['layers']) && $setting['layers']) {
 			$i=0;
 			foreach ($setting['layers'] as $layer) {
-
 				$data['layers'][$i] = array(
 					'type' => $layer['type'] == 0 ? 'html' : 'media',
 					'description' => html_entity_decode($layer['description'][$this->config->get('config_language_id')], ENT_QUOTES, 'UTF-8'),
@@ -52,12 +52,10 @@ class ControllerExtensionModuleJetimpexParallax extends Controller
 					);
 
 				if (isset($layer['image']) && $layer['image']) {
-					$data['layers'][$i] = array(
-						'image' => $this->model_tool_image->resize($layer['image'], $layer['width'], $layer['height']),
-						'image_width' => $layer['width'],
-						'image_height' => $layer['height'],
-						'blur' => $layer['blur'] == 0 ? 'false' : 'true'
-						);
+					$data['layers'][$i]['image']        = $this->model_tool_image->resize($layer['image'], $layer['width'], $layer['height']);
+					$data['layers'][$i]['image_width']  = $layer['width'];
+					$data['layers'][$i]['image_height'] = $layer['height'];
+					$data['layers'][$i]['blur']         = $layer['blur'] == 0 ? 'false' : 'true';
 				}
 
 				if (isset($layer['module_id'])) {

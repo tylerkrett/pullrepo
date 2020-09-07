@@ -3,7 +3,7 @@
 $_['heading_title']       = 'Newsletter';
 
 // Entry
-$_['entry_mail']          = 'Укажите адрес своей электронной почты';
+$_['entry_mail']          = 'Ваша почта';
 
 // Text
 $_['button_subscribe']    = 'Подписаться';

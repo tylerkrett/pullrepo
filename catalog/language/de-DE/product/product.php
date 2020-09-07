@@ -22,7 +22,6 @@ $_['text_option']       = 'Verfügbare Optionen';
 $_['text_minimum']      = '(Mindestbestellmenge %s Stück)';
 $_['text_reviews']      = '%s Bewertungen';
 $_['text_write']        = 'Bewertung';
-$_['text_select']			= ' -- Bitte wählen -- ';
 $_['text_login']		= 'Bitte <a href="%s">anmelden</a> oder <a href="%s">registrieren</a> um Bewertung zu verfassen';
 $_['text_no_reviews']   = 'Für dieses Produkt gibt es noch keine Bewertungen';
 $_['text_note']         = '<span class="text-danger">Hinweis:</span> HTML ist nicht verfügbar!';

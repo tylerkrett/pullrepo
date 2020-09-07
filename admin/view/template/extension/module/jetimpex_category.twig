@@ -45,6 +45,33 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-category">{{ entry_category }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="path" value="{{ path }}" placeholder="{{ entry_category }}" id="input-category" class="form-control" />
+							<input type="hidden" name="category" value="{{ category }}" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-width">{{ text_sub_width }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="sub_width" value="{{ sub_width }}" placeholder="{{ sub_width }}" id="input-width" class="form-control"/>
+							{% if error_width %}
+								<div class="text-danger">
+									{{ error_width }}
+								</div>
+							{% endif %}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-height">{{ text_sub_height }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="sub_height" value="{{ sub_height }}" placeholder="{{ sub_height }}" id="input-height" class="form-control"/>
+							{% if error_height %}
+								<div class="text-danger">{{ error_height }}</div>
+							{% endif %}
+						</div>
+					</div>	
+					<div class="form-group">
 						<label class="col-sm-2 control-label" for="input-title">{{ entry_title }}</label>
 						<div class="col-sm-10">
 							<input type="text" name="title" value="{{ title }}" placeholder="{{ entry_title }}" id="input-title" class="form-control" />
@@ -72,7 +99,7 @@
 								<div class="text-danger">{{ error_height }}</div>
 							{% endif %}
 						</div>
-					</div>
+					</div>					
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
 						<div class="col-sm-10">
@@ -93,15 +120,41 @@
 							<input type="text" name="limit" value="{{ limit }}" placeholder="{{ entry_limit }}" id="input-limit" class="form-control" />
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-sub_limit">{{ entry_sub_limit }}</label>
-						<div class="col-sm-10">
-							<input type="text" name="sub_limit" value="{{ sub_limit }}" placeholder="{{ entry_sub_limit }}" id="input-sub_limit" class="form-control" />
-						</div>
-					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+;(function ($) {
+	$('input[name=\'path\']').autocomplete({
+		'source': function(request, response) {
+			$.ajax({
+				url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+				dataType: 'json',
+				success: function(json) {
+					json.unshift({
+						category_id: 0,
+						name: '{{ text_none }}'
+					});
+
+					response($.map(json, function(item) {
+						return {
+							label: item['name'],
+							value: item['category_id']
+						}
+					}));
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		},
+		'select': function(item) {
+			$('input[name=\'path\']').val(item['label']);
+			$('input[name=\'category\']').val(item['value']);
+		}
+	});
+})(jQuery);
+</script>>
 {{ footer }}

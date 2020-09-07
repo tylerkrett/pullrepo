@@ -17,7 +17,7 @@ class ModelCatalogProduct extends Model {
 					$sql .= 'LEFT JOIN ' . DB_PREFIX . 'product_to_store AS p2s ON p2s.product_id = pd.product_id ';
 					$sql .= 'WHERE ' . $add . ' AND p.status = 1 ';
 					$sql .= ' AND p2s.store_id =  ' . (int)$this->config->get('config_store_id');
-					$sql .= ' AND pd.language_id = ' . (int)$this->config->get('config_language_id');
+					$sql .= 'AND pd.language_id = ' . (int)$this->config->get('config_language_id');
 					$sql .= ' ORDER BY p.sort_order ASC, LOWER(pd.name) ASC, LOWER(p.model) ASC';
 					$sql .= ' LIMIT 15';
 					if (isset($this->db->query($sql)->rows)) {

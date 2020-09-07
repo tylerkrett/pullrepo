@@ -1,11 +1,14 @@
 <?php
 // Heading
 $_['heading_title']    = 'JETIMPEX Category';
+$_['entry_category']   = 'Category';
 
 // Text
 $_['text_module']      = 'Modules';
 $_['text_success']     = 'Success: You have modified JETIMPEX category module!';
 $_['text_edit']        = 'Edit JETIMPEX Category Module';
+$_['text_sub_width']   = 'subcategory width';
+$_['text_sub_height']  = 'subcategory height';
 
 // Entry
 $_['entry_status']     = 'Status';
@@ -13,9 +16,9 @@ $_['entry_name']       = 'Module Name';
 $_['entry_title']      = 'Module Title';
 $_['entry_slogan']     = 'Module Slogan';
 $_['entry_limit']      = 'Limit';
-$_['entry_sub_limit']  = 'Subcategory Limit';
 $_['entry_width']      = 'Image width';
 $_['entry_height']     = 'Image height';
+
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify JETIMPEX category module!';

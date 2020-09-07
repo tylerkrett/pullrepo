@@ -19,6 +19,8 @@ $_['text_powered']      = 'Powered By <a href="http://www.opencart.com">OpenCart
 				$_['text_telephone'] = 'telephone:';
 				$_['text_fax']       = 'fax:';
 				$_['text_email']     = 'e-mail:';
+
+				$_['text_category']     = 'Categories';
 				
 
 				$_['text_simple_blog']   = 'Blog';

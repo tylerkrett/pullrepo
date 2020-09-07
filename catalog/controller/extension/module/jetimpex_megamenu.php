@@ -59,7 +59,7 @@ class ControllerExtensionModuleJetimpexMegaMenu extends Controller
 									'order'               => 'DESC',
 									'start'               => isset($products_count[$column['category_id']]) ? $products_count[$column['category_id']] + 1 : 0,
 									'limit'               => $column['prod_limit']
-									);
+								);
 
 								$results = $this->model_catalog_product->getProducts($filter_data);
 								isset($products_count[$column['category_id']]) ? $products_count[$column['category_id']] += $column['prod_limit'] : $products_count[$column['category_id']] = (int)$column['prod_limit'];
@@ -76,16 +76,18 @@ class ControllerExtensionModuleJetimpexMegaMenu extends Controller
 								$cats_2 = $this->model_catalog_category->getCategories($column['category_id']);
 
 								if (isset($cats_2[$column_categories[$column['category_id']]])) {
-									$list .= "<li class=\"submenu_title\">\n<a href=\"" . $this->url->link('product/category', 'path=' . $cats_2[$column_categories[$column['category_id']]]['category_id'], true) . "\">" . $cats_2[$column_categories[$column['category_id']]]['name'] . "</a>\n</li>\n";
+									$list .= "<li class=\"submenu_title sadasa\">\n<a href=\"" . $this->url->link('product/category', 'path=' . $cats_2[$column_categories[$column['category_id']]]['category_id'], true) . "\">" . $cats_2[$column_categories[$column['category_id']]]['name'] . "</a>\n</li>\n";
 
 									$cats_3 = $this->model_catalog_category->getCategories($cats_2[$column_categories[$column['category_id']]]['category_id']);
-
+									$list .= "<ul>";
 									foreach ($cats_3 as $cats_3_key => $cats_3_value) {
 										if ($column['limit'] <= $cats_3_key) {
 											break;
 										}
 										$list .= "<li>\n<a href=\"" . $this->url->link('product/category', 'path=' . $cats_3_value['category_id'], true) . "\">" . $cats_3_value['name'] . "</a>\n</li>\n";
 									}
+									$list .= "</ul>";
+
 								}
 								break;
 								case 2:
@@ -103,7 +105,7 @@ class ControllerExtensionModuleJetimpexMegaMenu extends Controller
 										'order'               => 'DESC',
 										'start'               => 0,
 										'limit'               => $column['prod_limit']
-										);
+									);
 
 									$results = $this->model_catalog_product->getProducts($filter_data);
 									if ($results) {
@@ -133,7 +135,7 @@ class ControllerExtensionModuleJetimpexMegaMenu extends Controller
 								'custom_category_href' => $category_lv_2_href,
 								'module'               => $module,
 								'list'                 => $list
-								);
+							);
 						}
 					}
 				} elseif (isset($categories[$top_category_count])) {
@@ -169,7 +171,7 @@ class ControllerExtensionModuleJetimpexMegaMenu extends Controller
 									'order'               => 'DESC',
 									'start'               => isset($products_count[$category_id]) ? $products_count[$category_id] + 1 : 0,
 									'limit'               => $column['prod_limit']
-									);
+								);
 
 								$results = $this->model_catalog_product->getProducts($filter_data);
 								isset($products_count[$category_id]) ? $products_count[$category_id] += $column['prod_limit'] : $products_count[$category_id] = (int)$column['prod_limit'];
@@ -214,7 +216,7 @@ class ControllerExtensionModuleJetimpexMegaMenu extends Controller
 										'order'               => 'DESC',
 										'start'               => 0,
 										'limit'               => $column['prod_limit']
-										);
+									);
 
 									$results = $this->model_catalog_product->getProducts($filter_data);
 									if ($results) {
@@ -244,7 +246,7 @@ class ControllerExtensionModuleJetimpexMegaMenu extends Controller
 								'custom_category_href' => $category_lv_2_href,
 								'module'               => $module,
 								'list'                 => $list
-								);
+							);
 						}
 					}
 
@@ -255,21 +257,14 @@ class ControllerExtensionModuleJetimpexMegaMenu extends Controller
 
 				$liClass = ((!$menu_item['type'] && $menu_item['submenu_type']) || ($menu_item['type'] && $menu_item['submenu_show'])) ? 'sf-with-mega' : '';
 
-				if (is_file(DIR_IMAGE . $menu_item['image'])) {
-					$image = $this->model_tool_image->resize($menu_item['image'], $menu_item['image_width'], $menu_item['image_height']);
-				} else {
-					$image = '';
-				}
-
 				$data['menu_items'][] = array(
 					'href'    => $href,
 					'name'    => $name,
 					'mega'    => $liClass,
 					'multi'   => $multilevel,
 					'per-row' => $menu_item['columns-per-row'],
-					'column'  => $columns,
-					'background' => $image
-					);
+					'column'  => $columns
+				);
 			}
 		}
 

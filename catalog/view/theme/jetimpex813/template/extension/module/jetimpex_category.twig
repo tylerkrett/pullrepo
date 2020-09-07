@@ -1,0 +1,25 @@
+
+<div class="box jet-category">
+	<div class="box-heading">{{ title }}</div>
+	<div class="box-category clearfix">
+		<div class="main-category">
+			<img src="{{ category_image }}" alt="">
+			<div class="category_name">
+				<a href="{{ category_link }}">{{ category_name }}</a>				
+			</div>
+		</div>
+		<div class="subcategories">
+			<div class="subcategory">				
+				
+				{% for category in subcategories %}
+					<div class="subcategory-product">
+						<img src="{{ category.image }}" alt="">
+						<div class="subcategory-name"><a href="{{ category.link }}">{{ category.name }}</a></div>
+
+					</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+</div>

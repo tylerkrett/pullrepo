@@ -14,9 +14,11 @@ $_['text_default']        = 'Default';
 $_['text_content_top']    = 'Content Top';
 
 				$_['text_header_top'] = 'Header Top';
-				$_['text_header_bottom'] = 'Header Bottom';
+				$_['text_header_menu'] = 'Header menu';
 				$_['text_navigation'] = 'Navigation';
 				$_['text_top']        = 'Top';
+				$_['text_header_cart']        = 'header cart';
+
 				$_['text_bottom']     = 'Bottom';
 				$_['text_footer_1']   = 'Footer 1';
 				$_['text_footer_2']   = 'Footer 2';

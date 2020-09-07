@@ -158,16 +158,25 @@
 					</table>
 				</div>
 
-				<div class="col-xs-12">
-					<table id="module-header-bottom" class="table table-striped table-bordered table-hover">
+
+
+
+
+
+
+
+
+
+<div class="col-xs-12">
+					<table id="module-header_cart" class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
-								<td class="text-center">{{ text_header_bottom }}</td>
+								<td class="text-center">{{ text_header_cart }}</td>
 							</tr>
 						</thead>
 						<tbody>
 							{% for layout_module in layout_modules %}
-							{% if layout_module.position == 'header_bottom' %}
+							{% if layout_module.position == 'header_cart' %}
 							<tr id="module-row{{ module_row }}">
 								<td class="text-left">
 									<div class="input-group">
@@ -228,7 +237,7 @@
 											{% endfor %}
 										</select>
 										<div class="input-group-btn">
-											<button type="button" onclick="addModule('header-bottom');" data-toggle="tooltip" title="{{ button_module_add }}" class="btn btn-primary btn-sm">
+											<button type="button" onclick="addModule('header_cart');" data-toggle="tooltip" title="{{ button_module_add }}" class="btn btn-primary btn-sm">
 												<i class="fa fa-plus-circle"></i>
 											</button>
 										</div>
@@ -238,6 +247,106 @@
 						</tfoot>
 					</table>
 				</div>
+
+
+
+
+
+
+
+
+
+<div class="col-xs-12">
+					<table id="module-header-menu" class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<td class="text-center">{{ text_header_menu }}</td>
+							</tr>
+						</thead>
+						<tbody>
+							{% for layout_module in layout_modules %}
+							{% if layout_module.position == 'header_menu' %}
+							<tr id="module-row{{ module_row }}">
+								<td class="text-left">
+									<div class="input-group">
+										<select name="layout_module[{{ module_row }}][code]" class="form-control input-sm">
+											{% for extension in extensions %}
+											<optgroup label="{{ extension.name }}">
+												{% if not extension.module %}
+												{% if extension.code == layout_module.code %}
+												<option value="{{ extension.code }}" selected="selected">{{ extension.name }}</option>
+												{% else %}
+												<option value="{{ extension.code }}">{{ extension.name }}</option>
+												{% endif %}
+												{% else %}
+												{% for module in extension.module %}
+												{% if module.code == layout_module.code %}
+												<option value="{{ module.code }}" selected="selected">{{ module.name }}</option>
+												{% else %}
+												<option value="{{ module.code }}">{{ module.name }}</option>
+												{% endif %}
+												{% endfor %}
+												{% endif %}
+											</optgroup>
+											{% endfor %}
+										</select>
+										<input type="hidden" name="layout_module[{{ module_row }}][position]" value="{{ layout_module.position }}" />
+										<input type="hidden" name="layout_module[{{ module_row }}][sort_order]" value="{{ layout_module.sort_order }}" />
+										<div class="input-group-btn">
+											<a href="{{ layout_module.edit }}" type="button" data-toggle="tooltip" title="{{ button_edit }}" target="_blank" class="btn btn-primary btn-sm">
+												<i class="fa fa-pencil"></i>
+											</a>
+											<button type="button" onclick="$('#module-row{{ module_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger btn-sm">
+												<i class="fa fa fa-minus-circle"></i>
+											</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							{% set module_row = module_row + 1 %}
+							{% endif %}
+							{% endfor %}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td class="text-left">
+									<div class="input-group">
+										<select class="form-control input-sm">
+											<option value=""></option>
+											{% for extension in extensions %}
+											<optgroup label="{{ extension.name }}">
+												{% if not extension.module %}
+												<option value="{{ extension.code }}">{{ extension.name }}</option>
+												{% else %}
+												{% for module in extension.module %}
+												<option value="{{ module.code }}">{{ module.name }}</option>
+												{% endfor %}
+												{% endif %}
+											</optgroup>
+											{% endfor %}
+										</select>
+										<div class="input-group-btn">
+											<button type="button" onclick="addModule('header-menu');" data-toggle="tooltip" title="{{ button_module_add }}" class="btn btn-primary btn-sm">
+												<i class="fa fa-plus-circle"></i>
+											</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
 
 				<div class="col-xs-12">
 					<table id="module-navigation" class="table table-striped table-bordered table-hover">
@@ -758,7 +867,7 @@
 					</table>
 				</div>
 
-				<div class="col-xs-12 col-sm-12">
+				<div class="col-xs-12 col-sm-3">
 					<table id="module-footer_1" class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
@@ -839,7 +948,7 @@
 					</table>
 				</div>
 
-				<div class="col-xs-12 col-sm-12">
+				<div class="col-xs-12 col-sm-3">
 					<table id="module-footer_2" class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
@@ -920,7 +1029,7 @@
 					</table>
 				</div>
 
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-12 col-sm-3">
 					<table id="module-footer_3" class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
@@ -1001,7 +1110,7 @@
 					</table>
 				</div>
 
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-12 col-sm-3">
 					<table id="module-footer_4" class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
@@ -1142,7 +1251,7 @@ function addModule(type) {
 	module_row++;
 }
 
-$('#module-column-left, #module-column-right, #module-content-top, #module-content-bottom, #module-header-top,  #module-header-bottom, #module-navigation, #module-top, #module-bottom, #module-footer_1, #module-footer_2, #module-footer_3, #module-footer_4').delegate('select[name*=\'code\']', 'change', function() {
+$('#module-column-left, #module-column-right, #module-content-top, #module-content-bottom, #module-header-top, #module-navigation, #module-top, #module-bottom, #module-footer_1, #module-footer_2, #module-footer_3, #module-footer_4, #header_cart').delegate('select[name*=\'code\']', 'change', function() {
 	var part = this.value.split('.');
 	
 	if (!part[1]) {
@@ -1152,7 +1261,7 @@ $('#module-column-left, #module-column-right, #module-content-top, #module-conte
 	}
 });
 
-$('#module-column-left, #module-column-right, #module-content-top, #module-content-bottom, #module-header-top, #module-header-bottom, #module-navigation, #module-top, #module-bottom, #module-footer_1, #module-footer_2, #module-footer_3, #module-footer_4').trigger('change');
+$('#module-column-left, #module-column-right, #module-content-top, #module-content-bottom, #module-header-top, #module-navigation, #module-top, #module-bottom, #module-footer_1, #module-footer_2, #module-footer_3, #module-footer_4, #header_cart').trigger('change');
 //--></script> 
 </div>
 {{ footer }}

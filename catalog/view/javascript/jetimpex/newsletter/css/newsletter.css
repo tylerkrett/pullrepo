@@ -1,0 +1,59 @@
+.newsletter {
+  text-align: center;
+  margin-top: 20px;
+  padding: 65px 30px 77px;
+  margin-bottom: 30px;
+  border: 1px solid #d4d4d4;
+  line-height: 1.2em; }
+  .newsletter .box-content {
+    position: relative; }
+  .newsletter h4, .newsletter h5, .newsletter h6 {
+    margin-top: 1px;
+    line-height: 1.35em; }
+  .newsletter h2 {
+    line-height: 1.2em;
+    margin-bottom: 0; }
+  .newsletter .form-control::-webkit-input-placeholder {
+    opacity: .5; }
+  .newsletter .form-control:-moz-placeholder {
+    opacity: .5; }
+  .newsletter .form-control::-moz-placeholder {
+    opacity: .5; }
+  .newsletter .form-control:-ms-input-placeholder {
+    opacity: .5; }
+
+h4.newsletter-description {
+  margin-bottom: 26px; }
+
+.jetimpex-login-form {
+  width: 370px;
+  margin-right: 14px;
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 10px; }
+  .jetimpex-login-form .control-label {
+    display: none; }
+  .jetimpex-login-form + .btn {
+    margin-bottom: 10px; }
+
+.newsletter-error, .newsletter-success {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 10px; }
+
+.newsletter-error {
+  color: red; }
+
+.newsletter-success {
+  color: green; }
+
+@media (max-width: 580px) {
+  .jetimpex-login-form {
+    width: 140px;
+    margin-right: 5px; }
+
+  .newsletter {
+    padding: 45px 15px 57px; } }

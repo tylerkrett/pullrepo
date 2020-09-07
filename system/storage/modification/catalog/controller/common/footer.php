@@ -38,6 +38,13 @@ class ControllerCommonFooter extends Controller {
 				$data['email']     = $this->config->get('config_email');
 				$data['geocode']   = $this->config->get('config_geocode');
 				$data['open']      = $this->config->get('config_open');
+
+				$this->load->model('catalog/category');
+				$data['footer_caterory'] = $this->model_catalog_category->getCategories(0);
+				$data['footer_caterory'] = array_slice($data['footer_caterory'], 0, 6);
+				foreach ($data['footer_caterory'] as $caterory_id => $caterory) {
+				$data['footer_caterory'][$caterory_id]['href'] = $this->url->link('product/category', 'path=' . $caterory['category_id'], true);
+				}
 				
 
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));

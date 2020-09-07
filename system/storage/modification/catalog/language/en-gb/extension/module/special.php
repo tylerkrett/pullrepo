@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title'] = 'Season Sale';
+$_['heading_title'] = 'Specials';
 
 // Text
 

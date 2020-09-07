@@ -10,9 +10,6 @@ class ControllerProductProduct extends Controller {
 
 
 				$this->document->addScript('catalog/view/theme/' . $this->config->get('theme_' . $this->config->get('config_theme') . '_directory') . '/js/jquery.elevatezoom.js', 'footer');
-				$this->document->addStyle('catalog/view/javascript/jquery/swiper/css/swiper.min.css');
-				$this->document->addStyle('catalog/view/javascript/jquery/swiper/css/opencart.css');
-				$this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js');
 				
 		$data['breadcrumbs'] = array();
 

@@ -8,7 +8,7 @@
  */
 
 // Text
-$_['text_new_card']						= '+ neue Karte';
+$_['text_new_card']						= 'neue Karte';
 $_['text_loading']						= 'Lade .. bitte warten ..';
 $_['text_card_details']					= 'Kartendetails';
 $_['text_saved_card']					= 'Gespeicherte Karten';

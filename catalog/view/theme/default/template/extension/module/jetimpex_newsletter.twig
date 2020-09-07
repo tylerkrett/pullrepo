@@ -1,17 +1,18 @@
 <div id="jetimpex-newsletter" class="box newsletter">
+	<div class="box-heading"><h2>{{ heading_title }}</h2></div>
 	<div class="box-content">
-		<div class="box-heading"><h3>{{ heading_title }}</h3></div>
 		{% if description %}
-			<div class="newsletter-description">{{ description }}</div>
+			<h4 class="newsletter-description">{{ description }}</h4>
 		{% endif %}
 		<form method="post" enctype="multipart/form-data" id="jetimpex-newsletter-form">
 			<div class="jetimpex-login-form">
-				<input type="text" name="jetimpex_newsletter_email" value=""
+				<label class="control-label" for="input-jetimpex-newsletter-email"></label>
+				<input type="text" name="jetimpex_newsletter_email" value="" placeholder="{{ entry_mail }}"
 				id="input-jetimpex-newsletter-email" class="form-control"/>
-				<button type="submit" id="jetimpex-newsletter-button" class="dropdown-btn btn">{{ button_subscribe }}</button>
-				<span id="jetimpex-newsletter_error" class="newsletter-error"></span>
-				<span id="jetimpex-newsletter_success" class="newsletter-success"></span>
 			</div>
+			<button type="submit" id="jetimpex-newsletter-button" class="btn btn-primary">{{ button_subscribe }}</button>
+			<span id="jetimpex-newsletter_error" class="newsletter-error"></span>
+			<span id="jetimpex-newsletter_success" class="newsletter-success"></span>
 		</form>
 	</div>
 </div>

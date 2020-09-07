@@ -33,8 +33,9 @@ class ControllerCommonHeader extends Controller {
 		$data['styles'] = $this->document->getStyles();
 
 				$data['header_top'] = $this->load->controller('common/header_top');
-				$data['header_bottom'] = $this->load->controller('common/header_bottom');
+				$data['header_menu'] = $this->load->controller('common/header_menu');
 				$data['navigation'] = $this->load->controller('common/navigation');
+				$data['header_cart'] = $this->load->controller('common/header_cart');
 				
 		$data['scripts'] = $this->document->getScripts('header');
 		$data['lang'] = $this->language->get('code');
@@ -47,6 +48,22 @@ class ControllerCommonHeader extends Controller {
 				$data['responsive'] = $this->config->get('theme_' . $this->config->get('config_theme') . '_responsive');
 				
 		$data['name'] = $this->config->get('config_name');
+
+				$this->user = new Cart\User($this->registry);
+				$module_jetimpex_color_switcher_permission = $this->user->hasPermission('modify', 'extension/module/jetimpex_color_switcher');
+
+				if (!$module_jetimpex_color_switcher_permission && isset($_COOKIE['module_jetimpex_color_switcher_scheme'])) {
+				$color_scheme = $_COOKIE['module_jetimpex_color_switcher_scheme'];
+				} else {
+				$color_scheme = $this->config->get('module_jetimpex_color_switcher_scheme') ? $this->config->get('module_jetimpex_color_switcher_scheme') : '0';
+				}
+
+				if (is_file(DIR_TEMPLATE . $this->config->get('theme_' . $this->config->get('config_theme') . '_directory') . "/stylesheet/color_schemes/" . $color_scheme . ".css")) {
+				$data['color_scheme_link'] = "catalog/view/theme/" . $this->config->get('theme_' . $this->config->get('config_theme') . '_directory') . "/stylesheet/color_schemes/" . $color_scheme . ".css";
+				} else {
+				$data['color_scheme_link'] = "";
+				}
+				
 
 		if (is_file(DIR_IMAGE . $this->config->get('config_logo'))) {
 			$data['logo'] = $server . 'image/' . $this->config->get('config_logo');
@@ -79,6 +96,16 @@ class ControllerCommonHeader extends Controller {
 				$data['class'] = 'common-home';
 				}
 				
+				$this->load->model('tool/image');
+				$header_image        = $this->config->get('theme_' . $this->config->get('config_theme') . '_header_image');
+				$header_image_width  = $this->config->get('theme_' . $this->config->get('config_theme') . '_header_image_width');
+				$header_image_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_header_image_height');
+
+				if (is_file(DIR_IMAGE . $header_image)) {
+				$data['header_image_thumb']  = $this->model_tool_image->resize($header_image, $header_image_width, $header_image_height);
+				} else {
+				$data['header_image_thumb'] = '';
+				}
 				
 
 		// Wishlist

@@ -3,7 +3,7 @@
 $_['heading_title']       = 'Newsletter';
 
 // Entry
-$_['entry_mail']          = 'Enter Please Your Email';
+$_['entry_mail']          = 'Email';
 
 // Text
 $_['button_subscribe']    = 'Subscribe';

@@ -174,8 +174,8 @@ class ControllerExtensionModuleJetimpexLayoutBuilder extends Controller {
 		$this->mdata['extensions'] = $this->_modulesInstalled(); 
 		$this->mdata['ifmocmod'] = $this->url->link('extension/module/jetimpex_layout_builder/listmodules', 'user_token=' . $this->session->data['user_token'] . '&type=module', true);
 		
-		$sfxclss = $this->detectSfxClasses( $this->config->get('config_template') );
-		$this->mdata['sfxclss']  = $sfxclss;  
+		$sfxclss = $this->detectSfxClasses($this->config->get('theme_' . $this->config->get('config_theme') . '_directory'));
+    $this->mdata['sfxclss']  = $sfxclss['widget']; 
 
 		$this->response->setOutput($this->load->view($template, $this->mdata));
 	}

@@ -1,0 +1,57 @@
+
+
+
+
+
+
+<div id="search" class="search">
+	<div class="search__cnt">
+		<input class="search__input" type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}"/>
+		<button class="search__btn" type="button"><i class="linearicons-magnifier"></i></button>
+		<a href="#" class="search__close"><i class="material-design-close47"></i></a>
+	</div>
+</div>
+<script>
+	;(function ($) {
+		$(document).ready(function(){
+			var sBtn = $('.search__btn'),
+			sOpen    = $('.search__open'),
+			sClose   = $('.search__close'),
+			sInput   = $('.search__input'),
+			sCnt     = $('.search__cnt'),
+			search   = $('#search');
+
+			sBtn.on('click touchstart', function(){
+				if ( !sInput.val() == "" ) {
+					url = $('base').attr('href') + 'index.php?route=product/search';
+					var value = sInput.val();
+					if (value) {
+						url += '&search=' + encodeURIComponent(value);
+					}
+					location = url;
+				}
+			});
+			sOpen.on('click touchstart', function(e){
+				e.preventDefault();
+				search.addClass('open');
+				var strLength = sInput.val().length * 2;
+				sInput.focus();
+				sInput[0].setSelectionRange(strLength, strLength);
+			});
+			sClose.on('click touchstart', function(e){
+				e.preventDefault();
+				search.removeClass('open');
+				sInput.blur();
+			});
+			sInput.on('keydown', function(e){
+				if (e.keyCode == 13) {
+					sBtn.trigger('click');
+				}
+				if (e.keyCode == 27) {
+					sClose.trigger('click');
+				}
+			});
+		
+		});
+	})(jQuery);
+</script>

@@ -32,5 +32,5 @@ $_['entry_cc_cvv2']			= 'Sicherheitscode (CVV2)';
 $_['entry_cc_choice']		= 'Vorhandene Karte wählen';
 
 // Button
-$_['button_add_card']		= '+ Karte';
+$_['button_add_card']		= 'Karte';
 $_['button_new_card']		= 'Neue Karte';

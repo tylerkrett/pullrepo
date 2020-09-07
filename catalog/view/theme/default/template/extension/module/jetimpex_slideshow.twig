@@ -1,4 +1,6 @@
-<div class="swiper-container swiper-slider main-slider" data-loop="{{ loop }}" data-autoplay="{{ autoplay }}" data-height="{{ height ~ 'px' }}" data-min-height="{{ min_height ~ 'px' }}" style="height: {{ height ~ 'px' }}" data-slide-effect="{{ effect }}" data-slide-speed="{{ speed ~ 'ms' }}" data-keyboard="{{ keyboard_control }}" data-mousewheel="{{ mousewheel_control }}" data-mousewheel-release="{{ mousewheel_release_on_edges }}">
+<div class="swiper-container swiper-slider" data-loop="{{ loop }}" data-autoplay="{{ autoplay }}" data-height="{{ height ~ 'px' }}" data-min-height="{{ min_height ~ 'px' }}" data-slide-effect="{{ effect }}"
+data-slide-speed="{{ speed ~ 'ms' }}" data-keyboard="{{ keyboard_control }}" data-mousewheel="{{ mousewheel_control }}"
+data-mousewheel-release="{{ mousewheel_release_on_edges }}">
 
 <div class="swiper-wrapper">
 	{% if (slides is defined and slides) %}
@@ -11,10 +13,10 @@
 				muted: {{ slide['video_muted'] }}">
 				{% if (slide['link']) %}
 					<a href="{{ slide['link'] }}" class="swiper-slide__link">
-						<div class="bg_wrapper"><div class="swiper-caption">{{ slide['description'] }}</div></div>
+						{{ slide['description'] }}
 					</a>
 				{% else %}
-					<div class="bg_wrapper"><div class="swiper-caption">{{ slide['description'] }}</div></div>
+					{{ slide['description'] }}
 				{% endif %}
 			</div>
 
@@ -23,10 +25,10 @@
 			<div class="swiper-slide {{ slide['title'] }}" data-slide-bg="{{ slide['image'] }}">
 				{% if (slide['link']) %}
 					<a href="{{ slide['link'] }}" class="swiper-slide__link">
-						<div class="bg_wrapper"><div class="swiper-caption">{{ slide['description'] }}</div></div>
+						{{ slide['description'] }}
 					</a>
 				{% else %}
-					<div class="bg_wrapper"><div class="swiper-caption">{{ slide['description'] }}</div></div>
+					{{ slide['description'] }}
 				{% endif %}
 			</div>
 

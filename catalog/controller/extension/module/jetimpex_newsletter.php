@@ -14,10 +14,9 @@ class ControllerExtensionModuleJetimpexNewsletter extends Controller
 	}
 
 	public function index($setting)
-	{
+	{		
 		$this->install();
 		$this->load->language('extension/module/jetimpex_newsletter');
-
 
 		if (isset($setting['jetimpex_newsletter_description'][$this->config->get('config_language_id')])) {
 			$data['description'] = html_entity_decode($setting['jetimpex_newsletter_description'][$this->config->get('config_language_id')]['description'], ENT_QUOTES, 'UTF-8');

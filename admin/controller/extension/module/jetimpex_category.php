@@ -21,6 +21,8 @@ class ControllerExtensionModuleJetimpexCategory extends Controller {
 			$this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true));
 		}
 
+		$data['user_token'] = $this->session->data['user_token'];
+
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -56,17 +58,17 @@ class ControllerExtensionModuleJetimpexCategory extends Controller {
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
-			);
+		);
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_module'),
 			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true)
-			);
+		);
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('extension/module/jetimpex_category', 'user_token=' . $this->session->data['user_token'], true)
-			);
+		);
 
 		if (!isset($this->request->get['module_id'])) {
 			$data['action'] = $this->url->link('extension/module/jetimpex_category', 'user_token=' . $this->session->data['user_token'], true);
@@ -112,6 +114,22 @@ class ControllerExtensionModuleJetimpexCategory extends Controller {
 			$data['width'] = '';
 		}
 
+		if (isset($this->request->post['sub_height'])) {
+			$data['sub_height'] = $this->request->post['sub_height'];
+		} elseif (!empty($module_info)) {
+			$data['sub_height'] = $module_info['sub_height'];
+		} else {
+			$data['sub_height'] = '';
+		}
+		
+		if (isset($this->request->post['sub_width'])) {
+			$data['sub_width'] = $this->request->post['sub_width'];
+		} elseif (!empty($module_info)) {
+			$data['sub_width'] = $module_info['sub_width'];
+		} else {
+			$data['sub_width'] = '';
+		}
+
 		if (isset($this->request->post['height'])) {
 			$data['height'] = $this->request->post['height'];
 		} elseif (!empty($module_info)) {
@@ -128,12 +146,20 @@ class ControllerExtensionModuleJetimpexCategory extends Controller {
 			$data['limit'] = 6;
 		}
 
-		if (isset($this->request->post['sub_limit'])) {
-			$data['sub_limit'] = $this->request->post['sub_limit'];
+		if (isset($this->request->post['path'])) {
+			$data['path'] = $this->request->post['path'];
 		} elseif (!empty($module_info)) {
-			$data['sub_limit'] = $module_info['sub_limit'];
+			$data['path'] = $module_info['path'];
 		} else {
-			$data['sub_limit'] = 6;
+			$data['path'] = '';
+		}
+
+		if (isset($this->request->post['category'])) {
+			$data['category'] = $this->request->post['category'];
+		} elseif (!empty($module_info)) {
+			$data['category'] = $module_info['category'];
+		} else {
+			$data['category'] = '';
 		}
 		
 		$data['header'] = $this->load->controller('common/header');
@@ -165,5 +191,37 @@ class ControllerExtensionModuleJetimpexCategory extends Controller {
 		}
 		
 		return !$this->error;
+	}
+
+	public function autocomplete() {
+
+		$json = [];
+
+		if (isset($this->request->get['category_id'])) {
+			$this->load->model('catalog/product');
+
+			$results = $this->model_catalog_product->getProductsByCategoryId($this->request->get['category_id']);
+
+			if ($this->request->get['product_name']) {
+				foreach ($results as $result) {
+					if (stripos($result['name'], $this->request->get['product_name']) !== false) {
+						$json[] = array(
+							'product_id' => $result['product_id'],
+							'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+						);
+					}
+				}
+			} else {
+				foreach ($results as $result) {
+					$json[] = array(
+						'product_id' => $result['product_id'],
+						'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+					);
+				}
+			}
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 }
