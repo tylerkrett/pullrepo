@@ -1,0 +1,342 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+     <div class="float-end">
+        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
+        <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a></div>
+      <h1>{{ heading_themeoption }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  <div class="container-fluid">
+   {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> {{ success }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+  {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endif %}
+    <div class="card panel-default">
+      <div class="card-header"><i class="fa fa-pencil"></i> {{text_form}}</div>
+      <div class="card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <div class="theme_section">
+            <h3>Themes configuration</h3> 
+            <div class="row mb-3">
+              <div class="col-sm-6 row">
+                <label class="col-sm-4 col-form-label" for="input-bg-color">{{ entry_themecolor }}</label>
+                <div class="col-sm-8">
+                  <input type="text" name="themecolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ themecolor }}">
+                </div>
+              </div>
+            </div>           
+              <div class="row mb-3">
+                <div class="row col-sm-6">
+                  <label class="col-sm-4 col-form-label" for="input-breadcrumb_image">{{ entry_image }}</label>
+                  <div class="col-sm-8">
+                    <div id="image" class="card image">
+                      <img src="{{ thumb }}" alt="" title="" id="thumb-breadcrumb_image" data-oc-placeholder="{{ placeholder }}" />
+                      <input type="hidden" name="breadcrumb_image" value="{{breadcrumb_image}}" id="input-breadcrumb_image"/>
+                      <div class="card-body">
+                        <button type="button" data-oc-toggle="image" data-oc-target="#input-breadcrumb_image" data-oc-thumb="#thumb-breadcrumb_image" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
+                        <button type="button" data-oc-toggle="clear" data-oc-target="#input-breadcrumb_image" data-oc-thumb="#thumb-breadcrumb_image" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row col-sm-6">
+                  <label class="col-sm-4 col-form-label" for="input-bg-color">{{ entry_breadcrumb_color }}</label>
+                  <div class="col-sm-8">
+                    <input type="text" name="breadcrumb_color" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ breadcrumb_color }}">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4 row">
+                  <label class="col-sm-6 col-form-label" for="input-subcategory_type">{{ entry_subcategorylist }}</label>
+                  <div class="col-sm-6">
+                    <select name="subcategory_type" id="input-subcategory_type" class="form-control">
+                      <option value="none" {% if subcategory_type == 'none' %} selected=selected {% endif %}>{{ text_none }}</option>
+                      <option value="grid" {% if subcategory_type == 'grid' %} selected=selected {% endif %}>{{ text_grid }}</option>
+                      <option value="slider" {% if subcategory_type == 'slider' %} selected=selected {% endif %}>{{ text_slider }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-4 row">
+                  <label class="col-sm-6 col-form-label" for="input-category-counter">{{ entry_category_counter }}</label>
+                  <div class="col-sm-6">
+                    <label class="switch">
+                      {% if category_counter %}
+                        <input type="checkbox" name="category_counter" value="1" class="primary" checked="checked" id="input-category-counter" />
+                      {% else %}
+                        <input type="checkbox" name="category_counter" value="1" class="primary" id="input-category-counter" />
+                      {% endif %}
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-4 row">
+                  <label class="col-sm-6 col-form-label" for="input-product-counter">{{ entry_product_counter }}</label>
+                  <div class="col-sm-6">
+                    <label class="switch">
+                      {% if product_counter %}
+                        <input type="checkbox" name="product_counter" value="1" class="primary" checked="checked" id="input-product-counter" />
+                      {% else %}
+                        <input type="checkbox" name="product_counter" value="1" class="primary" id="input-product-counter" />
+                      {% endif %}
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="theme_section">
+            <h3>Header configuration</h3> 
+            <div class="row mb-3">
+              <div class="col-sm-6 row pt-3">
+                <label class="col-sm-6 col-form-label" for="input-bg-color">{{ entry_headernav_bgcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="headernav_bgcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ headernav_bgcolor }}">
+                </div>
+              </div>
+              <div class="col-sm-6 row pt-3">
+                <label class="col-sm-6 col-form-label" for="input-headernav_textcolor">{{ entry_headernav_textcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="headernav_textcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ headernav_textcolor }}">
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-4 row pt-3">
+                <label class="col-sm-6 col-form-label" for="input-bg-color">{{ entry_header_bgcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="header_bgcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ header_bgcolor }}">
+                </div>
+              </div>
+              <div class="col-sm-4 row pt-3 mb-3">
+                <label class="col-sm-6 col-form-label" for="input-header_textcolor">{{ entry_header_textcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="header_textcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ header_textcolor }}">
+                </div>
+              </div>
+              <div class="col-sm-4 row pt-3 mb-3">
+                <label class="col-sm-6 col-form-label" for="input-header_text_hovercolor">{{ entry_header_text_hovercolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="header_text_hovercolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ header_text_hovercolor }}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="theme_section">
+            <h3>Button configuration</h3> 
+            <div class="row mb-3">
+              <div class="col-sm-6 row pt-3">
+                <label class="col-sm-6 col-form-label" for="input-bg-color">{{ entry_btn_bgcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="btn_bgcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ btn_bgcolor }}">
+                </div>
+              </div>
+              <div class="col-sm-6 row pt-3 mb-3">
+                <label class="col-sm-6 col-form-label" for="input-btnhover_bgcolor">{{ entry_btnhover_bgcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="btnhover_bgcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ btnhover_bgcolor }}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 row pt-3 mb-3">
+                <label class="col-sm-6 col-form-label" for="input-bg-color">{{ entry_btn_textcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="btn_textcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ btn_textcolor }}">
+                </div>
+              </div>
+              <div class="col-sm-6 row pt-3">
+                <label class="col-sm-6 col-form-label" for="input-btnhover_textcolor">{{ entry_btnhover_textcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="btnhover_textcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ btnhover_textcolor }}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="theme_section">
+            <h3 class="mb-4">Footer configuration</h3> 
+            <div class="row mb-3">
+              <div class="row mb-3 col-sm-6">
+                <label class="col-sm-4 col-form-label" for="input-footer_bgimage">{{ entry_footer_bgimage }}</label>
+                <div class="col-sm-8">
+                  <div id="image" class="card image">
+                    <img src="{{ footerthumb }}" alt="" title="" id="thumb-footer_bgimage" data-oc-placeholder="{{ placeholder }}" />
+                    <input type="hidden" name="footer_bgimage" value="{{footer_bgimage}}" id="input-footer_bgimage"/>
+                    <div class="card-body">
+                      <button type="button" data-oc-toggle="image" data-oc-target="#input-footer_bgimage" data-oc-thumb="#thumb-footer_bgimage" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
+                      <button type="button" data-oc-toggle="clear" data-oc-target="#input-footer_bgimage" data-oc-thumb="#thumb-footer_bgimage" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear }}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 row">
+                <label class="col-sm-4 col-form-label" for="input-footer_bgcolor">{{ entry_footer_bgcolor }}</label>
+                <div class="col-sm-8">
+                  <input type="text" name="footer_bgcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ footer_bgcolor }}">
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-4 row pt-3">
+                <label class="col-sm-6 col-form-label" for="input-footer_titlecolor">{{ entry_footer_titlecolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="footer_titlecolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ footer_titlecolor }}">
+                </div>
+              </div>
+              <div class="col-sm-4 row pt-3">
+                <label class="col-sm-6 col-form-label" for="input-footer_textcolor">{{ entry_footer_textcolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="footer_textcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ footer_textcolor }}">
+                </div>
+              </div>
+              <div class="col-sm-4 row pt-3">
+                <label class="col-sm-6 col-form-label" for="input-footer_text_hovercolor">{{ entry_footer_text_hovercolor }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="footer_text_hovercolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ footer_text_hovercolor }}">
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-6 row">
+                <label class="col-sm-4 col-form-label" for="input-footerafter_bgcolor">{{ entry_footerafter_bgcolor }}</label>
+                <div class="col-sm-8">
+                  <input type="text" name="footerafter_bgcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ footerafter_bgcolor }}">
+                </div>
+              </div>
+              <div class="col-sm-6 row">
+                <label class="col-sm-4 col-form-label" for="input-footerafter_textcolor">{{ entry_footerafter_textcolor }}</label>
+                <div class="col-sm-8">
+                  <input type="text" name="footerafter_textcolor" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ footerafter_textcolor }}">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .theme_section {
+    border-bottom: 2px solid #eee;
+    padding: 20px 0;
+  }
+  /* The switch - the box around the slider */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {display:none;}
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      input.default:checked + .slider {
+        background-color: #444;
+      }
+      input.primary:checked + .slider {
+        background-color: #2196F3;
+      }
+      input.success:checked + .slider {
+        background-color: #8bc34a;
+      }
+      input.info:checked + .slider {
+        background-color: #3de0f5;
+      }
+      input.warning:checked + .slider {
+        background-color: #FFC107;
+      }
+      input.danger:checked + .slider {
+        background-color: #f44336;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+</style>
+
+<script type="text/javascript">
+    $(document).ready( function() {
+      $('.themecolor').each( function() {
+        $(this).minicolors({
+          control: $(this).attr('data-control') || 'hue',
+          defaultValue: $(this).attr('data-defaultValue') || '',
+          format: $(this).attr('data-format') || 'hex',
+          keywords: $(this).attr('data-keywords') || '',
+          inline: $(this).attr('data-inline') === 'true',
+          letterCase: $(this).attr('data-letterCase') || 'lowercase',
+          opacity: $(this).attr('data-opacity'),
+          position: $(this).attr('data-position') || 'bottom',
+          swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+          change: function(value, opacity) {
+            if( !value ) return;
+            if( opacity ) value += ', ' + opacity;
+            if( typeof console === 'object' ) {
+              console.log(value);
+            }
+          },
+          theme: 'bootstrap',
+      change: function(hex, opacity) {
+        jQuery('.panel .mail-preview iframe').contents().find(jQuery(this).attr('data-target')).css(jQuery(this).attr('data-property'), hex);
+      }
+        });
+
+      });
+    });
+  </script>
+  <link href="view/javascript/bootstrap/colorpicker/jquery.minicolors.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/bootstrap/colorpicker/jquery.minicolors.min.js"></script> 
+{{ footer }}

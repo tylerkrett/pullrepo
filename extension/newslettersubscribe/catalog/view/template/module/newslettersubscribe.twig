@@ -1,0 +1,96 @@
+<div id="_desktop_block_newsletter" class="block_newsletter {{ column_class }}">
+    <h5 class="d-none d-lg-block">{{ title }}</h5>
+	<h3 class="home-title d-lg-none">{{ mobile_title }}</h3>
+	<div id="boxes" class="newsletter-block">
+		<div class="newsletter-box">
+			<div style="" id="dialog" class="window">
+				<div class="block phone col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<span class="icon phone">
+						<i class="fa fa-phone"></i>
+					</span>
+					<div class="content">
+						<a href="tel:{{ config_telephone }}">{{ config_telephone }}</a>
+					</div>
+				</div>
+				<div class="block email col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<span class="icon">
+						<i class="fa fa-envelope"></i>
+					</span>
+					<div class="content">
+						<a href="mailto:{{ config_email }}">{{ config_email }}</a>
+					</div>
+				</div>
+				<div class="box">
+					<div id="newsletter-container" class="box-content">
+						<div id="newsletter">
+							<div id="frm_subscribe" class="newsletter_form">
+								<form name="newslettersubscribe-form"id="newslettersubscribe-form">
+									<input type="text" class="text-email form-control" placeholder="{{ entry_email }}" value="" name="subscribe_email" id="subscribe_email">
+									<a class="button btn-submit btn-primary" onclick="email_subscribe()">
+										<span class="subscribe-btn d-md-block d-none">{{ entry_button  }}</span>
+										<span class="d-md-none">{{ entry_buttons  }}</span>
+									</a>
+									<div id="notification-normal"></div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="social-container">
+				<ul>
+				{% if facebook %}
+					<li class="facebook"><a href="{{ facebook }}" ><i class="fa-brands fa-facebook-f"></i></a></li>
+				{% endif %}
+				{% if twitter %}
+					<li class="twitter"><a href="{{ twitter }}" ><i class="fa-brands fa-twitter"></i></a></li>
+				{% endif %}
+				{% if youtube %}
+					<li class="youtube"><a href="{{ youtube }}" ><i class="fa-brands fa-youtube"></i></a></li>
+				{% endif %}
+				{% if gplus %}
+					<li class="googleplus"><a href="{{ gplus }}"><i class="fa-brands fa-google-plus"></i></a></li>
+				{% endif %}
+				{% if rss %}
+					<li class="rss"><a href="{{ rss }}" ><i class="fa-brands fa-rss"></i></a></li>
+				{% endif %}
+				{% if pinterest %}
+					<li class="pinterest"><a href="{{ pinterest }}" ><i class="fa-brands fa-pinterest"></i></a></li>
+				{% endif %}
+				{% if vimeo %}
+					<li class="vimeo"><a href="{{ vimeo }}" ><i class="fa-brands fa-vimeo"></i> </a></li>
+				{% endif %}
+				{% if instagram %}
+					<li class="instagram"><a href="{{ instagram }}" ><i class="fa-brands fa-instagram"></i></a></li>
+				{% endif %}   
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function email_subscribe(){
+			$.ajax({
+				type: 'post',
+				url: 'index.php?route=extension/newslettersubscribe/module/newslettersubscribe|subscribe',
+				dataType: 'html',
+				data:$("#newslettersubscribe-form").serialize(),
+				success: function (html) {
+				try {
+				
+					eval(html);
+				
+				} catch (e) {
+				}
+					
+			}});	
+		}
+		$(document).ready(function() {
+			$('#subscribe_email').keypress(function(e) {
+				if(e.which == 13) {
+					e.preventDefault();
+					email_subscribe();
+				}
+			});
+		});
+	</script>
+</div>

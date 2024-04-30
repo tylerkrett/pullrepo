@@ -1,0 +1,27 @@
+<section id="{{ ishi_randomnumer }}" class="ishifaqblock">
+  <div  class="container">
+    <div id="accordion">
+      {% set item = 1 %}
+      {% for faq in faqs_array %}
+      <div class="card">
+          <div class="card-header">
+            <a class="btn" data-bs-toggle="collapse" href="#collapseOne_{{item}}" {% if item == 1%} aria-expanded="true" {% endif %}>
+              <span class="category-count">{% if item < 9%} {{item}}. {% else %} {{item}} {% endif %}</span>
+              {% if faq.title %}
+              <div class="faq-width">{{ faq.title }}</div>
+              {% endif %}
+            </a>
+          </div>
+          <div id="collapseOne_{{item}}" class="collapse accordion__content {% if item == 1%}show{% endif %}" data-bs-parent="#accordion">
+            {% if faq.description %}
+            <div class="card-body">
+              {{ faq.description }}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      {% set item = item+1 %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

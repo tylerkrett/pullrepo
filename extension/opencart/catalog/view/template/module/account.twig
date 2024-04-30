@@ -1,0 +1,24 @@
+<div class="list-group">
+  {% if not logged %}
+    <a href="{{ login }}" class="list-group-item"><i class="fas fa-sign-in-alt fa-fw me-2"></i>{{ text_login }}</a> 
+    <a href="{{ register }}" class="list-group-item"><i class="fas fa-user-plus fa-fw me-2"></i>{{ text_register }}</a> 
+    <a href="{{ forgotten }}" class="list-group-item"><i class="fas fa-key fa-fw me-2"></i>{{ text_forgotten }}</a>
+  {% endif %}
+  <a href="{{ account }}" class="list-group-item {{ account_active }}"><i class="fas fa-user fa-fw me-2"></i>{{ text_account }}</a>
+  {% if logged %}
+    <a href="{{ edit }}" class="list-group-item {{ edit_active }}"><i class="fas fa-user-edit fa-fw me-2"></i>{{ text_edit }}</a> 
+    <a href="{{ password }}" class="list-group-item {{ pass_active }}"><i class="fas fa-key fa-fw me-2"></i>{{ text_password }}</a>
+  {% endif %}
+    <a href="{{ address }}" class="list-group-item {{ address_active }}"><i class="fas fa-address-book fa-fw me-2"></i>{{ text_address }}</a> 
+    <a href="{{ wishlist }}" class="list-group-item {{ wishlist_active }}"><i class="fas fa-heart fa-fw me-2"></i>{{ text_wishlist }}</a> 
+    <a href="{{ order }}" class="list-group-item {{ order_active }}"><i class="fas fa-box-open fa-fw me-2"></i>{{ text_order }}</a> 
+    <a href="{{ download }}" class="list-group-item {{ download_active }}"><i class="fas fa-download fa-fw me-2"></i>{{ text_download }}</a>
+    <!-- <a href="{{ subscription }}" class="list-group-item {{ subs_active }}">{{ text_subscription }}</a>  -->
+    <a href="{{ reward }}" class="list-group-item {{ reward_active }}"><i class="fas fa-medal fa-fw me-2"></i>{{ text_reward }}</a> 
+    <a href="{{ return }}" class="list-group-item {{ return_active }}"><i class="fas fa-undo fa-fw me-2"></i>{{ text_return }}</a> 
+    <a href="{{ transaction }}" class="list-group-item {{ trans_active }}"><i class="fas fa-exchange-alt fa-fw me-2"></i>{{ text_transaction }}</a> 
+    <a href="{{ newsletter }}" class="list-group-item {{ news_active }}"><i class="fas fa-envelope fa-fw me-2"></i>{{ text_newsletter }}</a>
+  {% if logged %}
+    <a href="{{ logout }}" class="list-group-item"><i class="fas fa-sign-out-alt fa-fw me-2"></i>{{ text_logout }}</a>
+  {% endif %}
+</div>

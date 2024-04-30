@@ -1,0 +1,17 @@
+<section class="latest-products clearfix">
+<h3 class="page-title">{{ heading_title }}</h3>
+<div class="block-title clearfix  hidden-lg hidden-md collapsed" data-bs-target="#latest-container" data-bs-toggle="collapse" aria-expanded="false" aria-controls="latest-container">
+    <span class="page-title latest_title">{{ heading_title }}</span>
+    <span class="navbar-toggler collapse-icons">
+      <i class="fa fa-angle-down add"></i>
+      <i class="fa fa-angle-up remove"></i>
+    </span>
+</div>
+
+
+<div id="latest-container" class="collapse data-toggler show row{% if axis == 'horizontal' %}row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-{% endif %}">
+  {% for product in products %}
+    <div class="col-12 latest_container">{{ product }}</div>
+  {% endfor %}
+</div>
+</section>

@@ -1,0 +1,8 @@
+<div class="sidebar">
+  <ul class="nav nav-tabs nav-stacked">
+    {% for information in informations %}
+      <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+    {% endfor %}
+    <li><a href="{{ aboutus }}">{{ text_aboutus }}</a></li>
+  </ul>
+</div>

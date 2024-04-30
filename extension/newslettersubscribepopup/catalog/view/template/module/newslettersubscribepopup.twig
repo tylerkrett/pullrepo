@@ -1,0 +1,158 @@
+<div id="opencartpopup">
+	<!-- <div id="newsletter-popup-overlay"></div> -->
+	<div id="ishi-newslatterpopup">
+		<div id="newsletter_popbox" class="ishi-newslatterpopup" tabindex="-1"></div>
+			<div id="popup-bg-color" class="popup-bg-color" style="background-color: {{ bg_color }}">
+				<div id="modalclose-newsletter" onclick="myFunction()">
+					<svg aria-hidden="true" focusable="false" role="presentation" class="icon" viewBox="0 0 16 17">
+					    <path fill-rule="evenodd" clip-rule="evenodd" d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor"></path>
+		   		    </svg>
+				</div>
+				<div class="popup-contact-info">
+					<div class="pop-container">
+						<div class="row popup-contact-info-row">
+						  <div class="newsletter-popup-image col-xxl-4 col-xl-3 col-lg-3 col-md-12 d-lg-inline-block d-none">
+						   	<img src="{{newsletter_banner}}" alt="newsletterpop-banner" class="img-fluid">
+						  </div>
+						  <div class="newsletter-text col-xxl-8 col-xl-9 col-lg-9 col-md-12 col-sm-12">
+						  	<div class="row">
+						  		<div class="col-lg-6 col-md-6 col-sm-6 col-sm-12 popup-text">
+						  			<h3 class="popup-title">{{ title }}</h3>
+						  			<p class="popup-desc"> {{ desc }}</p>
+						  		</div>
+						  		<div class="col-lg-6 col-md-6 col-sm-12 newsletter-container">
+						  			<form name="newslettersubscribepopup-form"id="newslettersubscribepopup-form">
+										<input type="text" class="text-email form-control" placeholder="{{ entry_email }}" value="" name="subscribepop_email" id="subscribepop_email">
+										<a class="button btn-submit btn-primary" onclick="email_subscribepop()">
+											<span class="subscribe-btn d-md-block d-none">{{ entry_button  }}</span>
+			 								<span class="d-md-none">{{ entry_buttons  }}</span>
+										</a>
+										<div id="notification-normalpopup"></div>
+									</form>
+									<div class="dont-show">
+										<label>
+											<input class="dono-show-check" type="checkbox" id="checkbox">
+											<span> Don't show again </span>
+										</label>
+									</div>
+									<div class="social-container">
+									    <ul>
+									      {% if facebook %}
+									        <li class="facebook"><a href="{{ facebook }}" ><i class="fa-brands fa-facebook-f"></i></a></li>
+									      {% endif %}
+									      {% if twitter %}
+									        <li class="twitter"><a href="{{ twitter }}" ><i class="fa-brands fa-twitter"></i></a></li>
+									      {% endif %}
+									      {% if youtube %}
+									        <li class="youtube"><a href="{{ youtube }}" ><i class="fa-brands fa-youtube"></i></a></li>
+									      {% endif %}
+									      {% if gplus %}
+									        <li class="googleplus"><a href="{{ gplus }}"><i class="fa-brands fa-google-plus"></i></a></li>
+									      {% endif %}
+									      {% if rss %}
+									        <li class="rss"><a href="{{ rss }}" ><i class="fa-brands fa-rss"></i></a></li>
+									      {% endif %}
+									      {% if pinterest %}
+									        <li class="pinterest"><a href="{{ pinterest }}" ><i class="fa-brands fa-pinterest"></i></a></li>
+									      {% endif %}
+									      {% if vimeo %}
+									        <li class="vimeo"><a href="{{ vimeo }}" ><i class="fa-brands fa-vimeo"></i></a></li>
+									      {% endif %}
+									      {% if instagram %}
+									        <li class="instagram"><a href="{{ instagram }}" ><i class="fa-brands fa-instagram"></i></a></li>
+									      {% endif %}   
+									    </ul>
+									</div>
+						  		</div>
+						  	</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script type="text/javascript">
+
+				function email_subscribepop(){
+					let check_checkboxVal = $("#opencartpopup #checkbox").prop('checked');
+					console.log("check_checkboxVal == ", check_checkboxVal);
+
+				    $.ajax({
+						type: 'post',
+						url: 'index.php?route=extension/newslettersubscribepopup/module/newslettersubscribepopup|subscribe',
+						dataType: 'html',
+						data:$("#newslettersubscribepopup-form").serialize(),
+						success: function (html) {
+							console.log("responce == ", html);
+							if (/alert-success/.test(html)) {
+								if(check_checkboxVal) {
+									setTheCookie("opencartpopup", "true", 14);
+									$("#opencartpopup").hide();
+									document.body.classList.remove("active");
+									console.log("cooki set")
+								} else {
+									document.body.classList.remove("active");
+									$("#opencartpopup").hide();
+								}
+							}							
+						try {
+							eval(html);
+						} catch (e) {
+						}	
+					}});	
+				}
+				$(document).ready(function() {
+					$('#subscribepop_email').keypress(function(e) {
+						if(e.which == 13) {
+							e.preventDefault();
+							email_subscribepop();
+						}
+					});
+				});
+               
+
+                // onload add class
+			    window.onload = function () {
+
+			    	if(getTheCookie("opencartpopup") != "true") {
+			    		document.body.classList.add("active");
+		            var myElement = document.getElementById('newsletter_popbox');
+		            myElement.classList.add('active');
+
+		            var myElement = document.getElementById('popup-bg-color');
+		            myElement.classList.add('active');
+				    } else {
+
+				    }
+
+			    	
+		        };
+
+		        $("#modalclose-newsletter,#newsletter_popbox").click(function(){
+				  $(".popup-bg-color,.ishi-newslatterpopup,body").removeClass("active");
+				});
+
+		        //onload remove class
+			</script>
+
+			<script type="text/javascript">
+
+				var hideButton = document.getElementById("modalclose-newsletter");
+				var sectionToHide = document.getElementById("opencart-popup");
+
+
+				hideButton.addEventListener("click", function() {
+				    sectionToHide.style.display = "none";
+				});
+
+                //section display none     
+				var hideButton = document.getElementById("newsletter_popbox");
+				var sectionToHide = document.getElementById("opencart-popup");
+
+
+				hideButton.addEventListener("click", function() {
+				    sectionToHide.style.display = "none";
+				});				
+			</script>			
+		</div>
+</div>

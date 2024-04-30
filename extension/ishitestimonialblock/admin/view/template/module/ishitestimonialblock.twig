@@ -1,0 +1,437 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
+        <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+   <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="card panel-default">
+      <div class="card-header">
+        <i class="fa fa-pencil"></i>{{ text_edit }}
+      </div>
+      <div class="card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <div class="tab-pane" id="tab-design">
+            <ul class="nav nav-tabs">
+              <li class="nav-item" ><a href="#tab-general" id="tab1" class="nav-link active" aria-current="page" data-bs-toggle="tab">{{ tab_general }}</a></li>
+              <li class="nav-item"><a href="#tab-testimonial" id="tab2" class="nav-link" data-bs-toggle="tab">{{ entry_testimonial }}</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab-general">
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label" for="input-name">{{ entry_name }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+                    {% if error_name %}
+                    <div class="text-danger">{{ error_name }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label" for="input-title-{{ language.language_id }}">{{ entry_heading }}</label>
+                  <div class="col-sm-6">
+                    {% for language in languages %}
+                      <div class="input-group"><span class="input-group-addon input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                        <input type="text" name="title[{{ language.language_id }}]" value="{{ title[language.language_id] }}" placeholder="{{ entry_heading }}" class="form-control" required id="input-title-{{ language.language_id }}" />
+                        {% if error_title[language.language_id] %}
+                          <div class="text-danger">{{ error_title[language.language_id] }}</div>
+                        {% endif %}
+                      </div> 
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="row col-sm-6">
+                      <label class="col-sm-4 col-form-label" for="input-bg_color">{{ entry_bg_color }}</label>
+                      <div class="col-sm-8">
+                        <input type="text" name="bg_color" class="form-control themecolor" data-swatches="#fff|#000|#f00|#0f0|#00f|#ff0|rgba(0,0,255,0.5)"  value="{{ bg_color }}">
+                      </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-sm-6 row required">
+                    <label class="col-sm-4 col-form-label" for="input-width">{{ entry_width }}</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="width" value="{{ width }}" placeholder="{{ entry_width }}" id="input-width" class="form-control" />
+                      {% if error_width %}
+                      <div class="text-danger">{{ error_width }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-sm-6 row required">
+                    <label class="col-sm-4 col-form-label" for="input-height">{{ entry_height }}</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="height" value="{{ height }}" placeholder="{{ entry_height }}" id="input-height" class="form-control" />
+                      {% if error_height %}
+                      <div class="text-danger">{{ error_height }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 row mb-3">
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label" for="input-autoplay">{{ entry_autoplay }}</label>
+                      <div class="col-sm-8">
+                        <label class="switch">
+                          {% if autoplay %}
+                            <input type="checkbox" name="autoplay" value="1" class="primary" checked="checked" id="input-autoplay" />
+                          {% else %}
+                            <input type="checkbox" name="autoplay" value="1" class="primary" id="input-autoplay" />
+                          {% endif %}
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label" for="input-column">{{ entry_column }}</label>
+                      <div class="col-sm-8">
+                        <select name="column" id="input-column" class="form-control">
+                          <option value="1" {% if column == 1 %} selected=selected {% endif %}>1</option>
+                          <option value="2" {% if column == 2 %} selected=selected {% endif %}>2</option>
+                          <option value="3" {% if column == 3 %} selected=selected {% endif %}>3</option>
+                          <option value="4" {% if column == 4 %} selected=selected {% endif %}>4</option>
+                          <option value="6" {% if column == 6 %} selected=selected {% endif %}>6</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label" for="input-status">{{ entry_status }}</label>
+                  <div class="col-sm-10">
+                    <select name="status" id="input-status" class="form-control">
+                      {% if status %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="tab-testimonial">
+                <div class="row">
+                  <div class="col-sm-2">
+                    <ul class="nav nav-pills nav-justified" id="testimonialstab" style="display: block;">
+                      {% set testimonial_row = 0 %}
+                      {% for ishi_testimonial in ishi_testimonials %}
+                      <li class="nav-item text-start">
+                        <a class="nav-link {% if testimonial_row == 0 %}active{% endif %}" aria-current="page" href="#tab-singletestimonial{{ testimonial_row }}" data-bs-toggle="tab"><i class="fa fa-minus-circle" onclick="$('a[href=\'#tab-singletestimonial{{ testimonial_row }}\']').parent().remove(); $('#tab-singletestimonial{{ testimonial_row }}').remove(); $('#testimonialstab a:first').tab('show');"></i>{{ ishi_testimonial.default_name }} </a></li>
+                      {% set testimonial_row = testimonial_row + 1 %}
+                      {% endfor %}
+                      <li class="nav-item text-start"><button type="button" class="btn btn-block" onclick="addtestimonialtab();"><i class="fa fa-plus-circle"></i> {{ entry_addtestimonial }} </button></li>
+                    </ul>
+                  </div>
+                  <div class="col-sm-10">
+                     <div class="tab-content" id="ishi_testimonialtabs">{% set testimonial_row = 0 %}
+                     {% for ishi_testimonial in ishi_testimonials %}
+                     <div class="tab-pane {% if testimonial_row == 0 %}active{% endif %}" id="tab-singletestimonial{{ testimonial_row }}">
+                      
+                      <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label">{{ entry_image }}</label>
+                          <div class="col-sm-10">
+                            <div id="image" class="card image">
+                              <img src="{{ ishi_testimonial.thumb }}" alt="" title="" id="thumb-testimonial-{{ testimonial_row }}" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> 
+                              <input type="hidden" name="ishitestimonial[{{ testimonial_row }}][image]" value="{{ ishi_testimonial.image }}" id="input-testimonial-{{ testimonial_row }}"/>
+                              <div class="card-body">
+                                <button type="button" data-oc-toggle="image" data-oc-target="#input-testimonial-{{ testimonial_row }}" data-oc-thumb="#thumb-testimonial-{{ testimonial_row }}" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
+                                <button type="button" data-oc-toggle="clear" data-oc-target="#input-testimonial-{{ testimonial_row }}" data-oc-thumb="#thumb-testimonial-{{ testimonial_row }}" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear }}</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      <div class="row mb-3 tab-singletestimonial {{ testimonial_row }}">
+                        <label class="col-sm-2 col-form-label" for="input-description-{{ testimonial_row }}">{{ entry_description }}</label>
+                        <div class="col-sm-10">
+                          {% for language in languages %}
+                            <div class="input-group"><span class="input-group-addon input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                            <input type="text" name="ishitestimonial[{{ testimonial_row }}][description][{{ language.language_id }}]" value="{{ ishi_testimonial.description[language.language_id] }}" placeholder="{{ entry_description }}" class="form-control textarea" id="input-description-{{ testimonial_row }}[{{ language.language_id }}]" />
+                            </div> 
+                          {% endfor %}
+                        </div>
+                      </div>
+
+                      <div class="row mb-3 tab-singletestimonial{{ testimonial_row }}">
+                        <label class="col-sm-2 col-form-label" for="input-username-{{ testimonial_row }}">{{ entry_username }}</label>
+                        <div class="col-sm-10">
+                          {% for language in languages %}
+                            <div class="input-group"><span class="input-group-addon input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                            <input type="text" name="ishitestimonial[{{ testimonial_row }}][username][{{ language.language_id }}]" value="{{ ishi_testimonial.username[language.language_id] }}" placeholder="{{ entry_username }}" class="form-control" id="input-username-{{ testimonial_row }}[{{ language.language_id }}]" />
+                          </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+
+                      <div class="row mb-3 tab-singletestimonial{{ testimonial_row }}">
+                        <label class="col-sm-2 col-form-label" for="input-designation-{{ testimonial_row }}">{{ entry_designation }}</label>
+                        <div class="col-sm-10">
+                          {% for language in languages %}
+                            <div class="input-group"><span class="input-group-addon input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                            <input type="text" name="ishitestimonial[{{ testimonial_row }}][designation][{{ language.language_id }}]" value="{{ ishi_testimonial.designation[language.language_id] }}" placeholder="{{ entry_designation }}"  class="form-control" id="input-designation-{{ testimonial_row }}[{{ language.language_id }}]" />
+                          </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                     
+                     
+                     </div>
+                     {% set testimonial_row = testimonial_row + 1 %}
+                      {% endfor %}
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* The switch - the box around the slider */
+.showtext{
+  display:none;
+}
+.show{
+  display:block;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.form-control.textarea{
+  height: 120px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input.default:checked + .slider {
+  background-color: #444;
+}
+input.primary:checked + .slider {
+  background-color: #2196F3;
+}
+input.success:checked + .slider {
+  background-color: #8bc34a;
+}
+input.info:checked + .slider {
+  background-color: #3de0f5;
+}
+input.warning:checked + .slider {
+  background-color: #FFC107;
+}
+input.danger:checked + .slider {
+  background-color: #f44336;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
+<script type="text/javascript">
+function boxDisable(e, t) {
+var id = e + 'show';
+
+    if (t.is(':checked')) {
+    $('.'+id).attr("style", "display: block !important");
+    } else {
+      $('.'+id).attr("style", "display: none !important");
+    }
+}
+var testimonial_row = {{ testimonial_row }};
+function addtestimonialtab() {
+    var newtab = 'tab-singletestimonial'+ testimonial_row;
+
+    html  = '<div class="tab-pane" id="tab-singletestimonial'+ testimonial_row +'">';
+
+    html  += '<div class="row mb-3"><label class="col-sm-2 col-form-label">{{ entry_image }}</label><div class="col-sm-10"><div id="image" class="card image"><img src="{{ ishi_testimonial.thumb }}" alt="" title="" id="thumb-testimonial' + testimonial_row + '" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/><input type="hidden" name="ishitestimonial['+ testimonial_row +'][image]" value="{{ ishi_testimonial.image }}" id="input-testimonial' + testimonial_row + '"/><div class="card-body"><button type="button" data-oc-toggle="image" data-oc-target="#input-testimonial' + testimonial_row + '" data-oc-thumb="#thumb-testimonial' + testimonial_row + '" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button> <button type="button" data-oc-toggle="clear" data-oc-target="#input-testimonial' + testimonial_row + '" data-oc-thumb="#thumb-testimonial' + testimonial_row + '" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear }}</button></div></div></div></div>'
+
+    html  += '<div class="row mb-3">';
+    html  += '<label class="col-sm-2 col-form-label" for="input-description-'+ testimonial_row +'">{{ entry_description }}</label>';
+    html  += '<div class="col-sm-10">';
+    {% for language in languages %}
+    html  += '<div class="input-group">';
+    html  += '<span class="input-group-addon input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>'
+    html  += '<input type="text" name="ishitestimonial['+ testimonial_row +'][description][{{ language.language_id }}]" placeholder="{{ entry_description }}" class="form-control textarea"/>';
+    html  += '</div>'; 
+    {% endfor %}
+    html  += '</div>';
+    html  += '</div>';
+
+    html  += '<div class="row mb-3 tab-singletestimonial'+ testimonial_row +'">';
+    html  += '<label class="col-sm-2 col-form-label" for="input-image">{{ entry_username }}</label>';
+    html  += '<div class="col-sm-10">';
+    {% for language in languages %}
+    html  += '<div class="input-group">';
+    html  += '<span class="input-group-addon input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>'
+    html  += '<input type="text" name="ishitestimonial['+ testimonial_row +'][username][{{ language.language_id }}]" placeholder="{{ entry_username }}" class="form-control"/>';
+    html  += '</div>'; 
+    {% endfor %}
+    html  += '</div>';
+    html  += '</div>';
+
+    html  += '<div class="row mb-3 tab-singletestimonial'+ testimonial_row +'">';
+    html  += '<label class="col-sm-2 col-form-label" for="input-image">{{ entry_designation }}</label>';
+    html  += '<div class="col-sm-10">';
+    {% for language in languages %}
+    html  += '<div class="input-group">';
+    html  += '<span class="input-group-addon input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>'
+    html  += '<input type="text" name="ishitestimonial['+ testimonial_row +'][designation][{{ language.language_id }}]" placeholder="{{ entry_designation }}" class="form-control"/>';
+    html  += '</div>'; 
+    {% endfor %}
+    html  += '</div>';
+    html  += '</div>';
+    
+    $('#tab-testimonial #ishi_testimonialtabs').append(html);
+    
+    $('#testimonialstab > li:last-child').before('<li class="nav-item text-start"><a class="nav-link" href="#tab-singletestimonial' + testimonial_row + '" data-bs-toggle="tab" aria-expanded="true"><i class="fa fa-minus-circle" onclick=" $(\'#testimonialstab a:first\').tab(\'show\');$(\'a[href=\\\'#tab-singletestimonial' + testimonial_row + '\\\']\').parent().remove(); $(\'#tab-singletestimonial' + testimonial_row + '\').remove();"></i> {{ entry_testimonial }} </li>');
+     
+    $('#testimonialstab a[href=\'#tab-singletestimonial' + testimonial_row + '\']').tab('show');
+
+    testimonial_row++;
+
+    $('#testimonialstab a:first').tab('show');
+    $('.themecolor').each( function() {
+        $(this).minicolors({
+          control: $(this).attr('data-control') || 'hue',
+          defaultValue: $(this).attr('data-defaultValue') || '',
+          format: $(this).attr('data-format') || 'hex',
+          keywords: $(this).attr('data-keywords') || '',
+          inline: $(this).attr('data-inline') === 'true',
+          letterCase: $(this).attr('data-letterCase') || 'lowercase',
+          opacity: $(this).attr('data-opacity'),
+          position: $(this).attr('data-position') || 'bottom',
+          swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+          change: function(value, opacity) {
+            if( !value ) return;
+            if( opacity ) value += ', ' + opacity;
+            if( typeof console === 'object' ) {
+              console.log(value);
+            }
+          },
+          theme: 'bootstrap',
+      change: function(hex, opacity) {
+        jQuery('.panel .mail-preview iframe').contents().find(jQuery(this).attr('data-target')).css(jQuery(this).attr('data-property'), hex);
+      }
+        });
+
+      });
+  }
+  
+</script>
+
+<script type="text/javascript"><!--
+  $('.date').datetimepicker({
+    language: '{{ datepicker }}',
+    pickTime: false
+  });
+  //--></script>
+<script src="view/javascript/bootstrap/colorpicker/jquery.minicolors.js" type="text/javascript"></script>
+  <link href="view/javascript/bootstrap/colorpicker/jquery.minicolors.css" type="text/css" rel="stylesheet"/>
+  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+  <script type="text/javascript">
+    $('#language a:first').tab('show');
+  </script>
+<script type="text/javascript">
+    $(document).ready( function() {
+      $('.themecolor').each( function() {
+        $(this).minicolors({
+          control: $(this).attr('data-control') || 'hue',
+          defaultValue: $(this).attr('data-defaultValue') || '',
+          format: $(this).attr('data-format') || 'hex',
+          keywords: $(this).attr('data-keywords') || '',
+          inline: $(this).attr('data-inline') === 'true',
+          letterCase: $(this).attr('data-letterCase') || 'lowercase',
+          opacity: $(this).attr('data-opacity'),
+          position: $(this).attr('data-position') || 'bottom',
+          swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+          change: function(value, opacity) {
+            if( !value ) return;
+            if( opacity ) value += ', ' + opacity;
+            if( typeof console === 'object' ) {
+              console.log(value);
+            }
+          },
+          theme: 'bootstrap',
+      change: function(hex, opacity) {
+        jQuery('.panel .mail-preview iframe').contents().find(jQuery(this).attr('data-target')).css(jQuery(this).attr('data-property'), hex);
+      }
+        });
+
+      });
+    });
+  </script>
+  <link href="view/javascript/bootstrap/colorpicker/jquery.minicolors.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/bootstrap/colorpicker/jquery.minicolors.min.js"></script> 
+//--></script>
+{{ footer }}

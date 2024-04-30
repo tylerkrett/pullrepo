@@ -1,0 +1,21 @@
+{{ header }}
+<div class="breadcrumb-container">
+  <h2 class="page-title">{{ heading_title }}</h2>
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+<div id="error-not-found" class="container">
+  <div class="row">{{ column_left }}
+    <div id="content" class="col">{{ content_top }}{{ content_center }}
+    <legend>{{ heading_title }}</legend>
+      <p>{{ text_error }}</p>
+      <div class="d-inline-block pt-2 pd-2 w-100">
+        <div class="float-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}
