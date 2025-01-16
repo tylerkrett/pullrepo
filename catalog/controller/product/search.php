@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Catalog\Controller\Product;
-use \Opencart\System\Helper as Helper;
-class Search extends \Opencart\System\Engine\Controller {
-	public function index(): void {
+class ControllerProductSearch extends Controller {
+	public function index() {
 		$this->load->language('product/search');
 
 		$this->load->model('catalog/category');
+
 		$this->load->model('catalog/product');
+
 		$this->load->model('tool/image');
 
 		if (isset($this->request->get['search'])) {
@@ -30,7 +30,7 @@ class Search extends \Opencart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['category_id'])) {
-			$category_id = (int)$this->request->get['category_id'];
+			$category_id = $this->request->get['category_id'];
 		} else {
 			$category_id = 0;
 		}
@@ -38,7 +38,7 @@ class Search extends \Opencart\System\Engine\Controller {
 		if (isset($this->request->get['sub_category'])) {
 			$sub_category = $this->request->get['sub_category'];
 		} else {
-			$sub_category = 0;
+			$sub_category = '';
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -54,15 +54,15 @@ class Search extends \Opencart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
 
-		if (isset($this->request->get['limit']) && (int)$this->request->get['limit']) {
+		if (isset($this->request->get['limit'])) {
 			$limit = (int)$this->request->get['limit'];
 		} else {
-			$limit = $this->config->get('config_pagination');
+			$limit = $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit');
 		}
 
 		if (isset($this->request->get['search'])) {
@@ -73,14 +73,12 @@ class Search extends \Opencart\System\Engine\Controller {
 			$this->document->setTitle($this->language->get('heading_title'));
 		}
 
-		$data['language']=$this->config->get('config_language');
-		
-		$data['breadcrumbs'] = [];
+		$data['breadcrumbs'] = array();
 
-		$data['breadcrumbs'][] = [
+		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
-		];
+			'href' => $this->url->link('common/home')
+		);
 
 		$url = '';
 
@@ -120,10 +118,10 @@ class Search extends \Opencart\System\Engine\Controller {
 			$url .= '&limit=' . $this->request->get['limit'];
 		}
 
-		$data['breadcrumbs'][] = [
+		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url)
-		];
+			'href' => $this->url->link('product/search', $url)
+		);
 
 		if (isset($this->request->get['search'])) {
 			$data['heading_title'] = $this->language->get('heading_title') .  ' - ' . $this->request->get['search'];
@@ -131,58 +129,52 @@ class Search extends \Opencart\System\Engine\Controller {
 			$data['heading_title'] = $this->language->get('heading_title');
 		}
 
-		$themeoption = $this->model_catalog_product->getThemeOption();
-			$data['subcategory_type'] = $themeoption['subcategory_type'];
-			$data['category_page_counter'] = (isset($themeoption['category_counter']) && $themeoption['category_counter'] == 1) ? $themeoption['category_counter'] : 0;	
-
 		$data['text_compare'] = sprintf($this->language->get('text_compare'), (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0));
 
-		$data['compare'] = $this->url->link('product/compare', 'language=' . $this->config->get('config_language'));
-
-		$data['product_counter'] = (isset($setting['counter']) && $setting['counter'] == 1) ? $setting['counter'] : 0;
+		$data['compare'] = $this->url->link('product/compare');
 
 		$this->load->model('catalog/category');
 
 		// 3 Level Category Search
-		$data['categories'] = [];
+		$data['categories'] = array();
 
 		$categories_1 = $this->model_catalog_category->getCategories(0);
 
 		foreach ($categories_1 as $category_1) {
-			$level_2_data = [];
+			$level_2_data = array();
 
 			$categories_2 = $this->model_catalog_category->getCategories($category_1['category_id']);
 
 			foreach ($categories_2 as $category_2) {
-				$level_3_data = [];
+				$level_3_data = array();
 
 				$categories_3 = $this->model_catalog_category->getCategories($category_2['category_id']);
 
 				foreach ($categories_3 as $category_3) {
-					$level_3_data[] = [
+					$level_3_data[] = array(
 						'category_id' => $category_3['category_id'],
 						'name'        => $category_3['name'],
-					];
+					);
 				}
 
-				$level_2_data[] = [
+				$level_2_data[] = array(
 					'category_id' => $category_2['category_id'],
 					'name'        => $category_2['name'],
 					'children'    => $level_3_data
-				];
+				);
 			}
 
-			$data['categories'][] = [
+			$data['categories'][] = array(
 				'category_id' => $category_1['category_id'],
 				'name'        => $category_1['name'],
 				'children'    => $level_2_data
-			];
+			);
 		}
 
-		$data['products'] = [];
+		$data['products'] = array();
 
 		if (isset($this->request->get['search']) || isset($this->request->get['tag'])) {
-			$filter_data = [
+			$filter_data = array(
 				'filter_name'         => $search,
 				'filter_tag'          => $tag,
 				'filter_description'  => $description,
@@ -192,29 +184,17 @@ class Search extends \Opencart\System\Engine\Controller {
 				'order'               => $order,
 				'start'               => ($page - 1) * $limit,
 				'limit'               => $limit
-			];
+			);
 
 			$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
 
 			$results = $this->model_catalog_product->getProducts($filter_data);
 
 			foreach ($results as $result) {
-				if (is_file(DIR_IMAGE . html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'))) {
-					$image = $this->model_tool_image->resize(html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
-				} else {
-					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
-				}
-
-				$extraimage = '';
-				$setting=$this->model_setting_setting->getSetting('config');
 				if ($result['image']) {
-					$image = $this->model_tool_image->resize($result['image'], $setting['config_image_category_width'], $setting['config_image_category_height']);
+					$image = $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
 				} else {
-					$image = $this->model_tool_image->resize('placeholder.png', $setting['config_image_category_width'], $setting['config_image_category_height']);
-				}
-				$images = $this->model_catalog_product->getImages($result['product_id']);
-				if(!empty($images) && isset($images[0]['image'])){
-				 $extraimage = $this->model_tool_image->resize($images[0]['image'], $setting['config_image_category_width'], $setting['config_image_category_height']);
+					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
 				}
 
 				if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
@@ -235,36 +215,24 @@ class Search extends \Opencart\System\Engine\Controller {
 					$tax = false;
 				}
 
-				$specialDates = $this->model_catalog_product->getProductSpecialsDate( $result['product_id']);
-
-
-				if(isset($specialDates['date_end']) && $specialDates['date_end'] != '0000-00-00'){
-					$date_end  = $specialDates['date_end'];
-				}else{
-					$date_end = '';
+				if ($this->config->get('config_review_status')) {
+					$rating = (int)$result['rating'];
+				} else {
+					$rating = false;
 				}
 
-				$stock_status = ($result['quantity'] <= 0) ? $this->language->get('text_out_of_stock') : '';
-
-				$product_data = [
+				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],
-					'description' => oc_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('config_product_description_length')) . '..',
+					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..',
 					'price'       => $price,
 					'special'     => $special,
-					'stock_status'=> $stock_status,
-					'category_page_counter'=>$data['category_page_counter'],
 					'tax'         => $tax,
-					'date_end'    => $date_end,
-					'extra'		  => $extraimage,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $result['rating'],
-					'quick'        => $this->url->link('product/quick_view','&product_id=' . $result['product_id']),
-					'href'        => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $result['product_id'] . $url)
-				];
-
-				$data['products'][] = $this->load->controller('product/thumb', $product_data);
+					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
+				);
 			}
 
 			$url = '';
@@ -293,63 +261,63 @@ class Search extends \Opencart\System\Engine\Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
-			$data['sorts'] = [];
+			$data['sorts'] = array();
 
-			$data['sorts'][] = [
+			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_default'),
 				'value' => 'p.sort_order-ASC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.sort_order&order=ASC' . $url)
-			];
+				'href'  => $this->url->link('product/search', 'sort=p.sort_order&order=ASC' . $url)
+			);
 
-			$data['sorts'][] = [
+			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_asc'),
 				'value' => 'pd.name-ASC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=pd.name&order=ASC' . $url)
-			];
+				'href'  => $this->url->link('product/search', 'sort=pd.name&order=ASC' . $url)
+			);
 
-			$data['sorts'][] = [
+			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_desc'),
 				'value' => 'pd.name-DESC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=pd.name&order=DESC' . $url)
-			];
+				'href'  => $this->url->link('product/search', 'sort=pd.name&order=DESC' . $url)
+			);
 
-			$data['sorts'][] = [
+			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_price_asc'),
 				'value' => 'p.price-ASC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.price&order=ASC' . $url)
-			];
+				'href'  => $this->url->link('product/search', 'sort=p.price&order=ASC' . $url)
+			);
 
-			$data['sorts'][] = [
+			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_price_desc'),
 				'value' => 'p.price-DESC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.price&order=DESC' . $url)
-			];
+				'href'  => $this->url->link('product/search', 'sort=p.price&order=DESC' . $url)
+			);
 
 			if ($this->config->get('config_review_status')) {
-				$data['sorts'][] = [
+				$data['sorts'][] = array(
 					'text'  => $this->language->get('text_rating_desc'),
 					'value' => 'rating-DESC',
-					'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=rating&order=DESC' . $url)
-				];
+					'href'  => $this->url->link('product/search', 'sort=rating&order=DESC' . $url)
+				);
 
-				$data['sorts'][] = [
+				$data['sorts'][] = array(
 					'text'  => $this->language->get('text_rating_asc'),
 					'value' => 'rating-ASC',
-					'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=rating&order=ASC' . $url)
-				];
+					'href'  => $this->url->link('product/search', 'sort=rating&order=ASC' . $url)
+				);
 			}
 
-			$data['sorts'][] = [
+			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_model_asc'),
 				'value' => 'p.model-ASC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.model&order=ASC' . $url)
-			];
+				'href'  => $this->url->link('product/search', 'sort=p.model&order=ASC' . $url)
+			);
 
-			$data['sorts'][] = [
+			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_model_desc'),
 				'value' => 'p.model-DESC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.model&order=DESC' . $url)
-			];
+				'href'  => $this->url->link('product/search', 'sort=p.model&order=DESC' . $url)
+			);
 
 			$url = '';
 
@@ -381,18 +349,18 @@ class Search extends \Opencart\System\Engine\Controller {
 				$url .= '&order=' . $this->request->get['order'];
 			}
 
-			$data['limits'] = [];
+			$data['limits'] = array();
 
-			$limits = array_unique([$this->config->get('config_pagination'), 25, 50, 75, 100]);
+			$limits = array_unique(array($this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit'), 25, 50, 75, 100));
 
 			sort($limits);
 
-			foreach ($limits as $value) {
-				$data['limits'][] = [
+			foreach($limits as $value) {
+				$data['limits'][] = array(
 					'text'  => $value,
 					'value' => $value,
-					'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url . '&limit=' . $value)
-				];
+					'href'  => $this->url->link('product/search', $url . '&limit=' . $value)
+				);
 			}
 
 			$url = '';
@@ -429,12 +397,13 @@ class Search extends \Opencart\System\Engine\Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
-			$data['pagination'] = $this->load->controller('common/pagination', [
-				'total' => $product_total,
-				'page'  => $page,
-				'limit' => $limit,
-				'url'   => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url . '&page={page}')
-			]);
+			$pagination = new Pagination();
+			$pagination->total = $product_total;
+			$pagination->page = $page;
+			$pagination->limit = $limit;
+			$pagination->url = $this->url->link('product/search', $url . '&page={page}');
+
+			$data['pagination'] = $pagination->render();
 
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
@@ -453,21 +422,20 @@ class Search extends \Opencart\System\Engine\Controller {
 					$ip = '';
 				}
 
-				$search_data = [
-					'keyword'      => $search,
-					'category_id'  => $category_id,
-					'sub_category' => $sub_category,
-					'description'  => $description,
-					'products'     => $product_total,
-					'customer_id'  => $customer_id,
-					'ip'           => $ip
-				];
+				$search_data = array(
+					'keyword'       => $search,
+					'category_id'   => $category_id,
+					'sub_category'  => $sub_category,
+					'description'   => $description,
+					'products'      => $product_total,
+					'customer_id'   => $customer_id,
+					'ip'            => $ip
+				);
 
 				$this->model_account_search->addSearch($search_data);
 			}
 		}
 
-		$data['language'] = $this->config->get('config_language');
 		$data['search'] = $search;
 		$data['description'] = $description;
 		$data['category_id'] = $category_id;
@@ -479,82 +447,11 @@ class Search extends \Opencart\System\Engine\Controller {
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
-		$data['header_before'] = $this->load->controller('common/header_before');
 		$data['content_top'] = $this->load->controller('common/content_top');
 		$data['content_bottom'] = $this->load->controller('common/content_bottom');
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
 		$this->response->setOutput($this->load->view('product/search', $data));
-	}
-	
-	public function autocomplete() {
-		$json = array();
-
-		if (isset($this->request->get['filter_name'])) {
-			$this->load->model('catalog/product');
-			$this->load->model('tool/image');
-
-			if (isset($this->request->get['filter_name'])) {
-				$filter_name = $this->request->get['filter_name'];
-			} else {
-				$filter_name = '';
-			}
-
-			if (isset($this->request->get['limit'])) {
-				$limit = $this->request->get['limit'];
-			} else {
-				$limit = 15;
-			}
-
-			$filter_data = array(
-				'filter_name'  => $filter_name,
-				'start'        => 0,
-				'limit'        => $limit
-			);
-			
-			$currency_code = $this->session->data['currency'];
-			
-			$results = $this->model_catalog_product->getProducts($filter_data);
-
-			foreach ($results as $result) {
-				
-				if ($result['image']) {
-						$image = $this->model_tool_image->resize($result['image'], 100, 100);
-					} else {
-						$image = $this->model_tool_image->resize('placeholder.png', 100, 100);
-					}
-
-					if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-						$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')), $currency_code);
-					} else {
-						$price = false;
-					}
-
-					if ((float)$result['special']) {
-						$special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')), $currency_code);
-					} else {
-						$special = false;
-					}
-
-					if ($this->config->get('config_tax')) {
-						$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price'], $currency_code);
-					} else {
-						$tax = false;
-					}
-
-				$json['products'][] = array(
-					'product_id' => $result['product_id'],
-					'name'       => $result['name'],
-					'image'      => $image,
-					'price'      => $price,
-					'special'    => $special,
-					'url'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
-				);
-			}
-		}
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
 	}
 }

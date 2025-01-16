@@ -1,7 +1,6 @@
 <?php
-namespace Opencart\Install\Controller\Install;
-class Step4 extends \Opencart\System\Engine\Controller {
-	public function index(): void {
+class ControllerInstallStep4 extends Controller {
+	public function index() {
 		$this->load->language('install/step_4');
 
 		$this->document->setTitle($this->language->get('heading_title'));

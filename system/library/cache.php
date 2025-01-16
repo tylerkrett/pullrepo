@@ -2,7 +2,7 @@
 /**
  * @package		OpenCart
  * @author		Daniel Kerr
- * @copyright	Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright	Copyright (c) 2005 - 2017, OpenCart, Ltd. (https://www.opencart.com/)
  * @license		https://opensource.org/licenses/GPL-3.0
  * @link		https://www.opencart.com
 */
@@ -10,9 +10,8 @@
 /**
 * Cache class
 */
-namespace Opencart\System\Library;
 class Cache {
-	private object $adaptor;
+	private $adaptor;
 	
 	/**
 	 * Constructor
@@ -21,8 +20,8 @@ class Cache {
 	 * @param	int		$expire		Optional parameters
 	 *
  	*/
-	public function __construct(string $adaptor, int $expire = 3600) {
-		$class = 'Opencart\System\Library\Cache\\' . $adaptor;
+	public function __construct($adaptor, $expire = 3600) {
+		$class = 'Cache\\' . $adaptor;
 
 		if (class_exists($class)) {
 			$this->adaptor = new $class($expire);
@@ -38,28 +37,28 @@ class Cache {
      *
      * @return	string
      */
-	public function get(string $key): array|string|null {
+	public function get($key) {
 		return $this->adaptor->get($key);
 	}
 	
     /**
-     * Sets a cache by key value.
+     * 
      *
      * @param	string	$key	The cache key
 	 * @param	string	$value	The cache value
 	 * 
 	 * @return	string
      */
-	public function set(string $key, array|string|null $value, int $expire = 0): void {
-		$this->adaptor->set($key, $value, $expire);
+	public function set($key, $value) {
+		return $this->adaptor->set($key, $value);
 	}
    
     /**
-     * Deletes a cache by key name.
+     * 
      *
      * @param	string	$key	The cache key
      */
-	public function delete(string $key): void {
-		$this->adaptor->delete($key);
+	public function delete($key) {
+		return $this->adaptor->delete($key);
 	}
 }

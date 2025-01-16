@@ -1,7 +1,6 @@
 <?php
-namespace Opencart\Catalog\Controller\Common;
-class Menu extends \Opencart\System\Engine\Controller {
-	public function index(): string {
+class ControllerCommonMenu extends Controller {
+	public function index() {
 		$this->load->language('common/menu');
 
 		// Menu
@@ -9,16 +8,7 @@ class Menu extends \Opencart\System\Engine\Controller {
 
 		$this->load->model('catalog/product');
 
-		
-
 		$data['categories'] = array();
-		$data['home'] = $this->url->link('common/home');
-
-		if(!isset($this->request->get['route']) || ($this->request->get['route'] == 'common/home')) {
-			$data['ishome'] = 'home';
-		} else {
-			$data['ishome'] = 'open';
-		}
 
 		$categories = $this->model_catalog_category->getCategories(0);
 
@@ -35,29 +25,9 @@ class Menu extends \Opencart\System\Engine\Controller {
 						'filter_sub_category' => true
 					);
 
-					/* 2 Level Sub Categories START */
-					$childs_data = array();
-					$child_2 = $this->model_catalog_category->getCategories($child['category_id']);
-
-					foreach ($child_2 as $childs) {
-						$filter_data = array(
-							'filter_category_id'  => $childs['category_id'],
-							'filter_sub_category' => true
-						);
-
-						$childs_data[] = array(
-							'name'  => $childs['name'],
-							'href'  => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'] . '_' . $child['category_id'] . '_' . $childs['category_id'])
-						);
-					}
-					/* 2 Level Sub Categories END */
-
-
 					$children_data[] = array(
-						'name'  => $child['name'],
-						'href'  => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'] . '_' . $child['category_id']),
-						'column'   => $child['column'] ? $child['column'] : 1,
-						'childs' => $childs_data,
+						'name'  => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+						'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
 					);
 				}
 
@@ -66,7 +36,7 @@ class Menu extends \Opencart\System\Engine\Controller {
 					'name'     => $category['name'],
 					'children' => $children_data,
 					'column'   => $category['column'] ? $category['column'] : 1,
-					'href'     => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'])
+					'href'     => $this->url->link('product/category', 'path=' . $category['category_id'])
 				);
 			}
 		}

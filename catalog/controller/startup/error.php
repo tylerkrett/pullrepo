@@ -1,14 +1,12 @@
 <?php
-namespace Opencart\Catalog\Controller\Startup;
-class Error extends \Opencart\System\Engine\Controller {
-	public function index(): void {
-		$this->registry->set('log', new \Opencart\System\Library\Log($this->config->get('config_error_filename')));
+class ControllerStartupError extends Controller {
+	public function index() {
+		$this->registry->set('log', new Log($this->config->get('config_error_filename')));
 		
-		set_error_handler([$this, 'error']);
-		set_exception_handler([$this, 'exception']);
+		set_error_handler(array($this, 'handler'));	
 	}
 	
-	public function error(string $code, string $message, string $file, string $line): bool {
+	public function handler($code, $message, $file, $line) {
 		// error suppressed with @
 		if (error_reporting() === 0) {
 			return false;
@@ -31,31 +29,15 @@ class Error extends \Opencart\System\Engine\Controller {
 				$error = 'Unknown';
 				break;
 		}
-
+	
+		if ($this->config->get('config_error_display')) {
+			echo '<b>' . $error . '</b>: ' . $message . ' in <b>' . $file . '</b> on line <b>' . $line . '</b>';
+		}
+	
 		if ($this->config->get('config_error_log')) {
 			$this->log->write('PHP ' . $error . ':  ' . $message . ' in ' . $file . ' on line ' . $line);
 		}
-
-		if ($this->config->get('config_error_display')) {
-			echo '<b>' . $error . '</b>: ' . $message . ' in <b>' . $file . '</b> on line <b>' . $line . '</b>';
-		} else {
-			header('Location: ' . $this->config->get('error_page'));
-			exit();
-		}
 	
 		return true;
-	}
-
-	public function exception(\Throwable $e): void {
-		if ($this->config->get('config_error_log')) {
-			$this->log->write($e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
-		}
-
-		if ($this->config->get('config_error_display')) {
-			echo '<b>' . $e->getMessage() . '</b>: in <b>' . $e->getFile() . '</b> on line <b>' . $e->getLine() . '</b>';
-		} else {
-			header('Location: ' . $this->config->get('error_page'));
-			exit();
-		}
-	}
+	} 
 } 

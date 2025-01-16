@@ -2,17 +2,16 @@
 /**
  * @package		OpenCart
  * @author		Daniel Kerr
- * @copyright	Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright	Copyright (c) 2005 - 2017, OpenCart, Ltd. (https://www.opencart.com/)
  * @license		https://opensource.org/licenses/GPL-3.0
  * @link		https://www.opencart.com
 */
 
 /**
-* DB Adapter
+* DB class
 */
-namespace Opencart\System\Library;
 class DB {
-	private object $adaptor;
+	private $adaptor;
 
 	/**
 	 * Constructor
@@ -25,8 +24,8 @@ class DB {
 	 * @param	int		$port
 	 *
  	*/
-	public function __construct(string $adaptor, string $hostname, string $username, string $password, string $database, string $port = '') {
-		$class = 'Opencart\System\Library\DB\\' . $adaptor;
+	public function __construct($adaptor, $hostname, $username, $password, $database, $port = NULL) {
+		$class = 'DB\\' . $adaptor;
 
 		if (class_exists($class)) {
 			$this->adaptor = new $class($hostname, $username, $password, $database, $port);
@@ -36,57 +35,51 @@ class DB {
 	}
 
 	/**
-     * Query
+     * 
      *
-     * @param	string	$sql  SQL statement to be executed
+     * @param	string	$sql
 	 * 
 	 * @return	array
      */
-	public function query(string $sql): bool|object {
+	public function query($sql) {
 		return $this->adaptor->query($sql);
 	}
 
 	/**
-     * Escape
+     * 
      *
-     * @param	string	$value	Value to be protected against SQL injections
+     * @param	string	$value
 	 * 
-	 * @return	string	returns escaped value
+	 * @return	string
      */
-	public function escape(string $value): string {
+	public function escape($value) {
 		return $this->adaptor->escape($value);
 	}
 
 	/**
-     * Count Affected
-	 *
-	 * Gets the total number of affected rows from the last query
-	 *
-	 * @return	int	returns the total number of affected rows.
+     * 
+	 * 
+	 * @return	int
      */
-	public function countAffected(): int {
+	public function countAffected() {
 		return $this->adaptor->countAffected();
 	}
 
 	/**
-     * Get Last ID
-	 *
-	 * Get the last ID gets the primary key that was returned after creating a row in a table.
-	 *
-	 * @return	int returns last ID
+     * 
+	 * 
+	 * @return	int
      */
-	public function getLastId(): int {
+	public function getLastId() {
 		return $this->adaptor->getLastId();
 	}
 	
 	/**
-     * Is Connected
-	 *
-	 * Checks if a DB connection is active.
-	 *
+     * 
+	 * 
 	 * @return	bool
      */	
-	public function isConnected(): bool {
-		return $this->adaptor->isConnected();
+	public function connected() {
+		return $this->adaptor->connected();
 	}
 }

@@ -3,20 +3,15 @@
 $_['heading_title']  = 'Contact Us';
 
 // Text
-$_['text_location']  = 'Address';
+$_['text_location']  = 'Our Location';
 $_['text_store']     = 'Our Stores';
-$_['text_social']     = 'Social Media';
-$_['text_contact']   = 'Contact Us';
-$_['text_emails']   = 'Email';
+$_['text_contact']   = 'Contact Form';
 $_['text_address']   = 'Address';
-$_['text_heading']   = 'GET IN TOUCH';
-$_['text_headingtitle']   = 'LET US KNOW WHAT YOU THINK';
-$_['text_subheadingtitle']   = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry dummy text ever since the 1500s, Ipsum vitae sodales vulputate necorem Ipsumsus vitae sodales vulputate.';
-$_['text_subheading']   = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry dummy text ever since the 1500s.';
-$_['text_telephone'] = 'Phone';
-$_['text_open']      = 'Opening Hours';
+$_['text_telephone'] = 'Telephone';
+$_['text_fax']       = 'Fax';
+$_['text_open']      = 'Opening Times';
 $_['text_comment']   = 'Comments';
-$_['text_message']   = '<p>Your enquiry has been successfully sent to the store owner!</p>';
+$_['text_success']   = '<p>Your enquiry has been successfully sent to the store owner!</p>';
 
 // Entry
 $_['entry_name']     = 'Your Name';
