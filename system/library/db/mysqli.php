@@ -1,25 +1,47 @@
 <?php
-namespace DB;
-final class MySQLi {
-	private $connection;
+namespace Opencart\System\Library\DB;
+class MySQLi {
+	private object $connection;
 
-	public function __construct($hostname, $username, $password, $database, $port = '3306') {
-		$this->connection = new \mysqli($hostname, $username, $password, $database, $port);
-
-		if ($this->connection->connect_error) {
-			throw new \Exception('Error: ' . $this->connection->error . '<br />Error No: ' . $this->connection->errno);
+	/**
+	 * Constructor
+	 *
+	 * @param    string  $hostname
+	 * @param    string  $username
+	 * @param    string  $password
+	 * @param    string  $database
+	 * @param    string  $port
+	 */
+	public function __construct(string $hostname, string $username, string $password, string $database, string $port = '') {
+		if (!$port) {
+			$port = '3306';
 		}
 
-		$this->connection->set_charset("utf8");
-		$this->connection->query("SET SQL_MODE = ''");
+		try {
+			$mysqli = @new \MySQLi($hostname, $username, $password, $database, $port);
+
+			$this->connection = $mysqli;
+			$this->connection->set_charset('utf8mb4');
+			$this->connection->query("SET SESSION sql_mode = 'NO_ZERO_IN_DATE,NO_ENGINE_SUBSTITUTION'");
+			$this->connection->query("SET FOREIGN_KEY_CHECKS = 0");
+		} catch (\mysqli_sql_exception $e) {
+			throw new \Exception('Error: Could not make a database link using ' . $username . '@' . $hostname . '!<br/>Message: ' . $e->getMessage());
+		}
 	}
 
-	public function query($sql) {
-		$query = $this->connection->query($sql);
+	/**
+	 * Query
+	 *
+	 * @param    string  $sql
+	 *
+	 * @return   bool|object
+	 */
+	public function query(string $sql): bool|object {
+		try {
+			$query = $this->connection->query($sql);
 
-		if (!$this->connection->errno) {
 			if ($query instanceof \mysqli_result) {
-				$data = array();
+				$data = [];
 
 				while ($row = $query->fetch_assoc()) {
 					$data[] = $row;
@@ -27,37 +49,75 @@ final class MySQLi {
 
 				$result = new \stdClass();
 				$result->num_rows = $query->num_rows;
-				$result->row = isset($data[0]) ? $data[0] : array();
+				$result->row = isset($data[0]) ? $data[0] : [];
 				$result->rows = $data;
 
 				$query->close();
+
+				unset($data);
 
 				return $result;
 			} else {
 				return true;
 			}
-		} else {
-			throw new \Exception('Error: ' . $this->connection->error  . '<br />Error No: ' . $this->connection->errno . '<br />' . $sql);
+		} catch (\mysqli_sql_exception $e) {
+			throw new \Exception('Error: ' . $this->connection->error  . '<br/>Error No: ' . $this->connection->errno . '<br/>' . $sql);
 		}
 	}
 
-	public function escape($value) {
+	/**
+	 * Escape
+	 *
+	 * @param    string  value
+	 *
+	 * @return   string
+	 */
+	public function escape(string $value): string {
 		return $this->connection->real_escape_string($value);
 	}
 	
-	public function countAffected() {
+	/**
+	 * countAffected
+	 *
+	 * @return   int
+	 */
+	public function countAffected(): int {
 		return $this->connection->affected_rows;
 	}
 
-	public function getLastId() {
+	/**
+	 * getLastId
+	 *
+	 * @return   int
+	 */
+	public function getLastId(): int {
 		return $this->connection->insert_id;
 	}
 	
-	public function connected() {
-		return $this->connection->ping();
+	/**
+	 * isConnected
+	 *
+	 * @return   bool
+	 */
+	public function isConnected(): bool {
+		if ($this->connection) {
+			return $this->connection->ping();
+		} else {
+			return false;
+		}
 	}
-	
+
+	/**
+	 * Destructor
+	 *
+	 * Closes the DB connection when this object is destroyed.
+	 *
+	 */
 	public function __destruct() {
-		$this->connection->close();
+		if ($this->connection) {
+			$this->connection->close();
+
+			unset($this->connection);
+		}
 	}
 }

@@ -1,0 +1,9 @@
+{% if modules %}
+<div id="_desktop_column_left" class="col-3">
+	<aside id="column-left">
+	  {% for module in modules %}
+	  {{ module }}
+	  {% endfor %}
+	</aside>
+</div>
+{% endif %}

@@ -1,117 +1,157 @@
------------------------------------------------------------
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 27, 2024 at 08:37 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.0.23
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `opencart`
+-- Database: `opc010`
 --
 
------------------------------------------------------------
-
-SET sql_mode = '';
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_address`
 --
 
-DROP TABLE IF EXISTS `oc_address`;
 CREATE TABLE `oc_address` (
-  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `address_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `firstname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
-  `company` varchar(40) NOT NULL,
+  `company` varchar(60) NOT NULL,
   `address_1` varchar(128) NOT NULL,
   `address_2` varchar(128) NOT NULL,
   `city` varchar(128) NOT NULL,
   `postcode` varchar(10) NOT NULL,
-  `country_id` int(11) NOT NULL DEFAULT '0',
-  `zone_id` int(11) NOT NULL DEFAULT '0',
+  `country_id` int(11) NOT NULL DEFAULT 0,
+  `zone_id` int(11) NOT NULL DEFAULT 0,
   `custom_field` text NOT NULL,
-  PRIMARY KEY (`address_id`),
-  KEY `customer_id` (`customer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
------------------------------------------------------------
+  `default` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
--- Table structure for table `oc_googleshopping_target`
+-- Dumping data for table `oc_address`
 --
 
-DROP TABLE IF EXISTS `oc_googleshopping_target`;
-CREATE TABLE `oc_googleshopping_target` (
-  `advertise_google_target_id` int(11) UNSIGNED NOT NULL,
-  `store_id` int(11) NOT NULL DEFAULT '0',
-  `campaign_name` varchar(255) NOT NULL DEFAULT '',
-  `country` varchar(2) NOT NULL DEFAULT '',
-  `budget` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `feeds` text NOT NULL,
-  `status` enum('paused','active') NOT NULL DEFAULT 'paused',
-  `date_added` DATE,
-  `roas` INT(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`advertise_google_target_id`),
-  KEY `store_id` (`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+INSERT INTO `oc_address` (`address_id`, `customer_id`, `firstname`, `lastname`, `company`, `address_1`, `address_2`, `city`, `postcode`, `country_id`, `zone_id`, `custom_field`, `default`) VALUES
+(2, 1, 'abch', 'xyzgh', 'abdsgf', 'abdshgh', 'abds', 'amreli', '021365', 207, 3160, '', 1),
+(3, 3, 'abc', 'xyz', 'abds', 'abds', 'abds', 'surat', '021365', 220, 3496, '\"\"', 1),
+(5, 4, 'abc', 'xyz', 'abds', 'abds', 'abds', 'surat', '021365', 220, 3485, '', 1),
+(6, 6, 'demo', 'example', 'fsdf', 'dasda', 'dasd', 'adas', '2252525', 213, 3278, '\"\"', 0);
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_address_format`
+--
+
+CREATE TABLE `oc_address_format` (
+  `address_format_id` int(11) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `address_format` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_address_format`
+--
+
+INSERT INTO `oc_address_format` (`address_format_id`, `name`, `address_format`) VALUES
+(1, 'Address Format', '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_api`
 --
 
-DROP TABLE IF EXISTS `oc_api`;
 CREATE TABLE `oc_api` (
-  `api_id` int(11) NOT NULL AUTO_INCREMENT,
+  `api_id` int(11) NOT NULL,
   `username` varchar(64) NOT NULL,
   `key` text NOT NULL,
   `status` tinyint(1) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`api_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_api`
+--
+
+INSERT INTO `oc_api` (`api_id`, `username`, `key`, `status`, `date_added`, `date_modified`) VALUES
+(1, 'Default', '6e21d4914b13552b2a7167df157a58663b2c1057c3804d2b8397cccfb7a4dcf5e1a97aafd7082bba8417e26cc2e5a0d5857256f4c071df2b1a8a22350739b5867794bdaf3dd16dfe7f3922a4273158b91d4e5cb4acb1b2441f46157dfb42bf6c19f57c22dfbd2ab565360c5fe9f88f4528041b03f8e1cd2c74f5c313ee5c7f7b', 1, '2023-04-21 09:22:15', '2023-04-21 09:22:15'),
+(2, 'Default', 'd2548358222d353f7132fb4cbdb4f189bc548d31e0d81bc706bb2383995276446c9f4faf4a3c071e650fb1518b9ab51d810b0f9ab366a8f4f4937f67917f0460483f2f66d9bcae12deec7ad0ece857e158eff0f0cd59496f2a41e1d25537a3ca0d6b49228fd83f407a5c983e1bd08e2921395d0c1f53f6eafc383c263bdb52c7', 1, '2023-04-21 10:50:13', '2023-04-21 10:50:13'),
+(3, 'Default', '54d3ae1f4d3746f6b84e737106fa7c3d06dc7547de94bd0de5ab44e17f8fc9156c091dfa28e7aebdc39c8b1bf8ef2b5467ad66a7445c4f029a15f4bc75dd6bacd198f4779352299fff35c6a48f8ce645bcb0044ab85f2863f65da8830b40034c67452ec707653743326a78f6fa1e4fceb2853a205dd32d21de1a48260155d4cc', 1, '2023-05-04 09:54:53', '2023-05-04 09:54:53'),
+(4, 'Default', '6db45d6f41cb539aedb9ba4ae086833e9ed0e3a7d93ea81e7acf65f330b0bddc68ab4218f860b5bb488bf60883d0c8b1fd81b6bdd960b38b5c917360725d4e10206111be2d5336944ecee5bd40caa30eeac78f5a8c38697ec7a2da39c5c082eed7e07b7df3db71e5e1592c7ba8f9cb5ea9ffde5a92346c7ea46f1c44877c53fb', 1, '2023-08-08 09:37:46', '2023-08-08 09:37:46'),
+(5, 'Default', '11116e0b866c18c1fbc34dfed5f20829d6d8b18490d62f7702fe360117c5286bd1f99ca6ca8d87b60a022a376d2a21fd5964dccfafa2ed4842be4b6a1f6a442d9e87680fe0d86c6709c1a632cfdb75a5b67ff7f1c5b6e69b7e35ced95895b894b8fa18a06d2321395ca7d3647984a93d92524ed20553bb568dcc3f7a2c514f45', 1, '2023-08-09 14:10:17', '2023-08-09 14:10:17'),
+(6, 'Default', 'f504c318de88daba6b5a15cda361a65589b56573ebb221d2beaaad29fca8047eaf893498ea0d27088835451ab9522a9f04069d43fa2dcb4207bfc5606f8130cf5102456323fde7094f57e751b9e4e15e6db9815937d855b0a1ce6d719270a535212fe3d714d22b4518372e8c6d159e8050b2c008a8d4f9e5ff914b90a8040286', 1, '2023-08-18 12:44:56', '2023-08-18 12:44:56'),
+(7, 'Default', '9853a7f227af6a3cab0b6c3ce551984ab9bd38bfb22baaa31109b0849a9c137cec569c174ad72d96a084d0ec94273ecc9670d24ef0578afe7fe3274e5b739f9cc1298c794fd8e684a9d9cf334711c700be220c42b379ea4ac4654b5f82ab39b57e4fed192aa96caff1914cafd6b224417af7292b9a4d921ba5619921abe4dcb2', 1, '2023-08-25 12:24:32', '2023-08-25 12:24:32'),
+(8, 'Default', '76ee539247fc13e6f09f6d94eed16c77ec8629437dde71cc5ca9d298dcf5780581d806ca587f84992f2f7698c6326008afaaa8110f48503bff3ed6b26598731bad576eb71d89300eeeda0cf285a40dc9e695cc739edb1e305a74c89d3cca4e0f031ebe56578dd4e1f32ba57ae76a4d36011841de7bf9e563137f935b8d2da7a7', 1, '2023-10-03 10:32:47', '2023-10-03 10:32:47'),
+(9, 'Default', '2c0cef7f52b34664559c02e8b8c81c87c8a4b7ae77483909875d2a3efb08d776fc13096b9fe101ccfcceb2bd35b8cab00ae681cb73c641c26073e23acf0d0735fce6d4d0eec6e497800662b232777b01f40c42e0ec4a831689ba7a25dce0204b4b2a502b352cc396e71abe5042e0845b736bb87c8bbca992dfeeb18f9105ea42', 1, '2023-10-17 04:15:08', '2023-10-17 04:15:08'),
+(10, 'Default', '16c6226d37bc0afd505b33fc0651819fe2ab12aabd204fed5dbcd75ba5b8302614259811225f98c40acd392552b72af87d3d6ca3831bbe71a62029c2ecdf6961308461905cdb922d0c482c326bb6939abadfcc6cc0e9fb90bab86877e937d285aca85aee60202a581a8b0c60352d706d5f3201af5fcef1db03a5e47020eaff53', 1, '2023-10-31 15:24:15', '2023-10-31 15:24:15'),
+(11, 'Default', 'd26124f9ed3d3e815b282126d79723346d2dc52884a1ee5b732dcdcb98fefed598df9c8d919a2edc48e2c29daa27513a5132adc10f2aa33eeb57b944ecb935f469c20248cc1abd49ece898296da35caf1481022db20f572393297e09bdc0d5e4854241cd0e209d4ecdb57f9d24d7f9f3d7ce8d35f66b75fa83df2db1e5be3a57', 1, '2023-11-03 10:24:55', '2023-11-03 10:24:55'),
+(12, 'Default', '10e06d0c92e043d4c376f3da1f845a9a259f1527698cf5888798838b9fd81f888a4d710955bccb44bb3019fc2d8b9082767e441c6dd22600bfcd75425bb6ce49cdc9fa2ed61a7f3300b1c83550b5b8b0a0cd1495ba403e4e517c2c36360107f75d1b196487c198d478fd38b6b14a61142e29d17353d12842c531f670b8c971ff', 1, '2023-11-08 10:29:36', '2023-11-08 10:29:36'),
+(13, 'Default', '71122f1c835db2b78fd7ad40df449755c85fabb9ef37ced9ecfe52d3cb2e7eb02b90fcdb3a5a87972f2cf8295cdf6e1bc94eed5c50a45b9a657a55cd82d0824e6c54463fdd1a9bbe73b47d1ca07960d7342f19803d556eeeb30aed4d9665da229c9a192fee7d3b249ecdff0a0c3b8fd279c9d694be4f2a910f023a08218e47ff', 1, '2023-11-16 11:22:27', '2023-11-16 11:22:27'),
+(14, 'Default', 'd3835582542bca8801c16cc8625af923cf0393abc7ebf935f22dea2d7822bd83dc6b4df90daa50021a9b4bfd44e90312cee02f1bd6eb4d9c8451825be8ebe46ee7a15cac4a4dca5b290bcb1d99569d71e9bd005db5922f45a497573ba105d4f47831d88f73d722a75c89a572be02009a34b9a700209635ba6a7f3e84266dce2d', 1, '2023-12-02 09:33:38', '2023-12-02 09:33:38'),
+(15, 'Default', 'f73fa8e5ea3375591ed852d7ba11b7bb106a3e794e08de5df489d5d9be0579ad98e206f0d3bcbe9a60e7ebfc2d9dfb9d4eb0ca77e2020db9d9f841f7b3a52a01ba3c88c5aeb8a26dea35a9f5abc3d39aca4a6d21fa172baaa9fd912252b8e6416818e91482d58fd32de20ffbb2cbc76a0ed780782d82517fd8f6c5573cdc3f2c', 1, '2024-01-09 10:06:03', '2024-01-09 10:06:03'),
+(16, 'Default', '60735acdfc9f61228278ce3cf78886b6322d8adbffe97d9a25a10cb62016290181d57ed52d4888d24e19ef521c61e45cbb11f63594827da8640bb57f719f4b928d0a8ae5e4c7e9208ed6df3376abc73cf73720ef186a1cbfb8f47af3fb9c0878215f5b61b4f275e40f63a2a5b73218702da4c735036e664756290de7934d247c', 1, '2024-01-20 11:08:32', '2024-01-20 11:08:32'),
+(17, 'Default', 'bfe613b71608875185589380040396b3131775226f85d7ed790df12d7bf57c6bbd80396a0b65f3908c1e70a3ade37b36a884b878d27d03b9bf73719eb7fa83b7d5cd49dbc1f67024774a8797af9369f44d6b4d56e881f1db45c9b5f5c0914fc4a1769704e518efa2ab347b4eb16adaf214366870ee25e926228b8d20e2a935dd', 1, '2024-01-26 13:03:10', '2024-01-26 13:03:10'),
+(18, 'Default', 'd274eb6bc521960650d824ffe26d40d29a05c8a4cb2998dba6dbbe4de2f00b7685a37f3632aa0a2bf91eb971e9257abfb0173655596b4032baf6e7dc911df1d05906744a89b8a38d7feea8fda636d65ed36d186f4f107ad9e79a5d618847464dedd85b7046839ec4feb729a7f6f082137e0eb163123cfe284257fda196ab83c3', 1, '2024-01-26 18:41:21', '2024-01-26 18:41:21'),
+(19, 'Default', 'b20fc65768739205f9dc87318a664a0be56434ec8470179a3c42f45c8bdeb452b7335d2de7dff558af782501ae38a969537dd4b661b281fcc1709b72a3405a678ab358f779a1cdab184700ec6cdd59f79cb7b38f295dd2703ba38fc9e311a8dddd78a5ec242ba3744fdc4356e89e94b44a261e2aa3df9329582aa05b92268e4e', 1, '2024-01-27 11:18:42', '2024-01-27 11:18:42'),
+(20, 'Default', '7035b3e5b46ca9a0d28252b3965dfaa2fb3374e767a38cb07cf146a84f1dc1e703fb671d33d8872c2d0254a894674c6e82a42bcb3c0b22cccf548d2d65ec8a2ad0906c7b18aa26fc9c05386da1cf40705aefa2929eabde2bd5f61635d7740d936ae5bad257d8c78ff6ab4d4048a48cfd6066a0e2afeda33199354eb1ebdf916f', 1, '2024-03-22 13:02:48', '2024-03-22 13:02:48'),
+(21, 'Default', 'e8a310f45688f8f41ecd4bbecfa19a2fa8ba5701647ba99c97fccbc239ff0e14ab1a6fe747b4d7f336e6dd5bcdd814dadcf4b8d13661cfea2e597333e837670ceb55b51da28e8f6030276150cf0c2a258409dc743a2a6c48219d141f2ad221ef56c1b096abb3fe3345cb08b5f683f729bf57f8e412ced277dc96986c32a3aa66', 1, '2024-04-27 08:48:03', '2024-04-27 08:48:03');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_api_ip`
 --
 
-DROP TABLE IF EXISTS `oc_api_ip`;
 CREATE TABLE `oc_api_ip` (
-  `api_ip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `api_ip_id` int(11) NOT NULL,
   `api_id` int(11) NOT NULL,
-  `ip` varchar(40) NOT NULL,
-  PRIMARY KEY (`api_ip_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `ip` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_api_session`
 --
 
-DROP TABLE IF EXISTS `oc_api_session`;
 CREATE TABLE `oc_api_session` (
-  `api_session_id` int(11) NOT NULL AUTO_INCREMENT,
+  `api_session_id` int(11) NOT NULL,
   `api_id` int(11) NOT NULL,
   `session_id` varchar(32) NOT NULL,
   `ip` varchar(40) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`api_session_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_attribute`
 --
 
-DROP TABLE IF EXISTS `oc_attribute`;
 CREATE TABLE `oc_attribute` (
-  `attribute_id` int(11) NOT NULL AUTO_INCREMENT,
+  `attribute_id` int(11) NOT NULL,
   `attribute_group_id` int(11) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`attribute_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_attribute`
@@ -130,19 +170,17 @@ INSERT INTO `oc_attribute` (`attribute_id`, `attribute_group_id`, `sort_order`) 
 (10, 3, 7),
 (11, 3, 8);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_attribute_description`
 --
 
-DROP TABLE IF EXISTS `oc_attribute_description`;
 CREATE TABLE `oc_attribute_description` (
   `attribute_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`attribute_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_attribute_description`
@@ -150,29 +188,104 @@ CREATE TABLE `oc_attribute_description` (
 
 INSERT INTO `oc_attribute_description` (`attribute_id`, `language_id`, `name`) VALUES
 (1, 1, 'Description'),
+(1, 2, 'Description'),
+(1, 3, 'Description'),
+(1, 4, 'Description'),
+(1, 5, 'Description'),
+(1, 6, 'Description'),
+(1, 7, 'Description'),
+(1, 8, 'Description'),
 (2, 1, 'No. of Cores'),
+(2, 2, 'No. of Cores'),
+(2, 3, 'No. of Cores'),
+(2, 4, 'No. of Cores'),
+(2, 5, 'No. of Cores'),
+(2, 6, 'No. of Cores'),
+(2, 7, 'No. of Cores'),
+(2, 8, 'No. of Cores'),
+(3, 1, 'Clockspeed'),
+(3, 2, 'Clockspeed'),
+(3, 3, 'Clockspeed'),
+(3, 4, 'Clockspeed'),
+(3, 5, 'Clockspeed'),
+(3, 6, 'Clockspeed'),
+(3, 7, 'Clockspeed'),
+(3, 8, 'Clockspeed'),
 (4, 1, 'test 1'),
+(4, 2, 'test 1'),
+(4, 3, 'test 1'),
+(4, 4, 'test 1'),
+(4, 5, 'test 1'),
+(4, 6, 'test 1'),
+(4, 7, 'test 1'),
+(4, 8, 'test 1'),
 (5, 1, 'test 2'),
+(5, 2, 'test 2'),
+(5, 3, 'test 2'),
+(5, 4, 'test 2'),
+(5, 5, 'test 2'),
+(5, 6, 'test 2'),
+(5, 7, 'test 2'),
+(5, 8, 'test 2'),
 (6, 1, 'test 3'),
+(6, 2, 'test 3'),
+(6, 3, 'test 3'),
+(6, 4, 'test 3'),
+(6, 5, 'test 3'),
+(6, 6, 'test 3'),
+(6, 7, 'test 3'),
+(6, 8, 'test 3'),
 (7, 1, 'test 4'),
+(7, 2, 'test 4'),
+(7, 3, 'test 4'),
+(7, 4, 'test 4'),
+(7, 5, 'test 4'),
+(7, 6, 'test 4'),
+(7, 7, 'test 4'),
+(7, 8, 'test 4'),
 (8, 1, 'test 5'),
+(8, 2, 'test 5'),
+(8, 3, 'test 5'),
+(8, 4, 'test 5'),
+(8, 5, 'test 5'),
+(8, 6, 'test 5'),
+(8, 7, 'test 5'),
+(8, 8, 'test 5'),
 (9, 1, 'test 6'),
+(9, 2, 'test 6'),
+(9, 3, 'test 6'),
+(9, 4, 'test 6'),
+(9, 5, 'test 6'),
+(9, 6, 'test 6'),
+(9, 7, 'test 6'),
+(9, 8, 'test 6'),
 (10, 1, 'test 7'),
+(10, 2, 'test 7'),
+(10, 3, 'test 7'),
+(10, 4, 'test 7'),
+(10, 5, 'test 7'),
+(10, 6, 'test 7'),
+(10, 7, 'test 7'),
+(10, 8, 'test 7'),
 (11, 1, 'test 8'),
-(3, 1, 'Clockspeed');
+(11, 2, 'test 8'),
+(11, 3, 'test 8'),
+(11, 4, 'test 8'),
+(11, 5, 'test 8'),
+(11, 6, 'test 8'),
+(11, 7, 'test 8'),
+(11, 8, 'test 8');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_attribute_group`
 --
 
-DROP TABLE IF EXISTS `oc_attribute_group`;
 CREATE TABLE `oc_attribute_group` (
-  `attribute_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`attribute_group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `attribute_group_id` int(11) NOT NULL,
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_attribute_group`
@@ -184,19 +297,17 @@ INSERT INTO `oc_attribute_group` (`attribute_group_id`, `sort_order`) VALUES
 (5, 3),
 (6, 4);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_attribute_group_description`
 --
 
-DROP TABLE IF EXISTS `oc_attribute_group_description`;
 CREATE TABLE `oc_attribute_group_description` (
   `attribute_group_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`attribute_group_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_attribute_group_description`
@@ -204,23 +315,49 @@ CREATE TABLE `oc_attribute_group_description` (
 
 INSERT INTO `oc_attribute_group_description` (`attribute_group_id`, `language_id`, `name`) VALUES
 (3, 1, 'Memory'),
+(3, 2, 'Memory'),
+(3, 3, 'Memory'),
+(3, 4, 'Memory'),
+(3, 5, 'Memory'),
+(3, 6, 'Memory'),
+(3, 7, 'Memory'),
+(3, 8, 'Memory'),
 (4, 1, 'Technical'),
+(4, 2, 'Technical'),
+(4, 3, 'Technical'),
+(4, 4, 'Technical'),
+(4, 5, 'Technical'),
+(4, 6, 'Technical'),
+(4, 7, 'Technical'),
+(4, 8, 'Technical'),
 (5, 1, 'Motherboard'),
-(6, 1, 'Processor');
+(5, 2, 'Motherboard'),
+(5, 3, 'Motherboard'),
+(5, 4, 'Motherboard'),
+(5, 5, 'Motherboard'),
+(5, 6, 'Motherboard'),
+(5, 7, 'Motherboard'),
+(5, 8, 'Motherboard'),
+(6, 1, 'Processor'),
+(6, 2, 'Processor'),
+(6, 3, 'Processor'),
+(6, 4, 'Processor'),
+(6, 5, 'Processor'),
+(6, 6, 'Processor'),
+(6, 7, 'Processor'),
+(6, 8, 'Processor');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_banner`
 --
 
-DROP TABLE IF EXISTS `oc_banner`;
 CREATE TABLE `oc_banner` (
-  `banner_id` int(11) NOT NULL AUTO_INCREMENT,
+  `banner_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`banner_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_banner`
@@ -231,23 +368,21 @@ INSERT INTO `oc_banner` (`banner_id`, `name`, `status`) VALUES
 (7, 'Home Page Slideshow', 1),
 (8, 'Manufacturers', 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_banner_image`
 --
 
-DROP TABLE IF EXISTS `oc_banner_image`;
 CREATE TABLE `oc_banner_image` (
-  `banner_image_id` int(11) NOT NULL AUTO_INCREMENT,
+  `banner_image_id` int(11) NOT NULL,
   `banner_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `title` varchar(64) NOT NULL,
   `link` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `sort_order` int(3) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`banner_image_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_banner_image`
@@ -255,113 +390,320 @@ CREATE TABLE `oc_banner_image` (
 
 INSERT INTO `oc_banner_image` (`banner_image_id`, `banner_id`, `language_id`, `title`, `link`, `image`, `sort_order`) VALUES
 (79, 7, 1, 'iPhone 6', 'index.php?route=product/product&amp;path=57&amp;product_id=49', 'catalog/demo/banners/iPhone6.jpg', 0),
-(87, 6, 1, 'HP Banner', 'index.php?route=product/manufacturer/info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
-(94, 8, 1, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
-(95, 8, 1, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
-(96, 8, 1, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
-(91, 8, 1, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
-(92, 8, 1, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
-(93, 8, 1, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(80, 7, 1, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(87, 6, 1, 'HP Banner', 'index.php?route=product/manufacturer.info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
 (88, 8, 1, 'Harley Davidson', '', 'catalog/demo/manufacturer/harley.png', 0),
 (89, 8, 1, 'Dell', '', 'catalog/demo/manufacturer/dell.png', 0),
 (90, 8, 1, 'Disney', '', 'catalog/demo/manufacturer/disney.png', 0),
-(80, 7, 1, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(91, 8, 1, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
+(92, 8, 1, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
+(93, 8, 1, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(94, 8, 1, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
+(95, 8, 1, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
+(96, 8, 1, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
 (97, 8, 1, 'Starbucks', '', 'catalog/demo/manufacturer/starbucks.png', 0),
-(98, 8, 1, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0);
+(98, 8, 1, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0),
+(99, 7, 2, 'iPhone 6', 'index.php?route=product/product&amp;path=57&amp;product_id=49', 'catalog/demo/banners/iPhone6.jpg', 0),
+(100, 7, 2, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(101, 6, 2, 'HP Banner', 'index.php?route=product/manufacturer.info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
+(102, 8, 2, 'Harley Davidson', '', 'catalog/demo/manufacturer/harley.png', 0),
+(103, 8, 2, 'Dell', '', 'catalog/demo/manufacturer/dell.png', 0),
+(104, 8, 2, 'Disney', '', 'catalog/demo/manufacturer/disney.png', 0),
+(105, 8, 2, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
+(106, 8, 2, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
+(107, 8, 2, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(108, 8, 2, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
+(109, 8, 2, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
+(110, 8, 2, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
+(111, 8, 2, 'Starbucks', '', 'catalog/demo/manufacturer/starbucks.png', 0),
+(112, 8, 2, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0),
+(113, 7, 3, 'iPhone 6', 'index.php?route=product/product&amp;path=57&amp;product_id=49', 'catalog/demo/banners/iPhone6.jpg', 0),
+(114, 7, 3, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(115, 6, 3, 'HP Banner', 'index.php?route=product/manufacturer.info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
+(116, 8, 3, 'Harley Davidson', '', 'catalog/demo/manufacturer/harley.png', 0),
+(117, 8, 3, 'Dell', '', 'catalog/demo/manufacturer/dell.png', 0),
+(118, 8, 3, 'Disney', '', 'catalog/demo/manufacturer/disney.png', 0),
+(119, 8, 3, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
+(120, 8, 3, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
+(121, 8, 3, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(122, 8, 3, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
+(123, 8, 3, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
+(124, 8, 3, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
+(125, 8, 3, 'Starbucks', '', 'catalog/demo/manufacturer/starbucks.png', 0),
+(126, 8, 3, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0),
+(127, 7, 4, 'iPhone 6', 'index.php?route=product/product&amp;path=57&amp;product_id=49', 'catalog/demo/banners/iPhone6.jpg', 0),
+(128, 7, 4, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(129, 6, 4, 'HP Banner', 'index.php?route=product/manufacturer.info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
+(130, 8, 4, 'Harley Davidson', '', 'catalog/demo/manufacturer/harley.png', 0),
+(131, 8, 4, 'Dell', '', 'catalog/demo/manufacturer/dell.png', 0),
+(132, 8, 4, 'Disney', '', 'catalog/demo/manufacturer/disney.png', 0),
+(133, 8, 4, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
+(134, 8, 4, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
+(135, 8, 4, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(136, 8, 4, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
+(137, 8, 4, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
+(138, 8, 4, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
+(139, 8, 4, 'Starbucks', '', 'catalog/demo/manufacturer/starbucks.png', 0),
+(140, 8, 4, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0),
+(141, 7, 5, 'iPhone 6', 'index.php?route=product/product&amp;path=57&amp;product_id=49', 'catalog/demo/banners/iPhone6.jpg', 0),
+(142, 7, 5, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(143, 6, 5, 'HP Banner', 'index.php?route=product/manufacturer.info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
+(144, 8, 5, 'Harley Davidson', '', 'catalog/demo/manufacturer/harley.png', 0),
+(145, 8, 5, 'Dell', '', 'catalog/demo/manufacturer/dell.png', 0),
+(146, 8, 5, 'Disney', '', 'catalog/demo/manufacturer/disney.png', 0),
+(147, 8, 5, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
+(148, 8, 5, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
+(149, 8, 5, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(150, 8, 5, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
+(151, 8, 5, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
+(152, 8, 5, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
+(153, 8, 5, 'Starbucks', '', 'catalog/demo/manufacturer/starbucks.png', 0),
+(154, 8, 5, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0),
+(155, 7, 6, 'iPhone 6', 'index.php?route=product/product&amp;path=57&amp;product_id=49', 'catalog/demo/banners/iPhone6.jpg', 0),
+(156, 7, 6, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(157, 6, 6, 'HP Banner', 'index.php?route=product/manufacturer.info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
+(158, 8, 6, 'Harley Davidson', '', 'catalog/demo/manufacturer/harley.png', 0),
+(159, 8, 6, 'Dell', '', 'catalog/demo/manufacturer/dell.png', 0),
+(160, 8, 6, 'Disney', '', 'catalog/demo/manufacturer/disney.png', 0),
+(161, 8, 6, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
+(162, 8, 6, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
+(163, 8, 6, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(164, 8, 6, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
+(165, 8, 6, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
+(166, 8, 6, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
+(167, 8, 6, 'Starbucks', '', 'catalog/demo/manufacturer/starbucks.png', 0),
+(168, 8, 6, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0),
+(169, 7, 7, 'iPhone 6', 'index.php?route=product/product&amp;path=57&amp;product_id=49', 'catalog/demo/banners/iPhone6.jpg', 0),
+(170, 7, 7, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(171, 6, 7, 'HP Banner', 'index.php?route=product/manufacturer.info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
+(172, 8, 7, 'Harley Davidson', '', 'catalog/demo/manufacturer/harley.png', 0),
+(173, 8, 7, 'Dell', '', 'catalog/demo/manufacturer/dell.png', 0),
+(174, 8, 7, 'Disney', '', 'catalog/demo/manufacturer/disney.png', 0),
+(175, 8, 7, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
+(176, 8, 7, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
+(177, 8, 7, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(178, 8, 7, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
+(179, 8, 7, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
+(180, 8, 7, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
+(181, 8, 7, 'Starbucks', '', 'catalog/demo/manufacturer/starbucks.png', 0),
+(182, 8, 7, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0),
+(183, 7, 8, 'iPhone 6', 'index.php?route=product/product&amp;path=57&amp;product_id=49', 'catalog/demo/banners/iPhone6.jpg', 0),
+(184, 7, 8, 'MacBookAir', '', 'catalog/demo/banners/MacBookAir.jpg', 0),
+(185, 6, 8, 'HP Banner', 'index.php?route=product/manufacturer.info&amp;manufacturer_id=7', 'catalog/demo/compaq_presario.jpg', 0),
+(186, 8, 8, 'Harley Davidson', '', 'catalog/demo/manufacturer/harley.png', 0),
+(187, 8, 8, 'Dell', '', 'catalog/demo/manufacturer/dell.png', 0),
+(188, 8, 8, 'Disney', '', 'catalog/demo/manufacturer/disney.png', 0),
+(189, 8, 8, 'Coca Cola', '', 'catalog/demo/manufacturer/cocacola.png', 0),
+(190, 8, 8, 'Burger King', '', 'catalog/demo/manufacturer/burgerking.png', 0),
+(191, 8, 8, 'Canon', '', 'catalog/demo/manufacturer/canon.png', 0),
+(192, 8, 8, 'NFL', '', 'catalog/demo/manufacturer/nfl.png', 0),
+(193, 8, 8, 'RedBull', '', 'catalog/demo/manufacturer/redbull.png', 0),
+(194, 8, 8, 'Sony', '', 'catalog/demo/manufacturer/sony.png', 0),
+(195, 8, 8, 'Starbucks', '', 'catalog/demo/manufacturer/starbucks.png', 0),
+(196, 8, 8, 'Nintendo', '', 'catalog/demo/manufacturer/nintendo.png', 0);
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_blogger`
+--
+
+CREATE TABLE `oc_blogger` (
+  `blogger_id` int(11) NOT NULL,
+  `module_id` int(11) DEFAULT NULL,
+  `status` int(1) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `date_added` datetime DEFAULT NULL,
+  `date_modified` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_blogger`
+--
+
+INSERT INTO `oc_blogger` (`blogger_id`, `module_id`, `status`, `image`, `date_added`, `date_modified`) VALUES
+(1, 91, 1, 'catalog/blog/1.jpg', '2023-08-08 11:42:52', '2024-04-27 06:23:50'),
+(2, 91, 1, 'catalog/blog/2.jpg', '2023-08-08 11:43:19', '2024-04-27 06:23:59'),
+(3, 91, 1, 'catalog/blog/3.jpg', '2023-08-08 11:43:43', '2024-04-27 06:24:09'),
+(4, 91, 1, 'catalog/blog/4.jpg', '2023-08-08 11:44:12', '2024-04-27 06:24:18'),
+(5, 91, 1, 'catalog/blog/5.jpg', '2023-08-08 11:44:44', '2024-04-27 06:24:26'),
+(6, 91, 1, 'catalog/blog/6.jpg', '2023-08-08 11:45:29', '2024-04-27 06:24:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_blogger_comment`
+--
+
+CREATE TABLE `oc_blogger_comment` (
+  `blogger_comment_id` int(11) NOT NULL,
+  `blogger_id` int(11) DEFAULT NULL,
+  `approved` int(1) DEFAULT NULL,
+  `author` varchar(64) DEFAULT NULL,
+  `email` varchar(96) DEFAULT NULL,
+  `date_added` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_blogger_comment`
+--
+
+INSERT INTO `oc_blogger_comment` (`blogger_comment_id`, `blogger_id`, `approved`, `author`, `email`, `date_added`) VALUES
+(1, 6, 1, 'asdasd', 'admin@gmail.com', '2023-08-12 05:14:50'),
+(2, 6, 1, 'asdasd', 'admin@gmail.com', '2023-08-12 05:15:06'),
+(3, 6, 1, 'asdasd', 'admin@gmail.com', '2023-08-12 05:16:12'),
+(4, 6, 1, 'asdasd', 'admin@gmail.com', '2023-08-12 05:17:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_blogger_comment_description`
+--
+
+CREATE TABLE `oc_blogger_comment_description` (
+  `blogger_comment_id` int(11) NOT NULL,
+  `language_id` int(11) DEFAULT NULL,
+  `comment` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_blogger_comment_description`
+--
+
+INSERT INTO `oc_blogger_comment_description` (`blogger_comment_id`, `language_id`, `comment`) VALUES
+(1, 1, 'yffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffgbyguyuy'),
+(2, 1, 'ddddddddddsssssssssssssssssssssssssssssssssssssssssssssssssssss'),
+(3, 6, 'ddddddddddsssssssssssssssssssssssssssssssssssssssssssssssssssss'),
+(4, 6, 'ddddddddddsssssssssssssssssssssssssssssssssssssssssssssssssssss');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_blogger_description`
+--
+
+CREATE TABLE `oc_blogger_description` (
+  `blogger_id` int(11) DEFAULT NULL,
+  `language_id` int(11) DEFAULT NULL,
+  `title` varchar(64) DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_blogger_description`
+--
+
+INSERT INTO `oc_blogger_description` (`blogger_id`, `language_id`, `title`, `description`) VALUES
+(1, 1, 'Upon of seasons earth', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(1, 8, 'Upon of seasons earth', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(1, 7, 'Upon of seasons earth', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(1, 6, 'Upon of seasons earth', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(2, 1, 'Nostro expetenda voluptatum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(2, 8, 'Nostro expetenda voluptatum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(2, 7, 'Nostro expetenda voluptatum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(2, 6, 'Nostro expetenda voluptatum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(3, 1, 'Nostro expetenda voluptatum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(3, 8, 'Nostro expetenda voluptatum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(3, 7, 'Nostro expetenda voluptatum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(3, 6, 'Nostro expetenda voluptatum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(4, 1, 'Proin faucibus massa tristique', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(4, 8, 'Proin faucibus massa tristique', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(4, 7, 'Proin faucibus massa tristique', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(4, 6, 'Proin faucibus massa tristique', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(5, 1, 'Viderer voluptatum te eum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(5, 8, 'Viderer voluptatum te eum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(5, 7, 'Viderer voluptatum te eum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(5, 6, 'Viderer voluptatum te eum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(6, 1, 'Scelerisque vestibulum urna', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(6, 8, 'Scelerisque vestibulum urna', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(6, 7, 'Scelerisque vestibulum urna', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac'),
+(6, 6, 'Scelerisque vestibulum urna', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_cart`
 --
 
-DROP TABLE IF EXISTS `oc_cart`;
 CREATE TABLE `oc_cart` (
-  `cart_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cart_id` int(11) NOT NULL,
   `api_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `session_id` varchar(32) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `recurring_id` int(11) NOT NULL,
+  `subscription_plan_id` int(11) NOT NULL,
   `option` text NOT NULL,
   `quantity` int(5) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`cart_id`),
-  KEY `cart_id` (`api_id`,`customer_id`,`session_id`,`product_id`,`recurring_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_cart`
+--
+
+INSERT INTO `oc_cart` (`cart_id`, `api_id`, `customer_id`, `session_id`, `product_id`, `subscription_plan_id`, `option`, `quantity`, `date_added`) VALUES
+(101, 0, 1, 'f2ee8a225c0047878ce2c326bf', 41, 0, '[]', 1, '2023-05-03 09:14:33'),
+(102, 0, 1, 'f2ee8a225c0047878ce2c326bf', 47, 0, '[]', 1, '2023-05-03 09:14:43'),
+(124, 0, 4, 'e0c14ca38d4dc905af3a130ca0', 46, 0, '[]', 2, '2023-10-19 04:55:25'),
+(168, 0, 3, '39b46382f2201931b7fb1008ce', 42, 0, '[]', 2, '2024-01-19 06:32:49'),
+(169, 0, 3, '39b46382f2201931b7fb1008ce', 28, 0, '[]', 1, '2024-01-19 06:33:28'),
+(170, 0, 0, 'c58c21cb2b3a1c7d5832031c16', 41, 0, '[]', 1, '2024-04-27 05:44:29');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_category`
 --
 
-DROP TABLE IF EXISTS `oc_category`;
 CREATE TABLE `oc_category` (
-  `category_id` int(11) NOT NULL AUTO_INCREMENT,
-  `image` varchar(255) DEFAULT NULL,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `category_id` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT 0,
   `top` tinyint(1) NOT NULL,
   `column` int(3) NOT NULL,
-  `sort_order` int(3) NOT NULL DEFAULT '0',
+  `sort_order` int(3) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`category_id`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_category`
 --
 
 INSERT INTO `oc_category` (`category_id`, `image`, `parent_id`, `top`, `column`, `sort_order`, `status`, `date_added`, `date_modified`) VALUES
-(25, '', 0, 1, 1, 3, 1, '2009-01-31 01:04:25', '2011-05-30 12:14:55'),
-(27, '', 20, 0, 0, 2, 1, '2009-01-31 01:55:34', '2010-08-22 06:32:15'),
-(20, 'catalog/demo/compaq_presario.jpg', 0, 1, 1, 1, 1, '2009-01-05 21:49:43', '2011-07-16 02:14:42'),
-(24, '', 0, 1, 1, 5, 1, '2009-01-20 02:36:26', '2011-05-30 12:15:18'),
-(18, 'catalog/demo/hp_2.jpg', 0, 1, 0, 2, 1, '2009-01-05 21:49:15', '2011-05-30 12:13:55'),
-(17, '', 0, 1, 1, 4, 1, '2009-01-03 21:08:57', '2011-05-30 12:15:11'),
-(28, '', 25, 0, 0, 1, 1, '2009-02-02 13:11:12', '2010-08-22 06:32:46'),
-(26, '', 20, 0, 0, 1, 1, '2009-01-31 01:55:14', '2010-08-22 06:31:45'),
-(29, '', 25, 0, 0, 1, 1, '2009-02-02 13:11:37', '2010-08-22 06:32:39'),
-(30, '', 25, 0, 0, 1, 1, '2009-02-02 13:11:59', '2010-08-22 06:33:00'),
-(31, '', 25, 0, 0, 1, 1, '2009-02-03 14:17:24', '2010-08-22 06:33:06'),
-(32, '', 25, 0, 0, 1, 1, '2009-02-03 14:17:34', '2010-08-22 06:33:12'),
-(33, '', 0, 1, 1, 6, 1, '2009-02-03 14:17:55', '2011-05-30 12:15:25'),
-(34, 'catalog/demo/ipod_touch_4.jpg', 0, 1, 4, 7, 1, '2009-02-03 14:18:11', '2011-05-30 12:15:31'),
-(35, '', 28, 0, 0, 0, 1, '2010-09-17 10:06:48', '2010-09-18 14:02:42'),
-(36, '', 28, 0, 0, 0, 1, '2010-09-17 10:07:13', '2010-09-18 14:02:55'),
-(37, '', 34, 0, 0, 0, 1, '2010-09-18 14:03:39', '2011-04-22 01:55:08'),
-(38, '', 34, 0, 0, 0, 1, '2010-09-18 14:03:51', '2010-09-18 14:03:51'),
-(39, '', 34, 0, 0, 0, 1, '2010-09-18 14:04:17', '2011-04-22 01:55:20'),
-(40, '', 34, 0, 0, 0, 1, '2010-09-18 14:05:36', '2010-09-18 14:05:36'),
-(41, '', 34, 0, 0, 0, 1, '2010-09-18 14:05:49', '2011-04-22 01:55:30'),
-(42, '', 34, 0, 0, 0, 1, '2010-09-18 14:06:34', '2010-11-07 20:31:04'),
-(43, '', 34, 0, 0, 0, 1, '2010-09-18 14:06:49', '2011-04-22 01:55:40'),
-(44, '', 34, 0, 0, 0, 1, '2010-09-21 15:39:21', '2010-11-07 20:30:55'),
-(45, '', 18, 0, 0, 0, 1, '2010-09-24 18:29:16', '2011-04-26 08:52:11'),
-(46, '', 18, 0, 0, 0, 1, '2010-09-24 18:29:31', '2011-04-26 08:52:23'),
-(47, '', 34, 0, 0, 0, 1, '2010-11-07 11:13:16', '2010-11-07 11:13:16'),
-(48, '', 34, 0, 0, 0, 1, '2010-11-07 11:13:33', '2010-11-07 11:13:33'),
-(49, '', 34, 0, 0, 0, 1, '2010-11-07 11:14:04', '2010-11-07 11:14:04'),
-(50, '', 34, 0, 0, 0, 1, '2010-11-07 11:14:23', '2011-04-22 01:16:01'),
-(51, '', 34, 0, 0, 0, 1, '2010-11-07 11:14:38', '2011-04-22 01:16:13'),
-(52, '', 34, 0, 0, 0, 1, '2010-11-07 11:16:09', '2011-04-22 01:54:57'),
-(53, '', 34, 0, 0, 0, 1, '2010-11-07 11:28:53', '2011-04-22 01:14:36'),
-(54, '', 34, 0, 0, 0, 1, '2010-11-07 11:29:16', '2011-04-22 01:16:50'),
-(55, '', 34, 0, 0, 0, 1, '2010-11-08 10:31:32', '2010-11-08 10:31:32'),
-(56, '', 34, 0, 0, 0, 1, '2010-11-08 10:31:50', '2011-04-22 01:16:37'),
-(57, '', 0, 1, 1, 3, 1, '2011-04-26 08:53:16', '2011-05-30 12:15:05'),
-(58, '', 52, 0, 0, 0, 1, '2011-05-08 13:44:16', '2011-05-08 13:44:16');
+(59, 'catalog/productsimage/2.jpg', 0, 1, 3, 1, 1, '2023-04-24 06:28:46', '2024-03-26 09:00:58'),
+(60, 'catalog/productsimage/3.jpg', 59, 1, 1, 0, 1, '2023-04-24 06:29:32', '2024-03-26 09:03:18'),
+(61, 'catalog/productsimage/4.jpg', 60, 1, 1, 0, 1, '2023-04-24 06:30:09', '2024-03-26 09:03:39'),
+(62, 'catalog/productsimage/5.jpg', 60, 1, 1, 0, 1, '2023-04-24 06:30:40', '2024-03-26 09:04:04'),
+(63, 'catalog/productsimage/6.jpg', 60, 1, 1, 0, 1, '2023-04-24 06:31:15', '2024-03-26 09:04:24'),
+(64, 'catalog/productsimage/20.jpg', 59, 1, 1, 0, 1, '2023-04-24 06:31:55', '2024-03-26 09:01:41'),
+(65, 'catalog/productsimage/9.jpg', 64, 1, 1, 0, 1, '2023-04-24 06:32:43', '2024-03-26 09:02:03'),
+(66, 'catalog/productsimage/3.jpg', 64, 1, 1, 0, 1, '2023-04-24 06:33:26', '2024-03-26 09:02:23'),
+(67, 'catalog/productsimage/9.jpg', 64, 1, 1, 0, 1, '2023-04-24 06:33:58', '2024-03-26 09:02:50'),
+(68, 'catalog/productsimage/11.jpg', 59, 1, 1, 3, 1, '2023-04-24 06:34:40', '2024-03-26 09:04:43'),
+(69, 'catalog/productsimage/4.jpg', 68, 1, 1, 0, 1, '2023-04-24 06:37:55', '2024-03-26 09:05:00'),
+(70, 'catalog/productsimage/2.jpg', 68, 1, 1, 0, 1, '2023-04-24 06:42:17', '2024-03-26 09:05:36'),
+(71, 'catalog/productsimage/9.jpg', 68, 1, 1, 0, 1, '2023-04-24 06:43:00', '2024-03-26 09:05:20'),
+(74, 'catalog/productsimage/1.jpg', 0, 1, 4, 4, 1, '2023-04-24 06:45:54', '2023-10-03 12:39:27'),
+(75, 'catalog/productsimage/10.jpg', 74, 1, 1, 0, 1, '2023-04-24 06:46:39', '2024-03-26 09:07:41'),
+(76, 'catalog/productsimage/11.jpg', 75, 1, 1, 0, 1, '2023-04-24 06:47:12', '2024-03-26 09:08:17'),
+(77, 'catalog/productsimage/12.jpg', 75, 1, 1, 0, 1, '2023-04-24 06:47:47', '2024-03-26 09:08:00'),
+(78, 'catalog/productsimage/13.jpg', 75, 1, 1, 0, 1, '2023-04-24 06:48:26', '2024-03-26 09:08:35'),
+(79, 'catalog/productsimage/14.jpg', 74, 1, 1, 0, 1, '2023-04-24 06:49:09', '2024-03-26 09:06:08'),
+(80, 'catalog/productsimage/15.jpg', 79, 1, 1, 0, 1, '2023-04-24 06:50:14', '2024-03-26 09:06:36'),
+(81, 'catalog/productsimage/16.jpg', 79, 1, 1, 0, 1, '2023-04-24 06:50:53', '2024-03-26 09:06:54'),
+(82, 'catalog/productsimage/17.jpg', 79, 1, 1, 0, 1, '2023-04-24 06:51:41', '2024-03-26 09:07:16'),
+(83, 'catalog/productsimage/18.jpg', 0, 1, 5, 5, 1, '2023-04-24 06:52:25', '2024-01-24 12:09:09'),
+(84, 'catalog/productsimage/19.jpg', 0, 1, 1, 6, 1, '2023-04-24 06:53:00', '2024-03-26 09:09:17'),
+(86, 'catalog/productsimage/2.jpg', 0, 1, 1, 8, 1, '2023-04-24 06:54:00', '2024-01-27 06:22:29');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_category_description`
 --
 
-DROP TABLE IF EXISTS `oc_category_description`;
 CREATE TABLE `oc_category_description` (
   `category_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
@@ -369,531 +711,594 @@ CREATE TABLE `oc_category_description` (
   `description` text NOT NULL,
   `meta_title` varchar(255) NOT NULL,
   `meta_description` varchar(255) NOT NULL,
-  `meta_keyword` varchar(255) NOT NULL,
-  PRIMARY KEY (`category_id`,`language_id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `meta_keyword` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_category_description`
 --
 
 INSERT INTO `oc_category_description` (`category_id`, `language_id`, `name`, `description`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
-(28, 1, 'Monitors', '', 'Monitors', '', ''),
-(33, 1, 'Cameras', '', 'Cameras', '', ''),
-(32, 1, 'Web Cameras', '', 'Web Cameras', '', ''),
-(31, 1, 'Scanners', '', 'Scanners', '', ''),
-(30, 1, 'Printers', '', 'Printers', '', ''),
-(29, 1, 'Mice and Trackballs', '', 'Mice and Trackballs', '', ''),
-(27, 1, 'Mac', '', 'Mac', '', ''),
-(26, 1, 'PC', '', 'PC', '', ''),
-(17, 1, 'Software', '', 'Software', '', ''),
-(25, 1, 'Components', '', 'Components', '', ''),
-(24, 1, 'Phones &amp; PDAs', '', 'Phones &amp; PDAs', '', ''),
-(20, 1, 'Desktops', '&lt;p&gt;\r\n	Example of category description text&lt;/p&gt;\r\n', 'Desktops', 'Example of category description', ''),
-(35, 1, 'test 1', '', 'test 1', '', ''),
-(36, 1, 'test 2', '', 'test 2', '', ''),
-(37, 1, 'test 5', '', 'test 5', '', ''),
-(38, 1, 'test 4', '', 'test 4', '', ''),
-(39, 1, 'test 6', '', 'test 6', '', ''),
-(40, 1, 'test 7', '', 'test 7', '', ''),
-(41, 1, 'test 8', '', 'test 8', '', ''),
-(42, 1, 'test 9', '', 'test 9', '', ''),
-(43, 1, 'test 11', '', 'test 11', '', ''),
-(34, 1, 'MP3 Players', '&lt;p&gt;\r\n	Shop Laptop feature only the best laptop deals on the market. By comparing laptop deals from the likes of PC World, Comet, Dixons, The Link and Carphone Warehouse, Shop Laptop has the most comprehensive selection of laptops on the internet. At Shop Laptop, we pride ourselves on offering customers the very best laptop deals. From refurbished laptops to netbooks, Shop Laptop ensures that every laptop - in every colour, style, size and technical spec - is featured on the site at the lowest possible price.&lt;/p&gt;\r\n', 'MP3 Players', '', ''),
-(18, 1, 'Laptops &amp; Notebooks', '&lt;p&gt;\r\n	Shop Laptop feature only the best laptop deals on the market. By comparing laptop deals from the likes of PC World, Comet, Dixons, The Link and Carphone Warehouse, Shop Laptop has the most comprehensive selection of laptops on the internet. At Shop Laptop, we pride ourselves on offering customers the very best laptop deals. From refurbished laptops to netbooks, Shop Laptop ensures that every laptop - in every colour, style, size and technical spec - is featured on the site at the lowest possible price.&lt;/p&gt;\r\n', 'Laptops &amp; Notebooks', '', ''),
-(44, 1, 'test 12', '', 'test 12', '', ''),
-(45, 1, 'Windows', '', 'Windows', '', ''),
-(46, 1, 'Macs', '', 'Macs', '', ''),
-(47, 1, 'test 15', '', 'test 15', '', ''),
-(48, 1, 'test 16', '', 'test 16', '', ''),
-(49, 1, 'test 17', '', 'test 17', '', ''),
-(50, 1, 'test 18', '', 'test 18', '', ''),
-(51, 1, 'test 19', '', 'test 19', '', ''),
-(52, 1, 'test 20', '', 'test 20', '', ''),
-(53, 1, 'test 21', '', 'test 21', '', ''),
-(54, 1, 'test 22', '', 'test 22', '', ''),
-(55, 1, 'test 23', '', 'test 23', '', ''),
-(56, 1, 'test 24', '', 'test 24', '', ''),
-(57, 1, 'Tablets', '', 'Tablets', '', ''),
-(58, 1, 'test 25', '', 'test 25', '', '');
+(59, 1, 'Fashion', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer! Accessorize with a straw hat and you\'re ready for summer! Accessorize with a straw hat and you\'re ready for summer! Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!...&lt;/p&gt;', 'Fashion', '', ''),
+(59, 6, 'Fashion', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer! Accessorize with a straw hat and you\'re ready for summer! Accessorize with a straw hat and you\'re ready for summer! Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!...&lt;/p&gt;', 'Fashion', '', ''),
+(59, 7, 'Fashion', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer! Accessorize with a straw hat and you\'re ready for summer! Accessorize with a straw hat and you\'re ready for summer! Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!...&lt;/p&gt;', 'Fashion', '', ''),
+(59, 8, 'Fashion', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer! Accessorize with a straw hat and you\'re ready for summer! Accessorize with a straw hat and you\'re ready for summer! Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!...&lt;/p&gt;', 'Fashion', '', ''),
+(60, 1, 'Bottom Wear', '', 'Bottom Wear', '', ''),
+(60, 6, 'Skin careBottom Wear', '', 'Bottom Wear', '', ''),
+(60, 7, 'Bottom Wear', '', 'Bottom Wear', '', ''),
+(60, 8, 'Bottom Wear', '', 'Bottom Wear', '', ''),
+(61, 1, 'Jeans Pent', '', 'Jeans Pent', '', ''),
+(61, 6, 'Jeans Pent', '', 'Jeans Pent', '', ''),
+(61, 7, 'Jeans Pent', '', 'Jeans Pent', '', ''),
+(61, 8, 'Jeans Pent', '', 'Jeans Pent', '', ''),
+(62, 1, 'Shoes', '', 'Shoes', '', ''),
+(62, 6, 'Shoes', '', 'Shoes', '', ''),
+(62, 7, 'Shoes', '', 'Shoes', '', ''),
+(62, 8, 'Shoes', '', 'Shoes', '', ''),
+(63, 1, 'Trouser Pent', '', 'Trouser Pent', '', ''),
+(63, 6, 'Trouser Pent', '', 'Trouser Pent', '', ''),
+(63, 7, 'Trouser Pent', '', 'Trouser Pent', '', ''),
+(63, 8, 'Trouser Pent', '', 'Trouser Pent', '', ''),
+(64, 1, 'Top Wear', '', 'Top Wear', '', ''),
+(64, 6, 'Top Wear', '', 'Top Wear', '', ''),
+(64, 7, 'Top Wear', '', 'Top Wear', '', ''),
+(64, 8, 'Top Wear', '', 'Top Wear', '', ''),
+(65, 1, 'Jackets', '', 'Jackets', '', ''),
+(65, 6, 'Jackets', '', 'Jackets', '', ''),
+(65, 7, 'Jackets', '', 'Jackets', '', ''),
+(65, 8, 'Jackets', '', 'Jackets', '', ''),
+(66, 1, 'Shirts', '', 'Shirts', '', ''),
+(66, 6, 'Shirts', '', 'Shirts', '', ''),
+(66, 7, 'Shirts', '', 'Shirts', '', ''),
+(66, 8, 'Shirts', '', 'Shirts', '', ''),
+(67, 1, 'T-shirts', '', 'T-shirts', '', ''),
+(67, 6, 'T-shirts', '', 'T-shirts', '', ''),
+(67, 7, 'T-shirts', '', 'T-shirts', '', ''),
+(67, 8, 'T-shirts', '', 'T-shirts', '', ''),
+(68, 1, 'Dresses', '', 'Dresses', '', ''),
+(68, 6, 'Dresses', '', 'Dresses', '', ''),
+(68, 7, 'Dresses', '', 'Dresses', '', ''),
+(68, 8, 'Dresses', '', 'Dresses', '', ''),
+(69, 1, 'Casual Dresses', '', 'Casual Dresses', '', ''),
+(69, 6, 'Casual Dresses', '', 'Casual Dresses', '', ''),
+(69, 7, 'Casual Dresses', '', 'Casual Dresses', '', ''),
+(69, 8, 'Casual Dresses', '', 'Casual Dresses', '', ''),
+(70, 1, 'Silk Dresses', '', 'Silk Dresses', '', ''),
+(70, 6, 'Silk Dresses', '', 'Silk Dresses', '', ''),
+(70, 7, 'Silk Dresses', '', 'Silk Dresses', '', ''),
+(70, 8, 'Silk Dresses', '', 'Silk Dresses', '', ''),
+(71, 1, 'Cotton Dresses', '', 'Cotton Dresses', '', ''),
+(71, 6, 'Cotton Dresses', '', 'Cotton Dresses', '', ''),
+(71, 7, 'Cotton Dresses', '', 'Cotton Dresses', '', ''),
+(71, 8, 'Cotton Dresses', '', 'Cotton Dresses', '', ''),
+(74, 1, 'Accessories', '', 'Accessories', '', ''),
+(74, 6, 'Accessories', '', 'Accessories', '', ''),
+(74, 7, 'Accessories', '', 'Accessories', '', ''),
+(74, 8, 'Accessories', '', 'Accessories', '', ''),
+(75, 1, 'Belt', '', 'Belt', '', ''),
+(75, 6, 'Belt', '', 'Belt', '', ''),
+(75, 7, 'Belt', '', 'Belt', '', ''),
+(75, 8, 'Belt', '', 'Belt', '', ''),
+(76, 1, 'Belt plate', '', 'Belt plate', '', ''),
+(76, 6, 'Belt plate', '', 'Belt plate', '', ''),
+(76, 7, 'Belt plate', '', 'Belt plate', '', ''),
+(76, 8, 'Belt plate', '', 'Belt plate', '', ''),
+(77, 1, 'Belt buckle', '', 'Belt buckle', '', ''),
+(77, 6, 'Belt buckle', '', 'Belt buckle', '', ''),
+(77, 7, 'Belt buckle', '', 'Belt buckle', '', ''),
+(77, 8, 'Belt buckle', '', 'Belt buckle', '', ''),
+(78, 1, 'Belt stud', '', 'Belt stud', '', ''),
+(78, 6, 'Belt stud', '', 'Belt stud', '', ''),
+(78, 7, 'Belt stud', '', 'Belt stud', '', ''),
+(78, 8, 'Belt stud', '', 'Belt stud', '', ''),
+(79, 1, 'Watches', '', 'Watches', '', ''),
+(79, 6, 'Watches', '', 'Watches', '', ''),
+(79, 7, 'Watches', '', 'Watches', '', ''),
+(79, 8, 'Watches', '', 'Watches', '', ''),
+(80, 1, 'Gold', '', 'Gold', '', ''),
+(80, 6, 'Gold', '', 'Gold', '', ''),
+(80, 7, 'Gold', '', 'Gold', '', ''),
+(80, 8, 'Gold', '', 'Gold', '', ''),
+(81, 1, 'Silver', '', 'Silver', '', ''),
+(81, 6, 'Silver', '', 'Silver', '', ''),
+(81, 7, 'Silver', '', 'Silver', '', ''),
+(81, 8, 'Silver', '', 'Silver', '', ''),
+(82, 1, 'Titanium', '', 'Titanium', '', ''),
+(82, 6, 'Titanium', '', 'Titanium', '', ''),
+(82, 7, 'Titanium', '', 'Titanium', '', ''),
+(82, 8, 'Titanium', '', 'Titanium', '', ''),
+(83, 1, 'Components', '', 'Components', '', ''),
+(83, 6, 'Components', '', 'Components', '', ''),
+(83, 7, 'Components', '', 'Components', '', ''),
+(83, 8, 'Components', '', 'Components', '', ''),
+(84, 1, 'Outfits', '', 'Outfits', '', ''),
+(84, 6, 'Outfits', '', 'Outfits', '', ''),
+(84, 7, 'Outfits', '', 'Outfits', '', ''),
+(84, 8, 'Outfits', '', 'Outfits', '', ''),
+(86, 1, 'Collection', '', 'Collection', '', ''),
+(86, 6, 'Collection', '', 'Collection', '', ''),
+(86, 7, 'Collection', '', 'Collection', '', ''),
+(86, 8, 'Collection', '', 'Collection', '', '');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_category_filter`
 --
 
-DROP TABLE IF EXISTS `oc_category_filter`;
 CREATE TABLE `oc_category_filter` (
   `category_id` int(11) NOT NULL,
-  `filter_id` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`filter_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `filter_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_category_filter`
+--
+
+INSERT INTO `oc_category_filter` (`category_id`, `filter_id`) VALUES
+(59, 1),
+(59, 2),
+(59, 4),
+(59, 5),
+(59, 6),
+(59, 7),
+(59, 8),
+(59, 9),
+(74, 1),
+(74, 2),
+(74, 4),
+(74, 5),
+(74, 6),
+(74, 7),
+(74, 8),
+(74, 9);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_category_path`
 --
 
-DROP TABLE IF EXISTS `oc_category_path`;
 CREATE TABLE `oc_category_path` (
   `category_id` int(11) NOT NULL,
   `path_id` int(11) NOT NULL,
-  `level` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`path_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `level` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_category_path`
 --
 
 INSERT INTO `oc_category_path` (`category_id`, `path_id`, `level`) VALUES
-(25, 25, 0),
-(28, 25, 0),
-(28, 28, 1),
-(35, 25, 0),
-(35, 28, 1),
-(35, 35, 2),
-(36, 25, 0),
-(36, 28, 1),
-(36, 36, 2),
-(29, 25, 0),
-(29, 29, 1),
-(30, 25, 0),
-(30, 30, 1),
-(31, 25, 0),
-(31, 31, 1),
-(32, 25, 0),
-(32, 32, 1),
-(20, 20, 0),
-(27, 20, 0),
-(27, 27, 1),
-(26, 20, 0),
-(26, 26, 1),
-(24, 24, 0),
-(18, 18, 0),
-(45, 18, 0),
-(45, 45, 1),
-(46, 18, 0),
-(46, 46, 1),
-(17, 17, 0),
-(33, 33, 0),
-(34, 34, 0),
-(37, 34, 0),
-(37, 37, 1),
-(38, 34, 0),
-(38, 38, 1),
-(39, 34, 0),
-(39, 39, 1),
-(40, 34, 0),
-(40, 40, 1),
-(41, 34, 0),
-(41, 41, 1),
-(42, 34, 0),
-(42, 42, 1),
-(43, 34, 0),
-(43, 43, 1),
-(44, 34, 0),
-(44, 44, 1),
-(47, 34, 0),
-(47, 47, 1),
-(48, 34, 0),
-(48, 48, 1),
-(49, 34, 0),
-(49, 49, 1),
-(50, 34, 0),
-(50, 50, 1),
-(51, 34, 0),
-(51, 51, 1),
-(52, 34, 0),
-(52, 52, 1),
-(58, 34, 0),
-(58, 52, 1),
-(58, 58, 2),
-(53, 34, 0),
-(53, 53, 1),
-(54, 34, 0),
-(54, 54, 1),
-(55, 34, 0),
-(55, 55, 1),
-(56, 34, 0),
-(56, 56, 1),
-(57, 57, 0);
+(59, 59, 0),
+(60, 59, 0),
+(60, 60, 1),
+(61, 59, 0),
+(61, 60, 1),
+(61, 61, 2),
+(62, 59, 0),
+(62, 60, 1),
+(62, 62, 2),
+(63, 59, 0),
+(63, 60, 1),
+(63, 63, 2),
+(64, 59, 0),
+(64, 64, 1),
+(65, 59, 0),
+(65, 64, 1),
+(65, 65, 2),
+(66, 59, 0),
+(66, 64, 1),
+(66, 66, 2),
+(67, 59, 0),
+(67, 64, 1),
+(67, 67, 2),
+(68, 59, 0),
+(68, 68, 1),
+(69, 59, 0),
+(69, 68, 1),
+(69, 69, 2),
+(70, 59, 0),
+(70, 68, 1),
+(70, 70, 2),
+(71, 59, 0),
+(71, 68, 1),
+(71, 71, 2),
+(74, 74, 0),
+(75, 74, 0),
+(75, 75, 1),
+(76, 74, 0),
+(76, 75, 1),
+(76, 76, 2),
+(77, 74, 0),
+(77, 75, 1),
+(77, 77, 2),
+(78, 74, 0),
+(78, 75, 1),
+(78, 78, 2),
+(79, 74, 0),
+(79, 79, 1),
+(80, 74, 0),
+(80, 79, 1),
+(80, 80, 2),
+(81, 74, 0),
+(81, 79, 1),
+(81, 81, 2),
+(82, 74, 0),
+(82, 79, 1),
+(82, 82, 2),
+(83, 83, 0),
+(84, 84, 0),
+(86, 86, 0);
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_googleshopping_category`
---
-
-DROP TABLE IF EXISTS `oc_googleshopping_category`;
-CREATE TABLE `oc_googleshopping_category` (
-  `google_product_category` varchar(10) NOT NULL,
-  `store_id` int(11) NOT NULL DEFAULT '0',
-  `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`google_product_category`,`store_id`),
-  KEY `category_id_store_id` (`category_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_category_to_layout`
 --
 
-DROP TABLE IF EXISTS `oc_category_to_layout`;
 CREATE TABLE `oc_category_to_layout` (
   `category_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `layout_id` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `layout_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_category_to_layout`
+--
+
+INSERT INTO `oc_category_to_layout` (`category_id`, `store_id`, `layout_id`) VALUES
+(59, 0, 0),
+(60, 0, 0),
+(61, 0, 0),
+(62, 0, 0),
+(63, 0, 0),
+(64, 0, 0),
+(65, 0, 0),
+(66, 0, 0),
+(67, 0, 0),
+(68, 0, 0),
+(69, 0, 0),
+(70, 0, 0),
+(71, 0, 0),
+(74, 0, 0),
+(75, 0, 0),
+(76, 0, 0),
+(77, 0, 0),
+(78, 0, 0),
+(79, 0, 0),
+(80, 0, 0),
+(81, 0, 0),
+(82, 0, 0),
+(83, 0, 0),
+(84, 0, 0),
+(86, 0, 0);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_category_to_store`
 --
 
-DROP TABLE IF EXISTS `oc_category_to_store`;
 CREATE TABLE `oc_category_to_store` (
   `category_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `store_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_category_to_store`
 --
 
 INSERT INTO `oc_category_to_store` (`category_id`, `store_id`) VALUES
-(17, 0),
-(18, 0),
-(20, 0),
-(24, 0),
-(25, 0),
-(26, 0),
-(27, 0),
-(28, 0),
-(29, 0),
-(30, 0),
-(31, 0),
-(32, 0),
-(33, 0),
-(34, 0),
-(35, 0),
-(36, 0),
-(37, 0),
-(38, 0),
-(39, 0),
-(40, 0),
-(41, 0),
-(42, 0),
-(43, 0),
-(44, 0),
-(45, 0),
-(46, 0),
-(47, 0),
-(48, 0),
-(49, 0),
-(50, 0),
-(51, 0),
-(52, 0),
-(53, 0),
-(54, 0),
-(55, 0),
-(56, 0),
-(57, 0),
-(58, 0);
+(59, 0),
+(60, 0),
+(61, 0),
+(62, 0),
+(63, 0),
+(64, 0),
+(65, 0),
+(66, 0),
+(67, 0),
+(68, 0),
+(69, 0),
+(70, 0),
+(71, 0),
+(74, 0),
+(75, 0),
+(76, 0),
+(77, 0),
+(78, 0),
+(79, 0),
+(80, 0),
+(81, 0),
+(82, 0),
+(83, 0),
+(84, 0),
+(86, 0);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_country`
 --
 
-DROP TABLE IF EXISTS `oc_country`;
 CREATE TABLE `oc_country` (
-  `country_id` int(11) NOT NULL AUTO_INCREMENT,
+  `country_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `iso_code_2` varchar(2) NOT NULL,
   `iso_code_3` varchar(3) NOT NULL,
-  `address_format` text NOT NULL,
+  `address_format_id` int(11) NOT NULL,
   `postcode_required` tinyint(1) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`country_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_country`
 --
 
-INSERT INTO `oc_country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `address_format`, `postcode_required`, `status`) VALUES
-(1, 'Afghanistan', 'AF', 'AFG', '', 0, 1),
-(2, 'Albania', 'AL', 'ALB', '', 0, 1),
-(3, 'Algeria', 'DZ', 'DZA', '', 0, 1),
-(4, 'American Samoa', 'AS', 'ASM', '', 0, 1),
-(5, 'Andorra', 'AD', 'AND', '', 0, 1),
-(6, 'Angola', 'AO', 'AGO', '', 0, 1),
-(7, 'Anguilla', 'AI', 'AIA', '', 0, 1),
-(8, 'Antarctica', 'AQ', 'ATA', '', 0, 1),
-(9, 'Antigua and Barbuda', 'AG', 'ATG', '', 0, 1),
-(10, 'Argentina', 'AR', 'ARG', '', 0, 1),
-(11, 'Armenia', 'AM', 'ARM', '', 0, 1),
-(12, 'Aruba', 'AW', 'ABW', '', 0, 1),
-(13, 'Australia', 'AU', 'AUS', '', 0, 1),
-(14, 'Austria', 'AT', 'AUT', '', 0, 1),
-(15, 'Azerbaijan', 'AZ', 'AZE', '', 0, 1),
-(16, 'Bahamas', 'BS', 'BHS', '', 0, 1),
-(17, 'Bahrain', 'BH', 'BHR', '', 0, 1),
-(18, 'Bangladesh', 'BD', 'BGD', '', 0, 1),
-(19, 'Barbados', 'BB', 'BRB', '', 0, 1),
-(20, 'Belarus', 'BY', 'BLR', '', 0, 1),
-(21, 'Belgium', 'BE', 'BEL', '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{postcode} {city}\r\n{country}', 0, 1),
-(22, 'Belize', 'BZ', 'BLZ', '', 0, 1),
-(23, 'Benin', 'BJ', 'BEN', '', 0, 1),
-(24, 'Bermuda', 'BM', 'BMU', '', 0, 1),
-(25, 'Bhutan', 'BT', 'BTN', '', 0, 1),
-(26, 'Bolivia', 'BO', 'BOL', '', 0, 1),
-(27, 'Bosnia and Herzegovina', 'BA', 'BIH', '', 0, 1),
-(28, 'Botswana', 'BW', 'BWA', '', 0, 1),
-(29, 'Bouvet Island', 'BV', 'BVT', '', 0, 1),
-(30, 'Brazil', 'BR', 'BRA', '', 0, 1),
-(31, 'British Indian Ocean Territory', 'IO', 'IOT', '', 0, 1),
-(32, 'Brunei Darussalam', 'BN', 'BRN', '', 0, 1),
-(33, 'Bulgaria', 'BG', 'BGR', '', 0, 1),
-(34, 'Burkina Faso', 'BF', 'BFA', '', 0, 1),
-(35, 'Burundi', 'BI', 'BDI', '', 0, 1),
-(36, 'Cambodia', 'KH', 'KHM', '', 0, 1),
-(37, 'Cameroon', 'CM', 'CMR', '', 0, 1),
-(38, 'Canada', 'CA', 'CAN', '', 0, 1),
-(39, 'Cape Verde', 'CV', 'CPV', '', 0, 1),
-(40, 'Cayman Islands', 'KY', 'CYM', '', 0, 1),
-(41, 'Central African Republic', 'CF', 'CAF', '', 0, 1),
-(42, 'Chad', 'TD', 'TCD', '', 0, 1),
-(43, 'Chile', 'CL', 'CHL', '', 0, 1),
-(44, 'China', 'CN', 'CHN', '', 0, 1),
-(45, 'Christmas Island', 'CX', 'CXR', '', 0, 1),
-(46, 'Cocos (Keeling) Islands', 'CC', 'CCK', '', 0, 1),
-(47, 'Colombia', 'CO', 'COL', '', 0, 1),
-(48, 'Comoros', 'KM', 'COM', '', 0, 1),
-(49, 'Congo', 'CG', 'COG', '', 0, 1),
-(50, 'Cook Islands', 'CK', 'COK', '', 0, 1),
-(51, 'Costa Rica', 'CR', 'CRI', '', 0, 1),
-(52, 'Cote D''Ivoire', 'CI', 'CIV', '', 0, 1),
-(53, 'Croatia', 'HR', 'HRV', '', 0, 1),
-(54, 'Cuba', 'CU', 'CUB', '', 0, 1),
-(55, 'Cyprus', 'CY', 'CYP', '', 0, 1),
-(56, 'Czech Republic', 'CZ', 'CZE', '', 0, 1),
-(57, 'Denmark', 'DK', 'DNK', '', 0, 1),
-(58, 'Djibouti', 'DJ', 'DJI', '', 0, 1),
-(59, 'Dominica', 'DM', 'DMA', '', 0, 1),
-(60, 'Dominican Republic', 'DO', 'DOM', '', 0, 1),
-(61, 'East Timor', 'TL', 'TLS', '', 0, 1),
-(62, 'Ecuador', 'EC', 'ECU', '', 0, 1),
-(63, 'Egypt', 'EG', 'EGY', '', 0, 1),
-(64, 'El Salvador', 'SV', 'SLV', '', 0, 1),
-(65, 'Equatorial Guinea', 'GQ', 'GNQ', '', 0, 1),
-(66, 'Eritrea', 'ER', 'ERI', '', 0, 1),
-(67, 'Estonia', 'EE', 'EST', '', 0, 1),
-(68, 'Ethiopia', 'ET', 'ETH', '', 0, 1),
-(69, 'Falkland Islands (Malvinas)', 'FK', 'FLK', '', 0, 1),
-(70, 'Faroe Islands', 'FO', 'FRO', '', 0, 1),
-(71, 'Fiji', 'FJ', 'FJI', '', 0, 1),
-(72, 'Finland', 'FI', 'FIN', '', 0, 1),
-(74, 'France, Metropolitan', 'FR', 'FRA', '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{postcode} {city}\r\n{country}', 1, 1),
-(75, 'French Guiana', 'GF', 'GUF', '', 0, 1),
-(76, 'French Polynesia', 'PF', 'PYF', '', 0, 1),
-(77, 'French Southern Territories', 'TF', 'ATF', '', 0, 1),
-(78, 'Gabon', 'GA', 'GAB', '', 0, 1),
-(79, 'Gambia', 'GM', 'GMB', '', 0, 1),
-(80, 'Georgia', 'GE', 'GEO', '', 0, 1),
-(81, 'Germany', 'DE', 'DEU', '{company}\r\n{firstname} {lastname}\r\n{address_1}\r\n{address_2}\r\n{postcode} {city}\r\n{country}', 1, 1),
-(82, 'Ghana', 'GH', 'GHA', '', 0, 1),
-(83, 'Gibraltar', 'GI', 'GIB', '', 0, 1),
-(84, 'Greece', 'GR', 'GRC', '', 0, 1),
-(85, 'Greenland', 'GL', 'GRL', '', 0, 1),
-(86, 'Grenada', 'GD', 'GRD', '', 0, 1),
-(87, 'Guadeloupe', 'GP', 'GLP', '', 0, 1),
-(88, 'Guam', 'GU', 'GUM', '', 0, 1),
-(89, 'Guatemala', 'GT', 'GTM', '', 0, 1),
-(90, 'Guinea', 'GN', 'GIN', '', 0, 1),
-(91, 'Guinea-Bissau', 'GW', 'GNB', '', 0, 1),
-(92, 'Guyana', 'GY', 'GUY', '', 0, 1),
-(93, 'Haiti', 'HT', 'HTI', '', 0, 1),
-(94, 'Heard and Mc Donald Islands', 'HM', 'HMD', '', 0, 1),
-(95, 'Honduras', 'HN', 'HND', '', 0, 1),
-(96, 'Hong Kong', 'HK', 'HKG', '', 0, 1),
-(97, 'Hungary', 'HU', 'HUN', '', 0, 1),
-(98, 'Iceland', 'IS', 'ISL', '', 0, 1),
-(99, 'India', 'IN', 'IND', '', 0, 1),
-(100, 'Indonesia', 'ID', 'IDN', '', 0, 1),
-(101, 'Iran (Islamic Republic of)', 'IR', 'IRN', '', 0, 1),
-(102, 'Iraq', 'IQ', 'IRQ', '', 0, 1),
-(103, 'Ireland', 'IE', 'IRL', '', 0, 1),
-(104, 'Israel', 'IL', 'ISR', '', 0, 1),
-(105, 'Italy', 'IT', 'ITA', '', 0, 1),
-(106, 'Jamaica', 'JM', 'JAM', '', 0, 1),
-(107, 'Japan', 'JP', 'JPN', '', 0, 1),
-(108, 'Jordan', 'JO', 'JOR', '', 0, 1),
-(109, 'Kazakhstan', 'KZ', 'KAZ', '', 0, 1),
-(110, 'Kenya', 'KE', 'KEN', '', 0, 1),
-(111, 'Kiribati', 'KI', 'KIR', '', 0, 1),
-(112, 'North Korea', 'KP', 'PRK', '', 0, 1),
-(113, 'South Korea', 'KR', 'KOR', '', 0, 1),
-(114, 'Kuwait', 'KW', 'KWT', '', 0, 1),
-(115, 'Kyrgyzstan', 'KG', 'KGZ', '', 0, 1),
-(116, 'Lao People''s Democratic Republic', 'LA', 'LAO', '', 0, 1),
-(117, 'Latvia', 'LV', 'LVA', '', 0, 1),
-(118, 'Lebanon', 'LB', 'LBN', '', 0, 1),
-(119, 'Lesotho', 'LS', 'LSO', '', 0, 1),
-(120, 'Liberia', 'LR', 'LBR', '', 0, 1),
-(121, 'Libyan Arab Jamahiriya', 'LY', 'LBY', '', 0, 1),
-(122, 'Liechtenstein', 'LI', 'LIE', '', 0, 1),
-(123, 'Lithuania', 'LT', 'LTU', '', 0, 1),
-(124, 'Luxembourg', 'LU', 'LUX', '', 0, 1),
-(125, 'Macau', 'MO', 'MAC', '', 0, 1),
-(126, 'FYROM', 'MK', 'MKD', '', 0, 1),
-(127, 'Madagascar', 'MG', 'MDG', '', 0, 1),
-(128, 'Malawi', 'MW', 'MWI', '', 0, 1),
-(129, 'Malaysia', 'MY', 'MYS', '', 0, 1),
-(130, 'Maldives', 'MV', 'MDV', '', 0, 1),
-(131, 'Mali', 'ML', 'MLI', '', 0, 1),
-(132, 'Malta', 'MT', 'MLT', '', 0, 1),
-(133, 'Marshall Islands', 'MH', 'MHL', '', 0, 1),
-(134, 'Martinique', 'MQ', 'MTQ', '', 0, 1),
-(135, 'Mauritania', 'MR', 'MRT', '', 0, 1),
-(136, 'Mauritius', 'MU', 'MUS', '', 0, 1),
-(137, 'Mayotte', 'YT', 'MYT', '', 0, 1),
-(138, 'Mexico', 'MX', 'MEX', '', 0, 1),
-(139, 'Micronesia, Federated States of', 'FM', 'FSM', '', 0, 1),
-(140, 'Moldova, Republic of', 'MD', 'MDA', '', 0, 1),
-(141, 'Monaco', 'MC', 'MCO', '', 0, 1),
-(142, 'Mongolia', 'MN', 'MNG', '', 0, 1),
-(143, 'Montserrat', 'MS', 'MSR', '', 0, 1),
-(144, 'Morocco', 'MA', 'MAR', '', 0, 1),
-(145, 'Mozambique', 'MZ', 'MOZ', '', 0, 1),
-(146, 'Myanmar', 'MM', 'MMR', '', 0, 1),
-(147, 'Namibia', 'NA', 'NAM', '', 0, 1),
-(148, 'Nauru', 'NR', 'NRU', '', 0, 1),
-(149, 'Nepal', 'NP', 'NPL', '', 0, 1),
-(150, 'Netherlands', 'NL', 'NLD', '', 0, 1),
-(151, 'Netherlands Antilles', 'AN', 'ANT', '', 0, 1),
-(152, 'New Caledonia', 'NC', 'NCL', '', 0, 1),
-(153, 'New Zealand', 'NZ', 'NZL', '', 0, 1),
-(154, 'Nicaragua', 'NI', 'NIC', '', 0, 1),
-(155, 'Niger', 'NE', 'NER', '', 0, 1),
-(156, 'Nigeria', 'NG', 'NGA', '', 0, 1),
-(157, 'Niue', 'NU', 'NIU', '', 0, 1),
-(158, 'Norfolk Island', 'NF', 'NFK', '', 0, 1),
-(159, 'Northern Mariana Islands', 'MP', 'MNP', '', 0, 1),
-(160, 'Norway', 'NO', 'NOR', '', 0, 1),
-(161, 'Oman', 'OM', 'OMN', '', 0, 1),
-(162, 'Pakistan', 'PK', 'PAK', '', 0, 1),
-(163, 'Palau', 'PW', 'PLW', '', 0, 1),
-(164, 'Panama', 'PA', 'PAN', '', 0, 1),
-(165, 'Papua New Guinea', 'PG', 'PNG', '', 0, 1),
-(166, 'Paraguay', 'PY', 'PRY', '', 0, 1),
-(167, 'Peru', 'PE', 'PER', '', 0, 1),
-(168, 'Philippines', 'PH', 'PHL', '', 0, 1),
-(169, 'Pitcairn', 'PN', 'PCN', '', 0, 1),
-(170, 'Poland', 'PL', 'POL', '', 0, 1),
-(171, 'Portugal', 'PT', 'PRT', '', 0, 1),
-(172, 'Puerto Rico', 'PR', 'PRI', '', 0, 1),
-(173, 'Qatar', 'QA', 'QAT', '', 0, 1),
-(174, 'Reunion', 'RE', 'REU', '', 0, 1),
-(175, 'Romania', 'RO', 'ROM', '', 0, 1),
-(176, 'Russian Federation', 'RU', 'RUS', '', 0, 1),
-(177, 'Rwanda', 'RW', 'RWA', '', 0, 1),
-(178, 'Saint Kitts and Nevis', 'KN', 'KNA', '', 0, 1),
-(179, 'Saint Lucia', 'LC', 'LCA', '', 0, 1),
-(180, 'Saint Vincent and the Grenadines', 'VC', 'VCT', '', 0, 1),
-(181, 'Samoa', 'WS', 'WSM', '', 0, 1),
-(182, 'San Marino', 'SM', 'SMR', '', 0, 1),
-(183, 'Sao Tome and Principe', 'ST', 'STP', '', 0, 1),
-(184, 'Saudi Arabia', 'SA', 'SAU', '', 0, 1),
-(185, 'Senegal', 'SN', 'SEN', '', 0, 1),
-(186, 'Seychelles', 'SC', 'SYC', '', 0, 1),
-(187, 'Sierra Leone', 'SL', 'SLE', '', 0, 1),
-(188, 'Singapore', 'SG', 'SGP', '', 0, 1),
-(189, 'Slovak Republic', 'SK', 'SVK', '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city} {postcode}\r\n{zone}\r\n{country}', 0, 1),
-(190, 'Slovenia', 'SI', 'SVN', '', 0, 1),
-(191, 'Solomon Islands', 'SB', 'SLB', '', 0, 1),
-(192, 'Somalia', 'SO', 'SOM', '', 0, 1),
-(193, 'South Africa', 'ZA', 'ZAF', '', 0, 1),
-(194, 'South Georgia &amp; South Sandwich Islands', 'GS', 'SGS', '', 0, 1),
-(195, 'Spain', 'ES', 'ESP', '', 0, 1),
-(196, 'Sri Lanka', 'LK', 'LKA', '', 0, 1),
-(197, 'St. Helena', 'SH', 'SHN', '', 0, 1),
-(198, 'St. Pierre and Miquelon', 'PM', 'SPM', '', 0, 1),
-(199, 'Sudan', 'SD', 'SDN', '', 0, 1),
-(200, 'Suriname', 'SR', 'SUR', '', 0, 1),
-(201, 'Svalbard and Jan Mayen Islands', 'SJ', 'SJM', '', 0, 1),
-(202, 'Swaziland', 'SZ', 'SWZ', '', 0, 1),
-(203, 'Sweden', 'SE', 'SWE', '{company}\r\n{firstname} {lastname}\r\n{address_1}\r\n{address_2}\r\n{postcode} {city}\r\n{country}', 1, 1),
-(204, 'Switzerland', 'CH', 'CHE', '', 0, 1),
-(205, 'Syrian Arab Republic', 'SY', 'SYR', '', 0, 1),
-(206, 'Taiwan', 'TW', 'TWN', '', 0, 1),
-(207, 'Tajikistan', 'TJ', 'TJK', '', 0, 1),
-(208, 'Tanzania, United Republic of', 'TZ', 'TZA', '', 0, 1),
-(209, 'Thailand', 'TH', 'THA', '', 0, 1),
-(210, 'Togo', 'TG', 'TGO', '', 0, 1),
-(211, 'Tokelau', 'TK', 'TKL', '', 0, 1),
-(212, 'Tonga', 'TO', 'TON', '', 0, 1),
-(213, 'Trinidad and Tobago', 'TT', 'TTO', '', 0, 1),
-(214, 'Tunisia', 'TN', 'TUN', '', 0, 1),
-(215, 'Turkey', 'TR', 'TUR', '', 0, 1),
-(216, 'Turkmenistan', 'TM', 'TKM', '', 0, 1),
-(217, 'Turks and Caicos Islands', 'TC', 'TCA', '', 0, 1),
-(218, 'Tuvalu', 'TV', 'TUV', '', 0, 1),
-(219, 'Uganda', 'UG', 'UGA', '', 0, 1),
-(220, 'Ukraine', 'UA', 'UKR', '', 0, 1),
-(221, 'United Arab Emirates', 'AE', 'ARE', '', 0, 1),
-(222, 'United Kingdom', 'GB', 'GBR', '', 1, 1),
-(223, 'United States', 'US', 'USA', '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}', 0, 1),
-(224, 'United States Minor Outlying Islands', 'UM', 'UMI', '', 0, 1),
-(225, 'Uruguay', 'UY', 'URY', '', 0, 1),
-(226, 'Uzbekistan', 'UZ', 'UZB', '', 0, 1),
-(227, 'Vanuatu', 'VU', 'VUT', '', 0, 1),
-(228, 'Vatican City State (Holy See)', 'VA', 'VAT', '', 0, 1),
-(229, 'Venezuela', 'VE', 'VEN', '', 0, 1),
-(230, 'Viet Nam', 'VN', 'VNM', '', 0, 1),
-(231, 'Virgin Islands (British)', 'VG', 'VGB', '', 0, 1),
-(232, 'Virgin Islands (U.S.)', 'VI', 'VIR', '', 0, 1),
-(233, 'Wallis and Futuna Islands', 'WF', 'WLF', '', 0, 1),
-(234, 'Western Sahara', 'EH', 'ESH', '', 0, 1),
-(235, 'Yemen', 'YE', 'YEM', '', 0, 1),
-(237, 'Democratic Republic of Congo', 'CD', 'COD', '', 0, 1),
-(238, 'Zambia', 'ZM', 'ZMB', '', 0, 1),
-(239, 'Zimbabwe', 'ZW', 'ZWE', '', 0, 1),
-(242, 'Montenegro', 'ME', 'MNE', '', 0, 1),
-(243, 'Serbia', 'RS', 'SRB', '', 0, 1),
-(244, 'Aaland Islands', 'AX', 'ALA', '', 0, 1),
-(245, 'Bonaire, Sint Eustatius and Saba', 'BQ', 'BES', '', 0, 1),
-(246, 'Curacao', 'CW', 'CUW', '', 0, 1),
-(247, 'Palestinian Territory, Occupied', 'PS', 'PSE', '', 0, 1),
-(248, 'South Sudan', 'SS', 'SSD', '', 0, 1),
-(249, 'St. Barthelemy', 'BL', 'BLM', '', 0, 1),
-(250, 'St. Martin (French part)', 'MF', 'MAF', '', 0, 1),
-(251, 'Canary Islands', 'IC', 'ICA', '', 0, 1),
-(252, 'Ascension Island (British)', 'AC', 'ASC', '', 0, 1),
-(253, 'Kosovo, Republic of', 'XK', 'UNK', '', 0, 1),
-(254, 'Isle of Man', 'IM', 'IMN', '', 0, 1),
-(255, 'Tristan da Cunha', 'TA', 'SHN', '', 0, 1),
-(256, 'Guernsey', 'GG', 'GGY', '', 0, 1),
-(257, 'Jersey', 'JE', 'JEY', '', 0, 1);
+INSERT INTO `oc_country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `address_format_id`, `postcode_required`, `status`) VALUES
+(1, 'Afghanistan', 'AF', 'AFG', 1, 0, 1),
+(2, 'Albania', 'AL', 'ALB', 1, 0, 1),
+(3, 'Algeria', 'DZ', 'DZA', 1, 0, 1),
+(4, 'American Samoa', 'AS', 'ASM', 1, 0, 1),
+(5, 'Andorra', 'AD', 'AND', 1, 0, 1),
+(6, 'Angola', 'AO', 'AGO', 1, 0, 1),
+(7, 'Anguilla', 'AI', 'AIA', 1, 0, 1),
+(8, 'Antarctica', 'AQ', 'ATA', 1, 0, 1),
+(9, 'Antigua and Barbuda', 'AG', 'ATG', 1, 0, 1),
+(10, 'Argentina', 'AR', 'ARG', 1, 0, 1),
+(11, 'Armenia', 'AM', 'ARM', 1, 0, 1),
+(12, 'Aruba', 'AW', 'ABW', 1, 0, 1),
+(13, 'Australia', 'AU', 'AUS', 1, 0, 1),
+(14, 'Austria', 'AT', 'AUT', 1, 0, 1),
+(15, 'Azerbaijan', 'AZ', 'AZE', 1, 0, 1),
+(16, 'Bahamas', 'BS', 'BHS', 1, 0, 1),
+(17, 'Bahrain', 'BH', 'BHR', 1, 0, 1),
+(18, 'Bangladesh', 'BD', 'BGD', 1, 0, 1),
+(19, 'Barbados', 'BB', 'BRB', 1, 0, 1),
+(20, 'Belarus', 'BY', 'BLR', 1, 0, 1),
+(21, 'Belgium', 'BE', 'BEL', 1, 0, 1),
+(22, 'Belize', 'BZ', 'BLZ', 1, 0, 1),
+(23, 'Benin', 'BJ', 'BEN', 1, 0, 1),
+(24, 'Bermuda', 'BM', 'BMU', 1, 0, 1),
+(25, 'Bhutan', 'BT', 'BTN', 1, 0, 1),
+(26, 'Bolivia', 'BO', 'BOL', 1, 0, 1),
+(27, 'Bosnia and Herzegovina', 'BA', 'BIH', 1, 0, 1),
+(28, 'Botswana', 'BW', 'BWA', 1, 0, 1),
+(29, 'Bouvet Island', 'BV', 'BVT', 1, 0, 1),
+(30, 'Brazil', 'BR', 'BRA', 1, 0, 1),
+(31, 'British Indian Ocean Territory', 'IO', 'IOT', 1, 0, 1),
+(32, 'Brunei Darussalam', 'BN', 'BRN', 1, 0, 1),
+(33, 'Bulgaria', 'BG', 'BGR', 1, 0, 1),
+(34, 'Burkina Faso', 'BF', 'BFA', 1, 0, 1),
+(35, 'Burundi', 'BI', 'BDI', 1, 0, 1),
+(36, 'Cambodia', 'KH', 'KHM', 1, 0, 1),
+(37, 'Cameroon', 'CM', 'CMR', 1, 0, 1),
+(38, 'Canada', 'CA', 'CAN', 1, 0, 1),
+(39, 'Cape Verde', 'CV', 'CPV', 1, 0, 1),
+(40, 'Cayman Islands', 'KY', 'CYM', 1, 0, 1),
+(41, 'Central African Republic', 'CF', 'CAF', 1, 0, 1),
+(42, 'Chad', 'TD', 'TCD', 1, 0, 1),
+(43, 'Chile', 'CL', 'CHL', 1, 0, 1),
+(44, 'China', 'CN', 'CHN', 1, 0, 1),
+(45, 'Christmas Island', 'CX', 'CXR', 1, 0, 1),
+(46, 'Cocos (Keeling) Islands', 'CC', 'CCK', 1, 0, 1),
+(47, 'Colombia', 'CO', 'COL', 1, 0, 1),
+(48, 'Comoros', 'KM', 'COM', 1, 0, 1),
+(49, 'Congo', 'CG', 'COG', 1, 0, 1),
+(50, 'Cook Islands', 'CK', 'COK', 1, 0, 1),
+(51, 'Costa Rica', 'CR', 'CRI', 1, 0, 1),
+(52, 'Cote D\'Ivoire', 'CI', 'CIV', 1, 0, 1),
+(53, 'Croatia', 'HR', 'HRV', 1, 0, 1),
+(54, 'Cuba', 'CU', 'CUB', 1, 0, 1),
+(55, 'Cyprus', 'CY', 'CYP', 1, 0, 1),
+(56, 'Czech Republic', 'CZ', 'CZE', 1, 0, 1),
+(57, 'Denmark', 'DK', 'DNK', 1, 0, 1),
+(58, 'Djibouti', 'DJ', 'DJI', 1, 0, 1),
+(59, 'Dominica', 'DM', 'DMA', 1, 0, 1),
+(60, 'Dominican Republic', 'DO', 'DOM', 1, 0, 1),
+(61, 'East Timor', 'TL', 'TLS', 1, 0, 1),
+(62, 'Ecuador', 'EC', 'ECU', 1, 0, 1),
+(63, 'Egypt', 'EG', 'EGY', 1, 0, 1),
+(64, 'El Salvador', 'SV', 'SLV', 1, 0, 1),
+(65, 'Equatorial Guinea', 'GQ', 'GNQ', 1, 0, 1),
+(66, 'Eritrea', 'ER', 'ERI', 1, 0, 1),
+(67, 'Estonia', 'EE', 'EST', 1, 0, 1),
+(68, 'Ethiopia', 'ET', 'ETH', 1, 0, 1),
+(69, 'Falkland Islands (Malvinas)', 'FK', 'FLK', 1, 0, 1),
+(70, 'Faroe Islands', 'FO', 'FRO', 1, 0, 1),
+(71, 'Fiji', 'FJ', 'FJI', 1, 0, 1),
+(72, 'Finland', 'FI', 'FIN', 1, 0, 1),
+(74, 'France, Metropolitan', 'FR', 'FRA', 1, 1, 1),
+(75, 'French Guiana', 'GF', 'GUF', 1, 0, 1),
+(76, 'French Polynesia', 'PF', 'PYF', 1, 0, 1),
+(77, 'French Southern Territories', 'TF', 'ATF', 1, 0, 1),
+(78, 'Gabon', 'GA', 'GAB', 1, 0, 1),
+(79, 'Gambia', 'GM', 'GMB', 1, 0, 1),
+(80, 'Georgia', 'GE', 'GEO', 1, 0, 1),
+(81, 'Germany', 'DE', 'DEU', 1, 1, 1),
+(82, 'Ghana', 'GH', 'GHA', 1, 0, 1),
+(83, 'Gibraltar', 'GI', 'GIB', 1, 0, 1),
+(84, 'Greece', 'GR', 'GRC', 1, 0, 1),
+(85, 'Greenland', 'GL', 'GRL', 1, 0, 1),
+(86, 'Grenada', 'GD', 'GRD', 1, 0, 1),
+(87, 'Guadeloupe', 'GP', 'GLP', 1, 0, 1),
+(88, 'Guam', 'GU', 'GUM', 1, 0, 1),
+(89, 'Guatemala', 'GT', 'GTM', 1, 0, 1),
+(90, 'Guinea', 'GN', 'GIN', 1, 0, 1),
+(91, 'Guinea-Bissau', 'GW', 'GNB', 1, 0, 1),
+(92, 'Guyana', 'GY', 'GUY', 1, 0, 1),
+(93, 'Haiti', 'HT', 'HTI', 1, 0, 1),
+(94, 'Heard and Mc Donald Islands', 'HM', 'HMD', 1, 0, 1),
+(95, 'Honduras', 'HN', 'HND', 1, 0, 1),
+(96, 'Hong Kong', 'HK', 'HKG', 1, 0, 1),
+(97, 'Hungary', 'HU', 'HUN', 1, 0, 1),
+(98, 'Iceland', 'IS', 'ISL', 1, 0, 1),
+(99, 'India', 'IN', 'IND', 1, 0, 1),
+(100, 'Indonesia', 'ID', 'IDN', 1, 0, 1),
+(101, 'Iran (Islamic Republic of)', 'IR', 'IRN', 1, 0, 1),
+(102, 'Iraq', 'IQ', 'IRQ', 1, 0, 1),
+(103, 'Ireland', 'IE', 'IRL', 1, 0, 1),
+(104, 'Israel', 'IL', 'ISR', 1, 0, 1),
+(105, 'Italy', 'IT', 'ITA', 1, 0, 1),
+(106, 'Jamaica', 'JM', 'JAM', 1, 0, 1),
+(107, 'Japan', 'JP', 'JPN', 1, 0, 1),
+(108, 'Jordan', 'JO', 'JOR', 1, 0, 1),
+(109, 'Kazakhstan', 'KZ', 'KAZ', 1, 0, 1),
+(110, 'Kenya', 'KE', 'KEN', 1, 0, 1),
+(111, 'Kiribati', 'KI', 'KIR', 1, 0, 1),
+(112, 'North Korea', 'KP', 'PRK', 1, 0, 1),
+(113, 'South Korea', 'KR', 'KOR', 1, 0, 1),
+(114, 'Kuwait', 'KW', 'KWT', 1, 0, 1),
+(115, 'Kyrgyzstan', 'KG', 'KGZ', 1, 0, 1),
+(116, 'Lao People\'s Democratic Republic', 'LA', 'LAO', 1, 0, 1),
+(117, 'Latvia', 'LV', 'LVA', 1, 0, 1),
+(118, 'Lebanon', 'LB', 'LBN', 1, 0, 1),
+(119, 'Lesotho', 'LS', 'LSO', 1, 0, 1),
+(120, 'Liberia', 'LR', 'LBR', 1, 0, 1),
+(121, 'Libyan Arab Jamahiriya', 'LY', 'LBY', 1, 0, 1),
+(122, 'Liechtenstein', 'LI', 'LIE', 1, 0, 1),
+(123, 'Lithuania', 'LT', 'LTU', 1, 0, 1),
+(124, 'Luxembourg', 'LU', 'LUX', 1, 0, 1),
+(125, 'Macau', 'MO', 'MAC', 1, 0, 1),
+(126, 'FYROM', 'MK', 'MKD', 1, 0, 1),
+(127, 'Madagascar', 'MG', 'MDG', 1, 0, 1),
+(128, 'Malawi', 'MW', 'MWI', 1, 0, 1),
+(129, 'Malaysia', 'MY', 'MYS', 1, 0, 1),
+(130, 'Maldives', 'MV', 'MDV', 1, 0, 1),
+(131, 'Mali', 'ML', 'MLI', 1, 0, 1),
+(132, 'Malta', 'MT', 'MLT', 1, 0, 1),
+(133, 'Marshall Islands', 'MH', 'MHL', 1, 0, 1),
+(134, 'Martinique', 'MQ', 'MTQ', 1, 0, 1),
+(135, 'Mauritania', 'MR', 'MRT', 1, 0, 1),
+(136, 'Mauritius', 'MU', 'MUS', 1, 0, 1),
+(137, 'Mayotte', 'YT', 'MYT', 1, 0, 1),
+(138, 'Mexico', 'MX', 'MEX', 1, 0, 1),
+(139, 'Micronesia, Federated States of', 'FM', 'FSM', 1, 0, 1),
+(140, 'Moldova, Republic of', 'MD', 'MDA', 1, 0, 1),
+(141, 'Monaco', 'MC', 'MCO', 1, 0, 1),
+(142, 'Mongolia', 'MN', 'MNG', 1, 0, 1),
+(143, 'Montserrat', 'MS', 'MSR', 1, 0, 1),
+(144, 'Morocco', 'MA', 'MAR', 1, 0, 1),
+(145, 'Mozambique', 'MZ', 'MOZ', 1, 0, 1),
+(146, 'Myanmar', 'MM', 'MMR', 1, 0, 1),
+(147, 'Namibia', 'NA', 'NAM', 1, 0, 1),
+(148, 'Nauru', 'NR', 'NRU', 1, 0, 1),
+(149, 'Nepal', 'NP', 'NPL', 1, 0, 1),
+(150, 'Netherlands', 'NL', 'NLD', 1, 0, 1),
+(151, 'Netherlands Antilles', 'AN', 'ANT', 1, 0, 1),
+(152, 'New Caledonia', 'NC', 'NCL', 1, 0, 1),
+(153, 'New Zealand', 'NZ', 'NZL', 1, 0, 1),
+(154, 'Nicaragua', 'NI', 'NIC', 1, 0, 1),
+(155, 'Niger', 'NE', 'NER', 1, 0, 1),
+(156, 'Nigeria', 'NG', 'NGA', 1, 0, 1),
+(157, 'Niue', 'NU', 'NIU', 1, 0, 1),
+(158, 'Norfolk Island', 'NF', 'NFK', 1, 0, 1),
+(159, 'Northern Mariana Islands', 'MP', 'MNP', 1, 0, 1),
+(160, 'Norway', 'NO', 'NOR', 1, 0, 1),
+(161, 'Oman', 'OM', 'OMN', 1, 0, 1),
+(162, 'Pakistan', 'PK', 'PAK', 1, 0, 1),
+(163, 'Palau', 'PW', 'PLW', 1, 0, 1),
+(164, 'Panama', 'PA', 'PAN', 1, 0, 1),
+(165, 'Papua New Guinea', 'PG', 'PNG', 1, 0, 1),
+(166, 'Paraguay', 'PY', 'PRY', 1, 0, 1),
+(167, 'Peru', 'PE', 'PER', 1, 0, 1),
+(168, 'Philippines', 'PH', 'PHL', 1, 0, 1),
+(169, 'Pitcairn', 'PN', 'PCN', 1, 0, 1),
+(170, 'Poland', 'PL', 'POL', 1, 0, 1),
+(171, 'Portugal', 'PT', 'PRT', 1, 0, 1),
+(172, 'Puerto Rico', 'PR', 'PRI', 1, 0, 1),
+(173, 'Qatar', 'QA', 'QAT', 1, 0, 1),
+(174, 'Reunion', 'RE', 'REU', 1, 0, 1),
+(175, 'România', 'RO', 'ROM', 1, 0, 1),
+(176, 'Russian Federation', 'RU', 'RUS', 1, 0, 1),
+(177, 'Rwanda', 'RW', 'RWA', 1, 0, 1),
+(178, 'Saint Kitts and Nevis', 'KN', 'KNA', 1, 0, 1),
+(179, 'Saint Lucia', 'LC', 'LCA', 1, 0, 1),
+(180, 'Saint Vincent and the Grenadines', 'VC', 'VCT', 1, 0, 1),
+(181, 'Samoa', 'WS', 'WSM', 1, 0, 1),
+(182, 'San Marino', 'SM', 'SMR', 1, 0, 1),
+(183, 'Sao Tome and Principe', 'ST', 'STP', 1, 0, 1),
+(184, 'Saudi Arabia', 'SA', 'SAU', 1, 0, 1),
+(185, 'Senegal', 'SN', 'SEN', 1, 0, 1),
+(186, 'Seychelles', 'SC', 'SYC', 1, 0, 1),
+(187, 'Sierra Leone', 'SL', 'SLE', 1, 0, 1),
+(188, 'Singapore', 'SG', 'SGP', 1, 0, 1),
+(189, 'Slovak Republic', 'SK', 'SVK', 1, 0, 1),
+(190, 'Slovenia', 'SI', 'SVN', 1, 0, 1),
+(191, 'Solomon Islands', 'SB', 'SLB', 1, 0, 1),
+(192, 'Somalia', 'SO', 'SOM', 1, 0, 1),
+(193, 'South Africa', 'ZA', 'ZAF', 1, 0, 1),
+(194, 'South Georgia &amp; South Sandwich Islands', 'GS', 'SGS', 1, 0, 1),
+(195, 'Spain', 'ES', 'ESP', 1, 0, 1),
+(196, 'Sri Lanka', 'LK', 'LKA', 1, 0, 1),
+(197, 'St. Helena', 'SH', 'SHN', 1, 0, 1),
+(198, 'St. Pierre and Miquelon', 'PM', 'SPM', 1, 0, 1),
+(199, 'Sudan', 'SD', 'SDN', 1, 0, 1),
+(200, 'Suriname', 'SR', 'SUR', 1, 0, 1),
+(201, 'Svalbard and Jan Mayen Islands', 'SJ', 'SJM', 1, 0, 1),
+(202, 'Swaziland', 'SZ', 'SWZ', 1, 0, 1),
+(203, 'Sweden', 'SE', 'SWE', 1, 1, 1),
+(204, 'Switzerland', 'CH', 'CHE', 1, 0, 1),
+(205, 'Syrian Arab Republic', 'SY', 'SYR', 1, 0, 1),
+(206, 'Taiwan', 'TW', 'TWN', 1, 0, 1),
+(207, 'Tajikistan', 'TJ', 'TJK', 1, 0, 1),
+(208, 'Tanzania, United Republic of', 'TZ', 'TZA', 1, 0, 1),
+(209, 'Thailand', 'TH', 'THA', 1, 0, 1),
+(210, 'Togo', 'TG', 'TGO', 1, 0, 1),
+(211, 'Tokelau', 'TK', 'TKL', 1, 0, 1),
+(212, 'Tonga', 'TO', 'TON', 1, 0, 1),
+(213, 'Trinidad and Tobago', 'TT', 'TTO', 1, 0, 1),
+(214, 'Tunisia', 'TN', 'TUN', 1, 0, 1),
+(215, 'Turkey', 'TR', 'TUR', 1, 0, 1),
+(216, 'Turkmenistan', 'TM', 'TKM', 1, 0, 1),
+(217, 'Turks and Caicos Islands', 'TC', 'TCA', 1, 0, 1),
+(218, 'Tuvalu', 'TV', 'TUV', 1, 0, 1),
+(219, 'Uganda', 'UG', 'UGA', 1, 0, 1),
+(220, 'Ukraine', 'UA', 'UKR', 1, 0, 1),
+(221, 'United Arab Emirates', 'AE', 'ARE', 1, 0, 1),
+(222, 'United Kingdom', 'GB', 'GBR', 1, 1, 1),
+(223, 'United States', 'US', 'USA', 1, 0, 1),
+(224, 'United States Minor Outlying Islands', 'UM', 'UMI', 1, 0, 1),
+(225, 'Uruguay', 'UY', 'URY', 1, 0, 1),
+(226, 'Uzbekistan', 'UZ', 'UZB', 1, 0, 1),
+(227, 'Vanuatu', 'VU', 'VUT', 1, 0, 1),
+(228, 'Vatican City State (Holy See)', 'VA', 'VAT', 1, 0, 1),
+(229, 'Venezuela', 'VE', 'VEN', 1, 0, 1),
+(230, 'Viet Nam', 'VN', 'VNM', 1, 0, 1),
+(231, 'Virgin Islands (British)', 'VG', 'VGB', 1, 0, 1),
+(232, 'Virgin Islands (U.S.)', 'VI', 'VIR', 1, 0, 1),
+(233, 'Wallis and Futuna Islands', 'WF', 'WLF', 1, 0, 1),
+(234, 'Western Sahara', 'EH', 'ESH', 1, 0, 1),
+(235, 'Yemen', 'YE', 'YEM', 1, 0, 1),
+(237, 'Democratic Republic of Congo', 'CD', 'COD', 1, 0, 1),
+(238, 'Zambia', 'ZM', 'ZMB', 1, 0, 1),
+(239, 'Zimbabwe', 'ZW', 'ZWE', 1, 0, 1),
+(242, 'Montenegro', 'ME', 'MNE', 1, 0, 1),
+(243, 'Serbia', 'RS', 'SRB', 1, 0, 1),
+(244, 'Aaland Islands', 'AX', 'ALA', 1, 0, 1),
+(245, 'Bonaire, Sint Eustatius and Saba', 'BQ', 'BES', 1, 0, 1),
+(246, 'Curacao', 'CW', 'CUW', 1, 0, 1),
+(247, 'Palestinian Territory, Occupied', 'PS', 'PSE', 1, 0, 1),
+(248, 'South Sudan', 'SS', 'SSD', 1, 0, 1),
+(249, 'St. Barthelemy', 'BL', 'BLM', 1, 0, 1),
+(250, 'St. Martin (French part)', 'MF', 'MAF', 1, 0, 1),
+(251, 'Canary Islands', 'IC', 'ICA', 1, 0, 1),
+(252, 'Ascension Island (British)', 'AC', 'ASC', 1, 0, 1),
+(253, 'Kosovo, Republic of', 'XK', 'UNK', 1, 0, 1),
+(254, 'Isle of Man', 'IM', 'IMN', 1, 0, 1),
+(255, 'Tristan da Cunha', 'TA', 'SHN', 1, 0, 1),
+(256, 'Guernsey', 'GG', 'GGY', 1, 0, 1),
+(257, 'Jersey', 'JE', 'JEY', 1, 0, 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_coupon`
 --
 
-DROP TABLE IF EXISTS `oc_coupon`;
 CREATE TABLE `oc_coupon` (
-  `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `code` varchar(20) NOT NULL,
   `type` char(1) NOT NULL,
@@ -901,160 +1306,184 @@ CREATE TABLE `oc_coupon` (
   `logged` tinyint(1) NOT NULL,
   `shipping` tinyint(1) NOT NULL,
   `total` decimal(15,4) NOT NULL,
-  `date_start` date NOT NULL DEFAULT '0000-00-00',
-  `date_end` date NOT NULL DEFAULT '0000-00-00',
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL,
   `uses_total` int(11) NOT NULL,
-  `uses_customer` varchar(11) NOT NULL,
+  `uses_customer` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`coupon_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_coupon`
 --
 
 INSERT INTO `oc_coupon` (`coupon_id`, `name`, `code`, `type`, `discount`, `logged`, `shipping`, `total`, `date_start`, `date_end`, `uses_total`, `uses_customer`, `status`, `date_added`) VALUES
-(4, '-10% Discount', '2222', 'P', '10.0000', 0, 0, '0.0000', '2014-01-01', '2020-01-01', 10, '10', 0, '2009-01-27 13:55:03'),
-(5, 'Free Shipping', '3333', 'P', '0.0000', 0, 1, '100.0000', '2014-01-01', '2014-02-01', 10, '10', 0, '2009-03-14 21:13:53'),
-(6, '-10.00 Discount', '1111', 'F', '10.0000', 0, 0, '10.0000', '2014-01-01', '2020-01-01', 100000, '10000', 0, '2009-03-14 21:15:18');
+(4, '-10% Discount', '2222', 'P', '10.0000', 0, 0, '0.0000', '2014-01-01', '2020-01-01', 10, 10, 0, '2009-01-27 13:55:03'),
+(5, 'Free Shipping', '3333', 'P', '0.0000', 0, 1, '100.0000', '2014-01-01', '2014-02-01', 10, 10, 0, '2009-03-14 21:13:53'),
+(6, '-10.00 Discount', '1111', 'F', '10.0000', 0, 0, '10.0000', '2014-01-01', '2020-01-01', 100000, 10000, 0, '2009-03-14 21:15:18');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_coupon_category`
 --
 
-DROP TABLE IF EXISTS `oc_coupon_category`;
 CREATE TABLE `oc_coupon_category` (
   `coupon_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`coupon_id`,`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `category_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_coupon_history`
 --
 
-DROP TABLE IF EXISTS `oc_coupon_history`;
 CREATE TABLE `oc_coupon_history` (
-  `coupon_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_history_id` int(11) NOT NULL,
   `coupon_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `amount` decimal(15,4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`coupon_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_coupon_product`
 --
 
-DROP TABLE IF EXISTS `oc_coupon_product`;
 CREATE TABLE `oc_coupon_product` (
-  `coupon_product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_product_id` int(11) NOT NULL,
   `coupon_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  PRIMARY KEY (`coupon_product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `product_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_cron`
+--
+
+CREATE TABLE `oc_cron` (
+  `cron_id` int(11) NOT NULL,
+  `code` varchar(128) NOT NULL,
+  `description` text NOT NULL,
+  `cycle` varchar(12) NOT NULL,
+  `action` text NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_cron`
+--
+
+INSERT INTO `oc_cron` (`cron_id`, `code`, `description`, `cycle`, `action`, `status`, `date_added`, `date_modified`) VALUES
+(1, 'currency', '', 'day', 'cron/currency', 1, '2014-09-25 14:40:00', '2014-09-25 14:40:00'),
+(2, 'gdpr', '', 'day', 'cron/gdpr', 1, '2014-09-25 14:40:00', '2014-09-25 14:40:00'),
+(3, 'subscription', '', 'day', 'cron/subscription', 1, '2014-09-25 14:40:00', '2014-09-25 14:40:00');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_currency`
 --
 
-DROP TABLE IF EXISTS `oc_currency`;
 CREATE TABLE `oc_currency` (
-  `currency_id` int(11) NOT NULL AUTO_INCREMENT,
+  `currency_id` int(11) NOT NULL,
   `title` varchar(32) NOT NULL,
   `code` varchar(3) NOT NULL,
   `symbol_left` varchar(12) NOT NULL,
   `symbol_right` varchar(12) NOT NULL,
-  `decimal_place` char(1) NOT NULL,
+  `decimal_place` int(1) NOT NULL,
   `value` double(15,8) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`currency_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_currency`
 --
 
 INSERT INTO `oc_currency` (`currency_id`, `title`, `code`, `symbol_left`, `symbol_right`, `decimal_place`, `value`, `status`, `date_modified`) VALUES
-(1, 'Pound Sterling', 'GBP', '£', '', '2', 0.61250001, 1, '2014-09-25 14:40:00'),
-(2, 'US Dollar', 'USD', '$', '', '2', 1.00000000, 1, '2014-09-25 14:40:00'),
-(3, 'Euro', 'EUR', '', '€', '2', 0.78460002, 1, '2014-09-25 14:40:00');
+(1, 'Pound Sterling', 'GBP', '£', '', 2, 0.79935598, 1, '2024-04-27 05:19:14'),
+(2, 'US Dollar', 'USD', '$', '', 2, 1.00000000, 1, '2024-04-27 05:19:14'),
+(3, 'Euro', 'EUR', '', '€', 2, 0.93335822, 1, '2024-04-27 05:19:14'),
+(4, 'Hong Kong Dollar', 'HKD', 'HK$', '', 2, 7.82835542, 0, '2024-04-27 05:19:14'),
+(5, 'Indian Rupee', 'INR', '₹', '', 2, 83.36671645, 0, '2024-04-27 05:19:14'),
+(6, 'Russian Ruble', 'RUB', '', '₽', 2, 56.40360000, 0, '2018-02-16 12:00:00'),
+(7, 'Chinese Yuan Renminbi', 'CNY', '¥', '', 2, 7.24640657, 0, '2024-04-27 05:19:14'),
+(8, 'Australian Dollar', 'AUD', '$', '', 2, 1.52996080, 0, '2024-04-27 05:19:14');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer`
 --
 
-DROP TABLE IF EXISTS `oc_customer`;
 CREATE TABLE `oc_customer` (
-  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
   `customer_group_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL DEFAULT '0',
+  `store_id` int(11) NOT NULL DEFAULT 0,
   `language_id` int(11) NOT NULL,
   `firstname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
   `email` varchar(96) NOT NULL,
   `telephone` varchar(32) NOT NULL,
-  `fax` varchar(32) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `salt` varchar(9) NOT NULL,
-  `cart` text,
-  `wishlist` text,
-  `newsletter` tinyint(1) NOT NULL DEFAULT '0',
-  `address_id` int(11) NOT NULL DEFAULT '0',
+  `password` varchar(255) NOT NULL,
   `custom_field` text NOT NULL,
+  `newsletter` tinyint(1) NOT NULL DEFAULT 0,
   `ip` varchar(40) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `safe` tinyint(1) NOT NULL,
   `token` text NOT NULL,
   `code` varchar(40) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_customer`
+--
+
+INSERT INTO `oc_customer` (`customer_id`, `customer_group_id`, `store_id`, `language_id`, `firstname`, `lastname`, `email`, `telephone`, `password`, `custom_field`, `newsletter`, `ip`, `status`, `safe`, `token`, `code`, `date_added`) VALUES
+(1, 1, 0, 1, 'abc', 'xyz', 'demo@gmail.com', '', '$2y$10$vjhGs0Y.okEAG3ThVPNS6OGdPadzc4RrCOEzxSs70Iooixm5jhFDO', '', 0, '::1', 1, 0, '', '6fa15623e832b0f242f9ab7045f5084c8acedb64', '2023-04-21 03:54:02'),
+(2, 1, 0, 1, 'abc', 'xyz', 'demordcxc@gmail.com', '', '$2y$10$Bxh3ZCbTEFz/YeEMFrqHRuwDhXa9KfTEajcWb5BEGb6HyK7T5fJ/G', '\"\"', 1, '::1', 1, 0, '', '', '2023-04-26 06:28:59'),
+(3, 1, 0, 1, 'asdasd', 'fdfdf', 'admin@gmail.com', '', '$2y$10$aNHRjRiOfw5yhBhkUnFVEOkNTAAh9MoySJ9Vc2PbbPMTRfPh2x36u', '\"\"', 0, '::1', 1, 0, '', '', '2023-08-09 06:08:01'),
+(4, 1, 0, 1, 'abc', 'xyz', 'demo7586@gmail.com', '', '$2y$10$GTEdWBu3SF/j8bZ3/mTc9u9O8jLQNVzEHf4vZFMJTZGehXuV.glYC', '\"\"', 1, '::1', 1, 0, '', '', '2023-10-17 10:38:47'),
+(5, 1, 0, 1, 'sadsa', 'admin', 'hardik.ishitech@yopmail.com', '', '$2y$10$/Q7/Pq09ewRm5MyUfHK1OusB9RvNNmGjI3C/TlaYvvyXdBBzbZuf2', '\"\"', 0, '::1', 1, 0, '', '83afd2b37389099797aad557898674b215d83e34', '2024-01-18 04:03:08'),
+(6, 1, 0, 1, 'demo', 'example', 'admin@yopmial.com', '', '$2y$10$gnJu6giBEWP.ged1QnlBOOCcjxAERxCTGrFxojWmZzoQ3iLf3gd2i', '', 1, '::1', 1, 0, '', '', '2024-03-26 10:12:22');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_activity`
 --
 
-DROP TABLE IF EXISTS `oc_customer_activity`;
 CREATE TABLE `oc_customer_activity` (
-  `customer_activity_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_activity_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `key` varchar(64) NOT NULL,
   `data` text NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_activity_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
--- Table structure for table `oc_affiliate`
+-- Table structure for table `oc_customer_affiliate`
 --
 
-DROP TABLE IF EXISTS `oc_customer_affiliate`;
 CREATE TABLE `oc_customer_affiliate` (
   `customer_id` int(11) NOT NULL,
-  `company` varchar(40) NOT NULL,
+  `company` varchar(60) NOT NULL,
   `website` varchar(255) NOT NULL,
   `tracking` varchar(64) NOT NULL,
-  `commission` decimal(4,2) NOT NULL DEFAULT '0.00',
+  `commission` decimal(4,2) NOT NULL DEFAULT 0.00,
   `tax` varchar(64) NOT NULL,
   `payment` varchar(6) NOT NULL,
   `cheque` varchar(100) NOT NULL,
@@ -1066,38 +1495,718 @@ CREATE TABLE `oc_customer_affiliate` (
   `bank_account_number` varchar(64) NOT NULL,
   `custom_field` text NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_customer_affiliate`
+--
+
+INSERT INTO `oc_customer_affiliate` (`customer_id`, `company`, `website`, `tracking`, `commission`, `tax`, `payment`, `cheque`, `paypal`, `bank_name`, `bank_branch_number`, `bank_swift_code`, `bank_account_name`, `bank_account_number`, `custom_field`, `status`, `date_added`) VALUES
+(1, 'abds', 'theme foresttt', '4c6904a9ea', '5.00', '123456', 'cheque', 'state bank of india', '', '', '', '', '', '', '', 1, '2023-05-03 05:53:37'),
+(3, '', '', '83d1e84208', '5.00', '', 'cheque', 'adminadmin@gmail.com', '', '', '', '', '', '', '', 1, '2024-01-16 11:36:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_customer_affiliate_report`
+--
+
+CREATE TABLE `oc_customer_affiliate_report` (
+  `customer_affiliate_report_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `country` varchar(2) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_customer_affiliate_report`
+--
+
+INSERT INTO `oc_customer_affiliate_report` (`customer_affiliate_report_id`, `customer_id`, `store_id`, `ip`, `country`, `date_added`) VALUES
+(1, 1, 0, '::1', '', '2023-05-03 05:53:51'),
+(2, 1, 0, '::1', '', '2023-05-03 05:53:51'),
+(3, 1, 0, '::1', '', '2023-05-03 05:53:51'),
+(4, 1, 0, '::1', '', '2023-05-03 05:53:52'),
+(5, 1, 0, '::1', '', '2023-05-03 05:53:52'),
+(6, 1, 0, '::1', '', '2023-05-03 05:53:52'),
+(7, 1, 0, '::1', '', '2023-05-03 05:53:52'),
+(8, 1, 0, '::1', '', '2023-05-03 05:53:52'),
+(9, 1, 0, '::1', '', '2023-05-03 05:53:56'),
+(10, 1, 0, '::1', '', '2023-05-03 05:54:02'),
+(11, 1, 0, '::1', '', '2023-05-03 05:54:05'),
+(12, 1, 0, '::1', '', '2023-05-03 05:54:05'),
+(13, 1, 0, '::1', '', '2023-05-03 05:54:07'),
+(14, 1, 0, '::1', '', '2023-05-03 05:54:10'),
+(15, 1, 0, '::1', '', '2023-05-03 05:54:13'),
+(16, 1, 0, '::1', '', '2023-05-03 05:54:17'),
+(17, 1, 0, '::1', '', '2023-05-03 05:54:23'),
+(18, 1, 0, '::1', '', '2023-05-03 05:54:27'),
+(19, 1, 0, '::1', '', '2023-05-03 05:54:34'),
+(20, 1, 0, '::1', '', '2023-05-03 05:54:38'),
+(21, 1, 0, '::1', '', '2023-05-03 05:54:41'),
+(22, 1, 0, '::1', '', '2023-05-03 05:55:04'),
+(23, 1, 0, '::1', '', '2023-05-03 05:55:06'),
+(24, 1, 0, '::1', '', '2023-05-03 05:55:06'),
+(25, 1, 0, '::1', '', '2023-05-03 05:55:07'),
+(26, 1, 0, '::1', '', '2023-05-03 05:55:32'),
+(27, 1, 0, '::1', '', '2023-05-03 05:55:44'),
+(28, 1, 0, '::1', '', '2023-05-03 05:56:02'),
+(29, 1, 0, '::1', '', '2023-05-03 05:56:02'),
+(30, 1, 0, '::1', '', '2023-05-03 05:56:02'),
+(31, 1, 0, '::1', '', '2023-05-03 05:56:04'),
+(32, 1, 0, '::1', '', '2023-05-03 05:56:12'),
+(33, 1, 0, '::1', '', '2023-05-03 05:56:12'),
+(34, 1, 0, '::1', '', '2023-05-03 05:56:12'),
+(35, 1, 0, '::1', '', '2023-05-03 05:56:45'),
+(36, 1, 0, '::1', '', '2023-05-03 05:56:52'),
+(37, 1, 0, '::1', '', '2023-05-03 05:56:54'),
+(38, 1, 0, '::1', '', '2023-05-03 05:56:54'),
+(39, 1, 0, '::1', '', '2023-05-03 05:56:58'),
+(40, 1, 0, '::1', '', '2023-05-03 05:56:58'),
+(41, 1, 0, '::1', '', '2023-05-03 05:57:21'),
+(42, 1, 0, '::1', '', '2023-05-03 05:57:24'),
+(43, 1, 0, '::1', '', '2023-05-03 05:57:53'),
+(44, 1, 0, '::1', '', '2023-05-03 05:58:48'),
+(45, 1, 0, '::1', '', '2023-05-03 05:58:48'),
+(46, 1, 0, '::1', '', '2023-05-03 05:58:51'),
+(47, 1, 0, '::1', '', '2023-05-03 05:58:56'),
+(48, 1, 0, '::1', '', '2023-05-03 05:59:18'),
+(49, 1, 0, '::1', '', '2023-05-03 05:59:28'),
+(50, 1, 0, '::1', '', '2023-05-03 05:59:32'),
+(51, 1, 0, '::1', '', '2023-05-03 05:59:34'),
+(52, 1, 0, '::1', '', '2023-05-03 06:01:28'),
+(53, 1, 0, '::1', '', '2023-05-03 06:01:28'),
+(54, 1, 0, '::1', '', '2023-05-03 06:01:28'),
+(55, 1, 0, '::1', '', '2023-05-03 06:02:11'),
+(56, 1, 0, '::1', '', '2023-05-03 06:02:17'),
+(57, 1, 0, '::1', '', '2023-05-03 06:04:19'),
+(58, 1, 0, '::1', '', '2023-05-03 06:04:23'),
+(59, 1, 0, '::1', '', '2023-05-03 06:04:29'),
+(60, 1, 0, '::1', '', '2023-05-03 06:04:32'),
+(61, 1, 0, '::1', '', '2023-05-03 06:04:35'),
+(62, 1, 0, '::1', '', '2023-05-03 06:04:39'),
+(63, 1, 0, '::1', '', '2023-05-03 06:05:44'),
+(64, 1, 0, '::1', '', '2023-05-03 06:05:55'),
+(65, 1, 0, '::1', '', '2023-05-03 06:06:05'),
+(66, 1, 0, '::1', '', '2023-05-03 06:06:09'),
+(67, 1, 0, '::1', '', '2023-05-03 06:06:22'),
+(68, 1, 0, '::1', '', '2023-05-03 06:06:23'),
+(69, 1, 0, '::1', '', '2023-05-03 06:06:30'),
+(70, 1, 0, '::1', '', '2023-05-03 06:06:34'),
+(71, 1, 0, '::1', '', '2023-05-03 06:06:35'),
+(72, 1, 0, '::1', '', '2023-05-03 06:07:24'),
+(73, 1, 0, '::1', '', '2023-05-03 06:07:24'),
+(74, 1, 0, '::1', '', '2023-05-03 06:09:01'),
+(75, 1, 0, '::1', '', '2023-05-03 06:09:03'),
+(76, 1, 0, '::1', '', '2023-05-03 06:09:25'),
+(77, 1, 0, '::1', '', '2023-05-03 06:09:29'),
+(78, 1, 0, '::1', '', '2023-05-03 06:09:29'),
+(79, 1, 0, '::1', '', '2023-05-03 06:10:50'),
+(80, 1, 0, '::1', '', '2023-05-03 06:10:51'),
+(81, 1, 0, '::1', '', '2023-05-03 06:12:26'),
+(82, 1, 0, '::1', '', '2023-05-03 06:12:28'),
+(83, 1, 0, '::1', '', '2023-05-03 06:12:36'),
+(84, 1, 0, '::1', '', '2023-05-03 06:12:37'),
+(85, 1, 0, '::1', '', '2023-05-03 06:12:43'),
+(86, 1, 0, '::1', '', '2023-05-03 06:12:45'),
+(87, 1, 0, '::1', '', '2023-05-03 06:13:31'),
+(88, 1, 0, '::1', '', '2023-05-03 06:13:32'),
+(89, 1, 0, '::1', '', '2023-05-03 06:13:51'),
+(90, 1, 0, '::1', '', '2023-05-03 06:13:52'),
+(91, 1, 0, '::1', '', '2023-05-03 06:14:12'),
+(92, 1, 0, '::1', '', '2023-05-03 06:14:14'),
+(93, 1, 0, '::1', '', '2023-05-03 06:14:28'),
+(94, 1, 0, '::1', '', '2023-05-03 06:14:30'),
+(95, 1, 0, '::1', '', '2023-05-03 06:16:41'),
+(96, 1, 0, '::1', '', '2023-05-03 06:16:43'),
+(97, 1, 0, '::1', '', '2023-05-03 06:17:45'),
+(98, 1, 0, '::1', '', '2023-05-03 06:17:47'),
+(99, 1, 0, '::1', '', '2023-05-03 06:18:23'),
+(100, 1, 0, '::1', '', '2023-05-03 06:18:25'),
+(101, 1, 0, '::1', '', '2023-05-03 06:19:04'),
+(102, 1, 0, '::1', '', '2023-05-03 06:19:04'),
+(103, 1, 0, '::1', '', '2023-05-03 06:19:05'),
+(104, 1, 0, '::1', '', '2023-05-03 06:19:13'),
+(105, 1, 0, '::1', '', '2023-05-03 06:19:13'),
+(106, 1, 0, '::1', '', '2023-05-03 06:19:13'),
+(107, 1, 0, '::1', '', '2023-05-03 06:19:13'),
+(108, 1, 0, '::1', '', '2023-05-03 06:19:13'),
+(109, 1, 0, '::1', '', '2023-05-03 06:19:14'),
+(110, 1, 0, '::1', '', '2023-05-03 06:19:14'),
+(111, 1, 0, '::1', '', '2023-05-03 06:19:14'),
+(112, 1, 0, '::1', '', '2023-05-03 06:19:14'),
+(113, 1, 0, '::1', '', '2023-05-03 06:19:14'),
+(114, 1, 0, '::1', '', '2023-05-03 06:19:19'),
+(115, 1, 0, '::1', '', '2023-05-03 06:19:19'),
+(116, 1, 0, '::1', '', '2023-05-03 06:19:19'),
+(117, 1, 0, '::1', '', '2023-05-03 06:19:21'),
+(118, 1, 0, '::1', '', '2023-05-03 06:19:21'),
+(119, 1, 0, '::1', '', '2023-05-03 06:19:21'),
+(120, 1, 0, '::1', '', '2023-05-03 06:19:21'),
+(121, 1, 0, '::1', '', '2023-05-03 06:19:22'),
+(122, 1, 0, '::1', '', '2023-05-03 06:19:23'),
+(123, 1, 0, '::1', '', '2023-05-03 06:19:23'),
+(124, 1, 0, '::1', '', '2023-05-03 06:19:24'),
+(125, 1, 0, '::1', '', '2023-05-03 06:19:26'),
+(126, 1, 0, '::1', '', '2023-05-03 06:19:26'),
+(127, 1, 0, '::1', '', '2023-05-03 06:19:27'),
+(128, 1, 0, '::1', '', '2023-05-03 06:19:27'),
+(129, 1, 0, '::1', '', '2023-05-03 06:19:27'),
+(130, 1, 0, '::1', '', '2023-05-03 06:19:28'),
+(131, 1, 0, '::1', '', '2023-05-03 06:19:29'),
+(132, 1, 0, '::1', '', '2023-05-03 06:20:17'),
+(133, 1, 0, '::1', '', '2023-05-03 06:20:18'),
+(134, 1, 0, '::1', '', '2023-05-03 06:21:27'),
+(135, 1, 0, '::1', '', '2023-05-03 06:21:28'),
+(136, 1, 0, '::1', '', '2023-05-03 06:21:56'),
+(137, 1, 0, '::1', '', '2023-05-03 06:21:57'),
+(138, 1, 0, '::1', '', '2023-05-03 06:21:59'),
+(139, 1, 0, '::1', '', '2023-05-03 06:22:02'),
+(140, 1, 0, '::1', '', '2023-05-03 06:22:04'),
+(141, 1, 0, '::1', '', '2023-05-03 06:22:07'),
+(142, 1, 0, '::1', '', '2023-05-03 06:22:07'),
+(143, 1, 0, '::1', '', '2023-05-03 06:22:18'),
+(144, 1, 0, '::1', '', '2023-05-03 06:22:21'),
+(145, 1, 0, '::1', '', '2023-05-03 06:29:09'),
+(146, 1, 0, '::1', '', '2023-05-03 06:29:46'),
+(147, 1, 0, '::1', '', '2023-05-03 06:29:53'),
+(148, 1, 0, '::1', '', '2023-05-03 06:30:41'),
+(149, 1, 0, '::1', '', '2023-05-03 06:33:06'),
+(150, 1, 0, '::1', '', '2023-05-03 06:36:57'),
+(151, 1, 0, '::1', '', '2023-05-03 06:37:03'),
+(152, 1, 0, '::1', '', '2023-05-03 06:38:06'),
+(153, 1, 0, '::1', '', '2023-05-03 06:38:59'),
+(154, 1, 0, '::1', '', '2023-05-03 06:40:10'),
+(155, 1, 0, '::1', '', '2023-05-03 06:40:58'),
+(156, 1, 0, '::1', '', '2023-05-03 06:43:09'),
+(157, 1, 0, '::1', '', '2023-05-03 06:43:24'),
+(158, 1, 0, '::1', '', '2023-05-03 06:44:12'),
+(159, 1, 0, '::1', '', '2023-05-03 06:44:40'),
+(160, 1, 0, '::1', '', '2023-05-03 06:44:53'),
+(161, 1, 0, '::1', '', '2023-05-03 06:45:44'),
+(162, 1, 0, '::1', '', '2023-05-03 06:50:24'),
+(163, 1, 0, '::1', '', '2023-05-03 06:50:26'),
+(164, 1, 0, '::1', '', '2023-05-03 06:50:27'),
+(165, 1, 0, '::1', '', '2023-05-03 06:50:27'),
+(166, 1, 0, '::1', '', '2023-05-03 06:50:28'),
+(167, 1, 0, '::1', '', '2023-05-03 06:50:28'),
+(168, 1, 0, '::1', '', '2023-05-03 06:50:29'),
+(169, 1, 0, '::1', '', '2023-05-03 06:50:29'),
+(170, 1, 0, '::1', '', '2023-05-03 06:50:29'),
+(171, 1, 0, '::1', '', '2023-05-03 06:50:44'),
+(172, 1, 0, '::1', '', '2023-05-03 06:50:47'),
+(173, 1, 0, '::1', '', '2023-05-03 06:51:27'),
+(174, 1, 0, '::1', '', '2023-05-03 06:51:31'),
+(175, 1, 0, '::1', '', '2023-05-03 06:51:32'),
+(176, 1, 0, '::1', '', '2023-05-03 06:52:13'),
+(177, 1, 0, '::1', '', '2023-05-03 06:52:22'),
+(178, 1, 0, '::1', '', '2023-05-03 06:53:02'),
+(179, 1, 0, '::1', '', '2023-05-03 06:53:09'),
+(180, 1, 0, '::1', '', '2023-05-03 06:53:45'),
+(181, 1, 0, '::1', '', '2023-05-03 06:55:20'),
+(182, 1, 0, '::1', '', '2023-05-03 06:55:29'),
+(183, 1, 0, '::1', '', '2023-05-03 06:57:09'),
+(184, 1, 0, '::1', '', '2023-05-03 06:57:13'),
+(185, 1, 0, '::1', '', '2023-05-03 06:57:41'),
+(186, 1, 0, '::1', '', '2023-05-03 06:57:44'),
+(187, 1, 0, '::1', '', '2023-05-03 06:57:52'),
+(188, 1, 0, '::1', '', '2023-05-03 07:00:11'),
+(189, 1, 0, '::1', '', '2023-05-03 07:00:47'),
+(190, 1, 0, '::1', '', '2023-05-03 07:01:10'),
+(191, 1, 0, '::1', '', '2023-05-03 07:04:16'),
+(192, 1, 0, '::1', '', '2023-05-03 07:04:41'),
+(193, 1, 0, '::1', '', '2023-05-03 07:05:34'),
+(194, 1, 0, '::1', '', '2023-05-03 07:05:38'),
+(195, 1, 0, '::1', '', '2023-05-03 07:07:03'),
+(196, 1, 0, '::1', '', '2023-05-03 07:07:03'),
+(197, 1, 0, '::1', '', '2023-05-03 07:07:03'),
+(198, 1, 0, '::1', '', '2023-05-03 07:07:04'),
+(199, 1, 0, '::1', '', '2023-05-03 07:07:04'),
+(200, 1, 0, '::1', '', '2023-05-03 07:07:04'),
+(201, 1, 0, '::1', '', '2023-05-03 07:07:05'),
+(202, 1, 0, '::1', '', '2023-05-03 07:07:05'),
+(203, 1, 0, '::1', '', '2023-05-03 07:07:05'),
+(204, 1, 0, '::1', '', '2023-05-03 07:07:18'),
+(205, 1, 0, '::1', '', '2023-05-03 07:10:18'),
+(206, 1, 0, '::1', '', '2023-05-03 07:10:24'),
+(207, 1, 0, '::1', '', '2023-05-03 07:10:27'),
+(208, 1, 0, '::1', '', '2023-05-03 07:10:30'),
+(209, 1, 0, '::1', '', '2023-05-03 07:13:44'),
+(210, 1, 0, '::1', '', '2023-05-03 07:18:42'),
+(211, 1, 0, '::1', '', '2023-05-03 07:18:44'),
+(212, 1, 0, '::1', '', '2023-05-03 07:18:45'),
+(213, 1, 0, '::1', '', '2023-05-03 07:18:49'),
+(214, 1, 0, '::1', '', '2023-05-03 07:19:48'),
+(215, 1, 0, '::1', '', '2023-05-03 07:20:14'),
+(216, 1, 0, '::1', '', '2023-05-03 07:20:40'),
+(217, 1, 0, '::1', '', '2023-05-03 07:20:43'),
+(218, 1, 0, '::1', '', '2023-05-03 07:20:46'),
+(219, 1, 0, '::1', '', '2023-05-03 07:20:48'),
+(220, 1, 0, '::1', '', '2023-05-03 07:20:52'),
+(221, 1, 0, '::1', '', '2023-05-03 07:20:54'),
+(222, 1, 0, '::1', '', '2023-05-03 07:21:06'),
+(223, 1, 0, '::1', '', '2023-05-03 07:21:10'),
+(224, 1, 0, '::1', '', '2023-05-03 07:21:13'),
+(225, 1, 0, '::1', '', '2023-05-03 07:24:09'),
+(226, 1, 0, '::1', '', '2023-05-03 07:24:12'),
+(227, 1, 0, '::1', '', '2023-05-03 07:24:12'),
+(228, 1, 0, '::1', '', '2023-05-03 07:24:44'),
+(229, 1, 0, '::1', '', '2023-05-03 07:24:46'),
+(230, 1, 0, '::1', '', '2023-05-03 07:24:53'),
+(231, 1, 0, '::1', '', '2023-05-03 07:24:56'),
+(232, 1, 0, '::1', '', '2023-05-03 07:25:02'),
+(233, 1, 0, '::1', '', '2023-05-03 07:28:03'),
+(234, 1, 0, '::1', '', '2023-05-03 07:28:51'),
+(235, 1, 0, '::1', '', '2023-05-03 07:29:06'),
+(236, 1, 0, '::1', '', '2023-05-03 07:29:35'),
+(237, 1, 0, '::1', '', '2023-05-03 07:30:25'),
+(238, 1, 0, '::1', '', '2023-05-03 07:30:50'),
+(239, 1, 0, '::1', '', '2023-05-03 07:30:59'),
+(240, 1, 0, '::1', '', '2023-05-03 07:31:03'),
+(241, 1, 0, '::1', '', '2023-05-03 07:31:03'),
+(242, 1, 0, '::1', '', '2023-05-03 07:31:05'),
+(243, 1, 0, '::1', '', '2023-05-03 07:31:06'),
+(244, 1, 0, '::1', '', '2023-05-03 08:32:40'),
+(245, 1, 0, '::1', '', '2023-05-03 08:36:02'),
+(246, 1, 0, '::1', '', '2023-05-03 08:36:04'),
+(247, 1, 0, '::1', '', '2023-05-03 08:36:06'),
+(248, 1, 0, '::1', '', '2023-05-03 08:36:07'),
+(249, 1, 0, '::1', '', '2023-05-03 08:36:35'),
+(250, 1, 0, '::1', '', '2023-05-03 08:36:48'),
+(251, 1, 0, '::1', '', '2023-05-03 08:36:50'),
+(252, 1, 0, '::1', '', '2023-05-03 08:36:52'),
+(253, 1, 0, '::1', '', '2023-05-03 08:36:53'),
+(254, 1, 0, '::1', '', '2023-05-03 08:36:57'),
+(255, 1, 0, '::1', '', '2023-05-03 08:39:59'),
+(256, 1, 0, '::1', '', '2023-05-03 08:40:09'),
+(257, 1, 0, '::1', '', '2023-05-03 08:40:11'),
+(258, 1, 0, '::1', '', '2023-05-03 08:41:06'),
+(259, 1, 0, '::1', '', '2023-05-03 08:41:09'),
+(260, 1, 0, '::1', '', '2023-05-03 08:41:32'),
+(261, 1, 0, '::1', '', '2023-05-03 08:42:18'),
+(262, 1, 0, '::1', '', '2023-05-03 08:42:19'),
+(263, 1, 0, '::1', '', '2023-05-03 08:42:34'),
+(264, 1, 0, '::1', '', '2023-05-03 08:42:35'),
+(265, 1, 0, '::1', '', '2023-05-03 08:42:37'),
+(266, 1, 0, '::1', '', '2023-05-03 08:43:25'),
+(267, 1, 0, '::1', '', '2023-05-03 08:45:15'),
+(268, 1, 0, '::1', '', '2023-05-03 08:45:23'),
+(269, 1, 0, '::1', '', '2023-05-03 08:45:30'),
+(270, 1, 0, '::1', '', '2023-05-03 08:45:33'),
+(271, 1, 0, '::1', '', '2023-05-03 08:45:35'),
+(272, 1, 0, '::1', '', '2023-05-03 08:45:42'),
+(273, 1, 0, '::1', '', '2023-05-03 08:46:07'),
+(274, 1, 0, '::1', '', '2023-05-03 08:46:12'),
+(275, 1, 0, '::1', '', '2023-05-03 08:46:13'),
+(276, 1, 0, '::1', '', '2023-05-03 08:46:44'),
+(277, 1, 0, '::1', '', '2023-05-03 08:48:16'),
+(278, 1, 0, '::1', '', '2023-05-03 08:48:33'),
+(279, 1, 0, '::1', '', '2023-05-03 08:48:51'),
+(280, 1, 0, '::1', '', '2023-05-03 08:49:24'),
+(281, 1, 0, '::1', '', '2023-05-03 08:49:34'),
+(282, 1, 0, '::1', '', '2023-05-03 08:49:34'),
+(283, 1, 0, '::1', '', '2023-05-03 08:49:53'),
+(284, 1, 0, '::1', '', '2023-05-03 08:49:54'),
+(285, 1, 0, '::1', '', '2023-05-03 08:50:03'),
+(286, 1, 0, '::1', '', '2023-05-03 08:50:40'),
+(287, 1, 0, '::1', '', '2023-05-03 08:51:03'),
+(288, 1, 0, '::1', '', '2023-05-03 08:52:25'),
+(289, 1, 0, '::1', '', '2023-05-03 08:52:26'),
+(290, 1, 0, '::1', '', '2023-05-03 08:52:56'),
+(291, 1, 0, '::1', '', '2023-05-03 08:53:28'),
+(292, 1, 0, '::1', '', '2023-05-03 08:53:39'),
+(293, 1, 0, '::1', '', '2023-05-03 08:54:16'),
+(294, 1, 0, '::1', '', '2023-05-03 08:54:18'),
+(295, 1, 0, '::1', '', '2023-05-03 08:54:22'),
+(296, 1, 0, '::1', '', '2023-05-03 08:54:25'),
+(297, 1, 0, '::1', '', '2023-05-03 08:54:28'),
+(298, 1, 0, '::1', '', '2023-05-03 08:54:29'),
+(299, 1, 0, '::1', '', '2023-05-03 08:54:33'),
+(300, 1, 0, '::1', '', '2023-05-03 08:54:34'),
+(301, 1, 0, '::1', '', '2023-05-03 08:55:13'),
+(302, 1, 0, '::1', '', '2023-05-03 08:56:27'),
+(303, 1, 0, '::1', '', '2023-05-03 08:56:30'),
+(304, 1, 0, '::1', '', '2023-05-03 08:56:31'),
+(305, 1, 0, '::1', '', '2023-05-03 09:00:37'),
+(306, 1, 0, '::1', '', '2023-05-03 09:00:48'),
+(307, 1, 0, '::1', '', '2023-05-03 09:00:48'),
+(308, 1, 0, '::1', '', '2023-05-03 09:01:02'),
+(309, 1, 0, '::1', '', '2023-05-03 09:06:27'),
+(310, 1, 0, '::1', '', '2023-05-03 09:06:36'),
+(311, 1, 0, '::1', '', '2023-05-03 09:06:38'),
+(312, 1, 0, '::1', '', '2023-05-03 09:06:39'),
+(313, 1, 0, '::1', '', '2023-05-03 09:06:42'),
+(314, 1, 0, '::1', '', '2023-05-03 09:06:43'),
+(315, 1, 0, '::1', '', '2023-05-03 09:07:00'),
+(316, 1, 0, '::1', '', '2023-05-03 09:07:01'),
+(317, 1, 0, '::1', '', '2023-05-03 09:07:17'),
+(318, 1, 0, '::1', '', '2023-05-03 09:07:19'),
+(319, 1, 0, '::1', '', '2023-05-03 09:11:10'),
+(320, 1, 0, '::1', '', '2023-05-03 09:13:00'),
+(321, 1, 0, '::1', '', '2023-05-03 09:13:03'),
+(322, 1, 0, '::1', '', '2023-05-03 09:13:04'),
+(323, 1, 0, '::1', '', '2023-05-03 09:13:10'),
+(324, 1, 0, '::1', '', '2023-05-03 09:13:57'),
+(325, 1, 0, '::1', '', '2023-05-03 09:14:17'),
+(326, 1, 0, '::1', '', '2023-05-03 09:14:21'),
+(327, 1, 0, '::1', '', '2023-05-03 09:14:23'),
+(328, 1, 0, '::1', '', '2023-05-03 09:14:27'),
+(329, 1, 0, '::1', '', '2023-05-03 09:14:27'),
+(330, 1, 0, '::1', '', '2023-05-03 09:14:29'),
+(331, 1, 0, '::1', '', '2023-05-03 09:14:30'),
+(332, 1, 0, '::1', '', '2023-05-03 09:14:33'),
+(333, 1, 0, '::1', '', '2023-05-03 09:14:33'),
+(334, 1, 0, '::1', '', '2023-05-03 09:14:43'),
+(335, 1, 0, '::1', '', '2023-05-03 09:14:43'),
+(336, 1, 0, '::1', '', '2023-05-03 09:15:51'),
+(337, 1, 0, '::1', '', '2023-05-03 09:15:52'),
+(338, 1, 0, '::1', '', '2023-05-03 09:16:41'),
+(339, 1, 0, '::1', '', '2023-05-03 09:16:43'),
+(340, 1, 0, '::1', '', '2023-05-03 09:17:09'),
+(341, 1, 0, '::1', '', '2023-05-03 09:17:10'),
+(342, 1, 0, '::1', '', '2023-05-03 09:19:38'),
+(343, 1, 0, '::1', '', '2023-05-03 09:19:39'),
+(344, 1, 0, '::1', '', '2023-05-03 09:20:11'),
+(345, 1, 0, '::1', '', '2023-05-03 09:20:13'),
+(346, 1, 0, '::1', '', '2023-05-03 09:20:37'),
+(347, 1, 0, '::1', '', '2023-05-03 09:20:38'),
+(348, 1, 0, '::1', '', '2023-05-03 09:21:21'),
+(349, 1, 0, '::1', '', '2023-05-03 09:21:22'),
+(350, 1, 0, '::1', '', '2023-05-03 09:23:15'),
+(351, 1, 0, '::1', '', '2023-05-03 09:23:16'),
+(352, 1, 0, '::1', '', '2023-05-03 09:24:05'),
+(353, 1, 0, '::1', '', '2023-05-03 09:24:07'),
+(354, 1, 0, '::1', '', '2023-05-03 09:24:29'),
+(355, 1, 0, '::1', '', '2023-05-03 09:24:30'),
+(356, 1, 0, '::1', '', '2023-05-03 09:26:04'),
+(357, 1, 0, '::1', '', '2023-05-03 09:26:06'),
+(358, 1, 0, '::1', '', '2023-05-03 09:27:00'),
+(359, 1, 0, '::1', '', '2023-05-03 09:27:01'),
+(360, 1, 0, '::1', '', '2023-05-03 09:28:36'),
+(361, 1, 0, '::1', '', '2023-05-03 09:28:38'),
+(362, 1, 0, '::1', '', '2023-05-03 09:29:17'),
+(363, 1, 0, '::1', '', '2023-05-03 09:29:19'),
+(364, 1, 0, '::1', '', '2023-05-03 09:29:37'),
+(365, 1, 0, '::1', '', '2023-05-03 09:29:39'),
+(366, 1, 0, '::1', '', '2023-05-03 09:30:17'),
+(367, 1, 0, '::1', '', '2023-05-03 09:30:18'),
+(368, 1, 0, '::1', '', '2023-05-03 09:31:09'),
+(369, 1, 0, '::1', '', '2023-05-03 09:31:11'),
+(370, 1, 0, '::1', '', '2023-05-03 09:36:02'),
+(371, 1, 0, '::1', '', '2023-05-03 09:36:04'),
+(372, 1, 0, '::1', '', '2023-05-03 09:37:31'),
+(373, 1, 0, '::1', '', '2023-05-03 09:37:33'),
+(374, 1, 0, '::1', '', '2023-05-03 09:38:11'),
+(375, 1, 0, '::1', '', '2023-05-03 09:39:06'),
+(376, 1, 0, '::1', '', '2023-05-03 09:39:19'),
+(377, 1, 0, '::1', '', '2023-05-03 09:39:42'),
+(378, 1, 0, '::1', '', '2023-05-03 09:39:52'),
+(379, 1, 0, '::1', '', '2023-05-03 09:42:40'),
+(380, 1, 0, '::1', '', '2023-05-03 09:43:09'),
+(381, 1, 0, '::1', '', '2023-05-03 09:44:54'),
+(382, 1, 0, '::1', '', '2023-05-03 09:45:05'),
+(383, 1, 0, '::1', '', '2023-05-03 09:45:19'),
+(384, 1, 0, '::1', '', '2023-05-03 09:45:21'),
+(385, 1, 0, '::1', '', '2023-05-03 09:46:19'),
+(386, 1, 0, '::1', '', '2023-05-03 09:49:00'),
+(387, 1, 0, '::1', '', '2023-05-03 09:49:31'),
+(388, 1, 0, '::1', '', '2023-05-03 09:49:32'),
+(389, 1, 0, '::1', '', '2023-05-03 09:50:17'),
+(390, 1, 0, '::1', '', '2023-05-03 09:50:19'),
+(391, 1, 0, '::1', '', '2023-05-03 09:55:55'),
+(392, 1, 0, '::1', '', '2023-05-03 09:55:56'),
+(393, 1, 0, '::1', '', '2023-05-03 09:56:06'),
+(394, 1, 0, '::1', '', '2023-05-03 09:56:07'),
+(395, 1, 0, '::1', '', '2023-05-03 09:57:13'),
+(396, 1, 0, '::1', '', '2023-05-03 09:57:22'),
+(397, 1, 0, '::1', '', '2023-05-03 09:57:24'),
+(398, 1, 0, '::1', '', '2023-05-03 09:57:26'),
+(399, 1, 0, '::1', '', '2023-05-03 09:57:27'),
+(400, 1, 0, '::1', '', '2023-05-03 09:58:20'),
+(401, 1, 0, '::1', '', '2023-05-03 09:58:21'),
+(402, 1, 0, '::1', '', '2023-05-03 10:10:08'),
+(403, 1, 0, '::1', '', '2023-05-03 10:10:13'),
+(404, 1, 0, '::1', '', '2023-05-03 10:10:17'),
+(405, 1, 0, '::1', '', '2023-05-03 10:10:19'),
+(406, 1, 0, '::1', '', '2023-05-03 10:10:44'),
+(407, 1, 0, '::1', '', '2023-05-03 10:10:46'),
+(408, 1, 0, '::1', '', '2023-05-03 10:10:49'),
+(409, 1, 0, '::1', '', '2023-05-03 10:10:51'),
+(410, 1, 0, '::1', '', '2023-05-03 10:17:23'),
+(411, 1, 0, '::1', '', '2023-05-03 10:17:25'),
+(412, 1, 0, '::1', '', '2023-05-03 10:17:30'),
+(413, 1, 0, '::1', '', '2023-05-03 10:18:06'),
+(414, 1, 0, '::1', '', '2023-05-03 10:18:20'),
+(415, 1, 0, '::1', '', '2023-05-03 10:18:22'),
+(416, 1, 0, '::1', '', '2023-05-03 10:18:28'),
+(417, 1, 0, '::1', '', '2023-05-03 10:18:32'),
+(418, 1, 0, '::1', '', '2023-05-03 10:21:51'),
+(419, 1, 0, '::1', '', '2023-05-03 10:21:54'),
+(420, 1, 0, '::1', '', '2023-05-03 10:21:56'),
+(421, 1, 0, '::1', '', '2023-05-03 10:21:56'),
+(422, 1, 0, '::1', '', '2023-05-03 10:22:05'),
+(423, 1, 0, '::1', '', '2023-05-03 10:22:07'),
+(424, 1, 0, '::1', '', '2023-05-03 10:22:08'),
+(425, 1, 0, '::1', '', '2023-05-03 10:22:08'),
+(426, 1, 0, '::1', '', '2023-05-03 10:22:56'),
+(427, 1, 0, '::1', '', '2023-05-03 10:22:59'),
+(428, 1, 0, '::1', '', '2023-05-03 10:27:30'),
+(429, 1, 0, '::1', '', '2023-05-03 10:27:31'),
+(430, 1, 0, '::1', '', '2023-05-03 10:27:40'),
+(431, 1, 0, '::1', '', '2023-05-03 10:27:41'),
+(432, 1, 0, '::1', '', '2023-05-03 10:27:53'),
+(433, 1, 0, '::1', '', '2023-05-03 10:27:55'),
+(434, 1, 0, '::1', '', '2023-05-03 10:29:10'),
+(435, 1, 0, '::1', '', '2023-05-03 10:29:11'),
+(436, 1, 0, '::1', '', '2023-05-03 10:30:24'),
+(437, 1, 0, '::1', '', '2023-05-03 10:30:25'),
+(438, 1, 0, '::1', '', '2023-05-03 10:30:35'),
+(439, 1, 0, '::1', '', '2023-05-03 10:30:36'),
+(440, 1, 0, '::1', '', '2023-05-03 10:30:46'),
+(441, 1, 0, '::1', '', '2023-05-03 10:30:48'),
+(442, 1, 0, '::1', '', '2023-05-03 10:31:03'),
+(443, 1, 0, '::1', '', '2023-05-03 10:31:05'),
+(444, 1, 0, '::1', '', '2023-05-03 10:32:17'),
+(445, 1, 0, '::1', '', '2023-05-03 10:32:19'),
+(446, 1, 0, '::1', '', '2023-05-03 10:32:25'),
+(447, 1, 0, '::1', '', '2023-05-03 10:32:27'),
+(448, 1, 0, '::1', '', '2023-05-03 10:33:46'),
+(449, 1, 0, '::1', '', '2023-05-03 10:35:42'),
+(450, 1, 0, '::1', '', '2023-05-03 10:35:43'),
+(451, 1, 0, '::1', '', '2023-05-03 10:35:48'),
+(452, 1, 0, '::1', '', '2023-05-03 10:35:49'),
+(453, 1, 0, '::1', '', '2023-05-03 10:37:58'),
+(454, 1, 0, '::1', '', '2023-05-03 10:38:00'),
+(455, 1, 0, '::1', '', '2023-05-03 10:38:06'),
+(456, 1, 0, '::1', '', '2023-05-03 10:38:07'),
+(457, 1, 0, '::1', '', '2023-05-03 10:38:11'),
+(458, 1, 0, '::1', '', '2023-05-03 10:38:12'),
+(459, 1, 0, '::1', '', '2023-05-03 10:38:12'),
+(460, 1, 0, '::1', '', '2023-05-03 10:38:15'),
+(461, 1, 0, '::1', '', '2023-05-03 10:38:26'),
+(462, 1, 0, '::1', '', '2023-05-03 10:39:10'),
+(463, 1, 0, '::1', '', '2023-05-03 10:39:11'),
+(464, 1, 0, '::1', '', '2023-05-03 10:39:23'),
+(465, 1, 0, '::1', '', '2023-05-03 10:39:24'),
+(466, 1, 0, '::1', '', '2023-05-03 10:39:28'),
+(467, 1, 0, '::1', '', '2023-05-03 10:39:29'),
+(468, 1, 0, '::1', '', '2023-05-03 10:39:53'),
+(469, 1, 0, '::1', '', '2023-05-03 10:39:54'),
+(470, 1, 0, '::1', '', '2023-05-03 10:41:14'),
+(471, 1, 0, '::1', '', '2023-05-03 10:41:40'),
+(472, 1, 0, '::1', '', '2023-05-03 10:41:42'),
+(473, 1, 0, '::1', '', '2023-05-03 10:41:53'),
+(474, 1, 0, '::1', '', '2023-05-03 10:41:54'),
+(475, 1, 0, '::1', '', '2023-05-03 10:42:00'),
+(476, 1, 0, '::1', '', '2023-05-03 10:42:01'),
+(477, 1, 0, '::1', '', '2023-05-03 10:42:43'),
+(478, 1, 0, '::1', '', '2023-05-03 10:42:50'),
+(479, 1, 0, '::1', '', '2023-05-03 10:42:52'),
+(480, 1, 0, '::1', '', '2023-05-03 10:42:57'),
+(481, 1, 0, '::1', '', '2023-05-03 10:42:58'),
+(482, 1, 0, '::1', '', '2023-05-03 10:43:06'),
+(483, 1, 0, '::1', '', '2023-05-03 10:43:08'),
+(484, 1, 0, '::1', '', '2023-05-03 10:43:26'),
+(485, 1, 0, '::1', '', '2023-05-03 10:43:28'),
+(486, 1, 0, '::1', '', '2023-05-03 10:43:32'),
+(487, 1, 0, '::1', '', '2023-05-03 10:43:33'),
+(488, 1, 0, '::1', '', '2023-05-03 10:43:47'),
+(489, 1, 0, '::1', '', '2023-05-03 10:43:48'),
+(490, 1, 0, '::1', '', '2023-05-03 10:43:57'),
+(491, 1, 0, '::1', '', '2023-05-03 10:44:34'),
+(492, 1, 0, '::1', '', '2023-05-03 10:44:36'),
+(493, 1, 0, '::1', '', '2023-05-03 10:44:41'),
+(494, 1, 0, '::1', '', '2023-05-03 10:44:42'),
+(495, 1, 0, '::1', '', '2023-05-03 10:45:13'),
+(496, 1, 0, '::1', '', '2023-05-03 10:45:15'),
+(497, 1, 0, '::1', '', '2023-05-03 10:45:44'),
+(498, 1, 0, '::1', '', '2023-05-03 10:45:46'),
+(499, 1, 0, '::1', '', '2023-05-03 10:46:00'),
+(500, 1, 0, '::1', '', '2023-05-03 10:46:01'),
+(501, 1, 0, '::1', '', '2023-05-03 10:46:26'),
+(502, 1, 0, '::1', '', '2023-05-03 10:46:27'),
+(503, 1, 0, '::1', '', '2023-05-03 10:46:35'),
+(504, 1, 0, '::1', '', '2023-05-03 10:46:36'),
+(505, 1, 0, '::1', '', '2023-05-03 10:46:49'),
+(506, 1, 0, '::1', '', '2023-05-03 10:46:50'),
+(507, 1, 0, '::1', '', '2023-05-03 10:46:56'),
+(508, 1, 0, '::1', '', '2023-05-03 10:46:57'),
+(509, 1, 0, '::1', '', '2023-05-03 10:47:10'),
+(510, 1, 0, '::1', '', '2023-05-03 10:47:12'),
+(511, 1, 0, '::1', '', '2023-05-03 10:47:27'),
+(512, 1, 0, '::1', '', '2023-05-03 10:47:29'),
+(513, 1, 0, '::1', '', '2023-05-03 10:47:36'),
+(514, 1, 0, '::1', '', '2023-05-03 10:47:37'),
+(515, 1, 0, '::1', '', '2023-05-03 10:48:31'),
+(516, 1, 0, '::1', '', '2023-05-03 10:48:32'),
+(517, 1, 0, '::1', '', '2023-05-03 10:48:34'),
+(518, 1, 0, '::1', '', '2023-05-03 10:48:34'),
+(519, 1, 0, '::1', '', '2023-05-03 10:48:34'),
+(520, 1, 0, '::1', '', '2023-05-03 10:48:34'),
+(521, 1, 0, '::1', '', '2023-05-03 10:48:35'),
+(522, 1, 0, '::1', '', '2023-05-03 10:48:35'),
+(523, 1, 0, '::1', '', '2023-05-03 10:48:35'),
+(524, 1, 0, '::1', '', '2023-05-03 10:48:35'),
+(525, 1, 0, '::1', '', '2023-05-03 10:48:37'),
+(526, 1, 0, '::1', '', '2023-05-03 10:48:39'),
+(527, 1, 0, '::1', '', '2023-05-03 10:48:40'),
+(528, 1, 0, '::1', '', '2023-05-03 10:48:43'),
+(529, 1, 0, '::1', '', '2023-05-03 10:48:44'),
+(530, 1, 0, '::1', '', '2023-05-03 10:49:22'),
+(531, 1, 0, '::1', '', '2023-05-03 10:49:24'),
+(532, 1, 0, '::1', '', '2023-05-03 10:49:41'),
+(533, 1, 0, '::1', '', '2023-05-03 10:49:43'),
+(534, 1, 0, '::1', '', '2023-05-03 10:49:57'),
+(535, 1, 0, '::1', '', '2023-05-03 10:49:59'),
+(536, 1, 0, '::1', '', '2023-05-03 10:50:16'),
+(537, 1, 0, '::1', '', '2023-05-03 10:50:18'),
+(538, 1, 0, '::1', '', '2023-05-03 10:50:55'),
+(539, 1, 0, '::1', '', '2023-05-03 10:51:19'),
+(540, 1, 0, '::1', '', '2023-05-03 10:51:21'),
+(541, 1, 0, '::1', '', '2023-05-03 10:51:43'),
+(542, 1, 0, '::1', '', '2023-05-03 10:51:45'),
+(543, 1, 0, '::1', '', '2023-05-03 10:51:53'),
+(544, 1, 0, '::1', '', '2023-05-03 10:51:55'),
+(545, 1, 0, '::1', '', '2023-05-03 10:52:28'),
+(546, 1, 0, '::1', '', '2023-05-03 10:53:31'),
+(547, 1, 0, '::1', '', '2023-05-03 10:53:40'),
+(548, 1, 0, '::1', '', '2023-05-03 10:53:41'),
+(549, 1, 0, '::1', '', '2023-05-03 10:53:55'),
+(550, 1, 0, '::1', '', '2023-05-03 10:53:57'),
+(551, 1, 0, '::1', '', '2023-05-03 10:54:05'),
+(552, 1, 0, '::1', '', '2023-05-03 10:54:07'),
+(553, 1, 0, '::1', '', '2023-05-03 10:54:14'),
+(554, 1, 0, '::1', '', '2023-05-03 10:54:15'),
+(555, 1, 0, '::1', '', '2023-05-03 10:54:22'),
+(556, 1, 0, '::1', '', '2023-05-03 10:54:23'),
+(557, 1, 0, '::1', '', '2023-05-03 10:55:36'),
+(558, 1, 0, '::1', '', '2023-05-03 10:55:38'),
+(559, 1, 0, '::1', '', '2023-05-03 10:55:50'),
+(560, 1, 0, '::1', '', '2023-05-03 10:55:51'),
+(561, 1, 0, '::1', '', '2023-05-03 10:56:01'),
+(562, 1, 0, '::1', '', '2023-05-03 10:56:02'),
+(563, 1, 0, '::1', '', '2023-05-03 10:56:05'),
+(564, 1, 0, '::1', '', '2023-05-03 10:56:26'),
+(565, 1, 0, '::1', '', '2023-05-03 10:56:28'),
+(566, 1, 0, '::1', '', '2023-05-03 10:56:32'),
+(567, 1, 0, '::1', '', '2023-05-03 10:56:33'),
+(568, 1, 0, '::1', '', '2023-05-03 11:40:11'),
+(569, 1, 0, '::1', '', '2023-05-03 11:40:13'),
+(570, 1, 0, '::1', '', '2023-05-03 11:40:25'),
+(571, 1, 0, '::1', '', '2023-05-03 11:40:26'),
+(572, 1, 0, '::1', '', '2023-05-03 11:40:29'),
+(573, 1, 0, '::1', '', '2023-05-03 11:42:05'),
+(574, 1, 0, '::1', '', '2023-05-03 11:42:06'),
+(575, 1, 0, '::1', '', '2023-05-03 11:42:53'),
+(576, 1, 0, '::1', '', '2023-05-03 11:42:54'),
+(577, 1, 0, '::1', '', '2023-05-03 11:45:41'),
+(578, 1, 0, '::1', '', '2023-05-03 11:45:43'),
+(579, 1, 0, '::1', '', '2023-05-03 11:48:43'),
+(580, 1, 0, '::1', '', '2023-05-03 11:48:44'),
+(581, 1, 0, '::1', '', '2023-05-03 11:49:59'),
+(582, 1, 0, '::1', '', '2023-05-03 11:50:29'),
+(583, 1, 0, '::1', '', '2023-05-03 11:50:39'),
+(584, 1, 0, '::1', '', '2023-05-03 11:50:54'),
+(585, 1, 0, '::1', '', '2023-05-03 11:50:54'),
+(586, 1, 0, '::1', '', '2023-05-03 11:50:54'),
+(587, 1, 0, '::1', '', '2023-05-03 11:50:58'),
+(588, 1, 0, '::1', '', '2023-05-03 11:51:00'),
+(589, 1, 0, '::1', '', '2023-05-03 11:51:03'),
+(590, 1, 0, '::1', '', '2023-05-03 11:51:06'),
+(591, 1, 0, '::1', '', '2023-05-03 11:51:37'),
+(592, 1, 0, '::1', '', '2023-05-03 11:51:45'),
+(593, 1, 0, '::1', '', '2023-05-03 11:51:47'),
+(594, 1, 0, '::1', '', '2023-05-03 11:52:04'),
+(595, 1, 0, '::1', '', '2023-05-03 11:53:24'),
+(596, 1, 0, '::1', '', '2023-05-03 11:53:43'),
+(597, 1, 0, '::1', '', '2023-05-03 11:56:19'),
+(598, 1, 0, '::1', '', '2023-05-03 11:57:16'),
+(599, 1, 0, '::1', '', '2023-05-03 11:57:38'),
+(600, 1, 0, '::1', '', '2023-05-03 11:59:01'),
+(601, 1, 0, '::1', '', '2023-05-03 11:59:03'),
+(602, 1, 0, '::1', '', '2023-05-03 12:03:18'),
+(603, 1, 0, '::1', '', '2023-05-03 12:03:20'),
+(604, 1, 0, '::1', '', '2023-05-03 12:03:54'),
+(605, 1, 0, '::1', '', '2023-05-03 12:03:56'),
+(606, 1, 0, '::1', '', '2023-05-03 12:07:23'),
+(607, 1, 0, '::1', '', '2023-05-03 12:07:25'),
+(608, 1, 0, '::1', '', '2023-05-03 12:07:55'),
+(609, 1, 0, '::1', '', '2023-05-03 12:07:56'),
+(610, 1, 0, '::1', '', '2023-05-03 12:09:15'),
+(611, 1, 0, '::1', '', '2023-05-03 12:09:17'),
+(612, 1, 0, '::1', '', '2023-05-03 12:09:44'),
+(613, 1, 0, '::1', '', '2023-05-03 12:09:46'),
+(614, 1, 0, '::1', '', '2023-05-03 12:10:19'),
+(615, 1, 0, '::1', '', '2023-05-03 12:10:20'),
+(616, 1, 0, '::1', '', '2023-05-03 12:10:45'),
+(617, 1, 0, '::1', '', '2023-05-03 12:10:47'),
+(618, 1, 0, '::1', '', '2023-05-03 12:12:08'),
+(619, 1, 0, '::1', '', '2023-05-03 12:12:10'),
+(620, 1, 0, '::1', '', '2023-05-03 12:12:46'),
+(621, 1, 0, '::1', '', '2023-05-03 12:12:48'),
+(622, 1, 0, '::1', '', '2023-05-03 12:15:16'),
+(623, 1, 0, '::1', '', '2023-05-03 12:15:17'),
+(624, 1, 0, '::1', '', '2023-05-03 12:15:19'),
+(625, 1, 0, '::1', '', '2023-05-03 12:15:19'),
+(626, 1, 0, '::1', '', '2023-05-03 12:15:20'),
+(627, 1, 0, '::1', '', '2023-05-03 12:15:20'),
+(628, 1, 0, '::1', '', '2023-05-03 12:15:20'),
+(629, 1, 0, '::1', '', '2023-05-03 12:15:21'),
+(630, 1, 0, '::1', '', '2023-05-03 12:15:21'),
+(631, 1, 0, '::1', '', '2023-05-03 12:15:22'),
+(632, 1, 0, '::1', '', '2023-05-03 12:15:23'),
+(633, 1, 0, '::1', '', '2023-05-03 12:15:23'),
+(634, 1, 0, '::1', '', '2023-05-03 12:15:24'),
+(635, 1, 0, '::1', '', '2023-05-03 12:15:24'),
+(636, 1, 0, '::1', '', '2023-05-03 12:15:31'),
+(637, 1, 0, '::1', '', '2023-05-03 12:16:05'),
+(638, 1, 0, '::1', '', '2023-05-03 12:16:52'),
+(639, 1, 0, '::1', '', '2023-05-03 12:17:05'),
+(640, 1, 0, '::1', '', '2023-05-03 12:17:06'),
+(641, 1, 0, '::1', '', '2023-05-03 12:19:59'),
+(642, 1, 0, '::1', '', '2023-05-03 12:20:00'),
+(643, 1, 0, '::1', '', '2023-05-03 12:20:14'),
+(644, 1, 0, '::1', '', '2023-05-03 12:20:33'),
+(645, 1, 0, '::1', '', '2023-05-03 12:20:33'),
+(646, 1, 0, '::1', '', '2023-05-03 12:20:37'),
+(647, 1, 0, '::1', '', '2023-05-03 12:20:41'),
+(648, 1, 0, '::1', '', '2023-05-03 12:20:41'),
+(649, 1, 0, '::1', '', '2023-05-03 12:20:42'),
+(650, 1, 0, '::1', '', '2023-05-03 12:20:42'),
+(651, 1, 0, '::1', '', '2023-05-03 12:20:43'),
+(652, 1, 0, '::1', '', '2023-05-03 12:20:44'),
+(653, 1, 0, '::1', '', '2023-05-03 12:20:44'),
+(654, 1, 0, '::1', '', '2023-05-03 12:20:51'),
+(655, 1, 0, '::1', '', '2023-05-03 12:21:06'),
+(656, 1, 0, '::1', '', '2023-05-03 12:21:07');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_approval`
 --
 
-DROP TABLE IF EXISTS `oc_customer_approval`;
 CREATE TABLE `oc_customer_approval` (
-  `customer_approval_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_approval_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `type` varchar(9) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_approval_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_group`
 --
 
-DROP TABLE IF EXISTS `oc_customer_group`;
 CREATE TABLE `oc_customer_group` (
-  `customer_group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_group_id` int(11) NOT NULL,
   `approval` int(1) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`customer_group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_customer_group`
@@ -1106,583 +2215,3514 @@ CREATE TABLE `oc_customer_group` (
 INSERT INTO `oc_customer_group` (`customer_group_id`, `approval`, `sort_order`) VALUES
 (1, 0, 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_group_description`
 --
 
-DROP TABLE IF EXISTS `oc_customer_group_description`;
 CREATE TABLE `oc_customer_group_description` (
   `customer_group_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`customer_group_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_customer_group_description`
 --
 
 INSERT INTO `oc_customer_group_description` (`customer_group_id`, `language_id`, `name`, `description`) VALUES
-(1, 1, 'Default', 'test');
+(1, 1, 'Default', 'test'),
+(1, 2, 'Default', 'test'),
+(1, 3, 'Default', 'test'),
+(1, 4, 'Default', 'test'),
+(1, 5, 'Default', 'test'),
+(1, 6, 'Default', 'test'),
+(1, 7, 'Default', 'test'),
+(1, 8, 'Default', 'test');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_history`
 --
 
-DROP TABLE IF EXISTS `oc_customer_history`;
 CREATE TABLE `oc_customer_history` (
-  `customer_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_history_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `comment` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_customer_login`
---
-
-DROP TABLE IF EXISTS `oc_customer_login`;
-CREATE TABLE `oc_customer_login` (
-  `customer_login_id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(96) NOT NULL,
-  `ip` varchar(40) NOT NULL,
-  `total` int(4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`customer_login_id`),
-  KEY `email` (`email`),
-  KEY `ip` (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_ip`
 --
 
-DROP TABLE IF EXISTS `oc_customer_ip`;
 CREATE TABLE `oc_customer_ip` (
-  `customer_ip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_ip_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_ip_id`),
-  KEY `ip` (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `country` varchar(2) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_customer_ip`
+--
+
+INSERT INTO `oc_customer_ip` (`customer_ip_id`, `customer_id`, `store_id`, `ip`, `country`, `date_added`) VALUES
+(1, 1, 0, '::1', '', '2023-04-26 06:07:37'),
+(2, 1, 0, '::1', '', '2023-04-26 06:09:17'),
+(3, 1, 0, '::1', '', '2023-04-26 06:13:00'),
+(4, 1, 0, '::1', '', '2023-04-26 06:18:21'),
+(5, 1, 0, '::1', '', '2023-04-26 06:20:40'),
+(6, 2, 0, '::1', '', '2023-04-26 06:28:59'),
+(7, 1, 0, '::1', '', '2023-04-26 06:36:33'),
+(8, 1, 0, '::1', '', '2023-04-29 07:12:50'),
+(9, 1, 0, '::1', '', '2023-05-01 06:58:19'),
+(10, 3, 0, '::1', '', '2023-08-09 06:08:01'),
+(11, 3, 0, '::1', '', '2023-08-10 10:34:15'),
+(12, 3, 0, '::1', '', '2023-08-14 08:58:26'),
+(13, 3, 0, '::1', '', '2023-08-24 09:34:43'),
+(14, 3, 0, '::1', '', '2023-08-25 12:09:01'),
+(15, 3, 0, '::1', '', '2023-10-05 09:14:12'),
+(16, 4, 0, '::1', '', '2023-10-17 10:38:47'),
+(17, 3, 0, '::1', '', '2023-10-19 09:44:07'),
+(18, 3, 0, '::1', '', '2023-10-19 10:46:08'),
+(19, 3, 0, '::1', '', '2023-11-01 11:54:27'),
+(20, 3, 0, '::1', '', '2023-11-03 05:01:40'),
+(21, 3, 0, '::1', '', '2023-11-03 05:05:54'),
+(22, 3, 0, '::1', '', '2023-11-03 05:12:05'),
+(23, 3, 0, '::1', '', '2023-11-04 04:09:27'),
+(24, 3, 0, '::1', '', '2023-11-09 10:06:35'),
+(25, 3, 0, '::1', '', '2023-12-02 05:49:30'),
+(26, 3, 0, '::1', '', '2023-12-04 05:22:12'),
+(27, 3, 0, '::1', '', '2024-01-10 04:51:49'),
+(28, 3, 0, '::1', '', '2024-01-16 11:36:38'),
+(29, 5, 0, '::1', '', '2024-01-18 04:03:08'),
+(30, 3, 0, '::1', '', '2024-01-19 05:13:11'),
+(31, 3, 0, '::1', '', '2024-01-19 06:20:51'),
+(32, 3, 0, '::1', '', '2024-01-19 06:22:11'),
+(33, 3, 0, '::1', '', '2024-01-19 12:04:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_customer_login`
+--
+
+CREATE TABLE `oc_customer_login` (
+  `customer_login_id` int(11) NOT NULL,
+  `email` varchar(96) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `total` int(4) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_customer_login`
+--
+
+INSERT INTO `oc_customer_login` (`customer_login_id`, `email`, `ip`, `total`, `date_added`, `date_modified`) VALUES
+(1, 'admin', '::1', 3, '2023-04-24 09:06:53', '2023-04-26 06:07:32');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_online`
 --
 
-DROP TABLE IF EXISTS `oc_customer_online`;
 CREATE TABLE `oc_customer_online` (
   `ip` varchar(40) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `url` text NOT NULL,
   `referer` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_reward`
 --
 
-DROP TABLE IF EXISTS `oc_customer_reward`;
 CREATE TABLE `oc_customer_reward` (
-  `customer_reward_id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_id` int(11) NOT NULL DEFAULT '0',
-  `order_id` int(11) NOT NULL DEFAULT '0',
+  `customer_reward_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL DEFAULT 0,
+  `order_id` int(11) NOT NULL DEFAULT 0,
   `description` text NOT NULL,
-  `points` int(8) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_reward_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `points` int(8) NOT NULL DEFAULT 0,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_customer_transaction`
---
-
-DROP TABLE IF EXISTS `oc_customer_transaction`;
-CREATE TABLE `oc_customer_transaction` (
-  `customer_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `description` text NOT NULL,
-  `amount` decimal(15,4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_transaction_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_search`
 --
 
-DROP TABLE IF EXISTS `oc_customer_search`;
 CREATE TABLE `oc_customer_search` (
-  `customer_search_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_search_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `keyword` varchar(255) NOT NULL,
-  `category_id` int(11),
+  `category_id` int(11) NOT NULL,
   `sub_category` tinyint(1) NOT NULL,
   `description` tinyint(1) NOT NULL,
   `products` int(11) NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_search_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_customer_transaction`
+--
+
+CREATE TABLE `oc_customer_transaction` (
+  `customer_transaction_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `amount` decimal(15,4) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_customer_wishlist`
 --
 
-DROP TABLE IF EXISTS `oc_customer_wishlist`;
 CREATE TABLE `oc_customer_wishlist` (
   `customer_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_id`,`product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_customer_wishlist`
+--
+
+INSERT INTO `oc_customer_wishlist` (`customer_id`, `product_id`, `date_added`) VALUES
+(1, 30, '2023-05-03 05:36:35'),
+(1, 47, '2023-04-29 07:12:50'),
+(1, 49, '2023-05-03 05:58:48'),
+(4, 41, '2023-10-17 12:26:27');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_custom_field`
 --
 
-DROP TABLE IF EXISTS `oc_custom_field`;
 CREATE TABLE `oc_custom_field` (
-  `custom_field_id` int(11) NOT NULL AUTO_INCREMENT,
+  `custom_field_id` int(11) NOT NULL,
   `type` varchar(32) NOT NULL,
   `value` text NOT NULL,
   `validation` varchar(255) NOT NULL,
   `location` varchar(10) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`custom_field_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_custom_field`
+--
+
+INSERT INTO `oc_custom_field` (`custom_field_id`, `type`, `value`, `validation`, `location`, `status`, `sort_order`) VALUES
+(1, 'select', '', '', 'account', 0, 1),
+(2, 'radio', '', '', 'account', 0, 2),
+(3, 'checkbox', '', '', 'account', 0, 3),
+(4, 'text', '', '', 'account', 0, 4),
+(5, 'textarea', '', '', 'account', 0, 5),
+(6, 'file', '', '', 'account', 0, 6),
+(7, 'date', '', '', 'account', 0, 7),
+(8, 'time', '', '', 'account', 0, 8),
+(9, 'datetime', '', '', 'account', 0, 9),
+(11, 'checkbox', '', '', 'address', 0, 3),
+(12, 'time', '', '', 'address', 0, 8),
+(13, 'date', '', '', 'address', 0, 7),
+(14, 'datetime', '', '', 'address', 0, 9),
+(15, 'file', '', '', 'address', 0, 6),
+(16, 'radio', '', '', 'address', 0, 2),
+(17, 'select', '', '', 'address', 0, 1),
+(18, 'text', '', '', 'address', 0, 4),
+(19, 'textarea', '', '', 'address', 0, 5),
+(20, 'checkbox', '', '', 'affiliate', 0, 3),
+(21, 'date', '', '', 'affiliate', 0, 8),
+(22, 'datetime', '', '', 'affiliate', 0, 9),
+(23, 'file', '', '', 'affiliate', 0, 6),
+(24, 'radio', '', '', 'affiliate', 0, 2),
+(25, 'select', '', '', 'affiliate', 0, 1),
+(26, 'text', '', '', 'affiliate', 0, 4),
+(27, 'textarea', '', '', 'affiliate', 0, 5),
+(28, 'time', '', '', 'affiliate', 0, 8);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_custom_field_customer_group`
 --
 
-DROP TABLE IF EXISTS `oc_custom_field_customer_group`;
 CREATE TABLE `oc_custom_field_customer_group` (
   `custom_field_id` int(11) NOT NULL,
   `customer_group_id` int(11) NOT NULL,
-  `required` tinyint(1) NOT NULL,
-  PRIMARY KEY (`custom_field_id`,`customer_group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `required` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_custom_field_customer_group`
+--
+
+INSERT INTO `oc_custom_field_customer_group` (`custom_field_id`, `customer_group_id`, `required`) VALUES
+(1, 1, 1),
+(2, 1, 1),
+(3, 1, 1),
+(4, 1, 1),
+(5, 1, 1),
+(6, 1, 1),
+(7, 1, 1),
+(8, 1, 1),
+(9, 1, 1),
+(11, 1, 1),
+(12, 1, 1),
+(13, 1, 1),
+(14, 1, 1),
+(15, 1, 1),
+(16, 1, 1),
+(17, 1, 1),
+(18, 1, 1),
+(19, 1, 1),
+(20, 1, 1),
+(21, 1, 1),
+(22, 1, 1),
+(23, 1, 1),
+(24, 1, 1),
+(25, 1, 1),
+(26, 1, 1),
+(27, 1, 1),
+(28, 1, 1);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_custom_field_description`
 --
 
-DROP TABLE IF EXISTS `oc_custom_field_description`;
 CREATE TABLE `oc_custom_field_description` (
   `custom_field_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`custom_field_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_custom_field_description`
+--
+
+INSERT INTO `oc_custom_field_description` (`custom_field_id`, `language_id`, `name`) VALUES
+(1, 1, 'Select'),
+(1, 2, 'Select'),
+(1, 3, 'Select'),
+(1, 4, 'Select'),
+(1, 5, 'Select'),
+(1, 6, 'Select'),
+(1, 7, 'Select'),
+(1, 8, 'Select'),
+(2, 1, 'Radio'),
+(2, 2, 'Radio'),
+(2, 3, 'Radio'),
+(2, 4, 'Radio'),
+(2, 5, 'Radio'),
+(2, 6, 'Radio'),
+(2, 7, 'Radio'),
+(2, 8, 'Radio'),
+(3, 1, 'Checkbox'),
+(3, 2, 'Checkbox'),
+(3, 3, 'Checkbox'),
+(3, 4, 'Checkbox'),
+(3, 5, 'Checkbox'),
+(3, 6, 'Checkbox'),
+(3, 7, 'Checkbox'),
+(3, 8, 'Checkbox'),
+(4, 1, 'Text'),
+(4, 2, 'Text'),
+(4, 3, 'Text'),
+(4, 4, 'Text'),
+(4, 5, 'Text'),
+(4, 6, 'Text'),
+(4, 7, 'Text'),
+(4, 8, 'Text'),
+(5, 1, 'Textarea'),
+(5, 2, 'Textarea'),
+(5, 3, 'Textarea'),
+(5, 4, 'Textarea'),
+(5, 5, 'Textarea'),
+(5, 6, 'Textarea'),
+(5, 7, 'Textarea'),
+(5, 8, 'Textarea'),
+(6, 1, 'File'),
+(6, 2, 'File'),
+(6, 3, 'File'),
+(6, 4, 'File'),
+(6, 5, 'File'),
+(6, 6, 'File'),
+(6, 7, 'File'),
+(6, 8, 'File'),
+(7, 1, 'Date'),
+(7, 2, 'Date'),
+(7, 3, 'Date'),
+(7, 4, 'Date'),
+(7, 5, 'Date'),
+(7, 6, 'Date'),
+(7, 7, 'Date'),
+(7, 8, 'Date'),
+(8, 1, 'Time'),
+(8, 2, 'Time'),
+(8, 3, 'Time'),
+(8, 4, 'Time'),
+(8, 5, 'Time'),
+(8, 6, 'Time'),
+(8, 7, 'Time'),
+(8, 8, 'Time'),
+(9, 1, 'Date &amp; Time'),
+(9, 2, 'Date &amp; Time'),
+(9, 3, 'Date &amp; Time'),
+(9, 4, 'Date &amp; Time'),
+(9, 5, 'Date &amp; Time'),
+(9, 6, 'Date &amp; Time'),
+(9, 7, 'Date &amp; Time'),
+(9, 8, 'Date &amp; Time'),
+(11, 1, 'Checkbox'),
+(11, 2, 'Checkbox'),
+(11, 3, 'Checkbox'),
+(11, 4, 'Checkbox'),
+(11, 5, 'Checkbox'),
+(11, 6, 'Checkbox'),
+(11, 7, 'Checkbox'),
+(11, 8, 'Checkbox'),
+(12, 1, 'Time'),
+(12, 2, 'Time'),
+(12, 3, 'Time'),
+(12, 4, 'Time'),
+(12, 5, 'Time'),
+(12, 6, 'Time'),
+(12, 7, 'Time'),
+(12, 8, 'Time'),
+(13, 1, 'Date'),
+(13, 2, 'Date'),
+(13, 3, 'Date'),
+(13, 4, 'Date'),
+(13, 5, 'Date'),
+(13, 6, 'Date'),
+(13, 7, 'Date'),
+(13, 8, 'Date'),
+(14, 1, 'Date &amp; Time'),
+(14, 2, 'Date &amp; Time'),
+(14, 3, 'Date &amp; Time'),
+(14, 4, 'Date &amp; Time'),
+(14, 5, 'Date &amp; Time'),
+(14, 6, 'Date &amp; Time'),
+(14, 7, 'Date &amp; Time'),
+(14, 8, 'Date &amp; Time'),
+(15, 1, 'File'),
+(15, 2, 'File'),
+(15, 3, 'File'),
+(15, 4, 'File'),
+(15, 5, 'File'),
+(15, 6, 'File'),
+(15, 7, 'File'),
+(15, 8, 'File'),
+(16, 1, 'Radio'),
+(16, 2, 'Radio'),
+(16, 3, 'Radio'),
+(16, 4, 'Radio'),
+(16, 5, 'Radio'),
+(16, 6, 'Radio'),
+(16, 7, 'Radio'),
+(16, 8, 'Radio'),
+(17, 1, 'Select'),
+(17, 2, 'Select'),
+(17, 3, 'Select'),
+(17, 4, 'Select'),
+(17, 5, 'Select'),
+(17, 6, 'Select'),
+(17, 7, 'Select'),
+(17, 8, 'Select'),
+(18, 1, 'Text'),
+(18, 2, 'Text'),
+(18, 3, 'Text'),
+(18, 4, 'Text'),
+(18, 5, 'Text'),
+(18, 6, 'Text'),
+(18, 7, 'Text'),
+(18, 8, 'Text'),
+(19, 1, 'Textarea'),
+(19, 2, 'Textarea'),
+(19, 3, 'Textarea'),
+(19, 4, 'Textarea'),
+(19, 5, 'Textarea'),
+(19, 6, 'Textarea'),
+(19, 7, 'Textarea'),
+(19, 8, 'Textarea'),
+(20, 1, 'Checkbox'),
+(20, 2, 'Checkbox'),
+(20, 3, 'Checkbox'),
+(20, 4, 'Checkbox'),
+(20, 5, 'Checkbox'),
+(20, 6, 'Checkbox'),
+(20, 7, 'Checkbox'),
+(20, 8, 'Checkbox'),
+(21, 1, 'Date'),
+(21, 2, 'Date'),
+(21, 3, 'Date'),
+(21, 4, 'Date'),
+(21, 5, 'Date'),
+(21, 6, 'Date'),
+(21, 7, 'Date'),
+(21, 8, 'Date'),
+(22, 1, 'Date &amp; Time'),
+(22, 2, 'Date &amp; Time'),
+(22, 3, 'Date &amp; Time'),
+(22, 4, 'Date &amp; Time'),
+(22, 5, 'Date &amp; Time'),
+(22, 6, 'Date &amp; Time'),
+(22, 7, 'Date &amp; Time'),
+(22, 8, 'Date &amp; Time'),
+(23, 1, 'File'),
+(23, 2, 'File'),
+(23, 3, 'File'),
+(23, 4, 'File'),
+(23, 5, 'File'),
+(23, 6, 'File'),
+(23, 7, 'File'),
+(23, 8, 'File'),
+(24, 1, 'Radio'),
+(24, 2, 'Radio'),
+(24, 3, 'Radio'),
+(24, 4, 'Radio'),
+(24, 5, 'Radio'),
+(24, 6, 'Radio'),
+(24, 7, 'Radio'),
+(24, 8, 'Radio'),
+(25, 1, 'Select'),
+(25, 2, 'Select'),
+(25, 3, 'Select'),
+(25, 4, 'Select'),
+(25, 5, 'Select'),
+(25, 6, 'Select'),
+(25, 7, 'Select'),
+(25, 8, 'Select'),
+(26, 1, 'Text'),
+(26, 2, 'Text'),
+(26, 3, 'Text'),
+(26, 4, 'Text'),
+(26, 5, 'Text'),
+(26, 6, 'Text'),
+(26, 7, 'Text'),
+(26, 8, 'Text'),
+(27, 1, 'Textarea'),
+(27, 2, 'Textarea'),
+(27, 3, 'Textarea'),
+(27, 4, 'Textarea'),
+(27, 5, 'Textarea'),
+(27, 6, 'Textarea'),
+(27, 7, 'Textarea'),
+(27, 8, 'Textarea'),
+(28, 1, 'Time'),
+(28, 2, 'Time'),
+(28, 3, 'Time'),
+(28, 4, 'Time'),
+(28, 5, 'Time'),
+(28, 6, 'Time'),
+(28, 7, 'Time'),
+(28, 8, 'Time');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_custom_field_value`
 --
 
-DROP TABLE IF EXISTS `oc_custom_field_value`;
 CREATE TABLE `oc_custom_field_value` (
-  `custom_field_value_id` int(11) NOT NULL AUTO_INCREMENT,
+  `custom_field_value_id` int(11) NOT NULL,
   `custom_field_id` int(11) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`custom_field_value_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_custom_field_value`
+--
+
+INSERT INTO `oc_custom_field_value` (`custom_field_value_id`, `custom_field_id`, `sort_order`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 2, 1),
+(5, 2, 2),
+(6, 2, 3),
+(7, 3, 1),
+(8, 3, 2),
+(9, 3, 3),
+(20, 11, 1),
+(21, 11, 2),
+(22, 11, 3),
+(32, 16, 1),
+(33, 16, 2),
+(34, 16, 3),
+(35, 17, 1),
+(36, 17, 2),
+(37, 17, 3),
+(38, 20, 1),
+(39, 20, 2),
+(40, 20, 3),
+(41, 24, 1),
+(42, 24, 2),
+(43, 24, 3),
+(44, 25, 0),
+(45, 25, 0),
+(46, 25, 0);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_custom_field_value_description`
 --
 
-DROP TABLE IF EXISTS `oc_custom_field_value_description`;
 CREATE TABLE `oc_custom_field_value_description` (
   `custom_field_value_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `custom_field_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`custom_field_value_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_custom_field_value_description`
+--
+
+INSERT INTO `oc_custom_field_value_description` (`custom_field_value_id`, `language_id`, `custom_field_id`, `name`) VALUES
+(1, 1, 1, 'Test 1'),
+(1, 2, 1, 'Test 1'),
+(1, 3, 1, 'Test 1'),
+(1, 4, 1, 'Test 1'),
+(1, 5, 1, 'Test 1'),
+(1, 6, 1, 'Test 1'),
+(1, 7, 1, 'Test 1'),
+(1, 8, 1, 'Test 1'),
+(2, 1, 1, 'test 2'),
+(2, 2, 1, 'test 2'),
+(2, 3, 1, 'test 2'),
+(2, 4, 1, 'test 2'),
+(2, 5, 1, 'test 2'),
+(2, 6, 1, 'test 2'),
+(2, 7, 1, 'test 2'),
+(2, 8, 1, 'test 2'),
+(3, 1, 1, 'Test 3'),
+(3, 2, 1, 'Test 3'),
+(3, 3, 1, 'Test 3'),
+(3, 4, 1, 'Test 3'),
+(3, 5, 1, 'Test 3'),
+(3, 6, 1, 'Test 3'),
+(3, 7, 1, 'Test 3'),
+(3, 8, 1, 'Test 3'),
+(4, 1, 2, 'Test 1'),
+(4, 2, 2, 'Test 1'),
+(4, 3, 2, 'Test 1'),
+(4, 4, 2, 'Test 1'),
+(4, 5, 2, 'Test 1'),
+(4, 6, 2, 'Test 1'),
+(4, 7, 2, 'Test 1'),
+(4, 8, 2, 'Test 1'),
+(5, 1, 2, 'Test 2'),
+(5, 2, 2, 'Test 2'),
+(5, 3, 2, 'Test 2'),
+(5, 4, 2, 'Test 2'),
+(5, 5, 2, 'Test 2'),
+(5, 6, 2, 'Test 2'),
+(5, 7, 2, 'Test 2'),
+(5, 8, 2, 'Test 2'),
+(6, 1, 2, 'Test 3'),
+(6, 2, 2, 'Test 3'),
+(6, 3, 2, 'Test 3'),
+(6, 4, 2, 'Test 3'),
+(6, 5, 2, 'Test 3'),
+(6, 6, 2, 'Test 3'),
+(6, 7, 2, 'Test 3'),
+(6, 8, 2, 'Test 3'),
+(7, 1, 3, 'Test 1'),
+(7, 2, 3, 'Test 1'),
+(7, 3, 3, 'Test 1'),
+(7, 4, 3, 'Test 1'),
+(7, 5, 3, 'Test 1'),
+(7, 6, 3, 'Test 1'),
+(7, 7, 3, 'Test 1'),
+(7, 8, 3, 'Test 1'),
+(8, 1, 3, 'Test 2'),
+(8, 2, 3, 'Test 2'),
+(8, 3, 3, 'Test 2'),
+(8, 4, 3, 'Test 2'),
+(8, 5, 3, 'Test 2'),
+(8, 6, 3, 'Test 2'),
+(8, 7, 3, 'Test 2'),
+(8, 8, 3, 'Test 2'),
+(9, 1, 3, 'Test 3'),
+(9, 2, 3, 'Test 3'),
+(9, 3, 3, 'Test 3'),
+(9, 4, 3, 'Test 3'),
+(9, 5, 3, 'Test 3'),
+(9, 6, 3, 'Test 3'),
+(9, 7, 3, 'Test 3'),
+(9, 8, 3, 'Test 3'),
+(20, 1, 11, 'Test 1'),
+(20, 2, 11, 'Test 1'),
+(20, 3, 11, 'Test 1'),
+(20, 4, 11, 'Test 1'),
+(20, 5, 11, 'Test 1'),
+(20, 6, 11, 'Test 1'),
+(20, 7, 11, 'Test 1'),
+(20, 8, 11, 'Test 1'),
+(21, 1, 11, 'Test 2'),
+(21, 2, 11, 'Test 2'),
+(21, 3, 11, 'Test 2'),
+(21, 4, 11, 'Test 2'),
+(21, 5, 11, 'Test 2'),
+(21, 6, 11, 'Test 2'),
+(21, 7, 11, 'Test 2'),
+(21, 8, 11, 'Test 2'),
+(22, 1, 11, 'Test 3'),
+(22, 2, 11, 'Test 3'),
+(22, 3, 11, 'Test 3'),
+(22, 4, 11, 'Test 3'),
+(22, 5, 11, 'Test 3'),
+(22, 6, 11, 'Test 3'),
+(22, 7, 11, 'Test 3'),
+(22, 8, 11, 'Test 3'),
+(32, 1, 16, 'Test 1'),
+(32, 2, 16, 'Test 1'),
+(32, 3, 16, 'Test 1'),
+(32, 4, 16, 'Test 1'),
+(32, 5, 16, 'Test 1'),
+(32, 6, 16, 'Test 1'),
+(32, 7, 16, 'Test 1'),
+(32, 8, 16, 'Test 1'),
+(33, 1, 16, 'Test 2'),
+(33, 2, 16, 'Test 2'),
+(33, 3, 16, 'Test 2'),
+(33, 4, 16, 'Test 2'),
+(33, 5, 16, 'Test 2'),
+(33, 6, 16, 'Test 2'),
+(33, 7, 16, 'Test 2'),
+(33, 8, 16, 'Test 2'),
+(34, 1, 16, 'Test 3'),
+(34, 2, 16, 'Test 3'),
+(34, 3, 16, 'Test 3'),
+(34, 4, 16, 'Test 3'),
+(34, 5, 16, 'Test 3'),
+(34, 6, 16, 'Test 3'),
+(34, 7, 16, 'Test 3'),
+(34, 8, 16, 'Test 3'),
+(35, 1, 17, 'Test 1'),
+(35, 2, 17, 'Test 1'),
+(35, 3, 17, 'Test 1'),
+(35, 4, 17, 'Test 1'),
+(35, 5, 17, 'Test 1'),
+(35, 6, 17, 'Test 1'),
+(35, 7, 17, 'Test 1'),
+(35, 8, 17, 'Test 1'),
+(36, 1, 17, 'Test 2'),
+(36, 2, 17, 'Test 2'),
+(36, 3, 17, 'Test 2'),
+(36, 4, 17, 'Test 2'),
+(36, 5, 17, 'Test 2'),
+(36, 6, 17, 'Test 2'),
+(36, 7, 17, 'Test 2'),
+(36, 8, 17, 'Test 2'),
+(37, 1, 17, 'Test 3'),
+(37, 2, 17, 'Test 3'),
+(37, 3, 17, 'Test 3'),
+(37, 4, 17, 'Test 3'),
+(37, 5, 17, 'Test 3'),
+(37, 6, 17, 'Test 3'),
+(37, 7, 17, 'Test 3'),
+(37, 8, 17, 'Test 3'),
+(38, 1, 20, 'Test 1'),
+(38, 2, 20, 'Test 1'),
+(38, 3, 20, 'Test 1'),
+(38, 4, 20, 'Test 1'),
+(38, 5, 20, 'Test 1'),
+(38, 6, 20, 'Test 1'),
+(38, 7, 20, 'Test 1'),
+(38, 8, 20, 'Test 1'),
+(39, 1, 20, 'Test 2'),
+(39, 2, 20, 'Test 2'),
+(39, 3, 20, 'Test 2'),
+(39, 4, 20, 'Test 2'),
+(39, 5, 20, 'Test 2'),
+(39, 6, 20, 'Test 2'),
+(39, 7, 20, 'Test 2'),
+(39, 8, 20, 'Test 2'),
+(40, 1, 20, 'Test 3'),
+(40, 2, 20, 'Test 3'),
+(40, 3, 20, 'Test 3'),
+(40, 4, 20, 'Test 3'),
+(40, 5, 20, 'Test 3'),
+(40, 6, 20, 'Test 3'),
+(40, 7, 20, 'Test 3'),
+(40, 8, 20, 'Test 3'),
+(41, 1, 24, 'Test 1'),
+(41, 2, 24, 'Test 1'),
+(41, 3, 24, 'Test 1'),
+(41, 4, 24, 'Test 1'),
+(41, 5, 24, 'Test 1'),
+(41, 6, 24, 'Test 1'),
+(41, 7, 24, 'Test 1'),
+(41, 8, 24, 'Test 1'),
+(42, 1, 24, 'Test 2'),
+(42, 2, 24, 'Test 2'),
+(42, 3, 24, 'Test 2'),
+(42, 4, 24, 'Test 2'),
+(42, 5, 24, 'Test 2'),
+(42, 6, 24, 'Test 2'),
+(42, 7, 24, 'Test 2'),
+(42, 8, 24, 'Test 2'),
+(43, 1, 24, 'Test 3'),
+(43, 2, 24, 'Test 3'),
+(43, 3, 24, 'Test 3'),
+(43, 4, 24, 'Test 3'),
+(43, 5, 24, 'Test 3'),
+(43, 6, 24, 'Test 3'),
+(43, 7, 24, 'Test 3'),
+(43, 8, 24, 'Test 3'),
+(44, 1, 25, 'Test 1'),
+(44, 2, 25, 'Test 1'),
+(44, 3, 25, 'Test 1'),
+(44, 4, 25, 'Test 1'),
+(44, 5, 25, 'Test 1'),
+(44, 6, 25, 'Test 1'),
+(44, 7, 25, 'Test 1'),
+(44, 8, 25, 'Test 1'),
+(45, 1, 25, 'Test 2'),
+(45, 2, 25, 'Test 2'),
+(45, 3, 25, 'Test 2'),
+(45, 4, 25, 'Test 2'),
+(45, 5, 25, 'Test 2'),
+(45, 6, 25, 'Test 2'),
+(45, 7, 25, 'Test 2'),
+(45, 8, 25, 'Test 2'),
+(46, 1, 25, 'Test 3'),
+(46, 2, 25, 'Test 3'),
+(46, 3, 25, 'Test 3'),
+(46, 4, 25, 'Test 3'),
+(46, 5, 25, 'Test 3'),
+(46, 6, 25, 'Test 3'),
+(46, 7, 25, 'Test 3'),
+(46, 8, 25, 'Test 3');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_download`
 --
 
-DROP TABLE IF EXISTS `oc_download`;
 CREATE TABLE `oc_download` (
-  `download_id` int(11) NOT NULL AUTO_INCREMENT,
+  `download_id` int(11) NOT NULL,
   `filename` varchar(160) NOT NULL,
   `mask` varchar(128) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_download_description`
 --
 
-DROP TABLE IF EXISTS `oc_download_description`;
 CREATE TABLE `oc_download_description` (
   `download_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`download_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_download_report`
+--
+
+CREATE TABLE `oc_download_report` (
+  `download_report_id` int(11) NOT NULL,
+  `download_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `country` varchar(2) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_event`
 --
 
-DROP TABLE IF EXISTS `oc_event`;
 CREATE TABLE `oc_event` (
-  `event_id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(64) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `code` varchar(128) NOT NULL,
+  `description` text NOT NULL,
   `trigger` text NOT NULL,
   `action` text NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`event_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `sort_order` int(3) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_event`
 --
 
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(1, 'activity_customer_add', 'catalog/model/account/customer/addCustomer/after', 'event/activity/addCustomer', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(2, 'activity_customer_edit', 'catalog/model/account/customer/editCustomer/after', 'event/activity/editCustomer', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(3, 'activity_customer_password', 'catalog/model/account/customer/editPassword/after', 'event/activity/editPassword', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(4, 'activity_customer_forgotten', 'catalog/model/account/customer/editCode/after', 'event/activity/forgotten', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(5, 'activity_transaction', 'catalog/model/account/customer/addTransaction/after', 'event/activity/addTransaction', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(6, 'activity_customer_login', 'catalog/model/account/customer/deleteLoginAttempts/after', 'event/activity/login', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(7, 'activity_address_add', 'catalog/model/account/address/addAddress/after', 'event/activity/addAddress', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(8, 'activity_address_edit', 'catalog/model/account/address/editAddress/after', 'event/activity/editAddress', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(9, 'activity_address_delete', 'catalog/model/account/address/deleteAddress/after', 'event/activity/deleteAddress', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(10, 'activity_affiliate_add', 'catalog/model/account/customer/addAffiliate/after', 'event/activity/addAffiliate', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(11, 'activity_affiliate_edit', 'catalog/model/account/customer/editAffiliate/after', 'event/activity/editAffiliate', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(12, 'activity_order_add', 'catalog/model/checkout/order/addOrderHistory/before', 'event/activity/addOrderHistory', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(13, 'activity_return_add', 'catalog/model/account/return/addReturn/after', 'event/activity/addReturn', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(14, 'mail_transaction', 'catalog/model/account/customer/addTransaction/after', 'mail/transaction', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(15, 'mail_forgotten', 'catalog/model/account/customer/editCode/after', 'mail/forgotten', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(16, 'mail_customer_add', 'catalog/model/account/customer/addCustomer/after', 'mail/register', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(17, 'mail_customer_alert', 'catalog/model/account/customer/addCustomer/after', 'mail/register/alert', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(18, 'mail_affiliate_add', 'catalog/model/account/customer/addAffiliate/after', 'mail/affiliate', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(19, 'mail_affiliate_alert', 'catalog/model/account/customer/addAffiliate/after', 'mail/affiliate/alert', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(20, 'mail_voucher', 'catalog/model/checkout/order/addOrderHistory/after', 'extension/total/voucher/send', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(21, 'mail_order_add', 'catalog/model/checkout/order/addOrderHistory/before', 'mail/order', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(22, 'mail_order_alert', 'catalog/model/checkout/order/addOrderHistory/before', 'mail/order/alert', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(23, 'statistics_review_add', 'catalog/model/catalog/review/addReview/after', 'event/statistics/addReview', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(24, 'statistics_return_add', 'catalog/model/account/return/addReturn/after', 'event/statistics/addReturn', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(25, 'statistics_order_history', 'catalog/model/checkout/order/addOrderHistory/after', 'event/statistics/addOrderHistory', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(26, 'admin_mail_affiliate_approve', 'admin/model/customer/customer_approval/approveAffiliate/after', 'mail/affiliate/approve', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(27, 'admin_mail_affiliate_deny', 'admin/model/customer/customer_approval/denyAffiliate/after', 'mail/affiliate/deny', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(28, 'admin_mail_customer_approve', 'admin/model/customer/customer_approval/approveCustomer/after', 'mail/customer/approve', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(29, 'admin_mail_customer_deny', 'admin/model/customer/customer_approval/denyCustomer/after', 'mail/customer/deny', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(30, 'admin_mail_reward', 'admin/model/customer/customer/addReward/after', 'mail/reward', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(31, 'admin_mail_transaction', 'admin/model/customer/customer/addTransaction/after', 'mail/transaction', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(32, 'admin_mail_return', 'admin/model/sale/return/addReturn/after', 'mail/return', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`) VALUES
-(33, 'admin_mail_forgotten', 'admin/model/user/user/editCode/after', 'mail/forgotten', 1);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(34, 'advertise_google', 'admin/model/catalog/product/deleteProduct/after', 'extension/advertise/google/deleteProduct', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(35, 'advertise_google', 'admin/model/catalog/product/copyProduct/after', 'extension/advertise/google/copyProduct', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(36, 'advertise_google', 'admin/view/common/column_left/before', 'extension/advertise/google/admin_link', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(37, 'advertise_google', 'admin/model/catalog/product/addProduct/after', 'extension/advertise/google/addProduct', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(38, 'advertise_google', 'catalog/controller/checkout/success/before', 'extension/advertise/google/before_checkout_success', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(39, 'advertise_google', 'catalog/view/common/header/after', 'extension/advertise/google/google_global_site_tag', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(40, 'advertise_google', 'catalog/view/common/success/after', 'extension/advertise/google/google_dynamic_remarketing_purchase', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(41, 'advertise_google', 'catalog/view/product/product/after', 'extension/advertise/google/google_dynamic_remarketing_product', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(42, 'advertise_google', 'catalog/view/product/search/after', 'extension/advertise/google/google_dynamic_remarketing_searchresults', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(43, 'advertise_google', 'catalog/view/product/category/after', 'extension/advertise/google/google_dynamic_remarketing_category', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(44, 'advertise_google', 'catalog/view/common/home/after', 'extension/advertise/google/google_dynamic_remarketing_home', 1, 0);
-INSERT INTO `oc_event` (`event_id`, `code`, `trigger`, `action`, `status`, `sort_order`) VALUES
-(45, 'advertise_google', 'catalog/view/checkout/cart/after', 'extension/advertise/google/google_dynamic_remarketing_cart', 1, 0);
+INSERT INTO `oc_event` (`event_id`, `code`, `description`, `trigger`, `action`, `status`, `sort_order`) VALUES
+(1, 'activity_customer_add', '', 'catalog/model/account/customer/addCustomer/after', 'event/activity.addCustomer', 1, 1),
+(2, 'activity_customer_edit', '', 'catalog/model/account/customer/editCustomer/after', 'event/activity.editCustomer', 1, 1),
+(3, 'activity_customer_password', '', 'catalog/model/account/customer/editPassword/after', 'event/activity.editPassword', 1, 1),
+(4, 'activity_customer_forgotten', '', 'catalog/model/account/customer/editCode/after', 'event/activity.forgotten', 1, 1),
+(5, 'activity_customer_login', '', 'catalog/model/account/customer/deleteLoginAttempts/after', 'event/activity.login', 1, 1),
+(6, 'activity_customer_transaction', '', 'catalog/model/account/customer/addTransaction/after', 'event/activity.addTransaction', 1, 1),
+(7, 'activity_address_add', '', 'catalog/model/account/address/addAddress/after', 'event/activity.addAddress', 1, 1),
+(8, 'activity_address_edit', '', 'catalog/model/account/address/editAddress/after', 'event/activity.editAddress', 1, 1),
+(9, 'activity_address_delete', '', 'catalog/model/account/address/deleteAddress/after', 'event/activity.deleteAddress', 1, 1),
+(10, 'activity_affiliate_add', '', 'catalog/model/account/affiliate/addAffiliate/after', 'event/activity.addAffiliate', 1, 1),
+(11, 'activity_affiliate_edit', '', 'catalog/model/account/affiliate/editAffiliate/after', 'event/activity.editAffiliate', 1, 1),
+(12, 'activity_order_add', '', 'catalog/model/checkout/order/addHistory/before', 'event/activity.addHistory', 1, 1),
+(13, 'activity_return_add', '', 'catalog/model/account/returns/addReturn/after', 'event/activity.addReturn', 1, 1),
+(14, 'mail_customer_transaction', '', 'catalog/model/account/customer/addTransaction/after', 'mail/transaction', 1, 1),
+(15, 'mail_customer_forgotten', '', 'catalog/model/account/customer/editCode/after', 'mail/forgotten', 1, 1),
+(16, 'mail_customer_add', '', 'catalog/model/account/customer/addCustomer/after', 'mail/register', 1, 1),
+(17, 'mail_customer_alert', '', 'catalog/model/account/customer/addCustomer/after', 'mail/register.alert', 1, 1),
+(18, 'mail_affiliate_add', '', 'catalog/model/account/affiliate/addAffiliate/after', 'mail/affiliate', 1, 1),
+(19, 'mail_affiliate_alert', '', 'catalog/model/account/affiliate/addAffiliate/after', 'mail/affiliate.alert', 1, 1),
+(20, 'mail_order_alert', '', 'catalog/model/checkout/order/addHistory/before', 'mail/order.alert', 1, 1),
+(21, 'mail_order_add', '', 'catalog/model/checkout/order/addHistory/before', 'mail/order', 1, 1),
+(22, 'mail_gdpr', '', 'catalog/model/account/gdpr/addGdpr/after', 'mail/gdpr', 1, 1),
+(23, 'mail_gdpr_delete', '', 'catalog/model/account/gdpr/editStatus/after', 'mail/gdpr.remove', 1, 1),
+(24, 'mail_voucher', '', 'catalog/model/checkout/order/addHistory/after', 'mail/voucher', 1, 1),
+(25, 'mail_review', '', 'catalog/model/catalog/review/addReview/after', 'mail/review', 1, 1),
+(26, 'mail_subscription', '', 'catalog/model/checkout/subscription/addSubscription/after', 'mail/subscription', 1, 1),
+(27, 'statistics_review_add', '', 'catalog/model/catalog/review/addReview/after', 'event/statistics.addReview', 1, 1),
+(28, 'statistics_return_add', '', 'catalog/model/account/returns/addReturn/after', 'event/statistics.addReturn', 1, 1),
+(29, 'statistics_return_delete', '', 'admin/model/sale/returns/deleteReturn/after', 'event/statistics.deleteReturn', 1, 1),
+(30, 'statistics_order_history', '', 'catalog/model/checkout/order/addHistory/before', 'event/statistics.addHistory', 1, 1),
+(31, 'admin_currency_add', '', 'admin/model/localisation/currency/addCurrency/after', 'event/currency', 1, 1),
+(32, 'admin_currency_edit', '', 'admin/model/localisation/currency/editCurrency/after', 'event/currency', 1, 1),
+(33, 'admin_currency_setting', '', 'admin/model/setting/setting/editSetting/after', 'event/currency', 1, 1),
+(34, 'admin_mail_gdpr', '', 'admin/model/customer/gdpr/editStatus/after', 'mail/gdpr', 1, 1),
+(35, 'admin_mail_affiliate_approve', '', 'admin/model/customer/customer_approval/approveAffiliate/after', 'mail/affiliate.approve', 1, 1),
+(36, 'admin_mail_affiliate_deny', '', 'admin/model/customer/customer_approval/denyAffiliate/after', 'mail/affiliate.deny', 1, 1),
+(37, 'admin_mail_customer_approve', '', 'admin/model/customer/customer_approval/approveCustomer/after', 'mail/customer.approve', 1, 1),
+(38, 'admin_mail_customer_deny', '', 'admin/model/customer/customer_approval/denyCustomer/after', 'mail/customer.deny', 1, 1),
+(39, 'admin_mail_customer_transaction', '', 'admin/model/customer/customer/addTransaction/after', 'mail/transaction', 1, 1),
+(40, 'admin_mail_reward', '', 'admin/model/customer/customer/addReward/after', 'mail/reward', 1, 1),
+(41, 'admin_mail_return', '', 'admin/model/sale/returns/addHistory/after', 'mail/returns', 1, 1),
+(42, 'admin_mail_user_forgotten', '', 'admin/model/user/user/editCode/after', 'mail/forgotten', 1, 1),
+(43, 'admin_mail_user_authorize', '', 'admin/controller/common/authorize.send/after', 'mail/authorize', 1, 1),
+(44, 'admin_mail_user_authorize_reset', '', 'admin/model/user/user/editCode/after', 'mail/authorize.reset', 1, 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_extension`
 --
 
-DROP TABLE IF EXISTS `oc_extension`;
 CREATE TABLE `oc_extension` (
-  `extension_id` int(11) NOT NULL AUTO_INCREMENT,
+  `extension_id` int(11) NOT NULL,
+  `extension` varchar(255) NOT NULL,
   `type` varchar(32) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  PRIMARY KEY (`extension_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `code` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_extension`
 --
 
-INSERT INTO `oc_extension` (`extension_id`, `type`, `code`) VALUES
-(1, 'payment', 'cod'),
-(2, 'total', 'shipping'),
-(3, 'total', 'sub_total'),
-(4, 'total', 'tax'),
-(5, 'total', 'total'),
-(6, 'module', 'banner'),
-(7, 'module', 'carousel'),
-(8, 'total', 'credit'),
-(9, 'shipping', 'flat'),
-(10, 'total', 'handling'),
-(11, 'total', 'low_order_fee'),
-(12, 'total', 'coupon'),
-(13, 'module', 'category'),
-(14, 'module', 'account'),
-(15, 'total', 'reward'),
-(16, 'total', 'voucher'),
-(17, 'payment', 'free_checkout'),
-(18, 'module', 'featured'),
-(19, 'module', 'slideshow'),
-(20, 'theme', 'default'),
-(21, 'dashboard', 'activity'),
-(22, 'dashboard', 'sale'),
-(23, 'dashboard', 'recent'),
-(24, 'dashboard', 'order'),
-(25, 'dashboard', 'online'),
-(26, 'dashboard', 'map'),
-(27, 'dashboard', 'customer'),
-(28, 'dashboard', 'chart'),
-(29, 'report', 'sale_coupon'),
-(31, 'report', 'customer_search'),
-(32, 'report', 'customer_transaction'),
-(33, 'report', 'product_purchased'),
-(34, 'report', 'product_viewed'),
-(35, 'report', 'sale_return'),
-(36, 'report', 'sale_order'),
-(37, 'report', 'sale_shipping'),
-(38, 'report', 'sale_tax'),
-(39, 'report', 'customer_activity'),
-(40, 'report', 'customer_order'),
-(41, 'report', 'customer_reward'),
-(42, 'advertise', 'google');
+INSERT INTO `oc_extension` (`extension_id`, `extension`, `type`, `code`) VALUES
+(1, 'opencart', 'payment', 'cod'),
+(2, 'opencart', 'total', 'shipping'),
+(3, 'opencart', 'total', 'sub_total'),
+(4, 'opencart', 'total', 'tax'),
+(5, 'opencart', 'total', 'total'),
+(6, 'opencart', 'module', 'banner'),
+(8, 'opencart', 'total', 'credit'),
+(9, 'opencart', 'shipping', 'flat'),
+(10, 'opencart', 'total', 'handling'),
+(11, 'opencart', 'total', 'low_order_fee'),
+(12, 'opencart', 'total', 'coupon'),
+(13, 'opencart', 'module', 'category'),
+(14, 'opencart', 'module', 'account'),
+(15, 'opencart', 'total', 'reward'),
+(16, 'opencart', 'total', 'voucher'),
+(17, 'opencart', 'payment', 'free_checkout'),
+(18, 'opencart', 'module', 'featured'),
+(20, 'opencart', 'theme', 'basic'),
+(21, 'opencart', 'dashboard', 'activity'),
+(22, 'opencart', 'dashboard', 'sale'),
+(23, 'opencart', 'dashboard', 'recent'),
+(24, 'opencart', 'dashboard', 'order'),
+(25, 'opencart', 'dashboard', 'online'),
+(26, 'opencart', 'dashboard', 'map'),
+(27, 'opencart', 'dashboard', 'customer'),
+(28, 'opencart', 'dashboard', 'chart'),
+(29, 'opencart', 'report', 'sale_coupon'),
+(31, 'opencart', 'report', 'customer_search'),
+(32, 'opencart', 'report', 'customer_transaction'),
+(33, 'opencart', 'report', 'product_purchased'),
+(34, 'opencart', 'report', 'product_viewed'),
+(35, 'opencart', 'report', 'sale_return'),
+(36, 'opencart', 'report', 'sale_order'),
+(37, 'opencart', 'report', 'sale_shipping'),
+(38, 'opencart', 'report', 'sale_tax'),
+(39, 'opencart', 'report', 'customer_activity'),
+(40, 'opencart', 'report', 'customer_order'),
+(41, 'opencart', 'report', 'customer_reward'),
+(42, 'opencart', 'currency', 'ecb'),
+(43, 'opencart', 'report', 'marketing'),
+(44, 'opencart', 'report', 'customer_subscription'),
+(47, 'ishisocialfollowblock', 'module', 'ishisocialfollow'),
+(56, 'ishibannerblock', 'module', 'ishibannerblock'),
+(58, 'ishimanufacture', 'module', 'ishimanufacturerblock'),
+(64, 'ishipaymentblock', 'module', 'ishipaymentblock'),
+(65, 'ishiaboutusblock', 'module', 'ishiaboutusblock'),
+(66, 'ishiaboutusservicesblock', 'module', 'ishiaboutusservicesblock'),
+(67, 'ishifaqblock', 'module', 'ishifaqblock'),
+(68, 'opencart', 'module', 'latest'),
+(69, 'opencart', 'module', 'bestseller'),
+(70, 'ishimaplinkblock', 'module', 'ishimaplinkblock'),
+(71, 'opencart', 'module', 'filter'),
+(77, 'arabic_language', 'language', 'traditional_arabic'),
+(78, 'ishiservicesblock', 'module', 'ishiservicesblock'),
+(79, 'ishislider', 'module', 'ishislider'),
+(84, 'blogger', 'module', 'blogger'),
+(103, 'ishifooterlinkblock', 'module', 'ishifooterlinkblock'),
+(108, 'opencart', 'module', 'information'),
+(109, 'newslettersubscribe', 'module', 'newslettersubscribe'),
+(112, 'ishicontactinfoblock', 'module', 'ishicontactinfoblock'),
+(116, 'ishiproductsblock', 'module', 'ishiproductsblock'),
+(122, 'ishiparallaxblock', 'module', 'ishiparallaxblock'),
+(128, 'ishiinstagramblock', 'module', 'ishiinstagramblock'),
+(129, 'ishistoreinfoblock', 'module', 'ishistoreinfoblock'),
+(137, 'opencart', 'module', 'html'),
+(139, 'ishitestimonialblock', 'module', 'ishitestimonialblock'),
+(140, 'ishispecialproductblock', 'module', 'ishispecialblock'),
+(141, 'newslettersubscribepopup', 'module', 'newslettersubscribepopup'),
+(143, 'ishishopreassurance', 'module', 'ishishopreassurance'),
+(144, 'ukrainian', 'language', 'ukrainian'),
+(145, 'ocn_language_russian', 'language', 'russian');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_extension_install`
 --
 
-DROP TABLE IF EXISTS `oc_extension_install`;
 CREATE TABLE `oc_extension_install` (
-  `extension_install_id` int(11) NOT NULL AUTO_INCREMENT,
+  `extension_install_id` int(11) NOT NULL,
+  `extension_id` int(11) NOT NULL,
   `extension_download_id` int(11) NOT NULL,
-  `filename` varchar(255) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`extension_install_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(128) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `version` varchar(255) NOT NULL,
+  `author` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_extension_install`
+--
+
+INSERT INTO `oc_extension_install` (`extension_install_id`, `extension_id`, `extension_download_id`, `name`, `code`, `version`, `author`, `link`, `status`, `date_added`) VALUES
+(1, 0, 0, 'OpenCart Default Extensions', 'opencart', '1.0', 'OpenCart Ltd', 'http://www.opencart.com', 1, '2020-08-29 15:35:39'),
+(2, 0, 0, 'OpenCart Language Example', 'oc_language_example', '1.0', 'OpenCart Ltd', 'https://www.opencart.com', 0, '2023-04-21 04:07:29'),
+(3, 0, 0, 'OpenCart Payment Example', 'oc_payment_example', '1.0', 'OpenCart Ltd', 'https://www.opencart.com', 0, '2023-04-21 04:07:29'),
+(4, 0, 0, 'OpenCart Theme Example', 'oc_theme_example', '1.0', 'OpenCart Ltd', 'https://www.opencart.com', 1, '2023-04-21 04:07:29'),
+(8, 0, 0, 'IshiSocialFollowBlock', 'ishisocialfollowblock', '1.0', 'IshiTechnolabs', 'https://ishitechnolabs.com', 1, '2023-04-21 07:21:00'),
+(17, 0, 0, 'IshiBannerBlock', 'ishibannerblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-04-21 09:35:29'),
+(20, 0, 0, 'IshiManufactureBlock', 'ishimanufacture', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-04-21 09:49:25'),
+(25, 0, 0, 'IshipaymentBlock', 'ishipaymentblock', '1.0', 'IshiTechnolabs', 'https://ishitechnolabs.com', 1, '2023-04-21 10:12:41'),
+(26, 0, 0, 'IshiAboutusBlock', 'ishiaboutusblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-04-21 10:20:10'),
+(27, 0, 0, 'IshiAboutusServicesBlock', 'ishiaboutusservicesblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-04-21 10:20:17'),
+(28, 0, 0, 'IshiFAQBlock', 'ishifaqblock', '1.0', 'IshiTechnolabs', 'https://ishitechnolabs.com', 1, '2023-04-21 10:20:25'),
+(29, 0, 0, 'IshiMaplinkBlock', 'ishimaplinkblock', '1.0', 'IshiTechnolabs', 'https://ishitechnolabs.com', 1, '2023-04-21 10:20:31'),
+(31, 0, 0, 'OpenCart Arabic Language', 'oc_arabic_language', '1.0', 'Beatpoint Ltd', 'https://www.beat-point.com', 0, '2023-07-12 05:04:01'),
+(37, 0, 0, 'Arabic', 'arabic_language', '1.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-07-31 11:31:45'),
+(38, 0, 0, 'IshiServicesBlock', 'ishiservicesblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-08-08 04:10:17'),
+(39, 0, 0, 'IshiSlider', 'ishislider', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-08-08 05:36:53'),
+(44, 0, 0, 'IshiThemesBlog', 'blogger', '1.0', 'IshiTechnolabs', 'https://ishitechnolabs.com', 1, '2023-08-08 11:39:26'),
+(62, 0, 0, 'IshiFooterlinkBlock', 'ishifooterlinkblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-08-23 09:32:54'),
+(67, 0, 0, 'IshiNewslettersubscribe', 'newslettersubscribe', '1.0', 'IshiTechnolabs', 'https://ishitechnolabs.com', 1, '2023-08-25 10:12:30'),
+(70, 0, 0, 'IshiContactinfoBlock', 'ishicontactinfoblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-08-25 10:30:13'),
+(74, 0, 0, 'IshiProductsBlock', 'ishiproductsblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-10-03 11:22:32'),
+(80, 0, 0, 'IshiParallaxBlock', 'ishiparallaxblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-11-01 05:18:02'),
+(85, 0, 0, 'IshiInstagramBlock', 'ishiinstagramblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-11-09 09:05:45'),
+(86, 0, 0, 'IshiStoreinfoBlock', 'ishistoreinfoblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2023-11-09 09:21:19'),
+(95, 0, 0, 'IshiTestimonialBlock', 'ishitestimonialblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2024-01-24 14:48:54'),
+(96, 0, 0, 'IshiSpecialBlock', 'ishispecialproductblock', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2024-01-25 09:20:43'),
+(97, 0, 0, 'IshiNewslettersubscribePopup', 'newslettersubscribepopup', '1.0', 'IshiTechnolabs', 'https://ishitechnolabs.com', 1, '2024-02-12 09:32:45'),
+(99, 0, 0, 'IshiShopReassurance', 'ishishopreassurance', '2.0', 'Ishitechnolabs', 'https://Ishitechnolabs.com', 1, '2024-02-16 07:09:48'),
+(100, 0, 0, 'Українська мова', 'ukrainian', '1.0.5', 'OpenCartBot', 'https://opencartbot.com/ukrainian-opencart4', 1, '2024-04-27 04:04:06'),
+(101, 0, 0, '[OCN] OpenCart Language Russian', 'ocn_language_russian', '4.0.2.3.RE4', 'Hkr', 'https://forum.opencart.name/resources/Русский-язык-для-opencart-4.131/', 1, '2024-04-27 05:17:46');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_extension_path`
 --
 
-DROP TABLE IF EXISTS `oc_extension_path`;
 CREATE TABLE `oc_extension_path` (
-  `extension_path_id` int(11) NOT NULL AUTO_INCREMENT,
+  `extension_path_id` int(11) NOT NULL,
   `extension_install_id` int(11) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`extension_path_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `path` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_extension_path`
+--
+
+INSERT INTO `oc_extension_path` (`extension_path_id`, `extension_install_id`, `path`) VALUES
+(1, 1, 'opencart'),
+(2, 1, 'opencart/admin'),
+(3, 1, 'opencart/admin/controller'),
+(4, 1, 'opencart/admin/controller/analytics'),
+(5, 1, 'opencart/admin/controller/analytics/index.html'),
+(6, 1, 'opencart/admin/controller/captcha'),
+(7, 1, 'opencart/admin/controller/captcha/basic.php'),
+(8, 1, 'opencart/admin/controller/currency'),
+(9, 1, 'opencart/admin/controller/currency/ecb.php'),
+(10, 1, 'opencart/admin/controller/currency/fixer.php'),
+(11, 1, 'opencart/admin/controller/dashboard'),
+(12, 1, 'opencart/admin/controller/dashboard/activity.php'),
+(13, 1, 'opencart/admin/controller/dashboard/chart.php'),
+(14, 1, 'opencart/admin/controller/dashboard/customer.php'),
+(15, 1, 'opencart/admin/controller/dashboard/map.php'),
+(16, 1, 'opencart/admin/controller/dashboard/online.php'),
+(17, 1, 'opencart/admin/controller/dashboard/order.php'),
+(18, 1, 'opencart/admin/controller/dashboard/recent.php'),
+(19, 1, 'opencart/admin/controller/dashboard/sale.php'),
+(20, 1, 'opencart/admin/controller/feed'),
+(21, 1, 'opencart/admin/controller/feed/index.html'),
+(22, 1, 'opencart/admin/controller/fraud'),
+(23, 1, 'opencart/admin/controller/fraud/ip.php'),
+(24, 1, 'opencart/admin/controller/module'),
+(25, 1, 'opencart/admin/controller/module/account.php'),
+(26, 1, 'opencart/admin/controller/module/banner.php'),
+(27, 1, 'opencart/admin/controller/module/bestseller.php'),
+(28, 1, 'opencart/admin/controller/module/category.php'),
+(29, 1, 'opencart/admin/controller/module/featured.php'),
+(30, 1, 'opencart/admin/controller/module/filter.php'),
+(31, 1, 'opencart/admin/controller/module/html.php'),
+(32, 1, 'opencart/admin/controller/module/information.php'),
+(33, 1, 'opencart/admin/controller/module/latest.php'),
+(34, 1, 'opencart/admin/controller/module/special.php'),
+(35, 1, 'opencart/admin/controller/module/store.php'),
+(36, 1, 'opencart/admin/controller/payment'),
+(37, 1, 'opencart/admin/controller/payment/bank_transfer.php'),
+(38, 1, 'opencart/admin/controller/payment/cheque.php'),
+(39, 1, 'opencart/admin/controller/payment/cod.php'),
+(40, 1, 'opencart/admin/controller/payment/free_checkout.php'),
+(41, 1, 'opencart/admin/controller/report'),
+(42, 1, 'opencart/admin/controller/report/customer_activity.php'),
+(43, 1, 'opencart/admin/controller/report/customer_order.php'),
+(44, 1, 'opencart/admin/controller/report/customer_reward.php'),
+(45, 1, 'opencart/admin/controller/report/customer_search.php'),
+(46, 1, 'opencart/admin/controller/report/customer_transaction.php'),
+(47, 1, 'opencart/admin/controller/report/customer_subscription.php'),
+(48, 1, 'opencart/admin/controller/report/marketing.php'),
+(49, 1, 'opencart/admin/controller/report/product_purchased.php'),
+(50, 1, 'opencart/admin/controller/report/product_viewed.php'),
+(51, 1, 'opencart/admin/controller/report/sale_coupon.php'),
+(52, 1, 'opencart/admin/controller/report/sale_order.php'),
+(53, 1, 'opencart/admin/controller/report/sale_return.php'),
+(54, 1, 'opencart/admin/controller/report/sale_shipping.php'),
+(55, 1, 'opencart/admin/controller/report/sale_tax.php'),
+(56, 1, 'opencart/admin/controller/shipping'),
+(57, 1, 'opencart/admin/controller/shipping/flat.php'),
+(58, 1, 'opencart/admin/controller/shipping/free.php'),
+(59, 1, 'opencart/admin/controller/shipping/item.php'),
+(60, 1, 'opencart/admin/controller/shipping/pickup.php'),
+(61, 1, 'opencart/admin/controller/shipping/weight.php'),
+(62, 1, 'opencart/admin/controller/theme'),
+(63, 1, 'opencart/admin/controller/theme/basic.php'),
+(64, 1, 'opencart/admin/controller/total'),
+(65, 1, 'opencart/admin/controller/total/coupon.php'),
+(66, 1, 'opencart/admin/controller/total/credit.php'),
+(67, 1, 'opencart/admin/controller/total/handling.php'),
+(68, 1, 'opencart/admin/controller/total/low_order_fee.php'),
+(69, 1, 'opencart/admin/controller/total/reward.php'),
+(70, 1, 'opencart/admin/controller/total/shipping.php'),
+(71, 1, 'opencart/admin/controller/total/sub_total.php'),
+(72, 1, 'opencart/admin/controller/total/tax.php'),
+(73, 1, 'opencart/admin/controller/total/total.php'),
+(74, 1, 'opencart/admin/controller/total/voucher.php'),
+(75, 1, 'opencart/admin/language'),
+(76, 1, 'opencart/admin/language/en-gb'),
+(77, 1, 'opencart/admin/language/en-gb/captcha'),
+(78, 1, 'opencart/admin/language/en-gb/captcha/basic.php'),
+(79, 1, 'opencart/admin/language/en-gb/currency'),
+(80, 1, 'opencart/admin/language/en-gb/currency/ecb.php'),
+(81, 1, 'opencart/admin/language/en-gb/currency/fixer.php'),
+(82, 1, 'opencart/admin/language/en-gb/dashboard'),
+(83, 1, 'opencart/admin/language/en-gb/dashboard/activity.php'),
+(84, 1, 'opencart/admin/language/en-gb/dashboard/chart.php'),
+(85, 1, 'opencart/admin/language/en-gb/dashboard/customer.php'),
+(86, 1, 'opencart/admin/language/en-gb/dashboard/map.php'),
+(87, 1, 'opencart/admin/language/en-gb/dashboard/online.php'),
+(88, 1, 'opencart/admin/language/en-gb/dashboard/order.php'),
+(89, 1, 'opencart/admin/language/en-gb/dashboard/recent.php'),
+(90, 1, 'opencart/admin/language/en-gb/dashboard/sale.php'),
+(91, 1, 'opencart/admin/language/en-gb/fraud'),
+(92, 1, 'opencart/admin/language/en-gb/fraud/ip.php'),
+(93, 1, 'opencart/admin/language/en-gb/module'),
+(94, 1, 'opencart/admin/language/en-gb/module/account.php'),
+(95, 1, 'opencart/admin/language/en-gb/module/banner.php'),
+(96, 1, 'opencart/admin/language/en-gb/module/bestseller.php'),
+(97, 1, 'opencart/admin/language/en-gb/module/category.php'),
+(98, 1, 'opencart/admin/language/en-gb/module/featured.php'),
+(99, 1, 'opencart/admin/language/en-gb/module/filter.php'),
+(100, 1, 'opencart/admin/language/en-gb/module/html.php'),
+(101, 1, 'opencart/admin/language/en-gb/module/information.php'),
+(102, 1, 'opencart/admin/language/en-gb/module/latest.php'),
+(103, 1, 'opencart/admin/language/en-gb/module/special.php'),
+(104, 1, 'opencart/admin/language/en-gb/module/store.php'),
+(105, 1, 'opencart/admin/language/en-gb/payment'),
+(106, 1, 'opencart/admin/language/en-gb/payment/bank_transfer.php'),
+(107, 1, 'opencart/admin/language/en-gb/payment/cheque.php'),
+(108, 1, 'opencart/admin/language/en-gb/payment/cod.php'),
+(109, 1, 'opencart/admin/language/en-gb/payment/free_checkout.php'),
+(110, 1, 'opencart/admin/language/en-gb/report'),
+(111, 1, 'opencart/admin/language/en-gb/report/customer_activity.php'),
+(112, 1, 'opencart/admin/language/en-gb/report/customer_order.php'),
+(113, 1, 'opencart/admin/language/en-gb/report/customer_reward.php'),
+(114, 1, 'opencart/admin/language/en-gb/report/customer_search.php'),
+(115, 1, 'opencart/admin/language/en-gb/report/customer_transaction.php'),
+(116, 1, 'opencart/admin/language/en-gb/report/customer_subscription.php'),
+(117, 1, 'opencart/admin/language/en-gb/report/marketing.php'),
+(118, 1, 'opencart/admin/language/en-gb/report/product_purchased.php'),
+(119, 1, 'opencart/admin/language/en-gb/report/product_viewed.php'),
+(120, 1, 'opencart/admin/language/en-gb/report/sale_coupon.php'),
+(121, 1, 'opencart/admin/language/en-gb/report/sale_order.php'),
+(122, 1, 'opencart/admin/language/en-gb/report/sale_return.php'),
+(123, 1, 'opencart/admin/language/en-gb/report/sale_shipping.php'),
+(124, 1, 'opencart/admin/language/en-gb/report/sale_tax.php'),
+(125, 1, 'opencart/admin/language/en-gb/shipping'),
+(126, 1, 'opencart/admin/language/en-gb/shipping/flat.php'),
+(127, 1, 'opencart/admin/language/en-gb/shipping/free.php'),
+(128, 1, 'opencart/admin/language/en-gb/shipping/item.php'),
+(129, 1, 'opencart/admin/language/en-gb/shipping/pickup.php'),
+(130, 1, 'opencart/admin/language/en-gb/shipping/weight.php'),
+(131, 1, 'opencart/admin/language/en-gb/theme'),
+(132, 1, 'opencart/admin/language/en-gb/theme/basic.php'),
+(133, 1, 'opencart/admin/language/en-gb/total'),
+(134, 1, 'opencart/admin/language/en-gb/total/coupon.php'),
+(135, 1, 'opencart/admin/language/en-gb/total/credit.php'),
+(136, 1, 'opencart/admin/language/en-gb/total/handling.php'),
+(137, 1, 'opencart/admin/language/en-gb/total/low_order_fee.php'),
+(138, 1, 'opencart/admin/language/en-gb/total/reward.php'),
+(139, 1, 'opencart/admin/language/en-gb/total/shipping.php'),
+(140, 1, 'opencart/admin/language/en-gb/total/sub_total.php'),
+(141, 1, 'opencart/admin/language/en-gb/total/tax.php'),
+(142, 1, 'opencart/admin/language/en-gb/total/total.php'),
+(143, 1, 'opencart/admin/language/en-gb/total/voucher.php'),
+(144, 1, 'opencart/admin/model'),
+(145, 1, 'opencart/admin/model/dashboard'),
+(146, 1, 'opencart/admin/model/dashboard/map.php'),
+(147, 1, 'opencart/admin/model/fraud'),
+(148, 1, 'opencart/admin/model/fraud/ip.php'),
+(149, 1, 'opencart/admin/model/payment'),
+(150, 1, 'opencart/admin/model/report'),
+(151, 1, 'opencart/admin/model/report/activity.php'),
+(152, 1, 'opencart/admin/model/report/coupon.php'),
+(153, 1, 'opencart/admin/model/report/customer.php'),
+(154, 1, 'opencart/admin/model/report/customer_transaction.php'),
+(155, 1, 'opencart/admin/model/report/marketing.php'),
+(156, 1, 'opencart/admin/model/report/product.php'),
+(157, 1, 'opencart/admin/model/report/returns.php'),
+(158, 1, 'opencart/admin/model/report/sale.php'),
+(159, 1, 'opencart/admin/view'),
+(160, 1, 'opencart/admin/view/template'),
+(161, 1, 'opencart/admin/view/template/captcha'),
+(162, 1, 'opencart/admin/view/template/captcha/basic.twig'),
+(163, 1, 'opencart/admin/view/template/currency'),
+(164, 1, 'opencart/admin/view/template/currency/ecb.twig'),
+(165, 1, 'opencart/admin/view/template/currency/fixer.twig'),
+(166, 1, 'opencart/admin/view/template/dashboard'),
+(167, 1, 'opencart/admin/view/template/dashboard/activity_form.twig'),
+(168, 1, 'opencart/admin/view/template/dashboard/activity_info.twig'),
+(169, 1, 'opencart/admin/view/template/dashboard/chart_form.twig'),
+(170, 1, 'opencart/admin/view/template/dashboard/chart_info.twig'),
+(171, 1, 'opencart/admin/view/template/dashboard/customer_form.twig'),
+(172, 1, 'opencart/admin/view/template/dashboard/customer_info.twig'),
+(173, 1, 'opencart/admin/view/template/dashboard/map_form.twig'),
+(174, 1, 'opencart/admin/view/template/dashboard/map_info.twig'),
+(175, 1, 'opencart/admin/view/template/dashboard/online_form.twig'),
+(176, 1, 'opencart/admin/view/template/dashboard/online_info.twig'),
+(177, 1, 'opencart/admin/view/template/dashboard/order_form.twig'),
+(178, 1, 'opencart/admin/view/template/dashboard/order_info.twig'),
+(179, 1, 'opencart/admin/view/template/dashboard/recent_form.twig'),
+(180, 1, 'opencart/admin/view/template/dashboard/recent_info.twig'),
+(181, 1, 'opencart/admin/view/template/dashboard/sale_form.twig'),
+(182, 1, 'opencart/admin/view/template/dashboard/sale_info.twig'),
+(183, 1, 'opencart/admin/view/template/fraud'),
+(184, 1, 'opencart/admin/view/template/fraud/ip.twig'),
+(185, 1, 'opencart/admin/view/template/fraud/ip_ip.twig'),
+(186, 1, 'opencart/admin/view/template/module'),
+(187, 1, 'opencart/admin/view/template/module/account.twig'),
+(188, 1, 'opencart/admin/view/template/module/banner.twig'),
+(189, 1, 'opencart/admin/view/template/module/bestseller.twig'),
+(190, 1, 'opencart/admin/view/template/module/category.twig'),
+(191, 1, 'opencart/admin/view/template/module/featured.twig'),
+(192, 1, 'opencart/admin/view/template/module/filter.twig'),
+(193, 1, 'opencart/admin/view/template/module/html.twig'),
+(194, 1, 'opencart/admin/view/template/module/information.twig'),
+(195, 1, 'opencart/admin/view/template/module/latest.twig'),
+(196, 1, 'opencart/admin/view/template/module/special.twig'),
+(197, 1, 'opencart/admin/view/template/module/store.twig'),
+(198, 1, 'opencart/admin/view/template/payment'),
+(199, 1, 'opencart/admin/view/template/payment/bank_transfer.twig'),
+(200, 1, 'opencart/admin/view/template/payment/cheque.twig'),
+(201, 1, 'opencart/admin/view/template/payment/cod.twig'),
+(202, 1, 'opencart/admin/view/template/payment/free_checkout.twig'),
+(203, 1, 'opencart/admin/view/template/report'),
+(204, 1, 'opencart/admin/view/template/report/customer_activity.twig'),
+(205, 1, 'opencart/admin/view/template/report/customer_activity_form.twig'),
+(206, 1, 'opencart/admin/view/template/report/customer_order.twig'),
+(207, 1, 'opencart/admin/view/template/report/customer_order_form.twig'),
+(208, 1, 'opencart/admin/view/template/report/customer_reward.twig'),
+(209, 1, 'opencart/admin/view/template/report/customer_reward_form.twig'),
+(210, 1, 'opencart/admin/view/template/report/customer_search.twig'),
+(211, 1, 'opencart/admin/view/template/report/customer_search_form.twig'),
+(212, 1, 'opencart/admin/view/template/report/customer_transaction.twig'),
+(213, 1, 'opencart/admin/view/template/report/customer_transaction_form.twig'),
+(214, 1, 'opencart/admin/view/template/report/customer_subscription.twig'),
+(215, 1, 'opencart/admin/view/template/report/customer_subscription_form.twig'),
+(216, 1, 'opencart/admin/view/template/report/marketing.twig'),
+(217, 1, 'opencart/admin/view/template/report/marketing_form.twig'),
+(218, 1, 'opencart/admin/view/template/report/product_purchased.twig'),
+(219, 1, 'opencart/admin/view/template/report/product_purchased_form.twig'),
+(220, 1, 'opencart/admin/view/template/report/product_viewed.twig'),
+(221, 1, 'opencart/admin/view/template/report/product_viewed_form.twig'),
+(222, 1, 'opencart/admin/view/template/report/sale_coupon.twig'),
+(223, 1, 'opencart/admin/view/template/report/sale_coupon_form.twig'),
+(224, 1, 'opencart/admin/view/template/report/sale_order.twig'),
+(225, 1, 'opencart/admin/view/template/report/sale_order_form.twig'),
+(226, 1, 'opencart/admin/view/template/report/sale_return.twig'),
+(227, 1, 'opencart/admin/view/template/report/sale_return_form.twig'),
+(228, 1, 'opencart/admin/view/template/report/sale_shipping.twig'),
+(229, 1, 'opencart/admin/view/template/report/sale_shipping_form.twig'),
+(230, 1, 'opencart/admin/view/template/report/sale_tax.twig'),
+(231, 1, 'opencart/admin/view/template/report/sale_tax_form.twig'),
+(232, 1, 'opencart/admin/view/template/shipping'),
+(233, 1, 'opencart/admin/view/template/shipping/flat.twig'),
+(234, 1, 'opencart/admin/view/template/shipping/free.twig'),
+(235, 1, 'opencart/admin/view/template/shipping/item.twig'),
+(236, 1, 'opencart/admin/view/template/shipping/pickup.twig'),
+(237, 1, 'opencart/admin/view/template/shipping/weight.twig'),
+(238, 1, 'opencart/admin/view/template/theme'),
+(239, 1, 'opencart/admin/view/template/theme/basic.twig'),
+(240, 1, 'opencart/admin/view/template/total'),
+(241, 1, 'opencart/admin/view/template/total/coupon.twig'),
+(242, 1, 'opencart/admin/view/template/total/credit.twig'),
+(243, 1, 'opencart/admin/view/template/total/handling.twig'),
+(244, 1, 'opencart/admin/view/template/total/low_order_fee.twig'),
+(245, 1, 'opencart/admin/view/template/total/reward.twig'),
+(246, 1, 'opencart/admin/view/template/total/shipping.twig'),
+(247, 1, 'opencart/admin/view/template/total/sub_total.twig'),
+(248, 1, 'opencart/admin/view/template/total/tax.twig'),
+(249, 1, 'opencart/admin/view/template/total/total.twig'),
+(250, 1, 'opencart/admin/view/template/total/voucher.twig'),
+(251, 1, 'opencart/catalog'),
+(252, 1, 'opencart/catalog/controller'),
+(253, 1, 'opencart/catalog/controller/captcha'),
+(254, 1, 'opencart/catalog/controller/captcha/basic.php'),
+(255, 1, 'opencart/catalog/controller/module'),
+(256, 1, 'opencart/catalog/controller/module/account.php'),
+(257, 1, 'opencart/catalog/controller/module/banner.php'),
+(258, 1, 'opencart/catalog/controller/module/bestseller.php'),
+(259, 1, 'opencart/catalog/controller/module/category.php'),
+(260, 1, 'opencart/catalog/controller/module/featured.php'),
+(261, 1, 'opencart/catalog/controller/module/filter.php'),
+(262, 1, 'opencart/catalog/controller/module/html.php'),
+(263, 1, 'opencart/catalog/controller/module/information.php'),
+(264, 1, 'opencart/catalog/controller/module/latest.php'),
+(265, 1, 'opencart/catalog/controller/module/special.php'),
+(266, 1, 'opencart/catalog/controller/module/store.php'),
+(267, 1, 'opencart/catalog/controller/payment'),
+(268, 1, 'opencart/catalog/controller/payment/bank_transfer.php'),
+(269, 1, 'opencart/catalog/controller/payment/cheque.php'),
+(270, 1, 'opencart/catalog/controller/payment/cod.php'),
+(271, 1, 'opencart/catalog/controller/payment/free_checkout.php'),
+(272, 1, 'opencart/catalog/controller/total'),
+(273, 1, 'opencart/catalog/controller/total/coupon.php'),
+(274, 1, 'opencart/catalog/controller/total/reward.php'),
+(275, 1, 'opencart/catalog/controller/total/shipping.php'),
+(276, 1, 'opencart/catalog/controller/total/voucher.php'),
+(277, 1, 'opencart/catalog/language'),
+(278, 1, 'opencart/catalog/language/en-gb'),
+(279, 1, 'opencart/catalog/language/en-gb/captcha'),
+(280, 1, 'opencart/catalog/language/en-gb/captcha/basic.php'),
+(281, 1, 'opencart/catalog/language/en-gb/module'),
+(282, 1, 'opencart/catalog/language/en-gb/module/account.php'),
+(283, 1, 'opencart/catalog/language/en-gb/module/bestseller.php'),
+(284, 1, 'opencart/catalog/language/en-gb/module/category.php'),
+(285, 1, 'opencart/catalog/language/en-gb/module/featured.php'),
+(286, 1, 'opencart/catalog/language/en-gb/module/filter.php'),
+(287, 1, 'opencart/catalog/language/en-gb/module/information.php'),
+(288, 1, 'opencart/catalog/language/en-gb/module/latest.php'),
+(289, 1, 'opencart/catalog/language/en-gb/module/special.php'),
+(290, 1, 'opencart/catalog/language/en-gb/module/store.php'),
+(291, 1, 'opencart/catalog/language/en-gb/payment'),
+(292, 1, 'opencart/catalog/language/en-gb/payment/bank_transfer.php'),
+(293, 1, 'opencart/catalog/language/en-gb/payment/cheque.php'),
+(294, 1, 'opencart/catalog/language/en-gb/payment/cod.php'),
+(295, 1, 'opencart/catalog/language/en-gb/payment/free_checkout.php'),
+(296, 1, 'opencart/catalog/language/en-gb/shipping'),
+(297, 1, 'opencart/catalog/language/en-gb/shipping/flat.php'),
+(298, 1, 'opencart/catalog/language/en-gb/shipping/free.php'),
+(299, 1, 'opencart/catalog/language/en-gb/shipping/item.php'),
+(300, 1, 'opencart/catalog/language/en-gb/shipping/pickup.php'),
+(301, 1, 'opencart/catalog/language/en-gb/shipping/weight.php'),
+(302, 1, 'opencart/catalog/language/en-gb/total'),
+(303, 1, 'opencart/catalog/language/en-gb/total/coupon.php'),
+(304, 1, 'opencart/catalog/language/en-gb/total/credit.php'),
+(305, 1, 'opencart/catalog/language/en-gb/total/handling.php'),
+(306, 1, 'opencart/catalog/language/en-gb/total/low_order_fee.php'),
+(307, 1, 'opencart/catalog/language/en-gb/total/reward.php'),
+(308, 1, 'opencart/catalog/language/en-gb/total/shipping.php'),
+(309, 1, 'opencart/catalog/language/en-gb/total/sub_total.php'),
+(310, 1, 'opencart/catalog/language/en-gb/total/total.php'),
+(311, 1, 'opencart/catalog/language/en-gb/total/voucher.php'),
+(312, 1, 'opencart/catalog/model'),
+(313, 1, 'opencart/catalog/model/fraud'),
+(314, 1, 'opencart/catalog/model/fraud/ip.php'),
+(315, 1, 'opencart/catalog/model/payment'),
+(316, 1, 'opencart/catalog/model/payment/bank_transfer.php'),
+(317, 1, 'opencart/catalog/model/payment/cheque.php'),
+(318, 1, 'opencart/catalog/model/payment/cod.php'),
+(319, 1, 'opencart/catalog/model/payment/free_checkout.php'),
+(320, 1, 'opencart/catalog/model/shipping'),
+(321, 1, 'opencart/catalog/model/shipping/flat.php'),
+(322, 1, 'opencart/catalog/model/shipping/free.php'),
+(323, 1, 'opencart/catalog/model/shipping/item.php'),
+(324, 1, 'opencart/catalog/model/shipping/pickup.php'),
+(325, 1, 'opencart/catalog/model/shipping/weight.php'),
+(326, 1, 'opencart/catalog/model/total'),
+(327, 1, 'opencart/catalog/model/total/coupon.php'),
+(328, 1, 'opencart/catalog/model/total/credit.php'),
+(329, 1, 'opencart/catalog/model/total/handling.php'),
+(330, 1, 'opencart/catalog/model/total/low_order_fee.php'),
+(331, 1, 'opencart/catalog/model/total/reward.php'),
+(332, 1, 'opencart/catalog/model/total/shipping.php'),
+(333, 1, 'opencart/catalog/model/total/sub_total.php'),
+(334, 1, 'opencart/catalog/model/total/tax.php'),
+(335, 1, 'opencart/catalog/model/total/total.php'),
+(336, 1, 'opencart/catalog/model/total/voucher.php'),
+(337, 1, 'opencart/catalog/view'),
+(338, 1, 'opencart/catalog/view/template'),
+(339, 1, 'opencart/catalog/view/template/captcha'),
+(340, 1, 'opencart/catalog/view/template/captcha/basic.twig'),
+(341, 1, 'opencart/catalog/view/template/module'),
+(342, 1, 'opencart/catalog/view/template/module/account.twig'),
+(343, 1, 'opencart/catalog/view/template/module/banner.twig'),
+(344, 1, 'opencart/catalog/view/template/module/bestseller.twig'),
+(345, 1, 'opencart/catalog/view/template/module/category.twig'),
+(346, 1, 'opencart/catalog/view/template/module/featured.twig'),
+(347, 1, 'opencart/catalog/view/template/module/filter.twig'),
+(348, 1, 'opencart/catalog/view/template/module/html.twig'),
+(349, 1, 'opencart/catalog/view/template/module/information.twig'),
+(350, 1, 'opencart/catalog/view/template/module/latest.twig'),
+(351, 1, 'opencart/catalog/view/template/module/special.twig'),
+(352, 1, 'opencart/catalog/view/template/module/store.twig'),
+(353, 1, 'opencart/catalog/view/template/payment'),
+(354, 1, 'opencart/catalog/view/template/payment/bank_transfer.twig'),
+(355, 1, 'opencart/catalog/view/template/payment/cheque.twig'),
+(356, 1, 'opencart/catalog/view/template/payment/cod.twig'),
+(357, 1, 'opencart/catalog/view/template/payment/free_checkout.twig'),
+(358, 1, 'opencart/catalog/view/template/total'),
+(359, 1, 'opencart/catalog/view/template/total/coupon.twig'),
+(360, 1, 'opencart/catalog/view/template/total/reward.twig'),
+(361, 1, 'opencart/catalog/view/template/total/shipping.twig'),
+(362, 1, 'opencart/catalog/view/template/total/voucher.twig'),
+(363, 1, 'opencart/install.json'),
+(364, 4, 'oc_theme_example'),
+(365, 4, 'oc_theme_example/admin'),
+(366, 4, 'oc_theme_example/admin/controller'),
+(367, 4, 'oc_theme_example/admin/controller/theme'),
+(368, 4, 'oc_theme_example/admin/controller/theme/theme_example.php'),
+(369, 4, 'oc_theme_example/admin/language'),
+(370, 4, 'oc_theme_example/admin/language/en-gb'),
+(371, 4, 'oc_theme_example/admin/language/en-gb/theme'),
+(372, 4, 'oc_theme_example/admin/language/en-gb/theme/theme_example.php'),
+(373, 4, 'oc_theme_example/admin/view'),
+(374, 4, 'oc_theme_example/admin/view/image'),
+(375, 4, 'oc_theme_example/admin/view/image/theme_example.png'),
+(376, 4, 'oc_theme_example/admin/view/template'),
+(377, 4, 'oc_theme_example/admin/view/template/theme'),
+(378, 4, 'oc_theme_example/admin/view/template/theme/theme_example.twig'),
+(379, 4, 'oc_theme_example/catalog'),
+(380, 4, 'oc_theme_example/catalog/controller'),
+(381, 4, 'oc_theme_example/catalog/controller/startup'),
+(382, 4, 'oc_theme_example/catalog/controller/startup/theme_example.php'),
+(383, 4, 'oc_theme_example/catalog/view'),
+(384, 4, 'oc_theme_example/catalog/view/template'),
+(385, 4, 'oc_theme_example/catalog/view/template/common'),
+(386, 4, 'oc_theme_example/catalog/view/template/common/header.twig'),
+(387, 4, 'oc_theme_example/install.json'),
+(388, 4, 'oc_theme_example/system'),
+(389, 4, 'oc_theme_example/system/helper'),
+(390, 4, 'oc_theme_example/system/helper/test.php'),
+(391, 4, 'oc_theme_example/system/library'),
+(392, 4, 'oc_theme_example/system/library/my_class.php'),
+(440, 8, 'ishisocialfollowblock'),
+(441, 8, 'ishisocialfollowblock/admin'),
+(442, 8, 'ishisocialfollowblock/admin/controller'),
+(443, 8, 'ishisocialfollowblock/admin/controller/module'),
+(444, 8, 'ishisocialfollowblock/admin/controller/module/ishisocialfollow.php'),
+(445, 8, 'ishisocialfollowblock/admin/language'),
+(446, 8, 'ishisocialfollowblock/admin/language/en-gb'),
+(447, 8, 'ishisocialfollowblock/admin/language/en-gb/module'),
+(448, 8, 'ishisocialfollowblock/admin/language/en-gb/module/ishisocialfollow.php'),
+(449, 8, 'ishisocialfollowblock/admin/view'),
+(450, 8, 'ishisocialfollowblock/admin/view/template'),
+(451, 8, 'ishisocialfollowblock/admin/view/template/module'),
+(452, 8, 'ishisocialfollowblock/admin/view/template/module/ishisocialfollow.twig'),
+(453, 8, 'ishisocialfollowblock/catalog'),
+(454, 8, 'ishisocialfollowblock/catalog/controller'),
+(455, 8, 'ishisocialfollowblock/catalog/controller/module'),
+(456, 8, 'ishisocialfollowblock/catalog/controller/module/ishisocialfollow.php'),
+(457, 8, 'ishisocialfollowblock/catalog/view'),
+(458, 8, 'ishisocialfollowblock/catalog/view/template'),
+(459, 8, 'ishisocialfollowblock/catalog/view/template/module'),
+(460, 8, 'ishisocialfollowblock/catalog/view/template/module/ishisocialfollow.twig'),
+(461, 8, 'ishisocialfollowblock/install.json'),
+(680, 17, 'ishibannerblock'),
+(681, 17, 'ishibannerblock/admin'),
+(682, 17, 'ishibannerblock/admin/controller'),
+(683, 17, 'ishibannerblock/admin/controller/module'),
+(684, 17, 'ishibannerblock/admin/controller/module/ishibannerblock.php'),
+(685, 17, 'ishibannerblock/admin/language'),
+(686, 17, 'ishibannerblock/admin/language/en-gb'),
+(687, 17, 'ishibannerblock/admin/language/en-gb/module'),
+(688, 17, 'ishibannerblock/admin/language/en-gb/module/ishibannerblock.php'),
+(689, 17, 'ishibannerblock/admin/view'),
+(690, 17, 'ishibannerblock/admin/view/template'),
+(691, 17, 'ishibannerblock/admin/view/template/module'),
+(692, 17, 'ishibannerblock/admin/view/template/module/ishibannerblock.twig'),
+(693, 17, 'ishibannerblock/catalog'),
+(694, 17, 'ishibannerblock/catalog/controller'),
+(695, 17, 'ishibannerblock/catalog/controller/module'),
+(696, 17, 'ishibannerblock/catalog/controller/module/ishibannerblock.php'),
+(697, 17, 'ishibannerblock/catalog/view'),
+(698, 17, 'ishibannerblock/catalog/view/template'),
+(699, 17, 'ishibannerblock/catalog/view/template/module'),
+(700, 17, 'ishibannerblock/catalog/view/template/module/ishibannerblock.twig'),
+(701, 17, 'ishibannerblock/install.json'),
+(791, 20, 'ishimanufacture'),
+(792, 20, 'ishimanufacture/admin'),
+(793, 20, 'ishimanufacture/admin/controller'),
+(794, 20, 'ishimanufacture/admin/controller/module'),
+(795, 20, 'ishimanufacture/admin/controller/module/ishimanufacturerblock.php'),
+(796, 20, 'ishimanufacture/admin/language'),
+(797, 20, 'ishimanufacture/admin/language/en-gb'),
+(798, 20, 'ishimanufacture/admin/language/en-gb/module'),
+(799, 20, 'ishimanufacture/admin/language/en-gb/module/ishimanufacturerblock.php'),
+(800, 20, 'ishimanufacture/admin/view'),
+(801, 20, 'ishimanufacture/admin/view/template'),
+(802, 20, 'ishimanufacture/admin/view/template/module'),
+(803, 20, 'ishimanufacture/admin/view/template/module/ishimanufacturerblock.twig'),
+(804, 20, 'ishimanufacture/catalog'),
+(805, 20, 'ishimanufacture/catalog/controller'),
+(806, 20, 'ishimanufacture/catalog/controller/module'),
+(807, 20, 'ishimanufacture/catalog/controller/module/ishimanufacturerblock.php'),
+(808, 20, 'ishimanufacture/catalog/view'),
+(809, 20, 'ishimanufacture/catalog/view/template'),
+(810, 20, 'ishimanufacture/catalog/view/template/module'),
+(811, 20, 'ishimanufacture/catalog/view/template/module/ishimanufacturerblock.twig'),
+(812, 20, 'ishimanufacture/install.json'),
+(916, 25, 'ishipaymentblock'),
+(917, 25, 'ishipaymentblock/admin'),
+(918, 25, 'ishipaymentblock/admin/controller'),
+(919, 25, 'ishipaymentblock/admin/controller/module'),
+(920, 25, 'ishipaymentblock/admin/controller/module/ishipaymentblock.php'),
+(921, 25, 'ishipaymentblock/admin/language'),
+(922, 25, 'ishipaymentblock/admin/language/en-gb'),
+(923, 25, 'ishipaymentblock/admin/language/en-gb/module'),
+(924, 25, 'ishipaymentblock/admin/language/en-gb/module/ishipaymentblock.php'),
+(925, 25, 'ishipaymentblock/admin/view'),
+(926, 25, 'ishipaymentblock/admin/view/template'),
+(927, 25, 'ishipaymentblock/admin/view/template/module'),
+(928, 25, 'ishipaymentblock/admin/view/template/module/ishipaymentblock.twig'),
+(929, 25, 'ishipaymentblock/catalog'),
+(930, 25, 'ishipaymentblock/catalog/controller'),
+(931, 25, 'ishipaymentblock/catalog/controller/module'),
+(932, 25, 'ishipaymentblock/catalog/controller/module/ishipaymentblock.php'),
+(933, 25, 'ishipaymentblock/catalog/view'),
+(934, 25, 'ishipaymentblock/catalog/view/template'),
+(935, 25, 'ishipaymentblock/catalog/view/template/module'),
+(936, 25, 'ishipaymentblock/catalog/view/template/module/ishipaymentblock.twig'),
+(937, 25, 'ishipaymentblock/install.json'),
+(938, 26, 'ishiaboutusblock'),
+(939, 26, 'ishiaboutusblock/admin'),
+(940, 26, 'ishiaboutusblock/admin/controller'),
+(941, 26, 'ishiaboutusblock/admin/controller/module'),
+(942, 26, 'ishiaboutusblock/admin/controller/module/ishiaboutusblock.php'),
+(943, 26, 'ishiaboutusblock/admin/language'),
+(944, 26, 'ishiaboutusblock/admin/language/en-gb'),
+(945, 26, 'ishiaboutusblock/admin/language/en-gb/module'),
+(946, 26, 'ishiaboutusblock/admin/language/en-gb/module/ishiaboutusblock.php'),
+(947, 26, 'ishiaboutusblock/admin/view'),
+(948, 26, 'ishiaboutusblock/admin/view/template'),
+(949, 26, 'ishiaboutusblock/admin/view/template/module'),
+(950, 26, 'ishiaboutusblock/admin/view/template/module/ishiaboutusblock.twig'),
+(951, 26, 'ishiaboutusblock/catalog'),
+(952, 26, 'ishiaboutusblock/catalog/controller'),
+(953, 26, 'ishiaboutusblock/catalog/controller/module'),
+(954, 26, 'ishiaboutusblock/catalog/controller/module/ishiaboutusblock.php'),
+(955, 26, 'ishiaboutusblock/catalog/model'),
+(956, 26, 'ishiaboutusblock/catalog/model/module'),
+(957, 26, 'ishiaboutusblock/catalog/model/module/ishiproductsblock.php'),
+(958, 26, 'ishiaboutusblock/catalog/view'),
+(959, 26, 'ishiaboutusblock/catalog/view/template'),
+(960, 26, 'ishiaboutusblock/catalog/view/template/module'),
+(961, 26, 'ishiaboutusblock/catalog/view/template/module/ishiaboutusblock.twig'),
+(962, 26, 'ishiaboutusblock/install.json'),
+(963, 27, 'ishiaboutusservicesblock'),
+(964, 27, 'ishiaboutusservicesblock/admin'),
+(965, 27, 'ishiaboutusservicesblock/admin/controller'),
+(966, 27, 'ishiaboutusservicesblock/admin/controller/module'),
+(967, 27, 'ishiaboutusservicesblock/admin/controller/module/ishiaboutusservicesblock.php'),
+(968, 27, 'ishiaboutusservicesblock/admin/language'),
+(969, 27, 'ishiaboutusservicesblock/admin/language/en-gb'),
+(970, 27, 'ishiaboutusservicesblock/admin/language/en-gb/module'),
+(971, 27, 'ishiaboutusservicesblock/admin/language/en-gb/module/ishiaboutusservicesblock.php'),
+(972, 27, 'ishiaboutusservicesblock/admin/view'),
+(973, 27, 'ishiaboutusservicesblock/admin/view/template'),
+(974, 27, 'ishiaboutusservicesblock/admin/view/template/module'),
+(975, 27, 'ishiaboutusservicesblock/admin/view/template/module/ishiaboutusservicesblock.twig'),
+(976, 27, 'ishiaboutusservicesblock/catalog'),
+(977, 27, 'ishiaboutusservicesblock/catalog/controller'),
+(978, 27, 'ishiaboutusservicesblock/catalog/controller/module'),
+(979, 27, 'ishiaboutusservicesblock/catalog/controller/module/ishiaboutusservicesblock.php'),
+(980, 27, 'ishiaboutusservicesblock/catalog/view'),
+(981, 27, 'ishiaboutusservicesblock/catalog/view/template'),
+(982, 27, 'ishiaboutusservicesblock/catalog/view/template/module'),
+(983, 27, 'ishiaboutusservicesblock/catalog/view/template/module/ishiaboutusservicesblock.twig'),
+(984, 27, 'ishiaboutusservicesblock/install.json'),
+(985, 28, 'ishifaqblock'),
+(986, 28, 'ishifaqblock/admin'),
+(987, 28, 'ishifaqblock/admin/controller'),
+(988, 28, 'ishifaqblock/admin/controller/module'),
+(989, 28, 'ishifaqblock/admin/controller/module/ishifaqblock.php'),
+(990, 28, 'ishifaqblock/admin/language'),
+(991, 28, 'ishifaqblock/admin/language/en-gb'),
+(992, 28, 'ishifaqblock/admin/language/en-gb/module'),
+(993, 28, 'ishifaqblock/admin/language/en-gb/module/ishifaqblock.php'),
+(994, 28, 'ishifaqblock/admin/view'),
+(995, 28, 'ishifaqblock/admin/view/template'),
+(996, 28, 'ishifaqblock/admin/view/template/module'),
+(997, 28, 'ishifaqblock/admin/view/template/module/ishifaqblock.twig'),
+(998, 28, 'ishifaqblock/catalog'),
+(999, 28, 'ishifaqblock/catalog/controller'),
+(1000, 28, 'ishifaqblock/catalog/controller/module'),
+(1001, 28, 'ishifaqblock/catalog/controller/module/ishifaqblock.php'),
+(1002, 28, 'ishifaqblock/catalog/view'),
+(1003, 28, 'ishifaqblock/catalog/view/template'),
+(1004, 28, 'ishifaqblock/catalog/view/template/module'),
+(1005, 28, 'ishifaqblock/catalog/view/template/module/ishifaqblock.twig'),
+(1006, 28, 'ishifaqblock/install.json'),
+(1007, 29, 'ishimaplinkblock'),
+(1008, 29, 'ishimaplinkblock/admin'),
+(1009, 29, 'ishimaplinkblock/admin/controller'),
+(1010, 29, 'ishimaplinkblock/admin/controller/module'),
+(1011, 29, 'ishimaplinkblock/admin/controller/module/ishimaplinkblock.php'),
+(1012, 29, 'ishimaplinkblock/admin/language'),
+(1013, 29, 'ishimaplinkblock/admin/language/en-gb'),
+(1014, 29, 'ishimaplinkblock/admin/language/en-gb/module'),
+(1015, 29, 'ishimaplinkblock/admin/language/en-gb/module/ishimaplinkblock.php'),
+(1016, 29, 'ishimaplinkblock/admin/view'),
+(1017, 29, 'ishimaplinkblock/admin/view/template'),
+(1018, 29, 'ishimaplinkblock/admin/view/template/module'),
+(1019, 29, 'ishimaplinkblock/admin/view/template/module/ishimaplinkblock.twig'),
+(1020, 29, 'ishimaplinkblock/catalog'),
+(1021, 29, 'ishimaplinkblock/catalog/controller'),
+(1022, 29, 'ishimaplinkblock/catalog/controller/module'),
+(1023, 29, 'ishimaplinkblock/catalog/controller/module/ishimaplinkblock.php'),
+(1024, 29, 'ishimaplinkblock/catalog/view'),
+(1025, 29, 'ishimaplinkblock/catalog/view/template'),
+(1026, 29, 'ishimaplinkblock/catalog/view/template/module'),
+(1027, 29, 'ishimaplinkblock/catalog/view/template/module/ishimaplinkblock.twig'),
+(1028, 29, 'ishimaplinkblock/install.json'),
+(3597, 37, 'arabic_language'),
+(3598, 37, 'arabic_language/admin'),
+(3599, 37, 'arabic_language/admin/controller'),
+(3600, 37, 'arabic_language/admin/controller/language'),
+(3601, 37, 'arabic_language/admin/controller/language/traditional_arabic.php'),
+(3602, 37, 'arabic_language/admin/language'),
+(3603, 37, 'arabic_language/admin/language/ar'),
+(3604, 37, 'arabic_language/admin/language/ar/ar.png'),
+(3605, 37, 'arabic_language/admin/language/ar/catalog'),
+(3606, 37, 'arabic_language/admin/language/ar/catalog/attribute.php'),
+(3607, 37, 'arabic_language/admin/language/ar/catalog/attribute_group.php'),
+(3608, 37, 'arabic_language/admin/language/ar/catalog/category.php'),
+(3609, 37, 'arabic_language/admin/language/ar/catalog/download.php'),
+(3610, 37, 'arabic_language/admin/language/ar/catalog/filter.php'),
+(3611, 37, 'arabic_language/admin/language/ar/catalog/information.php'),
+(3612, 37, 'arabic_language/admin/language/ar/catalog/manufacturer.php'),
+(3613, 37, 'arabic_language/admin/language/ar/catalog/option.php'),
+(3614, 37, 'arabic_language/admin/language/ar/catalog/product.php'),
+(3615, 37, 'arabic_language/admin/language/ar/catalog/recurring.php'),
+(3616, 37, 'arabic_language/admin/language/ar/catalog/review.php'),
+(3617, 37, 'arabic_language/admin/language/ar/catalog/subscription_plan.php'),
+(3618, 37, 'arabic_language/admin/language/ar/common'),
+(3619, 37, 'arabic_language/admin/language/ar/common/authorize.php'),
+(3620, 37, 'arabic_language/admin/language/ar/common/column_left.php'),
+(3621, 37, 'arabic_language/admin/language/ar/common/dashboard.php'),
+(3622, 37, 'arabic_language/admin/language/ar/common/developer.php'),
+(3623, 37, 'arabic_language/admin/language/ar/common/filemanager.php'),
+(3624, 37, 'arabic_language/admin/language/ar/common/footer.php'),
+(3625, 37, 'arabic_language/admin/language/ar/common/forgotten.php'),
+(3626, 37, 'arabic_language/admin/language/ar/common/header.php'),
+(3627, 37, 'arabic_language/admin/language/ar/common/language.php'),
+(3628, 37, 'arabic_language/admin/language/ar/common/login.php'),
+(3629, 37, 'arabic_language/admin/language/ar/common/profile.php'),
+(3630, 37, 'arabic_language/admin/language/ar/common/reset.php'),
+(3631, 37, 'arabic_language/admin/language/ar/common/security.php'),
+(3632, 37, 'arabic_language/admin/language/ar/cron'),
+(3633, 37, 'arabic_language/admin/language/ar/cron/subscription.php'),
+(3634, 37, 'arabic_language/admin/language/ar/customer'),
+(3635, 37, 'arabic_language/admin/language/ar/customer/customer.php'),
+(3636, 37, 'arabic_language/admin/language/ar/customer/customer_approval.php'),
+(3637, 37, 'arabic_language/admin/language/ar/customer/customer_group.php'),
+(3638, 37, 'arabic_language/admin/language/ar/customer/custom_field.php'),
+(3639, 37, 'arabic_language/admin/language/ar/customer/gdpr.php'),
+(3640, 37, 'arabic_language/admin/language/ar/default.php'),
+(3641, 37, 'arabic_language/admin/language/ar/design'),
+(3642, 37, 'arabic_language/admin/language/ar/design/banner.php'),
+(3643, 37, 'arabic_language/admin/language/ar/design/layout.php'),
+(3644, 37, 'arabic_language/admin/language/ar/design/seo_url.php'),
+(3645, 37, 'arabic_language/admin/language/ar/design/theme.php'),
+(3646, 37, 'arabic_language/admin/language/ar/design/translation.php'),
+(3647, 37, 'arabic_language/admin/language/ar/error'),
+(3648, 37, 'arabic_language/admin/language/ar/error/not_found.php'),
+(3649, 37, 'arabic_language/admin/language/ar/error/permission.php'),
+(3650, 37, 'arabic_language/admin/language/ar/extension'),
+(3651, 37, 'arabic_language/admin/language/ar/extension/analytics'),
+(3652, 37, 'arabic_language/admin/language/ar/extension/analytics/google.php'),
+(3653, 37, 'arabic_language/admin/language/ar/extension/analytics.php'),
+(3654, 37, 'arabic_language/admin/language/ar/extension/captcha'),
+(3655, 37, 'arabic_language/admin/language/ar/extension/captcha/basic.php'),
+(3656, 37, 'arabic_language/admin/language/ar/extension/captcha/google.php'),
+(3657, 37, 'arabic_language/admin/language/ar/extension/captcha.php'),
+(3658, 37, 'arabic_language/admin/language/ar/extension/currency.php'),
+(3659, 37, 'arabic_language/admin/language/ar/extension/dashboard'),
+(3660, 37, 'arabic_language/admin/language/ar/extension/dashboard/activity.php'),
+(3661, 37, 'arabic_language/admin/language/ar/extension/dashboard/chart.php'),
+(3662, 37, 'arabic_language/admin/language/ar/extension/dashboard/customer.php'),
+(3663, 37, 'arabic_language/admin/language/ar/extension/dashboard/map.php'),
+(3664, 37, 'arabic_language/admin/language/ar/extension/dashboard/online.php'),
+(3665, 37, 'arabic_language/admin/language/ar/extension/dashboard/order.php'),
+(3666, 37, 'arabic_language/admin/language/ar/extension/dashboard/recent.php'),
+(3667, 37, 'arabic_language/admin/language/ar/extension/dashboard/sale.php'),
+(3668, 37, 'arabic_language/admin/language/ar/extension/dashboard.php'),
+(3669, 37, 'arabic_language/admin/language/ar/extension/extension'),
+(3670, 37, 'arabic_language/admin/language/ar/extension/extension/analytics.php'),
+(3671, 37, 'arabic_language/admin/language/ar/extension/extension/captcha.php'),
+(3672, 37, 'arabic_language/admin/language/ar/extension/extension/dashboard.php'),
+(3673, 37, 'arabic_language/admin/language/ar/extension/extension/feed.php'),
+(3674, 37, 'arabic_language/admin/language/ar/extension/extension/fraud.php'),
+(3675, 37, 'arabic_language/admin/language/ar/extension/extension/marketing.php'),
+(3676, 37, 'arabic_language/admin/language/ar/extension/extension/menu.php'),
+(3677, 37, 'arabic_language/admin/language/ar/extension/extension/module.php'),
+(3678, 37, 'arabic_language/admin/language/ar/extension/extension/other.php'),
+(3679, 37, 'arabic_language/admin/language/ar/extension/extension/payment.php'),
+(3680, 37, 'arabic_language/admin/language/ar/extension/extension/report.php'),
+(3681, 37, 'arabic_language/admin/language/ar/extension/extension/shipping.php'),
+(3682, 37, 'arabic_language/admin/language/ar/extension/extension/theme.php'),
+(3683, 37, 'arabic_language/admin/language/ar/extension/extension/total.php'),
+(3684, 37, 'arabic_language/admin/language/ar/extension/feed'),
+(3685, 37, 'arabic_language/admin/language/ar/extension/feed/google_base.php'),
+(3686, 37, 'arabic_language/admin/language/ar/extension/feed/google_sitemap.php'),
+(3687, 37, 'arabic_language/admin/language/ar/extension/feed.php'),
+(3688, 37, 'arabic_language/admin/language/ar/extension/fraud'),
+(3689, 37, 'arabic_language/admin/language/ar/extension/fraud/fraudlabspro.php'),
+(3690, 37, 'arabic_language/admin/language/ar/extension/fraud/ip.php'),
+(3691, 37, 'arabic_language/admin/language/ar/extension/fraud/maxmind.php'),
+(3692, 37, 'arabic_language/admin/language/ar/extension/fraud.php'),
+(3693, 37, 'arabic_language/admin/language/ar/extension/language.php'),
+(3694, 37, 'arabic_language/admin/language/ar/extension/menu'),
+(3695, 37, 'arabic_language/admin/language/ar/extension/menu/default.php'),
+(3696, 37, 'arabic_language/admin/language/ar/extension/module'),
+(3697, 37, 'arabic_language/admin/language/ar/extension/module/account.php'),
+(3698, 37, 'arabic_language/admin/language/ar/extension/module/amazon_login.php'),
+(3699, 37, 'arabic_language/admin/language/ar/extension/module/amazon_pay.php'),
+(3700, 37, 'arabic_language/admin/language/ar/extension/module/banner.php'),
+(3701, 37, 'arabic_language/admin/language/ar/extension/module/bestseller.php'),
+(3702, 37, 'arabic_language/admin/language/ar/extension/module/carousel.php'),
+(3703, 37, 'arabic_language/admin/language/ar/extension/module/category.php'),
+(3704, 37, 'arabic_language/admin/language/ar/extension/module/divido_calculator.php'),
+(3705, 37, 'arabic_language/admin/language/ar/extension/module/featured.php'),
+(3706, 37, 'arabic_language/admin/language/ar/extension/module/filter.php'),
+(3707, 37, 'arabic_language/admin/language/ar/extension/module/google_hangouts.php'),
+(3708, 37, 'arabic_language/admin/language/ar/extension/module/html.php'),
+(3709, 37, 'arabic_language/admin/language/ar/extension/module/information.php'),
+(3710, 37, 'arabic_language/admin/language/ar/extension/module/klarna_checkout_module.php'),
+(3711, 37, 'arabic_language/admin/language/ar/extension/module/latest.php'),
+(3712, 37, 'arabic_language/admin/language/ar/extension/module/laybuy_layout.php'),
+(3713, 37, 'arabic_language/admin/language/ar/extension/module/paypal_smart_button.php'),
+(3714, 37, 'arabic_language/admin/language/ar/extension/module/pilibaba_button.php'),
+(3715, 37, 'arabic_language/admin/language/ar/extension/module/pp_braintree_button.php'),
+(3716, 37, 'arabic_language/admin/language/ar/extension/module/sagepay_direct_cards.php'),
+(3717, 37, 'arabic_language/admin/language/ar/extension/module/sagepay_server_cards.php'),
+(3718, 37, 'arabic_language/admin/language/ar/extension/module/slideshow.php'),
+(3719, 37, 'arabic_language/admin/language/ar/extension/module/special.php'),
+(3720, 37, 'arabic_language/admin/language/ar/extension/module/store.php'),
+(3721, 37, 'arabic_language/admin/language/ar/extension/module.php'),
+(3722, 37, 'arabic_language/admin/language/ar/extension/other.php'),
+(3723, 37, 'arabic_language/admin/language/ar/extension/payment'),
+(3724, 37, 'arabic_language/admin/language/ar/extension/payment/alipay.php'),
+(3725, 37, 'arabic_language/admin/language/ar/extension/payment/alipay_cross.php'),
+(3726, 37, 'arabic_language/admin/language/ar/extension/payment/amazon_login_pay.php'),
+(3727, 37, 'arabic_language/admin/language/ar/extension/payment/authorizenet_aim.php'),
+(3728, 37, 'arabic_language/admin/language/ar/extension/payment/authorizenet_sim.php'),
+(3729, 37, 'arabic_language/admin/language/ar/extension/payment/bank_transfer.php'),
+(3730, 37, 'arabic_language/admin/language/ar/extension/payment/bluepay_hosted.php'),
+(3731, 37, 'arabic_language/admin/language/ar/extension/payment/bluepay_redirect.php'),
+(3732, 37, 'arabic_language/admin/language/ar/extension/payment/cardconnect.php'),
+(3733, 37, 'arabic_language/admin/language/ar/extension/payment/cardinity.php'),
+(3734, 37, 'arabic_language/admin/language/ar/extension/payment/cheque.php'),
+(3735, 37, 'arabic_language/admin/language/ar/extension/payment/cod.php'),
+(3736, 37, 'arabic_language/admin/language/ar/extension/payment/divido.php'),
+(3737, 37, 'arabic_language/admin/language/ar/extension/payment/eway.php'),
+(3738, 37, 'arabic_language/admin/language/ar/extension/payment/firstdata.php'),
+(3739, 37, 'arabic_language/admin/language/ar/extension/payment/firstdata_remote.php'),
+(3740, 37, 'arabic_language/admin/language/ar/extension/payment/free_checkout.php'),
+(3741, 37, 'arabic_language/admin/language/ar/extension/payment/g2apay.php'),
+(3742, 37, 'arabic_language/admin/language/ar/extension/payment/globalpay.php'),
+(3743, 37, 'arabic_language/admin/language/ar/extension/payment/globalpay_remote.php'),
+(3744, 37, 'arabic_language/admin/language/ar/extension/payment/klarna_account.php'),
+(3745, 37, 'arabic_language/admin/language/ar/extension/payment/klarna_checkout.php'),
+(3746, 37, 'arabic_language/admin/language/ar/extension/payment/klarna_invoice.php'),
+(3747, 37, 'arabic_language/admin/language/ar/extension/payment/laybuy.php'),
+(3748, 37, 'arabic_language/admin/language/ar/extension/payment/liqpay.php'),
+(3749, 37, 'arabic_language/admin/language/ar/extension/payment/nochex.php'),
+(3750, 37, 'arabic_language/admin/language/ar/extension/payment/paymate.php'),
+(3751, 37, 'arabic_language/admin/language/ar/extension/payment/paypal.php'),
+(3752, 37, 'arabic_language/admin/language/ar/extension/payment/paypoint.php'),
+(3753, 37, 'arabic_language/admin/language/ar/extension/payment/payza.php'),
+(3754, 37, 'arabic_language/admin/language/ar/extension/payment/perpetual_payments.php'),
+(3755, 37, 'arabic_language/admin/language/ar/extension/payment/pilibaba.php'),
+(3756, 37, 'arabic_language/admin/language/ar/extension/payment/pp_braintree.php'),
+(3757, 37, 'arabic_language/admin/language/ar/extension/payment/pp_express.php'),
+(3758, 37, 'arabic_language/admin/language/ar/extension/payment/pp_express_order.php'),
+(3759, 37, 'arabic_language/admin/language/ar/extension/payment/pp_express_refund.php'),
+(3760, 37, 'arabic_language/admin/language/ar/extension/payment/pp_express_search.php'),
+(3761, 37, 'arabic_language/admin/language/ar/extension/payment/pp_express_view.php'),
+(3762, 37, 'arabic_language/admin/language/ar/extension/payment/pp_payflow.php'),
+(3763, 37, 'arabic_language/admin/language/ar/extension/payment/pp_payflow_iframe.php'),
+(3764, 37, 'arabic_language/admin/language/ar/extension/payment/pp_pro.php'),
+(3765, 37, 'arabic_language/admin/language/ar/extension/payment/pp_pro_iframe.php'),
+(3766, 37, 'arabic_language/admin/language/ar/extension/payment/pp_standard.php'),
+(3767, 37, 'arabic_language/admin/language/ar/extension/payment/realex.php'),
+(3768, 37, 'arabic_language/admin/language/ar/extension/payment/realex_remote.php'),
+(3769, 37, 'arabic_language/admin/language/ar/extension/payment/sagepay_direct.php'),
+(3770, 37, 'arabic_language/admin/language/ar/extension/payment/sagepay_server.php'),
+(3771, 37, 'arabic_language/admin/language/ar/extension/payment/sagepay_us.php'),
+(3772, 37, 'arabic_language/admin/language/ar/extension/payment/securetrading_pp.php'),
+(3773, 37, 'arabic_language/admin/language/ar/extension/payment/securetrading_ws.php'),
+(3774, 37, 'arabic_language/admin/language/ar/extension/payment/skrill.php'),
+(3775, 37, 'arabic_language/admin/language/ar/extension/payment/squareup.php'),
+(3776, 37, 'arabic_language/admin/language/ar/extension/payment/twocheckout.php'),
+(3777, 37, 'arabic_language/admin/language/ar/extension/payment/web_payment_software.php'),
+(3778, 37, 'arabic_language/admin/language/ar/extension/payment/wechat_pay.php'),
+(3779, 37, 'arabic_language/admin/language/ar/extension/payment/worldpay.php'),
+(3780, 37, 'arabic_language/admin/language/ar/extension/payment.php'),
+(3781, 37, 'arabic_language/admin/language/ar/extension/promotion.php'),
+(3782, 37, 'arabic_language/admin/language/ar/extension/report'),
+(3783, 37, 'arabic_language/admin/language/ar/extension/report/customer_activity.php'),
+(3784, 37, 'arabic_language/admin/language/ar/extension/report/customer_order.php'),
+(3785, 37, 'arabic_language/admin/language/ar/extension/report/customer_reward.php'),
+(3786, 37, 'arabic_language/admin/language/ar/extension/report/customer_search.php'),
+(3787, 37, 'arabic_language/admin/language/ar/extension/report/customer_transaction.php'),
+(3788, 37, 'arabic_language/admin/language/ar/extension/report/marketing.php'),
+(3789, 37, 'arabic_language/admin/language/ar/extension/report/product_purchased.php'),
+(3790, 37, 'arabic_language/admin/language/ar/extension/report/product_viewed.php'),
+(3791, 37, 'arabic_language/admin/language/ar/extension/report/sale_coupon.php'),
+(3792, 37, 'arabic_language/admin/language/ar/extension/report/sale_order.php'),
+(3793, 37, 'arabic_language/admin/language/ar/extension/report/sale_return.php'),
+(3794, 37, 'arabic_language/admin/language/ar/extension/report/sale_shipping.php'),
+(3795, 37, 'arabic_language/admin/language/ar/extension/report/sale_tax.php'),
+(3796, 37, 'arabic_language/admin/language/ar/extension/report.php'),
+(3797, 37, 'arabic_language/admin/language/ar/extension/shipping'),
+(3798, 37, 'arabic_language/admin/language/ar/extension/shipping/auspost.php'),
+(3799, 37, 'arabic_language/admin/language/ar/extension/shipping/citylink.php'),
+(3800, 37, 'arabic_language/admin/language/ar/extension/shipping/ec_ship.php'),
+(3801, 37, 'arabic_language/admin/language/ar/extension/shipping/fedex.php'),
+(3802, 37, 'arabic_language/admin/language/ar/extension/shipping/flat.php'),
+(3803, 37, 'arabic_language/admin/language/ar/extension/shipping/free.php'),
+(3804, 37, 'arabic_language/admin/language/ar/extension/shipping/item.php'),
+(3805, 37, 'arabic_language/admin/language/ar/extension/shipping/parcelforce_48.php'),
+(3806, 37, 'arabic_language/admin/language/ar/extension/shipping/pickup.php'),
+(3807, 37, 'arabic_language/admin/language/ar/extension/shipping/royal_mail.php'),
+(3808, 37, 'arabic_language/admin/language/ar/extension/shipping/ups.php'),
+(3809, 37, 'arabic_language/admin/language/ar/extension/shipping/usps.php'),
+(3810, 37, 'arabic_language/admin/language/ar/extension/shipping/weight.php'),
+(3811, 37, 'arabic_language/admin/language/ar/extension/shipping.php'),
+(3812, 37, 'arabic_language/admin/language/ar/extension/theme'),
+(3813, 37, 'arabic_language/admin/language/ar/extension/theme/default.php'),
+(3814, 37, 'arabic_language/admin/language/ar/extension/theme.php'),
+(3815, 37, 'arabic_language/admin/language/ar/extension/total'),
+(3816, 37, 'arabic_language/admin/language/ar/extension/total/coupon.php'),
+(3817, 37, 'arabic_language/admin/language/ar/extension/total/credit.php'),
+(3818, 37, 'arabic_language/admin/language/ar/extension/total/handling.php'),
+(3819, 37, 'arabic_language/admin/language/ar/extension/total/klarna_fee.php'),
+(3820, 37, 'arabic_language/admin/language/ar/extension/total/low_order_fee.php'),
+(3821, 37, 'arabic_language/admin/language/ar/extension/total/reward.php'),
+(3822, 37, 'arabic_language/admin/language/ar/extension/total/shipping.php'),
+(3823, 37, 'arabic_language/admin/language/ar/extension/total/sub_total.php'),
+(3824, 37, 'arabic_language/admin/language/ar/extension/total/tax.php'),
+(3825, 37, 'arabic_language/admin/language/ar/extension/total/total.php'),
+(3826, 37, 'arabic_language/admin/language/ar/extension/total/voucher.php'),
+(3827, 37, 'arabic_language/admin/language/ar/extension/total.php'),
+(3828, 37, 'arabic_language/admin/language/ar/index.html'),
+(3829, 37, 'arabic_language/admin/language/ar/language'),
+(3830, 37, 'arabic_language/admin/language/ar/language/traditional_arabic.php'),
+(3831, 37, 'arabic_language/admin/language/ar/localisation'),
+(3832, 37, 'arabic_language/admin/language/ar/localisation/address_format.php'),
+(3833, 37, 'arabic_language/admin/language/ar/localisation/country.php'),
+(3834, 37, 'arabic_language/admin/language/ar/localisation/currency.php'),
+(3835, 37, 'arabic_language/admin/language/ar/localisation/geo_zone.php'),
+(3836, 37, 'arabic_language/admin/language/ar/localisation/language.php'),
+(3837, 37, 'arabic_language/admin/language/ar/localisation/length_class.php'),
+(3838, 37, 'arabic_language/admin/language/ar/localisation/location.php');
+INSERT INTO `oc_extension_path` (`extension_path_id`, `extension_install_id`, `path`) VALUES
+(3839, 37, 'arabic_language/admin/language/ar/localisation/order_status.php'),
+(3840, 37, 'arabic_language/admin/language/ar/localisation/return_action.php'),
+(3841, 37, 'arabic_language/admin/language/ar/localisation/return_reason.php'),
+(3842, 37, 'arabic_language/admin/language/ar/localisation/return_status.php'),
+(3843, 37, 'arabic_language/admin/language/ar/localisation/stock_status.php'),
+(3844, 37, 'arabic_language/admin/language/ar/localisation/subscription_status.php'),
+(3845, 37, 'arabic_language/admin/language/ar/localisation/tax_class.php'),
+(3846, 37, 'arabic_language/admin/language/ar/localisation/tax_rate.php'),
+(3847, 37, 'arabic_language/admin/language/ar/localisation/weight_class.php'),
+(3848, 37, 'arabic_language/admin/language/ar/localisation/zone.php'),
+(3849, 37, 'arabic_language/admin/language/ar/mail'),
+(3850, 37, 'arabic_language/admin/language/ar/mail/affiliate_approve.php'),
+(3851, 37, 'arabic_language/admin/language/ar/mail/affiliate_deny.php'),
+(3852, 37, 'arabic_language/admin/language/ar/mail/authorize.php'),
+(3853, 37, 'arabic_language/admin/language/ar/mail/authorize_reset.php'),
+(3854, 37, 'arabic_language/admin/language/ar/mail/customer_approve.php'),
+(3855, 37, 'arabic_language/admin/language/ar/mail/customer_deny.php'),
+(3856, 37, 'arabic_language/admin/language/ar/mail/forgotten.php'),
+(3857, 37, 'arabic_language/admin/language/ar/mail/gdpr_approve.php'),
+(3858, 37, 'arabic_language/admin/language/ar/mail/gdpr_delete.php'),
+(3859, 37, 'arabic_language/admin/language/ar/mail/gdpr_deny.php'),
+(3860, 37, 'arabic_language/admin/language/ar/mail/gdpr_export.php'),
+(3861, 37, 'arabic_language/admin/language/ar/mail/return.php'),
+(3862, 37, 'arabic_language/admin/language/ar/mail/returns.php'),
+(3863, 37, 'arabic_language/admin/language/ar/mail/reward.php'),
+(3864, 37, 'arabic_language/admin/language/ar/mail/subscription.php'),
+(3865, 37, 'arabic_language/admin/language/ar/mail/transaction.php'),
+(3866, 37, 'arabic_language/admin/language/ar/mail/voucher.php'),
+(3867, 37, 'arabic_language/admin/language/ar/marketing'),
+(3868, 37, 'arabic_language/admin/language/ar/marketing/affiliate.php'),
+(3869, 37, 'arabic_language/admin/language/ar/marketing/contact.php'),
+(3870, 37, 'arabic_language/admin/language/ar/marketing/coupon.php'),
+(3871, 37, 'arabic_language/admin/language/ar/marketing/marketing.php'),
+(3872, 37, 'arabic_language/admin/language/ar/marketplace'),
+(3873, 37, 'arabic_language/admin/language/ar/marketplace/api.php'),
+(3874, 37, 'arabic_language/admin/language/ar/marketplace/cron.php'),
+(3875, 37, 'arabic_language/admin/language/ar/marketplace/event.php'),
+(3876, 37, 'arabic_language/admin/language/ar/marketplace/extension.php'),
+(3877, 37, 'arabic_language/admin/language/ar/marketplace/install.php'),
+(3878, 37, 'arabic_language/admin/language/ar/marketplace/installer.php'),
+(3879, 37, 'arabic_language/admin/language/ar/marketplace/marketplace.php'),
+(3880, 37, 'arabic_language/admin/language/ar/marketplace/modification.php'),
+(3881, 37, 'arabic_language/admin/language/ar/marketplace/promotion.php'),
+(3882, 37, 'arabic_language/admin/language/ar/marketplace/startup.php'),
+(3883, 37, 'arabic_language/admin/language/ar/report'),
+(3884, 37, 'arabic_language/admin/language/ar/report/online.php'),
+(3885, 37, 'arabic_language/admin/language/ar/report/report.php'),
+(3886, 37, 'arabic_language/admin/language/ar/report/statistics.php'),
+(3887, 37, 'arabic_language/admin/language/ar/sale'),
+(3888, 37, 'arabic_language/admin/language/ar/sale/order.php'),
+(3889, 37, 'arabic_language/admin/language/ar/sale/recurring.php'),
+(3890, 37, 'arabic_language/admin/language/ar/sale/return.php'),
+(3891, 37, 'arabic_language/admin/language/ar/sale/returns.php'),
+(3892, 37, 'arabic_language/admin/language/ar/sale/subscription.php'),
+(3893, 37, 'arabic_language/admin/language/ar/sale/voucher.php'),
+(3894, 37, 'arabic_language/admin/language/ar/sale/voucher_theme.php'),
+(3895, 37, 'arabic_language/admin/language/ar/setting'),
+(3896, 37, 'arabic_language/admin/language/ar/setting/setting.php'),
+(3897, 37, 'arabic_language/admin/language/ar/setting/store.php'),
+(3898, 37, 'arabic_language/admin/language/ar/Thumbs.db'),
+(3899, 37, 'arabic_language/admin/language/ar/tool'),
+(3900, 37, 'arabic_language/admin/language/ar/tool/backup.php'),
+(3901, 37, 'arabic_language/admin/language/ar/tool/log.php'),
+(3902, 37, 'arabic_language/admin/language/ar/tool/notification.php'),
+(3903, 37, 'arabic_language/admin/language/ar/tool/upgrade.php'),
+(3904, 37, 'arabic_language/admin/language/ar/tool/upload.php'),
+(3905, 37, 'arabic_language/admin/language/ar/user'),
+(3906, 37, 'arabic_language/admin/language/ar/user/api.php'),
+(3907, 37, 'arabic_language/admin/language/ar/user/profile.php'),
+(3908, 37, 'arabic_language/admin/language/ar/user/user.php'),
+(3909, 37, 'arabic_language/admin/language/ar/user/user_group.php'),
+(3910, 37, 'arabic_language/admin/language/en-gb'),
+(3911, 37, 'arabic_language/admin/language/en-gb/language'),
+(3912, 37, 'arabic_language/admin/language/en-gb/language/traditional_arabic.php'),
+(3913, 37, 'arabic_language/admin/view'),
+(3914, 37, 'arabic_language/admin/view/template'),
+(3915, 37, 'arabic_language/admin/view/template/language'),
+(3916, 37, 'arabic_language/admin/view/template/language/traditional_arabic.twig'),
+(3917, 37, 'arabic_language/catalog'),
+(3918, 37, 'arabic_language/catalog/language'),
+(3919, 37, 'arabic_language/catalog/language/zh-TW'),
+(3920, 37, 'arabic_language/catalog/language/zh-TW/account'),
+(3921, 37, 'arabic_language/catalog/language/zh-TW/account/account.php'),
+(3922, 37, 'arabic_language/catalog/language/zh-TW/account/address.php'),
+(3923, 37, 'arabic_language/catalog/language/zh-TW/account/affiliate.php'),
+(3924, 37, 'arabic_language/catalog/language/zh-TW/account/download.php'),
+(3925, 37, 'arabic_language/catalog/language/zh-TW/account/edit.php'),
+(3926, 37, 'arabic_language/catalog/language/zh-TW/account/forgotten.php'),
+(3927, 37, 'arabic_language/catalog/language/zh-TW/account/login.php'),
+(3928, 37, 'arabic_language/catalog/language/zh-TW/account/logout.php'),
+(3929, 37, 'arabic_language/catalog/language/zh-TW/account/newsletter.php'),
+(3930, 37, 'arabic_language/catalog/language/zh-TW/account/order.php'),
+(3931, 37, 'arabic_language/catalog/language/zh-TW/account/password.php'),
+(3932, 37, 'arabic_language/catalog/language/zh-TW/account/payment_method.php'),
+(3933, 37, 'arabic_language/catalog/language/zh-TW/account/register.php'),
+(3934, 37, 'arabic_language/catalog/language/zh-TW/account/returns.php'),
+(3935, 37, 'arabic_language/catalog/language/zh-TW/account/reward.php'),
+(3936, 37, 'arabic_language/catalog/language/zh-TW/account/subscription.php'),
+(3937, 37, 'arabic_language/catalog/language/zh-TW/account/success.php'),
+(3938, 37, 'arabic_language/catalog/language/zh-TW/account/tracking.php'),
+(3939, 37, 'arabic_language/catalog/language/zh-TW/account/transaction.php'),
+(3940, 37, 'arabic_language/catalog/language/zh-TW/account/wishlist.php'),
+(3941, 37, 'arabic_language/catalog/language/zh-TW/api'),
+(3942, 37, 'arabic_language/catalog/language/zh-TW/api/account'),
+(3943, 37, 'arabic_language/catalog/language/zh-TW/api/account/login.php'),
+(3944, 37, 'arabic_language/catalog/language/zh-TW/api/localisation'),
+(3945, 37, 'arabic_language/catalog/language/zh-TW/api/localisation/currency.php'),
+(3946, 37, 'arabic_language/catalog/language/zh-TW/api/localisation/language.php'),
+(3947, 37, 'arabic_language/catalog/language/zh-TW/api/localisation/store.php'),
+(3948, 37, 'arabic_language/catalog/language/zh-TW/api/sale'),
+(3949, 37, 'arabic_language/catalog/language/zh-TW/api/sale/affiliate.php'),
+(3950, 37, 'arabic_language/catalog/language/zh-TW/api/sale/cart.php'),
+(3951, 37, 'arabic_language/catalog/language/zh-TW/api/sale/coupon.php'),
+(3952, 37, 'arabic_language/catalog/language/zh-TW/api/sale/customer.php'),
+(3953, 37, 'arabic_language/catalog/language/zh-TW/api/sale/order.php'),
+(3954, 37, 'arabic_language/catalog/language/zh-TW/api/sale/payment_address.php'),
+(3955, 37, 'arabic_language/catalog/language/zh-TW/api/sale/payment_method.php'),
+(3956, 37, 'arabic_language/catalog/language/zh-TW/api/sale/reward.php'),
+(3957, 37, 'arabic_language/catalog/language/zh-TW/api/sale/shipping_address.php'),
+(3958, 37, 'arabic_language/catalog/language/zh-TW/api/sale/shipping_method.php'),
+(3959, 37, 'arabic_language/catalog/language/zh-TW/api/sale/voucher.php'),
+(3960, 37, 'arabic_language/catalog/language/zh-TW/ar.png'),
+(3961, 37, 'arabic_language/catalog/language/zh-TW/checkout'),
+(3962, 37, 'arabic_language/catalog/language/zh-TW/checkout/cart.php'),
+(3963, 37, 'arabic_language/catalog/language/zh-TW/checkout/checkout.php'),
+(3964, 37, 'arabic_language/catalog/language/zh-TW/checkout/confirm.php'),
+(3965, 37, 'arabic_language/catalog/language/zh-TW/checkout/failure.php'),
+(3966, 37, 'arabic_language/catalog/language/zh-TW/checkout/payment_address.php'),
+(3967, 37, 'arabic_language/catalog/language/zh-TW/checkout/payment_method.php'),
+(3968, 37, 'arabic_language/catalog/language/zh-TW/checkout/register.php'),
+(3969, 37, 'arabic_language/catalog/language/zh-TW/checkout/shipping_address.php'),
+(3970, 37, 'arabic_language/catalog/language/zh-TW/checkout/shipping_method.php'),
+(3971, 37, 'arabic_language/catalog/language/zh-TW/checkout/success.php'),
+(3972, 37, 'arabic_language/catalog/language/zh-TW/checkout/voucher.php'),
+(3973, 37, 'arabic_language/catalog/language/zh-TW/common'),
+(3974, 37, 'arabic_language/catalog/language/zh-TW/common/cart.php'),
+(3975, 37, 'arabic_language/catalog/language/zh-TW/common/cookie.php'),
+(3976, 37, 'arabic_language/catalog/language/zh-TW/common/currency.php'),
+(3977, 37, 'arabic_language/catalog/language/zh-TW/common/footer.php'),
+(3978, 37, 'arabic_language/catalog/language/zh-TW/common/header.php'),
+(3979, 37, 'arabic_language/catalog/language/zh-TW/common/language.php'),
+(3980, 37, 'arabic_language/catalog/language/zh-TW/common/maintenance.php'),
+(3981, 37, 'arabic_language/catalog/language/zh-TW/common/menu.php'),
+(3982, 37, 'arabic_language/catalog/language/zh-TW/common/search.php'),
+(3983, 37, 'arabic_language/catalog/language/zh-TW/cron'),
+(3984, 37, 'arabic_language/catalog/language/zh-TW/cron/cron.php'),
+(3985, 37, 'arabic_language/catalog/language/zh-TW/cron/subscription.php'),
+(3986, 37, 'arabic_language/catalog/language/zh-TW/default.php'),
+(3987, 37, 'arabic_language/catalog/language/zh-TW/error'),
+(3988, 37, 'arabic_language/catalog/language/zh-TW/error/not_found.php'),
+(3989, 37, 'arabic_language/catalog/language/zh-TW/information'),
+(3990, 37, 'arabic_language/catalog/language/zh-TW/information/contact.php'),
+(3991, 37, 'arabic_language/catalog/language/zh-TW/information/gdpr.php'),
+(3992, 37, 'arabic_language/catalog/language/zh-TW/information/gdpr_success.php'),
+(3993, 37, 'arabic_language/catalog/language/zh-TW/information/information.php'),
+(3994, 37, 'arabic_language/catalog/language/zh-TW/information/sitemap.php'),
+(3995, 37, 'arabic_language/catalog/language/zh-TW/mail'),
+(3996, 37, 'arabic_language/catalog/language/zh-TW/mail/affiliate.php'),
+(3997, 37, 'arabic_language/catalog/language/zh-TW/mail/forgotten.php'),
+(3998, 37, 'arabic_language/catalog/language/zh-TW/mail/gdpr.php'),
+(3999, 37, 'arabic_language/catalog/language/zh-TW/mail/gdpr_delete.php'),
+(4000, 37, 'arabic_language/catalog/language/zh-TW/mail/order_add.php'),
+(4001, 37, 'arabic_language/catalog/language/zh-TW/mail/order_alert.php'),
+(4002, 37, 'arabic_language/catalog/language/zh-TW/mail/order_edit.php'),
+(4003, 37, 'arabic_language/catalog/language/zh-TW/mail/register.php'),
+(4004, 37, 'arabic_language/catalog/language/zh-TW/mail/review.php'),
+(4005, 37, 'arabic_language/catalog/language/zh-TW/mail/subscription.php'),
+(4006, 37, 'arabic_language/catalog/language/zh-TW/mail/transaction.php'),
+(4007, 37, 'arabic_language/catalog/language/zh-TW/mail/voucher.php'),
+(4008, 37, 'arabic_language/catalog/language/zh-TW/product'),
+(4009, 37, 'arabic_language/catalog/language/zh-TW/product/category.php'),
+(4010, 37, 'arabic_language/catalog/language/zh-TW/product/compare.php'),
+(4011, 37, 'arabic_language/catalog/language/zh-TW/product/manufacturer.php'),
+(4012, 37, 'arabic_language/catalog/language/zh-TW/product/product.php'),
+(4013, 37, 'arabic_language/catalog/language/zh-TW/product/review.php'),
+(4014, 37, 'arabic_language/catalog/language/zh-TW/product/search.php'),
+(4015, 37, 'arabic_language/catalog/language/zh-TW/product/special.php'),
+(4016, 37, 'arabic_language/catalog/language/zh-TW/product/thumb.php'),
+(4017, 37, 'arabic_language/catalog/language/zh-TW/tool'),
+(4018, 37, 'arabic_language/catalog/language/zh-TW/tool/upload.php'),
+(4019, 37, 'arabic_language/extension'),
+(4020, 37, 'arabic_language/extension/opencart'),
+(4021, 37, 'arabic_language/extension/opencart/catalog'),
+(4022, 37, 'arabic_language/extension/opencart/catalog/language'),
+(4023, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW'),
+(4024, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/captcha'),
+(4025, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/captcha/basic.php'),
+(4026, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module'),
+(4027, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/account.php'),
+(4028, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/bestseller.php'),
+(4029, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/category.php'),
+(4030, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/featured.php'),
+(4031, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/filter.php'),
+(4032, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/information.php'),
+(4033, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/ishicontactinfoblock.php'),
+(4034, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/ishifooterlinkblock.php'),
+(4035, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/latest.php'),
+(4036, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/productcard.php'),
+(4037, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/special.php'),
+(4038, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/module/store.php'),
+(4039, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/payment'),
+(4040, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/payment/bank_transfer.php'),
+(4041, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/payment/cheque.php'),
+(4042, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/payment/cod.php'),
+(4043, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/payment/free_checkout.php'),
+(4044, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/shipping'),
+(4045, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/shipping/flat.php'),
+(4046, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/shipping/free.php'),
+(4047, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/shipping/item.php'),
+(4048, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/shipping/pickup.php'),
+(4049, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/shipping/weight.php'),
+(4050, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total'),
+(4051, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/coupon.php'),
+(4052, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/credit.php'),
+(4053, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/handling.php'),
+(4054, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/low_order_fee.php'),
+(4055, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/reward.php'),
+(4056, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/shipping.php'),
+(4057, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/sub_total.php'),
+(4058, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/total.php'),
+(4059, 37, 'arabic_language/extension/opencart/catalog/language/zh-TW/total/voucher.php'),
+(4060, 37, 'arabic_language/install.json'),
+(4061, 38, 'ishiservicesblock'),
+(4062, 38, 'ishiservicesblock/catalog'),
+(4063, 38, 'ishiservicesblock/catalog/controller'),
+(4064, 38, 'ishiservicesblock/catalog/controller/module'),
+(4065, 38, 'ishiservicesblock/catalog/controller/module/ishiservicesblock.php'),
+(4066, 38, 'ishiservicesblock/catalog/view'),
+(4067, 38, 'ishiservicesblock/catalog/view/template'),
+(4068, 38, 'ishiservicesblock/catalog/view/template/module'),
+(4069, 38, 'ishiservicesblock/catalog/view/template/module/ishiservicesblock.twig'),
+(4070, 38, 'ishiservicesblock/install.json'),
+(4071, 38, 'ishiservicesblock/admin'),
+(4072, 38, 'ishiservicesblock/admin/controller'),
+(4073, 38, 'ishiservicesblock/admin/controller/module'),
+(4074, 38, 'ishiservicesblock/admin/controller/module/ishiservicesblock.php'),
+(4075, 38, 'ishiservicesblock/admin/language'),
+(4076, 38, 'ishiservicesblock/admin/language/en-gb'),
+(4077, 38, 'ishiservicesblock/admin/language/en-gb/module'),
+(4078, 38, 'ishiservicesblock/admin/language/en-gb/module/ishiservicesblock.php'),
+(4079, 38, 'ishiservicesblock/admin/view'),
+(4080, 38, 'ishiservicesblock/admin/view/template'),
+(4081, 38, 'ishiservicesblock/admin/view/template/module'),
+(4082, 38, 'ishiservicesblock/admin/view/template/module/ishiservicesblock.twig'),
+(4083, 39, 'ishislider'),
+(4084, 39, 'ishislider/install.json'),
+(4085, 39, 'ishislider/admin'),
+(4086, 39, 'ishislider/admin/controller'),
+(4087, 39, 'ishislider/admin/controller/module'),
+(4088, 39, 'ishislider/admin/controller/module/ishislider.php'),
+(4089, 39, 'ishislider/admin/language'),
+(4090, 39, 'ishislider/admin/language/en-gb'),
+(4091, 39, 'ishislider/admin/language/en-gb/module'),
+(4092, 39, 'ishislider/admin/language/en-gb/module/ishislider.php'),
+(4093, 39, 'ishislider/admin/view'),
+(4094, 39, 'ishislider/admin/view/template'),
+(4095, 39, 'ishislider/admin/view/template/module'),
+(4096, 39, 'ishislider/admin/view/template/module/ishislider.twig'),
+(4097, 39, 'ishislider/catalog'),
+(4098, 39, 'ishislider/catalog/controller'),
+(4099, 39, 'ishislider/catalog/controller/module'),
+(4100, 39, 'ishislider/catalog/controller/module/ishislider.php'),
+(4101, 39, 'ishislider/catalog/view'),
+(4102, 39, 'ishislider/catalog/view/template'),
+(4103, 39, 'ishislider/catalog/view/template/module'),
+(4104, 39, 'ishislider/catalog/view/template/module/ishislider.twig'),
+(4196, 44, 'blogger'),
+(4197, 44, 'blogger/catalog'),
+(4198, 44, 'blogger/catalog/controller'),
+(4199, 44, 'blogger/catalog/controller/information'),
+(4200, 44, 'blogger/catalog/controller/information/blogger.php'),
+(4201, 44, 'blogger/catalog/controller/module'),
+(4202, 44, 'blogger/catalog/controller/module/blogger.php'),
+(4203, 44, 'blogger/catalog/language'),
+(4204, 44, 'blogger/catalog/language/ar'),
+(4205, 44, 'blogger/catalog/language/ar/information'),
+(4206, 44, 'blogger/catalog/language/ar/information/blogger.php'),
+(4207, 44, 'blogger/catalog/language/ar/module'),
+(4208, 44, 'blogger/catalog/language/ar/module/blogger.php'),
+(4209, 44, 'blogger/catalog/language/en-gb'),
+(4210, 44, 'blogger/catalog/language/en-gb/information'),
+(4211, 44, 'blogger/catalog/language/en-gb/information/blogger.php'),
+(4212, 44, 'blogger/catalog/language/en-gb/module'),
+(4213, 44, 'blogger/catalog/language/en-gb/module/blogger.php'),
+(4214, 44, 'blogger/catalog/model'),
+(4215, 44, 'blogger/catalog/model/ishithemes'),
+(4216, 44, 'blogger/catalog/model/ishithemes/blogger.php'),
+(4217, 44, 'blogger/catalog/model/module'),
+(4218, 44, 'blogger/catalog/model/module/blogger.php'),
+(4219, 44, 'blogger/catalog/model/module/ishithemes'),
+(4220, 44, 'blogger/catalog/model/module/ishithemes/blogger.php'),
+(4221, 44, 'blogger/catalog/view'),
+(4222, 44, 'blogger/catalog/view/ishithemes'),
+(4223, 44, 'blogger/catalog/view/ishithemes/blog'),
+(4224, 44, 'blogger/catalog/view/ishithemes/blog/lightbox-2.6.min.js'),
+(4225, 44, 'blogger/catalog/view/ishithemes/blog/lightbox.css'),
+(4226, 44, 'blogger/catalog/view/template'),
+(4227, 44, 'blogger/catalog/view/template/information'),
+(4228, 44, 'blogger/catalog/view/template/information/blogger.twig'),
+(4229, 44, 'blogger/catalog/view/template/information/blogger_blogs.twig'),
+(4230, 44, 'blogger/catalog/view/template/module'),
+(4231, 44, 'blogger/catalog/view/template/module/blogger.twig'),
+(4232, 44, 'blogger/install.json'),
+(4233, 44, 'blogger/admin'),
+(4234, 44, 'blogger/admin/controller'),
+(4235, 44, 'blogger/admin/controller/module'),
+(4236, 44, 'blogger/admin/controller/module/blogger.php'),
+(4237, 44, 'blogger/admin/language'),
+(4238, 44, 'blogger/admin/language/en-gb'),
+(4239, 44, 'blogger/admin/language/en-gb/module'),
+(4240, 44, 'blogger/admin/language/en-gb/module/blogger.php'),
+(4241, 44, 'blogger/admin/model'),
+(4242, 44, 'blogger/admin/model/ishithemes'),
+(4243, 44, 'blogger/admin/model/ishithemes/blogger.php'),
+(4244, 44, 'blogger/admin/view'),
+(4245, 44, 'blogger/admin/view/template'),
+(4246, 44, 'blogger/admin/view/template/module'),
+(4247, 44, 'blogger/admin/view/template/module/blogger'),
+(4248, 44, 'blogger/admin/view/template/module/blogger/comments.twig'),
+(4249, 44, 'blogger/admin/view/template/module/blogger/form.twig'),
+(4250, 44, 'blogger/admin/view/template/module/blogger/list.twig'),
+(4251, 44, 'blogger/admin/view/template/module/blogger/view_comment.twig'),
+(4252, 44, 'blogger/admin/view/template/module/blogger.twig'),
+(4701, 62, 'ishifooterlinkblock'),
+(4702, 62, 'ishifooterlinkblock/catalog'),
+(4703, 62, 'ishifooterlinkblock/catalog/controller'),
+(4704, 62, 'ishifooterlinkblock/catalog/controller/module'),
+(4705, 62, 'ishifooterlinkblock/catalog/controller/module/ishifooterlinkblock.php'),
+(4706, 62, 'ishifooterlinkblock/catalog/view'),
+(4707, 62, 'ishifooterlinkblock/catalog/view/template'),
+(4708, 62, 'ishifooterlinkblock/catalog/view/template/module'),
+(4709, 62, 'ishifooterlinkblock/catalog/view/template/module/ishifooterlinkblock.twig'),
+(4710, 62, 'ishifooterlinkblock/install.json'),
+(4711, 62, 'ishifooterlinkblock/admin'),
+(4712, 62, 'ishifooterlinkblock/admin/controller'),
+(4713, 62, 'ishifooterlinkblock/admin/controller/module'),
+(4714, 62, 'ishifooterlinkblock/admin/controller/module/ishifooterlinkblock.php'),
+(4715, 62, 'ishifooterlinkblock/admin/language'),
+(4716, 62, 'ishifooterlinkblock/admin/language/en-gb'),
+(4717, 62, 'ishifooterlinkblock/admin/language/en-gb/module'),
+(4718, 62, 'ishifooterlinkblock/admin/language/en-gb/module/ishifooterlinkblock.php'),
+(4719, 62, 'ishifooterlinkblock/admin/view'),
+(4720, 62, 'ishifooterlinkblock/admin/view/template'),
+(4721, 62, 'ishifooterlinkblock/admin/view/template/module'),
+(4722, 62, 'ishifooterlinkblock/admin/view/template/module/ishifooterlinkblock.twig'),
+(4820, 67, 'newslettersubscribe'),
+(4821, 67, 'newslettersubscribe/catalog'),
+(4822, 67, 'newslettersubscribe/catalog/controller'),
+(4823, 67, 'newslettersubscribe/catalog/controller/module'),
+(4824, 67, 'newslettersubscribe/catalog/controller/module/newslettersubscribe.php'),
+(4825, 67, 'newslettersubscribe/catalog/language'),
+(4826, 67, 'newslettersubscribe/catalog/language/ar'),
+(4827, 67, 'newslettersubscribe/catalog/language/ar/information'),
+(4828, 67, 'newslettersubscribe/catalog/language/ar/information/blogger.php'),
+(4829, 67, 'newslettersubscribe/catalog/language/ar/module'),
+(4830, 67, 'newslettersubscribe/catalog/language/ar/module/newslettersubscribe.php'),
+(4831, 67, 'newslettersubscribe/catalog/language/en-gb'),
+(4832, 67, 'newslettersubscribe/catalog/language/en-gb/module'),
+(4833, 67, 'newslettersubscribe/catalog/language/en-gb/module/newslettersubscribe.php'),
+(4834, 67, 'newslettersubscribe/catalog/model'),
+(4835, 67, 'newslettersubscribe/catalog/model/ishithemes'),
+(4836, 67, 'newslettersubscribe/catalog/model/ishithemes/newslettersubscribe.php'),
+(4837, 67, 'newslettersubscribe/catalog/view'),
+(4838, 67, 'newslettersubscribe/catalog/view/template'),
+(4839, 67, 'newslettersubscribe/catalog/view/template/module'),
+(4840, 67, 'newslettersubscribe/catalog/view/template/module/newslettersubscribe.twig'),
+(4841, 67, 'newslettersubscribe/install.json'),
+(4842, 67, 'newslettersubscribe/admin'),
+(4843, 67, 'newslettersubscribe/admin/controller'),
+(4844, 67, 'newslettersubscribe/admin/controller/module'),
+(4845, 67, 'newslettersubscribe/admin/controller/module/newslettersubscribe.php'),
+(4846, 67, 'newslettersubscribe/admin/language'),
+(4847, 67, 'newslettersubscribe/admin/language/en-gb'),
+(4848, 67, 'newslettersubscribe/admin/language/en-gb/module'),
+(4849, 67, 'newslettersubscribe/admin/language/en-gb/module/newslettersubscribe.php'),
+(4850, 67, 'newslettersubscribe/admin/model'),
+(4851, 67, 'newslettersubscribe/admin/model/ishithemes'),
+(4852, 67, 'newslettersubscribe/admin/model/ishithemes/newslettersubscribe.php'),
+(4853, 67, 'newslettersubscribe/admin/view'),
+(4854, 67, 'newslettersubscribe/admin/view/template'),
+(4855, 67, 'newslettersubscribe/admin/view/template/module'),
+(4856, 67, 'newslettersubscribe/admin/view/template/module/newslettersubscribe.twig'),
+(4901, 70, 'ishicontactinfoblock'),
+(4902, 70, 'ishicontactinfoblock/admin'),
+(4903, 70, 'ishicontactinfoblock/admin/controller'),
+(4904, 70, 'ishicontactinfoblock/admin/controller/module'),
+(4905, 70, 'ishicontactinfoblock/admin/controller/module/ishicontactinfoblock.php'),
+(4906, 70, 'ishicontactinfoblock/admin/language'),
+(4907, 70, 'ishicontactinfoblock/admin/language/en-gb'),
+(4908, 70, 'ishicontactinfoblock/admin/language/en-gb/module'),
+(4909, 70, 'ishicontactinfoblock/admin/language/en-gb/module/ishicontactinfoblock.php'),
+(4910, 70, 'ishicontactinfoblock/admin/view'),
+(4911, 70, 'ishicontactinfoblock/admin/view/template'),
+(4912, 70, 'ishicontactinfoblock/admin/view/template/module'),
+(4913, 70, 'ishicontactinfoblock/admin/view/template/module/ishicontactinfoblock.twig'),
+(4914, 70, 'ishicontactinfoblock/catalog'),
+(4915, 70, 'ishicontactinfoblock/catalog/controller'),
+(4916, 70, 'ishicontactinfoblock/catalog/controller/module'),
+(4917, 70, 'ishicontactinfoblock/catalog/controller/module/ishicontactinfoblock.php'),
+(4918, 70, 'ishicontactinfoblock/catalog/view'),
+(4919, 70, 'ishicontactinfoblock/catalog/view/template'),
+(4920, 70, 'ishicontactinfoblock/catalog/view/template/module'),
+(4921, 70, 'ishicontactinfoblock/catalog/view/template/module/ishicontactinfoblock.twig'),
+(4922, 70, 'ishicontactinfoblock/install.json'),
+(5009, 74, 'ishiproductsblock'),
+(5010, 74, 'ishiproductsblock/catalog'),
+(5011, 74, 'ishiproductsblock/catalog/controller'),
+(5012, 74, 'ishiproductsblock/catalog/controller/module'),
+(5013, 74, 'ishiproductsblock/catalog/controller/module/ishiproductsblock.php'),
+(5014, 74, 'ishiproductsblock/catalog/language'),
+(5015, 74, 'ishiproductsblock/catalog/language/ar'),
+(5016, 74, 'ishiproductsblock/catalog/language/ar/module'),
+(5017, 74, 'ishiproductsblock/catalog/language/ar/module/ishiproductsblock.php'),
+(5018, 74, 'ishiproductsblock/catalog/language/en-gb'),
+(5019, 74, 'ishiproductsblock/catalog/language/en-gb/module'),
+(5020, 74, 'ishiproductsblock/catalog/language/en-gb/module/ishiproductsblock.php'),
+(5021, 74, 'ishiproductsblock/catalog/model'),
+(5022, 74, 'ishiproductsblock/catalog/model/module'),
+(5023, 74, 'ishiproductsblock/catalog/model/module/ishiproductsblock.php'),
+(5024, 74, 'ishiproductsblock/catalog/view'),
+(5025, 74, 'ishiproductsblock/catalog/view/template'),
+(5026, 74, 'ishiproductsblock/catalog/view/template/module'),
+(5027, 74, 'ishiproductsblock/catalog/view/template/module/ishiproductsblock.twig'),
+(5028, 74, 'ishiproductsblock/install.json'),
+(5029, 74, 'ishiproductsblock/admin'),
+(5030, 74, 'ishiproductsblock/admin/controller'),
+(5031, 74, 'ishiproductsblock/admin/controller/module'),
+(5032, 74, 'ishiproductsblock/admin/controller/module/ishiproductsblock.php'),
+(5033, 74, 'ishiproductsblock/admin/language'),
+(5034, 74, 'ishiproductsblock/admin/language/en-gb'),
+(5035, 74, 'ishiproductsblock/admin/language/en-gb/module'),
+(5036, 74, 'ishiproductsblock/admin/language/en-gb/module/ishiproductsblock.php'),
+(5037, 74, 'ishiproductsblock/admin/view'),
+(5038, 74, 'ishiproductsblock/admin/view/template'),
+(5039, 74, 'ishiproductsblock/admin/view/template/module'),
+(5040, 74, 'ishiproductsblock/admin/view/template/module/ishiproductsblock.twig'),
+(5171, 80, 'ishiparallaxblock'),
+(5172, 80, 'ishiparallaxblock/catalog'),
+(5173, 80, 'ishiparallaxblock/catalog/controller'),
+(5174, 80, 'ishiparallaxblock/catalog/controller/module'),
+(5175, 80, 'ishiparallaxblock/catalog/controller/module/ishiparallaxblock.php'),
+(5176, 80, 'ishiparallaxblock/catalog/model'),
+(5177, 80, 'ishiparallaxblock/catalog/model/module'),
+(5178, 80, 'ishiparallaxblock/catalog/model/module/ishiparallaxblock.php'),
+(5179, 80, 'ishiparallaxblock/catalog/view'),
+(5180, 80, 'ishiparallaxblock/catalog/view/template'),
+(5181, 80, 'ishiparallaxblock/catalog/view/template/module'),
+(5182, 80, 'ishiparallaxblock/catalog/view/template/module/ishiparallaxblock.twig'),
+(5183, 80, 'ishiparallaxblock/install.json'),
+(5184, 80, 'ishiparallaxblock/admin'),
+(5185, 80, 'ishiparallaxblock/admin/controller'),
+(5186, 80, 'ishiparallaxblock/admin/controller/module'),
+(5187, 80, 'ishiparallaxblock/admin/controller/module/ishiparallaxblock.php'),
+(5188, 80, 'ishiparallaxblock/admin/language'),
+(5189, 80, 'ishiparallaxblock/admin/language/en-gb'),
+(5190, 80, 'ishiparallaxblock/admin/language/en-gb/module'),
+(5191, 80, 'ishiparallaxblock/admin/language/en-gb/module/ishiparallaxblock.php'),
+(5192, 80, 'ishiparallaxblock/admin/view'),
+(5193, 80, 'ishiparallaxblock/admin/view/template'),
+(5194, 80, 'ishiparallaxblock/admin/view/template/module'),
+(5195, 80, 'ishiparallaxblock/admin/view/template/module/ishiparallaxblock.twig'),
+(5307, 85, 'ishiinstagramblock'),
+(5308, 85, 'ishiinstagramblock/catalog'),
+(5309, 85, 'ishiinstagramblock/catalog/controller'),
+(5310, 85, 'ishiinstagramblock/catalog/controller/module'),
+(5311, 85, 'ishiinstagramblock/catalog/controller/module/ishiinstagramblock.php'),
+(5312, 85, 'ishiinstagramblock/catalog/view'),
+(5313, 85, 'ishiinstagramblock/catalog/view/template'),
+(5314, 85, 'ishiinstagramblock/catalog/view/template/module'),
+(5315, 85, 'ishiinstagramblock/catalog/view/template/module/ishiinstagramblock.twig'),
+(5316, 85, 'ishiinstagramblock/install.json'),
+(5317, 85, 'ishiinstagramblock/admin'),
+(5318, 85, 'ishiinstagramblock/admin/controller'),
+(5319, 85, 'ishiinstagramblock/admin/controller/module'),
+(5320, 85, 'ishiinstagramblock/admin/controller/module/ishiinstagramblock.php'),
+(5321, 85, 'ishiinstagramblock/admin/language'),
+(5322, 85, 'ishiinstagramblock/admin/language/en-gb'),
+(5323, 85, 'ishiinstagramblock/admin/language/en-gb/module'),
+(5324, 85, 'ishiinstagramblock/admin/language/en-gb/module/ishiinstagramblock.php'),
+(5325, 85, 'ishiinstagramblock/admin/view'),
+(5326, 85, 'ishiinstagramblock/admin/view/template'),
+(5327, 85, 'ishiinstagramblock/admin/view/template/module'),
+(5328, 85, 'ishiinstagramblock/admin/view/template/module/ishiinstagramblock.twig'),
+(5329, 86, 'ishistoreinfoblock'),
+(5330, 86, 'ishistoreinfoblock/admin'),
+(5331, 86, 'ishistoreinfoblock/admin/controller'),
+(5332, 86, 'ishistoreinfoblock/admin/controller/module'),
+(5333, 86, 'ishistoreinfoblock/admin/controller/module/ishistoreinfoblock.php'),
+(5334, 86, 'ishistoreinfoblock/admin/language'),
+(5335, 86, 'ishistoreinfoblock/admin/language/en-gb'),
+(5336, 86, 'ishistoreinfoblock/admin/language/en-gb/module'),
+(5337, 86, 'ishistoreinfoblock/admin/language/en-gb/module/ishistoreinfoblock.php'),
+(5338, 86, 'ishistoreinfoblock/admin/view'),
+(5339, 86, 'ishistoreinfoblock/admin/view/template'),
+(5340, 86, 'ishistoreinfoblock/admin/view/template/module'),
+(5341, 86, 'ishistoreinfoblock/admin/view/template/module/ishistoreinfoblock.twig'),
+(5342, 86, 'ishistoreinfoblock/catalog'),
+(5343, 86, 'ishistoreinfoblock/catalog/controller'),
+(5344, 86, 'ishistoreinfoblock/catalog/controller/module'),
+(5345, 86, 'ishistoreinfoblock/catalog/controller/module/ishistoreinfoblock.php'),
+(5346, 86, 'ishistoreinfoblock/catalog/view'),
+(5347, 86, 'ishistoreinfoblock/catalog/view/template'),
+(5348, 86, 'ishistoreinfoblock/catalog/view/template/module'),
+(5349, 86, 'ishistoreinfoblock/catalog/view/template/module/ishistoreinfoblock.twig'),
+(5350, 86, 'ishistoreinfoblock/install.json'),
+(5542, 95, 'ishitestimonialblock'),
+(5543, 95, 'ishitestimonialblock/admin'),
+(5544, 95, 'ishitestimonialblock/admin/controller'),
+(5545, 95, 'ishitestimonialblock/admin/controller/module'),
+(5546, 95, 'ishitestimonialblock/admin/controller/module/ishitestimonialblock.php'),
+(5547, 95, 'ishitestimonialblock/admin/language'),
+(5548, 95, 'ishitestimonialblock/admin/language/en-gb'),
+(5549, 95, 'ishitestimonialblock/admin/language/en-gb/module'),
+(5550, 95, 'ishitestimonialblock/admin/language/en-gb/module/ishitestimonialblock.php'),
+(5551, 95, 'ishitestimonialblock/admin/view'),
+(5552, 95, 'ishitestimonialblock/admin/view/template'),
+(5553, 95, 'ishitestimonialblock/admin/view/template/module'),
+(5554, 95, 'ishitestimonialblock/admin/view/template/module/ishitestimonialblock.twig'),
+(5555, 95, 'ishitestimonialblock/catalog'),
+(5556, 95, 'ishitestimonialblock/catalog/controller'),
+(5557, 95, 'ishitestimonialblock/catalog/controller/module'),
+(5558, 95, 'ishitestimonialblock/catalog/controller/module/ishitestimonialblock.php'),
+(5559, 95, 'ishitestimonialblock/catalog/view'),
+(5560, 95, 'ishitestimonialblock/catalog/view/template'),
+(5561, 95, 'ishitestimonialblock/catalog/view/template/module'),
+(5562, 95, 'ishitestimonialblock/catalog/view/template/module/ishitestimonialblock.twig'),
+(5563, 95, 'ishitestimonialblock/install.json'),
+(5564, 96, 'ishispecialproductblock'),
+(5565, 96, 'ishispecialproductblock/install.json'),
+(5566, 96, 'ishispecialproductblock/admin'),
+(5567, 96, 'ishispecialproductblock/admin/controller'),
+(5568, 96, 'ishispecialproductblock/admin/controller/module'),
+(5569, 96, 'ishispecialproductblock/admin/controller/module/ishispecialblock.php'),
+(5570, 96, 'ishispecialproductblock/admin/language'),
+(5571, 96, 'ishispecialproductblock/admin/language/en-gb'),
+(5572, 96, 'ishispecialproductblock/admin/language/en-gb/module'),
+(5573, 96, 'ishispecialproductblock/admin/language/en-gb/module/ishispecialblock.php'),
+(5574, 96, 'ishispecialproductblock/admin/view'),
+(5575, 96, 'ishispecialproductblock/admin/view/template'),
+(5576, 96, 'ishispecialproductblock/admin/view/template/module'),
+(5577, 96, 'ishispecialproductblock/admin/view/template/module/ishispecialblock.twig'),
+(5578, 96, 'ishispecialproductblock/catalog'),
+(5579, 96, 'ishispecialproductblock/catalog/controller'),
+(5580, 96, 'ishispecialproductblock/catalog/controller/module'),
+(5581, 96, 'ishispecialproductblock/catalog/controller/module/ishispecialblock.php'),
+(5582, 96, 'ishispecialproductblock/catalog/model'),
+(5583, 96, 'ishispecialproductblock/catalog/model/module'),
+(5584, 96, 'ishispecialproductblock/catalog/model/module/ishispecialblock.php'),
+(5585, 96, 'ishispecialproductblock/catalog/view'),
+(5586, 96, 'ishispecialproductblock/catalog/view/template'),
+(5587, 96, 'ishispecialproductblock/catalog/view/template/module'),
+(5588, 96, 'ishispecialproductblock/catalog/view/template/module/ishispecialblock.twig'),
+(5589, 97, 'newslettersubscribepopup'),
+(5590, 97, 'newslettersubscribepopup/catalog'),
+(5591, 97, 'newslettersubscribepopup/catalog/controller'),
+(5592, 97, 'newslettersubscribepopup/catalog/controller/module'),
+(5593, 97, 'newslettersubscribepopup/catalog/controller/module/newslettersubscribepopup.php'),
+(5594, 97, 'newslettersubscribepopup/catalog/language'),
+(5595, 97, 'newslettersubscribepopup/catalog/language/ar'),
+(5596, 97, 'newslettersubscribepopup/catalog/language/ar/information'),
+(5597, 97, 'newslettersubscribepopup/catalog/language/ar/information/blogger.php'),
+(5598, 97, 'newslettersubscribepopup/catalog/language/ar/module'),
+(5599, 97, 'newslettersubscribepopup/catalog/language/ar/module/newslettersubscribepopup.php'),
+(5600, 97, 'newslettersubscribepopup/catalog/language/en-gb'),
+(5601, 97, 'newslettersubscribepopup/catalog/language/en-gb/module'),
+(5602, 97, 'newslettersubscribepopup/catalog/language/en-gb/module/newslettersubscribepopup.php'),
+(5603, 97, 'newslettersubscribepopup/catalog/model'),
+(5604, 97, 'newslettersubscribepopup/catalog/model/ishithemes'),
+(5605, 97, 'newslettersubscribepopup/catalog/model/ishithemes/newslettersubscribepopup.php'),
+(5606, 97, 'newslettersubscribepopup/catalog/view'),
+(5607, 97, 'newslettersubscribepopup/catalog/view/template'),
+(5608, 97, 'newslettersubscribepopup/catalog/view/template/module'),
+(5609, 97, 'newslettersubscribepopup/catalog/view/template/module/newslettersubscribepopup.twig'),
+(5610, 97, 'newslettersubscribepopup/install.json'),
+(5611, 97, 'newslettersubscribepopup/admin'),
+(5612, 97, 'newslettersubscribepopup/admin/controller'),
+(5613, 97, 'newslettersubscribepopup/admin/controller/module'),
+(5614, 97, 'newslettersubscribepopup/admin/controller/module/newslettersubscribepopup.php'),
+(5615, 97, 'newslettersubscribepopup/admin/language'),
+(5616, 97, 'newslettersubscribepopup/admin/language/en-gb'),
+(5617, 97, 'newslettersubscribepopup/admin/language/en-gb/module'),
+(5618, 97, 'newslettersubscribepopup/admin/language/en-gb/module/newslettersubscribepopup.php'),
+(5619, 97, 'newslettersubscribepopup/admin/model'),
+(5620, 97, 'newslettersubscribepopup/admin/model/ishithemes'),
+(5621, 97, 'newslettersubscribepopup/admin/model/ishithemes/newslettersubscribepopup.php'),
+(5622, 97, 'newslettersubscribepopup/admin/view'),
+(5623, 97, 'newslettersubscribepopup/admin/view/template'),
+(5624, 97, 'newslettersubscribepopup/admin/view/template/module'),
+(5625, 97, 'newslettersubscribepopup/admin/view/template/module/newslettersubscribepopup.twig'),
+(5648, 99, 'ishishopreassurance'),
+(5649, 99, 'ishishopreassurance/install.json'),
+(5650, 99, 'ishishopreassurance/admin'),
+(5651, 99, 'ishishopreassurance/admin/controller'),
+(5652, 99, 'ishishopreassurance/admin/controller/module'),
+(5653, 99, 'ishishopreassurance/admin/controller/module/ishishopreassurance.php'),
+(5654, 99, 'ishishopreassurance/admin/language'),
+(5655, 99, 'ishishopreassurance/admin/language/en-gb'),
+(5656, 99, 'ishishopreassurance/admin/language/en-gb/module'),
+(5657, 99, 'ishishopreassurance/admin/language/en-gb/module/ishishopreassurance.php'),
+(5658, 99, 'ishishopreassurance/admin/view'),
+(5659, 99, 'ishishopreassurance/admin/view/template'),
+(5660, 99, 'ishishopreassurance/admin/view/template/module'),
+(5661, 99, 'ishishopreassurance/admin/view/template/module/ishishopreassurance.twig'),
+(5662, 99, 'ishishopreassurance/catalog'),
+(5663, 99, 'ishishopreassurance/catalog/controller'),
+(5664, 99, 'ishishopreassurance/catalog/controller/module'),
+(5665, 99, 'ishishopreassurance/catalog/controller/module/ishishopreassurance.php'),
+(5666, 99, 'ishishopreassurance/catalog/view'),
+(5667, 99, 'ishishopreassurance/catalog/view/template'),
+(5668, 99, 'ishishopreassurance/catalog/view/template/module'),
+(5669, 99, 'ishishopreassurance/catalog/view/template/module/ishishopreassurance.twig'),
+(5670, 100, 'ukrainian'),
+(5671, 100, 'ukrainian/admin'),
+(5672, 100, 'ukrainian/admin/controller'),
+(5673, 100, 'ukrainian/admin/controller/language'),
+(5674, 100, 'ukrainian/admin/controller/language/ukrainian.php'),
+(5675, 100, 'ukrainian/admin/language'),
+(5676, 100, 'ukrainian/admin/language/en-gb'),
+(5677, 100, 'ukrainian/admin/language/en-gb/language'),
+(5678, 100, 'ukrainian/admin/language/en-gb/language/ukrainian.php'),
+(5679, 100, 'ukrainian/admin/language/uk-ua'),
+(5680, 100, 'ukrainian/admin/language/uk-ua/catalog'),
+(5681, 100, 'ukrainian/admin/language/uk-ua/catalog/attribute.php'),
+(5682, 100, 'ukrainian/admin/language/uk-ua/catalog/attribute_group.php'),
+(5683, 100, 'ukrainian/admin/language/uk-ua/catalog/category.php'),
+(5684, 100, 'ukrainian/admin/language/uk-ua/catalog/download.php'),
+(5685, 100, 'ukrainian/admin/language/uk-ua/catalog/filter.php'),
+(5686, 100, 'ukrainian/admin/language/uk-ua/catalog/filter_group.php'),
+(5687, 100, 'ukrainian/admin/language/uk-ua/catalog/information.php'),
+(5688, 100, 'ukrainian/admin/language/uk-ua/catalog/manufacturer.php'),
+(5689, 100, 'ukrainian/admin/language/uk-ua/catalog/option.php'),
+(5690, 100, 'ukrainian/admin/language/uk-ua/catalog/product.php'),
+(5691, 100, 'ukrainian/admin/language/uk-ua/catalog/review.php'),
+(5692, 100, 'ukrainian/admin/language/uk-ua/catalog/subscription_plan.php'),
+(5693, 100, 'ukrainian/admin/language/uk-ua/cms'),
+(5694, 100, 'ukrainian/admin/language/uk-ua/cms/antispam.php'),
+(5695, 100, 'ukrainian/admin/language/uk-ua/cms/article.php'),
+(5696, 100, 'ukrainian/admin/language/uk-ua/cms/comment.php'),
+(5697, 100, 'ukrainian/admin/language/uk-ua/cms/topic.php'),
+(5698, 100, 'ukrainian/admin/language/uk-ua/common'),
+(5699, 100, 'ukrainian/admin/language/uk-ua/common/column_left.php'),
+(5700, 100, 'ukrainian/admin/language/uk-ua/common/dashboard.php'),
+(5701, 100, 'ukrainian/admin/language/uk-ua/common/developer.php'),
+(5702, 100, 'ukrainian/admin/language/uk-ua/common/filemanager.php'),
+(5703, 100, 'ukrainian/admin/language/uk-ua/common/footer.php'),
+(5704, 100, 'ukrainian/admin/language/uk-ua/common/forgotten.php'),
+(5705, 100, 'ukrainian/admin/language/uk-ua/common/header.php'),
+(5706, 100, 'ukrainian/admin/language/uk-ua/common/login.php'),
+(5707, 100, 'ukrainian/admin/language/uk-ua/common/security.php'),
+(5708, 100, 'ukrainian/admin/language/uk-ua/cron'),
+(5709, 100, 'ukrainian/admin/language/uk-ua/cron/subscription.php'),
+(5710, 100, 'ukrainian/admin/language/uk-ua/customer'),
+(5711, 100, 'ukrainian/admin/language/uk-ua/customer/customer.php'),
+(5712, 100, 'ukrainian/admin/language/uk-ua/customer/customer_approval.php'),
+(5713, 100, 'ukrainian/admin/language/uk-ua/customer/customer_group.php'),
+(5714, 100, 'ukrainian/admin/language/uk-ua/customer/custom_field.php'),
+(5715, 100, 'ukrainian/admin/language/uk-ua/customer/gdpr.php'),
+(5716, 100, 'ukrainian/admin/language/uk-ua/default.php'),
+(5717, 100, 'ukrainian/admin/language/uk-ua/design'),
+(5718, 100, 'ukrainian/admin/language/uk-ua/design/banner.php'),
+(5719, 100, 'ukrainian/admin/language/uk-ua/design/layout.php'),
+(5720, 100, 'ukrainian/admin/language/uk-ua/design/seo_url.php'),
+(5721, 100, 'ukrainian/admin/language/uk-ua/design/theme.php'),
+(5722, 100, 'ukrainian/admin/language/uk-ua/design/translation.php'),
+(5723, 100, 'ukrainian/admin/language/uk-ua/error'),
+(5724, 100, 'ukrainian/admin/language/uk-ua/error/not_found.php'),
+(5725, 100, 'ukrainian/admin/language/uk-ua/error/permission.php'),
+(5726, 100, 'ukrainian/admin/language/uk-ua/extension'),
+(5727, 100, 'ukrainian/admin/language/uk-ua/extension/analytics.php'),
+(5728, 100, 'ukrainian/admin/language/uk-ua/extension/captcha.php'),
+(5729, 100, 'ukrainian/admin/language/uk-ua/extension/currency.php'),
+(5730, 100, 'ukrainian/admin/language/uk-ua/extension/dashboard.php'),
+(5731, 100, 'ukrainian/admin/language/uk-ua/extension/feed.php'),
+(5732, 100, 'ukrainian/admin/language/uk-ua/extension/fraud.php'),
+(5733, 100, 'ukrainian/admin/language/uk-ua/extension/language.php'),
+(5734, 100, 'ukrainian/admin/language/uk-ua/extension/marketplace.php'),
+(5735, 100, 'ukrainian/admin/language/uk-ua/extension/module.php'),
+(5736, 100, 'ukrainian/admin/language/uk-ua/extension/other.php'),
+(5737, 100, 'ukrainian/admin/language/uk-ua/extension/payment.php'),
+(5738, 100, 'ukrainian/admin/language/uk-ua/extension/promotion.php'),
+(5739, 100, 'ukrainian/admin/language/uk-ua/extension/report.php'),
+(5740, 100, 'ukrainian/admin/language/uk-ua/extension/shipping.php'),
+(5741, 100, 'ukrainian/admin/language/uk-ua/extension/theme.php'),
+(5742, 100, 'ukrainian/admin/language/uk-ua/extension/total.php'),
+(5743, 100, 'ukrainian/admin/language/uk-ua/index.html'),
+(5744, 100, 'ukrainian/admin/language/uk-ua/language'),
+(5745, 100, 'ukrainian/admin/language/uk-ua/language/ukrainian.php'),
+(5746, 100, 'ukrainian/admin/language/uk-ua/localisation'),
+(5747, 100, 'ukrainian/admin/language/uk-ua/localisation/address_format.php'),
+(5748, 100, 'ukrainian/admin/language/uk-ua/localisation/country.php'),
+(5749, 100, 'ukrainian/admin/language/uk-ua/localisation/currency.php'),
+(5750, 100, 'ukrainian/admin/language/uk-ua/localisation/geo_zone.php'),
+(5751, 100, 'ukrainian/admin/language/uk-ua/localisation/language.php'),
+(5752, 100, 'ukrainian/admin/language/uk-ua/localisation/length_class.php'),
+(5753, 100, 'ukrainian/admin/language/uk-ua/localisation/location.php'),
+(5754, 100, 'ukrainian/admin/language/uk-ua/localisation/order_status.php'),
+(5755, 100, 'ukrainian/admin/language/uk-ua/localisation/return_action.php'),
+(5756, 100, 'ukrainian/admin/language/uk-ua/localisation/return_reason.php'),
+(5757, 100, 'ukrainian/admin/language/uk-ua/localisation/return_status.php'),
+(5758, 100, 'ukrainian/admin/language/uk-ua/localisation/stock_status.php'),
+(5759, 100, 'ukrainian/admin/language/uk-ua/localisation/subscription_status.php'),
+(5760, 100, 'ukrainian/admin/language/uk-ua/localisation/tax_class.php'),
+(5761, 100, 'ukrainian/admin/language/uk-ua/localisation/tax_rate.php'),
+(5762, 100, 'ukrainian/admin/language/uk-ua/localisation/weight_class.php'),
+(5763, 100, 'ukrainian/admin/language/uk-ua/localisation/zone.php'),
+(5764, 100, 'ukrainian/admin/language/uk-ua/mail'),
+(5765, 100, 'ukrainian/admin/language/uk-ua/mail/affiliate_approve.php'),
+(5766, 100, 'ukrainian/admin/language/uk-ua/mail/affiliate_deny.php'),
+(5767, 100, 'ukrainian/admin/language/uk-ua/mail/customer_approve.php'),
+(5768, 100, 'ukrainian/admin/language/uk-ua/mail/customer_deny.php'),
+(5769, 100, 'ukrainian/admin/language/uk-ua/mail/forgotten.php'),
+(5770, 100, 'ukrainian/admin/language/uk-ua/mail/gdpr_approve.php'),
+(5771, 100, 'ukrainian/admin/language/uk-ua/mail/gdpr_delete.php'),
+(5772, 100, 'ukrainian/admin/language/uk-ua/mail/gdpr_deny.php'),
+(5773, 100, 'ukrainian/admin/language/uk-ua/mail/gdpr_export.php'),
+(5774, 100, 'ukrainian/admin/language/uk-ua/mail/returns.php'),
+(5775, 100, 'ukrainian/admin/language/uk-ua/mail/reward.php'),
+(5776, 100, 'ukrainian/admin/language/uk-ua/mail/transaction.php'),
+(5777, 100, 'ukrainian/admin/language/uk-ua/mail/voucher.php'),
+(5778, 100, 'ukrainian/admin/language/uk-ua/marketing'),
+(5779, 100, 'ukrainian/admin/language/uk-ua/marketing/affiliate.php'),
+(5780, 100, 'ukrainian/admin/language/uk-ua/marketing/contact.php'),
+(5781, 100, 'ukrainian/admin/language/uk-ua/marketing/coupon.php'),
+(5782, 100, 'ukrainian/admin/language/uk-ua/marketing/marketing.php'),
+(5783, 100, 'ukrainian/admin/language/uk-ua/marketplace'),
+(5784, 100, 'ukrainian/admin/language/uk-ua/marketplace/api.php'),
+(5785, 100, 'ukrainian/admin/language/uk-ua/marketplace/cron.php'),
+(5786, 100, 'ukrainian/admin/language/uk-ua/marketplace/event.php'),
+(5787, 100, 'ukrainian/admin/language/uk-ua/marketplace/extension.php'),
+(5788, 100, 'ukrainian/admin/language/uk-ua/marketplace/installer.php'),
+(5789, 100, 'ukrainian/admin/language/uk-ua/marketplace/marketplace.php'),
+(5790, 100, 'ukrainian/admin/language/uk-ua/marketplace/modification.php'),
+(5791, 100, 'ukrainian/admin/language/uk-ua/marketplace/promotion.php'),
+(5792, 100, 'ukrainian/admin/language/uk-ua/marketplace/startup.php'),
+(5793, 100, 'ukrainian/admin/language/uk-ua/report'),
+(5794, 100, 'ukrainian/admin/language/uk-ua/report/online.php'),
+(5795, 100, 'ukrainian/admin/language/uk-ua/report/report.php'),
+(5796, 100, 'ukrainian/admin/language/uk-ua/report/statistics.php'),
+(5797, 100, 'ukrainian/admin/language/uk-ua/sale'),
+(5798, 100, 'ukrainian/admin/language/uk-ua/sale/order.php'),
+(5799, 100, 'ukrainian/admin/language/uk-ua/sale/returns.php'),
+(5800, 100, 'ukrainian/admin/language/uk-ua/sale/subscription.php'),
+(5801, 100, 'ukrainian/admin/language/uk-ua/sale/voucher.php'),
+(5802, 100, 'ukrainian/admin/language/uk-ua/sale/voucher_theme.php'),
+(5803, 100, 'ukrainian/admin/language/uk-ua/setting'),
+(5804, 100, 'ukrainian/admin/language/uk-ua/setting/setting.php'),
+(5805, 100, 'ukrainian/admin/language/uk-ua/setting/store.php'),
+(5806, 100, 'ukrainian/admin/language/uk-ua/tool'),
+(5807, 100, 'ukrainian/admin/language/uk-ua/tool/backup.php'),
+(5808, 100, 'ukrainian/admin/language/uk-ua/tool/log.php'),
+(5809, 100, 'ukrainian/admin/language/uk-ua/tool/notification.php'),
+(5810, 100, 'ukrainian/admin/language/uk-ua/tool/upgrade.php'),
+(5811, 100, 'ukrainian/admin/language/uk-ua/tool/upload.php'),
+(5812, 100, 'ukrainian/admin/language/uk-ua/uk-ua.php'),
+(5813, 100, 'ukrainian/admin/language/uk-ua/uk-ua.png'),
+(5814, 100, 'ukrainian/admin/language/uk-ua/user'),
+(5815, 100, 'ukrainian/admin/language/uk-ua/user/api.php'),
+(5816, 100, 'ukrainian/admin/language/uk-ua/user/profile.php'),
+(5817, 100, 'ukrainian/admin/language/uk-ua/user/user.php'),
+(5818, 100, 'ukrainian/admin/language/uk-ua/user/user_group.php'),
+(5819, 100, 'ukrainian/admin/view'),
+(5820, 100, 'ukrainian/admin/view/template'),
+(5821, 100, 'ukrainian/admin/view/template/language'),
+(5822, 100, 'ukrainian/admin/view/template/language/ukrainian.twig'),
+(5823, 100, 'ukrainian/catalog'),
+(5824, 100, 'ukrainian/catalog/language'),
+(5825, 100, 'ukrainian/catalog/language/uk-ua'),
+(5826, 100, 'ukrainian/catalog/language/uk-ua/account'),
+(5827, 100, 'ukrainian/catalog/language/uk-ua/account/account.php'),
+(5828, 100, 'ukrainian/catalog/language/uk-ua/account/address.php'),
+(5829, 100, 'ukrainian/catalog/language/uk-ua/account/affiliate.php'),
+(5830, 100, 'ukrainian/catalog/language/uk-ua/account/download.php'),
+(5831, 100, 'ukrainian/catalog/language/uk-ua/account/edit.php'),
+(5832, 100, 'ukrainian/catalog/language/uk-ua/account/forgotten.php'),
+(5833, 100, 'ukrainian/catalog/language/uk-ua/account/login.php'),
+(5834, 100, 'ukrainian/catalog/language/uk-ua/account/logout.php'),
+(5835, 100, 'ukrainian/catalog/language/uk-ua/account/newsletter.php'),
+(5836, 100, 'ukrainian/catalog/language/uk-ua/account/order.php'),
+(5837, 100, 'ukrainian/catalog/language/uk-ua/account/password.php'),
+(5838, 100, 'ukrainian/catalog/language/uk-ua/account/payment_method.php'),
+(5839, 100, 'ukrainian/catalog/language/uk-ua/account/register.php'),
+(5840, 100, 'ukrainian/catalog/language/uk-ua/account/returns.php'),
+(5841, 100, 'ukrainian/catalog/language/uk-ua/account/reward.php'),
+(5842, 100, 'ukrainian/catalog/language/uk-ua/account/subscription.php'),
+(5843, 100, 'ukrainian/catalog/language/uk-ua/account/success.php'),
+(5844, 100, 'ukrainian/catalog/language/uk-ua/account/tracking.php'),
+(5845, 100, 'ukrainian/catalog/language/uk-ua/account/transaction.php'),
+(5846, 100, 'ukrainian/catalog/language/uk-ua/account/wishlist.php'),
+(5847, 100, 'ukrainian/catalog/language/uk-ua/api'),
+(5848, 100, 'ukrainian/catalog/language/uk-ua/api/account'),
+(5849, 100, 'ukrainian/catalog/language/uk-ua/api/account/login.php'),
+(5850, 100, 'ukrainian/catalog/language/uk-ua/api/localisation'),
+(5851, 100, 'ukrainian/catalog/language/uk-ua/api/localisation/currency.php'),
+(5852, 100, 'ukrainian/catalog/language/uk-ua/api/localisation/language.php');
+INSERT INTO `oc_extension_path` (`extension_path_id`, `extension_install_id`, `path`) VALUES
+(5853, 100, 'ukrainian/catalog/language/uk-ua/api/localisation/store.php'),
+(5854, 100, 'ukrainian/catalog/language/uk-ua/api/sale'),
+(5855, 100, 'ukrainian/catalog/language/uk-ua/api/sale/affiliate.php'),
+(5856, 100, 'ukrainian/catalog/language/uk-ua/api/sale/cart.php'),
+(5857, 100, 'ukrainian/catalog/language/uk-ua/api/sale/coupon.php'),
+(5858, 100, 'ukrainian/catalog/language/uk-ua/api/sale/customer.php'),
+(5859, 100, 'ukrainian/catalog/language/uk-ua/api/sale/order.php'),
+(5860, 100, 'ukrainian/catalog/language/uk-ua/api/sale/payment_address.php'),
+(5861, 100, 'ukrainian/catalog/language/uk-ua/api/sale/payment_method.php'),
+(5862, 100, 'ukrainian/catalog/language/uk-ua/api/sale/reward.php'),
+(5863, 100, 'ukrainian/catalog/language/uk-ua/api/sale/shipping_address.php'),
+(5864, 100, 'ukrainian/catalog/language/uk-ua/api/sale/shipping_method.php'),
+(5865, 100, 'ukrainian/catalog/language/uk-ua/api/sale/voucher.php'),
+(5866, 100, 'ukrainian/catalog/language/uk-ua/checkout'),
+(5867, 100, 'ukrainian/catalog/language/uk-ua/checkout/cart.php'),
+(5868, 100, 'ukrainian/catalog/language/uk-ua/checkout/checkout.php'),
+(5869, 100, 'ukrainian/catalog/language/uk-ua/checkout/confirm.php'),
+(5870, 100, 'ukrainian/catalog/language/uk-ua/checkout/failure.php'),
+(5871, 100, 'ukrainian/catalog/language/uk-ua/checkout/payment_address.php'),
+(5872, 100, 'ukrainian/catalog/language/uk-ua/checkout/payment_method.php'),
+(5873, 100, 'ukrainian/catalog/language/uk-ua/checkout/register.php'),
+(5874, 100, 'ukrainian/catalog/language/uk-ua/checkout/shipping_address.php'),
+(5875, 100, 'ukrainian/catalog/language/uk-ua/checkout/shipping_method.php'),
+(5876, 100, 'ukrainian/catalog/language/uk-ua/checkout/success.php'),
+(5877, 100, 'ukrainian/catalog/language/uk-ua/checkout/voucher.php'),
+(5878, 100, 'ukrainian/catalog/language/uk-ua/cms'),
+(5879, 100, 'ukrainian/catalog/language/uk-ua/cms/blog.php'),
+(5880, 100, 'ukrainian/catalog/language/uk-ua/cms/comment.php'),
+(5881, 100, 'ukrainian/catalog/language/uk-ua/common'),
+(5882, 100, 'ukrainian/catalog/language/uk-ua/common/cart.php'),
+(5883, 100, 'ukrainian/catalog/language/uk-ua/common/cookie.php'),
+(5884, 100, 'ukrainian/catalog/language/uk-ua/common/currency.php'),
+(5885, 100, 'ukrainian/catalog/language/uk-ua/common/footer.php'),
+(5886, 100, 'ukrainian/catalog/language/uk-ua/common/header.php'),
+(5887, 100, 'ukrainian/catalog/language/uk-ua/common/language.php'),
+(5888, 100, 'ukrainian/catalog/language/uk-ua/common/maintenance.php'),
+(5889, 100, 'ukrainian/catalog/language/uk-ua/common/menu.php'),
+(5890, 100, 'ukrainian/catalog/language/uk-ua/common/search.php'),
+(5891, 100, 'ukrainian/catalog/language/uk-ua/default.php'),
+(5892, 100, 'ukrainian/catalog/language/uk-ua/error'),
+(5893, 100, 'ukrainian/catalog/language/uk-ua/error/not_found.php'),
+(5894, 100, 'ukrainian/catalog/language/uk-ua/index.html'),
+(5895, 100, 'ukrainian/catalog/language/uk-ua/information'),
+(5896, 100, 'ukrainian/catalog/language/uk-ua/information/contact.php'),
+(5897, 100, 'ukrainian/catalog/language/uk-ua/information/gdpr.php'),
+(5898, 100, 'ukrainian/catalog/language/uk-ua/information/gdpr_success.php'),
+(5899, 100, 'ukrainian/catalog/language/uk-ua/information/information.php'),
+(5900, 100, 'ukrainian/catalog/language/uk-ua/information/sitemap.php'),
+(5901, 100, 'ukrainian/catalog/language/uk-ua/mail'),
+(5902, 100, 'ukrainian/catalog/language/uk-ua/mail/affiliate.php'),
+(5903, 100, 'ukrainian/catalog/language/uk-ua/mail/forgotten.php'),
+(5904, 100, 'ukrainian/catalog/language/uk-ua/mail/gdpr.php'),
+(5905, 100, 'ukrainian/catalog/language/uk-ua/mail/order_add.php'),
+(5906, 100, 'ukrainian/catalog/language/uk-ua/mail/order_alert.php'),
+(5907, 100, 'ukrainian/catalog/language/uk-ua/mail/order_edit.php'),
+(5908, 100, 'ukrainian/catalog/language/uk-ua/mail/register.php'),
+(5909, 100, 'ukrainian/catalog/language/uk-ua/mail/review.php'),
+(5910, 100, 'ukrainian/catalog/language/uk-ua/mail/transaction.php'),
+(5911, 100, 'ukrainian/catalog/language/uk-ua/mail/voucher.php'),
+(5912, 100, 'ukrainian/catalog/language/uk-ua/product'),
+(5913, 100, 'ukrainian/catalog/language/uk-ua/product/category.php'),
+(5914, 100, 'ukrainian/catalog/language/uk-ua/product/compare.php'),
+(5915, 100, 'ukrainian/catalog/language/uk-ua/product/manufacturer.php'),
+(5916, 100, 'ukrainian/catalog/language/uk-ua/product/product.php'),
+(5917, 100, 'ukrainian/catalog/language/uk-ua/product/review.php'),
+(5918, 100, 'ukrainian/catalog/language/uk-ua/product/search.php'),
+(5919, 100, 'ukrainian/catalog/language/uk-ua/product/special.php'),
+(5920, 100, 'ukrainian/catalog/language/uk-ua/product/thumb.php'),
+(5921, 100, 'ukrainian/catalog/language/uk-ua/tool'),
+(5922, 100, 'ukrainian/catalog/language/uk-ua/tool/upload.php'),
+(5923, 100, 'ukrainian/catalog/language/uk-ua/uk-ua.php'),
+(5924, 100, 'ukrainian/catalog/language/uk-ua/uk-ua.png'),
+(5925, 100, 'ukrainian/extension'),
+(5926, 100, 'ukrainian/extension/opencart'),
+(5927, 100, 'ukrainian/extension/opencart/admin'),
+(5928, 100, 'ukrainian/extension/opencart/admin/language'),
+(5929, 100, 'ukrainian/extension/opencart/admin/language/uk-ua'),
+(5930, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/captcha'),
+(5931, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/captcha/basic.php'),
+(5932, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/currency'),
+(5933, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/currency/ecb.php'),
+(5934, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/currency/fixer.php'),
+(5935, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard'),
+(5936, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard/activity.php'),
+(5937, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard/chart.php'),
+(5938, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard/customer.php'),
+(5939, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard/map.php'),
+(5940, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard/online.php'),
+(5941, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard/order.php'),
+(5942, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard/recent.php'),
+(5943, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/dashboard/sale.php'),
+(5944, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/fraud'),
+(5945, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/fraud/ip.php'),
+(5946, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module'),
+(5947, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/account.php'),
+(5948, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/banner.php'),
+(5949, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/bestseller.php'),
+(5950, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/category.php'),
+(5951, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/featured.php'),
+(5952, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/filter.php'),
+(5953, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/html.php'),
+(5954, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/information.php'),
+(5955, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/latest.php'),
+(5956, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/special.php'),
+(5957, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/store.php'),
+(5958, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/payment'),
+(5959, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/payment/bank_transfer.php'),
+(5960, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/payment/cheque.php'),
+(5961, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/payment/cod.php'),
+(5962, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/payment/credit_card.php'),
+(5963, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/payment/free_checkout.php'),
+(5964, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report'),
+(5965, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/customer_activity.php'),
+(5966, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/customer_order.php'),
+(5967, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/customer_reward.php'),
+(5968, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/customer_search.php'),
+(5969, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/customer_subscription.php'),
+(5970, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/customer_transaction.php'),
+(5971, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/marketing.php'),
+(5972, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/product_purchased.php'),
+(5973, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/product_viewed.php'),
+(5974, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/sale_coupon.php'),
+(5975, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/sale_order.php'),
+(5976, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/sale_return.php'),
+(5977, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/sale_shipping.php'),
+(5978, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/sale_tax.php'),
+(5979, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/shipping'),
+(5980, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/shipping/flat.php'),
+(5981, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/shipping/free.php'),
+(5982, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/shipping/item.php'),
+(5983, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/shipping/pickup.php'),
+(5984, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/shipping/weight.php'),
+(5985, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/theme'),
+(5986, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/theme/basic.php'),
+(5987, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total'),
+(5988, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/coupon.php'),
+(5989, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/credit.php'),
+(5990, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/handling.php'),
+(5991, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/low_order_fee.php'),
+(5992, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/reward.php'),
+(5993, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/shipping.php'),
+(5994, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/sub_total.php'),
+(5995, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/tax.php'),
+(5996, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/total.php'),
+(5997, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/total/voucher.php'),
+(5998, 100, 'ukrainian/extension/opencart/catalog'),
+(5999, 100, 'ukrainian/extension/opencart/catalog/language'),
+(6000, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua'),
+(6001, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/captcha'),
+(6002, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/captcha/basic.php'),
+(6003, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module'),
+(6004, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/account.php'),
+(6005, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/bestseller.php'),
+(6006, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/category.php'),
+(6007, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/featured.php'),
+(6008, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/filter.php'),
+(6009, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/information.php'),
+(6010, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/latest.php'),
+(6011, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/special.php'),
+(6012, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/store.php'),
+(6013, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/payment'),
+(6014, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/payment/bank_transfer.php'),
+(6015, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/payment/cheque.php'),
+(6016, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/payment/cod.php'),
+(6017, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/payment/credit_card.php'),
+(6018, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/payment/free_checkout.php'),
+(6019, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/shipping'),
+(6020, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/shipping/flat.php'),
+(6021, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/shipping/free.php'),
+(6022, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/shipping/item.php'),
+(6023, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/shipping/pickup.php'),
+(6024, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/shipping/weight.php'),
+(6025, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total'),
+(6026, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/coupon.php'),
+(6027, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/credit.php'),
+(6028, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/handling.php'),
+(6029, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/low_order_fee.php'),
+(6030, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/reward.php'),
+(6031, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/shipping.php'),
+(6032, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/sub_total.php'),
+(6033, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/total.php'),
+(6034, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/total/voucher.php'),
+(6035, 100, 'ukrainian/install.json'),
+(6036, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/blog.php'),
+(6037, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/module/topic.php'),
+(6038, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/customer.php'),
+(6039, 100, 'ukrainian/extension/opencart/admin/language/uk-ua/report/subscription.php'),
+(6040, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/blog.php'),
+(6041, 100, 'ukrainian/extension/opencart/catalog/language/uk-ua/module/topic.php'),
+(6042, 101, 'ocn_language_russian'),
+(6043, 101, 'ocn_language_russian/admin'),
+(6044, 101, 'ocn_language_russian/admin/controller'),
+(6045, 101, 'ocn_language_russian/admin/controller/language'),
+(6046, 101, 'ocn_language_russian/admin/controller/language/russian.php'),
+(6047, 101, 'ocn_language_russian/admin/language'),
+(6048, 101, 'ocn_language_russian/admin/language/en-gb'),
+(6049, 101, 'ocn_language_russian/admin/language/en-gb/language'),
+(6050, 101, 'ocn_language_russian/admin/language/en-gb/language/russian.php'),
+(6051, 101, 'ocn_language_russian/admin/language/ru-ru'),
+(6052, 101, 'ocn_language_russian/admin/language/ru-ru/catalog'),
+(6053, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/attribute.php'),
+(6054, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/attribute_group.php'),
+(6055, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/category.php'),
+(6056, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/download.php'),
+(6057, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/filter.php'),
+(6058, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/information.php'),
+(6059, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/manufacturer.php'),
+(6060, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/option.php'),
+(6061, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/product.php'),
+(6062, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/review.php'),
+(6063, 101, 'ocn_language_russian/admin/language/ru-ru/catalog/subscription_plan.php'),
+(6064, 101, 'ocn_language_russian/admin/language/ru-ru/cms'),
+(6065, 101, 'ocn_language_russian/admin/language/ru-ru/cms/antispam.php'),
+(6066, 101, 'ocn_language_russian/admin/language/ru-ru/cms/article.php'),
+(6067, 101, 'ocn_language_russian/admin/language/ru-ru/cms/blog.php'),
+(6068, 101, 'ocn_language_russian/admin/language/ru-ru/cms/blog_category.php'),
+(6069, 101, 'ocn_language_russian/admin/language/ru-ru/cms/comment.php'),
+(6070, 101, 'ocn_language_russian/admin/language/ru-ru/cms/topic.php'),
+(6071, 101, 'ocn_language_russian/admin/language/ru-ru/common'),
+(6072, 101, 'ocn_language_russian/admin/language/ru-ru/common/authorize.php'),
+(6073, 101, 'ocn_language_russian/admin/language/ru-ru/common/column_left.php'),
+(6074, 101, 'ocn_language_russian/admin/language/ru-ru/common/dashboard.php'),
+(6075, 101, 'ocn_language_russian/admin/language/ru-ru/common/developer.php'),
+(6076, 101, 'ocn_language_russian/admin/language/ru-ru/common/filemanager.php'),
+(6077, 101, 'ocn_language_russian/admin/language/ru-ru/common/footer.php'),
+(6078, 101, 'ocn_language_russian/admin/language/ru-ru/common/forgotten.php'),
+(6079, 101, 'ocn_language_russian/admin/language/ru-ru/common/header.php'),
+(6080, 101, 'ocn_language_russian/admin/language/ru-ru/common/language.php'),
+(6081, 101, 'ocn_language_russian/admin/language/ru-ru/common/login.php'),
+(6082, 101, 'ocn_language_russian/admin/language/ru-ru/common/pin.php'),
+(6083, 101, 'ocn_language_russian/admin/language/ru-ru/common/profile.php'),
+(6084, 101, 'ocn_language_russian/admin/language/ru-ru/common/security.php'),
+(6085, 101, 'ocn_language_russian/admin/language/ru-ru/cron'),
+(6086, 101, 'ocn_language_russian/admin/language/ru-ru/cron/subscription.php'),
+(6087, 101, 'ocn_language_russian/admin/language/ru-ru/customer'),
+(6088, 101, 'ocn_language_russian/admin/language/ru-ru/customer/customer.php'),
+(6089, 101, 'ocn_language_russian/admin/language/ru-ru/customer/customer_approval.php'),
+(6090, 101, 'ocn_language_russian/admin/language/ru-ru/customer/customer_group.php'),
+(6091, 101, 'ocn_language_russian/admin/language/ru-ru/customer/custom_field.php'),
+(6092, 101, 'ocn_language_russian/admin/language/ru-ru/customer/gdpr.php'),
+(6093, 101, 'ocn_language_russian/admin/language/ru-ru/default.php'),
+(6094, 101, 'ocn_language_russian/admin/language/ru-ru/design'),
+(6095, 101, 'ocn_language_russian/admin/language/ru-ru/design/banner.php'),
+(6096, 101, 'ocn_language_russian/admin/language/ru-ru/design/layout.php'),
+(6097, 101, 'ocn_language_russian/admin/language/ru-ru/design/seo_url.php'),
+(6098, 101, 'ocn_language_russian/admin/language/ru-ru/design/theme.php'),
+(6099, 101, 'ocn_language_russian/admin/language/ru-ru/design/translation.php'),
+(6100, 101, 'ocn_language_russian/admin/language/ru-ru/error'),
+(6101, 101, 'ocn_language_russian/admin/language/ru-ru/error/not_found.php'),
+(6102, 101, 'ocn_language_russian/admin/language/ru-ru/error/permission.php'),
+(6103, 101, 'ocn_language_russian/admin/language/ru-ru/extension'),
+(6104, 101, 'ocn_language_russian/admin/language/ru-ru/extension/analytics.php'),
+(6105, 101, 'ocn_language_russian/admin/language/ru-ru/extension/captcha.php'),
+(6106, 101, 'ocn_language_russian/admin/language/ru-ru/extension/currency.php'),
+(6107, 101, 'ocn_language_russian/admin/language/ru-ru/extension/dashboard.php'),
+(6108, 101, 'ocn_language_russian/admin/language/ru-ru/extension/feed.php'),
+(6109, 101, 'ocn_language_russian/admin/language/ru-ru/extension/fraud.php'),
+(6110, 101, 'ocn_language_russian/admin/language/ru-ru/extension/language.php'),
+(6111, 101, 'ocn_language_russian/admin/language/ru-ru/extension/marketplace.php'),
+(6112, 101, 'ocn_language_russian/admin/language/ru-ru/extension/module.php'),
+(6113, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart'),
+(6114, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/captcha'),
+(6115, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/captcha/basic.php'),
+(6116, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/currency'),
+(6117, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/currency/ecb.php'),
+(6118, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/currency/fixer.php'),
+(6119, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard'),
+(6120, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard/activity.php'),
+(6121, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard/chart.php'),
+(6122, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard/customer.php'),
+(6123, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard/map.php'),
+(6124, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard/online.php'),
+(6125, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard/order.php'),
+(6126, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard/recent.php'),
+(6127, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/dashboard/sale.php'),
+(6128, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/fraud'),
+(6129, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/fraud/ip.php'),
+(6130, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module'),
+(6131, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/account.php'),
+(6132, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/banner.php'),
+(6133, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/bestseller.php'),
+(6134, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/category.php'),
+(6135, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/featured.php'),
+(6136, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/filter.php'),
+(6137, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/html.php'),
+(6138, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/information.php'),
+(6139, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/latest.php'),
+(6140, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/special.php'),
+(6141, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/module/store.php'),
+(6142, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/payment'),
+(6143, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/payment/bank_transfer.php'),
+(6144, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/payment/cheque.php'),
+(6145, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/payment/cod.php'),
+(6146, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/payment/credit_card.php'),
+(6147, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/payment/free_checkout.php'),
+(6148, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report'),
+(6149, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/customer.php'),
+(6150, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/customer_activity.php'),
+(6151, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/customer_order.php'),
+(6152, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/customer_reward.php'),
+(6153, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/customer_search.php'),
+(6154, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/customer_subscription.php'),
+(6155, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/customer_transaction.php'),
+(6156, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/marketing.php'),
+(6157, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/product_purchased.php'),
+(6158, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/product_viewed.php'),
+(6159, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/sale_coupon.php'),
+(6160, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/sale_order.php'),
+(6161, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/sale_return.php'),
+(6162, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/sale_shipping.php'),
+(6163, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/report/sale_tax.php'),
+(6164, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/shipping'),
+(6165, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/shipping/flat.php'),
+(6166, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/shipping/free.php'),
+(6167, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/shipping/item.php'),
+(6168, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/shipping/pickup.php'),
+(6169, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/shipping/weight.php'),
+(6170, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/theme'),
+(6171, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/theme/basic.php'),
+(6172, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total'),
+(6173, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/coupon.php'),
+(6174, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/credit.php'),
+(6175, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/handling.php'),
+(6176, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/low_order_fee.php'),
+(6177, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/reward.php'),
+(6178, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/shipping.php'),
+(6179, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/sub_total.php'),
+(6180, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/tax.php'),
+(6181, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/total.php'),
+(6182, 101, 'ocn_language_russian/admin/language/ru-ru/extension/opencart/total/voucher.php'),
+(6183, 101, 'ocn_language_russian/admin/language/ru-ru/extension/other.php'),
+(6184, 101, 'ocn_language_russian/admin/language/ru-ru/extension/payment.php'),
+(6185, 101, 'ocn_language_russian/admin/language/ru-ru/extension/promotion.php'),
+(6186, 101, 'ocn_language_russian/admin/language/ru-ru/extension/report.php'),
+(6187, 101, 'ocn_language_russian/admin/language/ru-ru/extension/shipping.php'),
+(6188, 101, 'ocn_language_russian/admin/language/ru-ru/extension/theme'),
+(6189, 101, 'ocn_language_russian/admin/language/ru-ru/extension/theme/basic.php'),
+(6190, 101, 'ocn_language_russian/admin/language/ru-ru/extension/theme.php'),
+(6191, 101, 'ocn_language_russian/admin/language/ru-ru/extension/total.php'),
+(6192, 101, 'ocn_language_russian/admin/language/ru-ru/index.html'),
+(6193, 101, 'ocn_language_russian/admin/language/ru-ru/language'),
+(6194, 101, 'ocn_language_russian/admin/language/ru-ru/language/russian.php'),
+(6195, 101, 'ocn_language_russian/admin/language/ru-ru/localisation'),
+(6196, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/address_format.php'),
+(6197, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/country.php'),
+(6198, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/currency.php'),
+(6199, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/geo_zone.php'),
+(6200, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/language.php'),
+(6201, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/length_class.php'),
+(6202, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/location.php'),
+(6203, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/order_status.php'),
+(6204, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/return_action.php'),
+(6205, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/return_reason.php'),
+(6206, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/return_status.php'),
+(6207, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/stock_status.php'),
+(6208, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/subscription_status.php'),
+(6209, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/tax_class.php'),
+(6210, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/tax_rate.php'),
+(6211, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/weight_class.php'),
+(6212, 101, 'ocn_language_russian/admin/language/ru-ru/localisation/zone.php'),
+(6213, 101, 'ocn_language_russian/admin/language/ru-ru/mail'),
+(6214, 101, 'ocn_language_russian/admin/language/ru-ru/mail/affiliate_approve.php'),
+(6215, 101, 'ocn_language_russian/admin/language/ru-ru/mail/affiliate_deny.php'),
+(6216, 101, 'ocn_language_russian/admin/language/ru-ru/mail/authorize.php'),
+(6217, 101, 'ocn_language_russian/admin/language/ru-ru/mail/authorize_attempt.php'),
+(6218, 101, 'ocn_language_russian/admin/language/ru-ru/mail/authorize_reset.php'),
+(6219, 101, 'ocn_language_russian/admin/language/ru-ru/mail/customer_approve.php'),
+(6220, 101, 'ocn_language_russian/admin/language/ru-ru/mail/customer_deny.php'),
+(6221, 101, 'ocn_language_russian/admin/language/ru-ru/mail/forgotten.php'),
+(6222, 101, 'ocn_language_russian/admin/language/ru-ru/mail/gdpr_approve.php'),
+(6223, 101, 'ocn_language_russian/admin/language/ru-ru/mail/gdpr_delete.php'),
+(6224, 101, 'ocn_language_russian/admin/language/ru-ru/mail/gdpr_deny.php'),
+(6225, 101, 'ocn_language_russian/admin/language/ru-ru/mail/gdpr_export.php'),
+(6226, 101, 'ocn_language_russian/admin/language/ru-ru/mail/pin_attempt.php'),
+(6227, 101, 'ocn_language_russian/admin/language/ru-ru/mail/pin_reset.php'),
+(6228, 101, 'ocn_language_russian/admin/language/ru-ru/mail/returns.php'),
+(6229, 101, 'ocn_language_russian/admin/language/ru-ru/mail/reward.php'),
+(6230, 101, 'ocn_language_russian/admin/language/ru-ru/mail/subscription.php'),
+(6231, 101, 'ocn_language_russian/admin/language/ru-ru/mail/transaction.php'),
+(6232, 101, 'ocn_language_russian/admin/language/ru-ru/mail/voucher.php'),
+(6233, 101, 'ocn_language_russian/admin/language/ru-ru/marketing'),
+(6234, 101, 'ocn_language_russian/admin/language/ru-ru/marketing/affiliate.php'),
+(6235, 101, 'ocn_language_russian/admin/language/ru-ru/marketing/contact.php'),
+(6236, 101, 'ocn_language_russian/admin/language/ru-ru/marketing/coupon.php'),
+(6237, 101, 'ocn_language_russian/admin/language/ru-ru/marketing/marketing.php'),
+(6238, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace'),
+(6239, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace/api.php'),
+(6240, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace/cron.php'),
+(6241, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace/event.php'),
+(6242, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace/extension.php'),
+(6243, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace/installer.php'),
+(6244, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace/marketplace.php'),
+(6245, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace/promotion.php'),
+(6246, 101, 'ocn_language_russian/admin/language/ru-ru/marketplace/startup.php'),
+(6247, 101, 'ocn_language_russian/admin/language/ru-ru/report'),
+(6248, 101, 'ocn_language_russian/admin/language/ru-ru/report/online.php'),
+(6249, 101, 'ocn_language_russian/admin/language/ru-ru/report/report.php'),
+(6250, 101, 'ocn_language_russian/admin/language/ru-ru/report/statistics.php'),
+(6251, 101, 'ocn_language_russian/admin/language/ru-ru/ru-ru.php'),
+(6252, 101, 'ocn_language_russian/admin/language/ru-ru/ru-ru.png'),
+(6253, 101, 'ocn_language_russian/admin/language/ru-ru/sale'),
+(6254, 101, 'ocn_language_russian/admin/language/ru-ru/sale/order.php'),
+(6255, 101, 'ocn_language_russian/admin/language/ru-ru/sale/return.php'),
+(6256, 101, 'ocn_language_russian/admin/language/ru-ru/sale/returns.php'),
+(6257, 101, 'ocn_language_russian/admin/language/ru-ru/sale/subscription.php'),
+(6258, 101, 'ocn_language_russian/admin/language/ru-ru/sale/voucher.php'),
+(6259, 101, 'ocn_language_russian/admin/language/ru-ru/sale/voucher_theme.php'),
+(6260, 101, 'ocn_language_russian/admin/language/ru-ru/setting'),
+(6261, 101, 'ocn_language_russian/admin/language/ru-ru/setting/setting.php'),
+(6262, 101, 'ocn_language_russian/admin/language/ru-ru/setting/store.php'),
+(6263, 101, 'ocn_language_russian/admin/language/ru-ru/tool'),
+(6264, 101, 'ocn_language_russian/admin/language/ru-ru/tool/backup.php'),
+(6265, 101, 'ocn_language_russian/admin/language/ru-ru/tool/log.php'),
+(6266, 101, 'ocn_language_russian/admin/language/ru-ru/tool/notification.php'),
+(6267, 101, 'ocn_language_russian/admin/language/ru-ru/tool/upgrade.php'),
+(6268, 101, 'ocn_language_russian/admin/language/ru-ru/tool/upload.php'),
+(6269, 101, 'ocn_language_russian/admin/language/ru-ru/user'),
+(6270, 101, 'ocn_language_russian/admin/language/ru-ru/user/api.php'),
+(6271, 101, 'ocn_language_russian/admin/language/ru-ru/user/profile.php'),
+(6272, 101, 'ocn_language_russian/admin/language/ru-ru/user/user.php'),
+(6273, 101, 'ocn_language_russian/admin/language/ru-ru/user/user_group.php'),
+(6274, 101, 'ocn_language_russian/admin/view'),
+(6275, 101, 'ocn_language_russian/admin/view/template'),
+(6276, 101, 'ocn_language_russian/admin/view/template/language'),
+(6277, 101, 'ocn_language_russian/admin/view/template/language/russian.twig'),
+(6278, 101, 'ocn_language_russian/catalog'),
+(6279, 101, 'ocn_language_russian/catalog/language'),
+(6280, 101, 'ocn_language_russian/catalog/language/ru-ru'),
+(6281, 101, 'ocn_language_russian/catalog/language/ru-ru/account'),
+(6282, 101, 'ocn_language_russian/catalog/language/ru-ru/account/account.php'),
+(6283, 101, 'ocn_language_russian/catalog/language/ru-ru/account/address.php'),
+(6284, 101, 'ocn_language_russian/catalog/language/ru-ru/account/affiliate.php'),
+(6285, 101, 'ocn_language_russian/catalog/language/ru-ru/account/download.php'),
+(6286, 101, 'ocn_language_russian/catalog/language/ru-ru/account/edit.php'),
+(6287, 101, 'ocn_language_russian/catalog/language/ru-ru/account/forgotten.php'),
+(6288, 101, 'ocn_language_russian/catalog/language/ru-ru/account/login.php'),
+(6289, 101, 'ocn_language_russian/catalog/language/ru-ru/account/logout.php'),
+(6290, 101, 'ocn_language_russian/catalog/language/ru-ru/account/newsletter.php'),
+(6291, 101, 'ocn_language_russian/catalog/language/ru-ru/account/order.php'),
+(6292, 101, 'ocn_language_russian/catalog/language/ru-ru/account/password.php'),
+(6293, 101, 'ocn_language_russian/catalog/language/ru-ru/account/payment_method.php'),
+(6294, 101, 'ocn_language_russian/catalog/language/ru-ru/account/register.php'),
+(6295, 101, 'ocn_language_russian/catalog/language/ru-ru/account/return.php'),
+(6296, 101, 'ocn_language_russian/catalog/language/ru-ru/account/returns.php'),
+(6297, 101, 'ocn_language_russian/catalog/language/ru-ru/account/reward.php'),
+(6298, 101, 'ocn_language_russian/catalog/language/ru-ru/account/subscription.php'),
+(6299, 101, 'ocn_language_russian/catalog/language/ru-ru/account/success.php'),
+(6300, 101, 'ocn_language_russian/catalog/language/ru-ru/account/tracking.php'),
+(6301, 101, 'ocn_language_russian/catalog/language/ru-ru/account/transaction.php'),
+(6302, 101, 'ocn_language_russian/catalog/language/ru-ru/account/wishlist.php'),
+(6303, 101, 'ocn_language_russian/catalog/language/ru-ru/api'),
+(6304, 101, 'ocn_language_russian/catalog/language/ru-ru/api/account'),
+(6305, 101, 'ocn_language_russian/catalog/language/ru-ru/api/account/login.php'),
+(6306, 101, 'ocn_language_russian/catalog/language/ru-ru/api/localisation'),
+(6307, 101, 'ocn_language_russian/catalog/language/ru-ru/api/localisation/currency.php'),
+(6308, 101, 'ocn_language_russian/catalog/language/ru-ru/api/localisation/language.php'),
+(6309, 101, 'ocn_language_russian/catalog/language/ru-ru/api/localisation/store.php'),
+(6310, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale'),
+(6311, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/affiliate.php'),
+(6312, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/cart.php'),
+(6313, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/coupon.php'),
+(6314, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/customer.php'),
+(6315, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/order.php'),
+(6316, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/payment_address.php'),
+(6317, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/payment_method.php'),
+(6318, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/reward.php'),
+(6319, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/shipping_address.php'),
+(6320, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/shipping_method.php'),
+(6321, 101, 'ocn_language_russian/catalog/language/ru-ru/api/sale/voucher.php'),
+(6322, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout'),
+(6323, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/cart.php'),
+(6324, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/checkout.php'),
+(6325, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/confirm.php'),
+(6326, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/failure.php'),
+(6327, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/payment_address.php'),
+(6328, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/payment_method.php'),
+(6329, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/register.php'),
+(6330, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/shipping_address.php'),
+(6331, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/shipping_method.php'),
+(6332, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/success.php'),
+(6333, 101, 'ocn_language_russian/catalog/language/ru-ru/checkout/voucher.php'),
+(6334, 101, 'ocn_language_russian/catalog/language/ru-ru/cms'),
+(6335, 101, 'ocn_language_russian/catalog/language/ru-ru/cms/blog.php'),
+(6336, 101, 'ocn_language_russian/catalog/language/ru-ru/common'),
+(6337, 101, 'ocn_language_russian/catalog/language/ru-ru/common/cart.php'),
+(6338, 101, 'ocn_language_russian/catalog/language/ru-ru/common/cookie.php'),
+(6339, 101, 'ocn_language_russian/catalog/language/ru-ru/common/currency.php'),
+(6340, 101, 'ocn_language_russian/catalog/language/ru-ru/common/footer.php'),
+(6341, 101, 'ocn_language_russian/catalog/language/ru-ru/common/header.php'),
+(6342, 101, 'ocn_language_russian/catalog/language/ru-ru/common/language.php'),
+(6343, 101, 'ocn_language_russian/catalog/language/ru-ru/common/maintenance.php'),
+(6344, 101, 'ocn_language_russian/catalog/language/ru-ru/common/menu.php'),
+(6345, 101, 'ocn_language_russian/catalog/language/ru-ru/common/search.php'),
+(6346, 101, 'ocn_language_russian/catalog/language/ru-ru/cron'),
+(6347, 101, 'ocn_language_russian/catalog/language/ru-ru/cron/cron.php'),
+(6348, 101, 'ocn_language_russian/catalog/language/ru-ru/cron/subscription.php'),
+(6349, 101, 'ocn_language_russian/catalog/language/ru-ru/default.php'),
+(6350, 101, 'ocn_language_russian/catalog/language/ru-ru/error'),
+(6351, 101, 'ocn_language_russian/catalog/language/ru-ru/error/not_found.php'),
+(6352, 101, 'ocn_language_russian/catalog/language/ru-ru/extension'),
+(6353, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart'),
+(6354, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/captcha'),
+(6355, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/captcha/basic.php'),
+(6356, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module'),
+(6357, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/account.php'),
+(6358, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/bestseller.php'),
+(6359, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/category.php'),
+(6360, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/featured.php'),
+(6361, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/filter.php'),
+(6362, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/information.php'),
+(6363, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/latest.php'),
+(6364, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/special.php'),
+(6365, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/module/store.php'),
+(6366, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/payment'),
+(6367, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/payment/bank_transfer.php'),
+(6368, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/payment/cheque.php'),
+(6369, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/payment/cod.php'),
+(6370, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/payment/credit_card.php'),
+(6371, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/payment/free_checkout.php'),
+(6372, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/shipping'),
+(6373, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/shipping/flat.php'),
+(6374, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/shipping/free.php'),
+(6375, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/shipping/item.php'),
+(6376, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/shipping/pickup.php'),
+(6377, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/shipping/weight.php'),
+(6378, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total'),
+(6379, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/coupon.php'),
+(6380, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/credit.php'),
+(6381, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/handling.php'),
+(6382, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/low_order_fee.php'),
+(6383, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/reward.php'),
+(6384, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/shipping.php'),
+(6385, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/sub_total.php'),
+(6386, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/total.php'),
+(6387, 101, 'ocn_language_russian/catalog/language/ru-ru/extension/opencart/total/voucher.php'),
+(6388, 101, 'ocn_language_russian/catalog/language/ru-ru/index.html'),
+(6389, 101, 'ocn_language_russian/catalog/language/ru-ru/information'),
+(6390, 101, 'ocn_language_russian/catalog/language/ru-ru/information/contact.php'),
+(6391, 101, 'ocn_language_russian/catalog/language/ru-ru/information/gdpr.php'),
+(6392, 101, 'ocn_language_russian/catalog/language/ru-ru/information/gdpr_success.php'),
+(6393, 101, 'ocn_language_russian/catalog/language/ru-ru/information/information.php'),
+(6394, 101, 'ocn_language_russian/catalog/language/ru-ru/information/sitemap.php'),
+(6395, 101, 'ocn_language_russian/catalog/language/ru-ru/mail'),
+(6396, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/affiliate.php'),
+(6397, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/forgotten.php'),
+(6398, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/gdpr.php'),
+(6399, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/gdpr_delete.php'),
+(6400, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/order_add.php'),
+(6401, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/order_alert.php'),
+(6402, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/order_edit.php'),
+(6403, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/register.php'),
+(6404, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/review.php'),
+(6405, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/subscription.php'),
+(6406, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/subscription_alert.php'),
+(6407, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/transaction.php'),
+(6408, 101, 'ocn_language_russian/catalog/language/ru-ru/mail/voucher.php'),
+(6409, 101, 'ocn_language_russian/catalog/language/ru-ru/product'),
+(6410, 101, 'ocn_language_russian/catalog/language/ru-ru/product/category.php'),
+(6411, 101, 'ocn_language_russian/catalog/language/ru-ru/product/compare.php'),
+(6412, 101, 'ocn_language_russian/catalog/language/ru-ru/product/manufacturer.php'),
+(6413, 101, 'ocn_language_russian/catalog/language/ru-ru/product/product.php'),
+(6414, 101, 'ocn_language_russian/catalog/language/ru-ru/product/review.php'),
+(6415, 101, 'ocn_language_russian/catalog/language/ru-ru/product/search.php'),
+(6416, 101, 'ocn_language_russian/catalog/language/ru-ru/product/special.php'),
+(6417, 101, 'ocn_language_russian/catalog/language/ru-ru/product/thumb.php'),
+(6418, 101, 'ocn_language_russian/catalog/language/ru-ru/ru-ru.php'),
+(6419, 101, 'ocn_language_russian/catalog/language/ru-ru/ru-ru.png'),
+(6420, 101, 'ocn_language_russian/catalog/language/ru-ru/tool'),
+(6421, 101, 'ocn_language_russian/catalog/language/ru-ru/tool/upload.php'),
+(6422, 101, 'ocn_language_russian/install.json');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_filter`
 --
 
-DROP TABLE IF EXISTS `oc_filter`;
 CREATE TABLE `oc_filter` (
-  `filter_id` int(11) NOT NULL AUTO_INCREMENT,
+  `filter_id` int(11) NOT NULL,
   `filter_group_id` int(11) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`filter_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_filter`
+--
+
+INSERT INTO `oc_filter` (`filter_id`, `filter_group_id`, `sort_order`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 2, 1),
+(5, 2, 2),
+(6, 3, 1),
+(7, 3, 2),
+(8, 3, 3),
+(9, 3, 4);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_filter_description`
 --
 
-DROP TABLE IF EXISTS `oc_filter_description`;
 CREATE TABLE `oc_filter_description` (
   `filter_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `filter_group_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`filter_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_filter_description`
+--
+
+INSERT INTO `oc_filter_description` (`filter_id`, `language_id`, `filter_group_id`, `name`) VALUES
+(1, 1, 1, 'Red'),
+(1, 2, 1, 'Red'),
+(1, 3, 1, 'Red'),
+(1, 4, 1, 'Red'),
+(1, 5, 1, 'Red'),
+(1, 6, 1, 'Red'),
+(1, 7, 1, 'Red'),
+(1, 8, 1, 'Red'),
+(2, 1, 1, 'Yellow'),
+(2, 2, 1, 'Yellow'),
+(2, 3, 1, 'Yellow'),
+(2, 4, 1, 'Yellow'),
+(2, 5, 1, 'Yellow'),
+(2, 6, 1, 'Yellow'),
+(2, 7, 1, 'Yellow'),
+(2, 8, 1, 'Yellow'),
+(3, 1, 1, 'Sky'),
+(3, 2, 1, 'Sky'),
+(3, 3, 1, 'Sky'),
+(3, 4, 1, 'Sky'),
+(3, 5, 1, 'Sky'),
+(3, 6, 1, 'Sky'),
+(3, 7, 1, 'Sky'),
+(3, 8, 1, 'Sky'),
+(4, 1, 2, '$11.00 - $14.00'),
+(4, 2, 2, '$11.00 - $14.00'),
+(4, 3, 2, '$11.00 - $14.00'),
+(4, 4, 2, '$11.00 - $14.00'),
+(4, 5, 2, '$11.00 - $14.00'),
+(4, 6, 2, '$11.00 - $14.00'),
+(4, 7, 2, '$11.00 - $14.00'),
+(4, 8, 2, '$11.00 - $14.00'),
+(5, 1, 2, '$8.00 - $10.00'),
+(5, 2, 2, '$8.00 - $10.00'),
+(5, 3, 2, '$8.00 - $10.00'),
+(5, 4, 2, '$8.00 - $10.00'),
+(5, 5, 2, '$8.00 - $10.00'),
+(5, 6, 2, '$8.00 - $10.00'),
+(5, 7, 2, '$8.00 - $10.00'),
+(5, 8, 2, '$8.00 - $10.00'),
+(6, 1, 3, 'S'),
+(6, 2, 3, 'S'),
+(6, 3, 3, 'S'),
+(6, 4, 3, 'S'),
+(6, 5, 3, 'S'),
+(6, 6, 3, 'S'),
+(6, 7, 3, 'S'),
+(6, 8, 3, 'S'),
+(7, 1, 3, 'M'),
+(7, 2, 3, 'M'),
+(7, 3, 3, 'M'),
+(7, 4, 3, 'M'),
+(7, 5, 3, 'M'),
+(7, 6, 3, 'M'),
+(7, 7, 3, 'M'),
+(7, 8, 3, 'M'),
+(8, 1, 3, 'L'),
+(8, 2, 3, 'L'),
+(8, 3, 3, 'L'),
+(8, 4, 3, 'L'),
+(8, 5, 3, 'L'),
+(8, 6, 3, 'L'),
+(8, 7, 3, 'L'),
+(8, 8, 3, 'L'),
+(9, 1, 3, 'XL'),
+(9, 2, 3, 'XL'),
+(9, 3, 3, 'XL'),
+(9, 4, 3, 'XL'),
+(9, 5, 3, 'XL'),
+(9, 6, 3, 'XL'),
+(9, 7, 3, 'XL'),
+(9, 8, 3, 'XL');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_filter_group`
 --
 
-DROP TABLE IF EXISTS `oc_filter_group`;
 CREATE TABLE `oc_filter_group` (
-  `filter_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`filter_group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `filter_group_id` int(11) NOT NULL,
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_filter_group`
+--
+
+INSERT INTO `oc_filter_group` (`filter_group_id`, `sort_order`) VALUES
+(1, 1),
+(2, 2),
+(3, 3);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_filter_group_description`
 --
 
-DROP TABLE IF EXISTS `oc_filter_group_description`;
 CREATE TABLE `oc_filter_group_description` (
   `filter_group_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`filter_group_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_filter_group_description`
+--
+
+INSERT INTO `oc_filter_group_description` (`filter_group_id`, `language_id`, `name`) VALUES
+(1, 1, 'Colour'),
+(1, 2, 'Colour'),
+(1, 3, 'Colour'),
+(1, 4, 'Colour'),
+(1, 5, 'Colour'),
+(1, 6, 'Colour'),
+(1, 7, 'Colour'),
+(1, 8, 'Colour'),
+(2, 1, 'Price'),
+(2, 2, 'Price'),
+(2, 3, 'Price'),
+(2, 4, 'Price'),
+(2, 5, 'Price'),
+(2, 6, 'Price'),
+(2, 7, 'Price'),
+(2, 8, 'Price'),
+(3, 1, 'Size'),
+(3, 2, 'Size'),
+(3, 3, 'Size'),
+(3, 4, 'Size'),
+(3, 5, 'Size'),
+(3, 6, 'Size'),
+(3, 7, 'Size'),
+(3, 8, 'Size');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_gdpr`
+--
+
+CREATE TABLE `oc_gdpr` (
+  `gdpr_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `code` varchar(40) NOT NULL,
+  `email` varchar(96) NOT NULL,
+  `action` varchar(6) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_geo_zone`
 --
 
-DROP TABLE IF EXISTS `oc_geo_zone`;
 CREATE TABLE `oc_geo_zone` (
-  `geo_zone_id` int(11) NOT NULL AUTO_INCREMENT,
+  `geo_zone_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
   `description` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`geo_zone_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_geo_zone`
 --
 
-INSERT INTO `oc_geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`, `date_added`) VALUES
-(3, 'UK VAT Zone', 'UK VAT', '2010-02-26 22:33:24', '2009-01-06 23:26:25'),
-(4, 'UK Shipping', 'UK Shipping Zones', '2010-12-15 15:18:13', '2009-06-23 01:14:53');
+INSERT INTO `oc_geo_zone` (`geo_zone_id`, `name`, `description`, `date_added`, `date_modified`) VALUES
+(3, 'UK VAT Zone', 'UK VAT', '2009-01-06 23:26:25', '2010-02-26 22:33:24'),
+(4, 'UK Shipping', 'UK Shipping Zones', '2009-06-23 01:14:53', '2010-12-15 15:18:13');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_information`
 --
 
-DROP TABLE IF EXISTS `oc_information`;
 CREATE TABLE `oc_information` (
-  `information_id` int(11) NOT NULL AUTO_INCREMENT,
-  `bottom` int(1) NOT NULL DEFAULT '0',
-  `sort_order` int(3) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`information_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `information_id` int(11) NOT NULL,
+  `bottom` int(1) NOT NULL DEFAULT 0,
+  `sort_order` int(3) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_information`
 --
 
 INSERT INTO `oc_information` (`information_id`, `bottom`, `sort_order`, `status`) VALUES
-(3, 1, 3, 1),
-(4, 1, 1, 1),
-(5, 1, 4, 1),
-(6, 1, 2, 1);
+(1, 1, 3, 1),
+(2, 1, 1, 1),
+(3, 1, 4, 1),
+(4, 1, 2, 1),
+(5, 1, 0, 0),
+(6, 1, 5, 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_information_description`
 --
 
-DROP TABLE IF EXISTS `oc_information_description`;
 CREATE TABLE `oc_information_description` (
   `information_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
@@ -1690,96 +5730,126 @@ CREATE TABLE `oc_information_description` (
   `description` mediumtext NOT NULL,
   `meta_title` varchar(255) NOT NULL,
   `meta_description` varchar(255) NOT NULL,
-  `meta_keyword` varchar(255) NOT NULL,
-  PRIMARY KEY (`information_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `meta_keyword` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_information_description`
 --
 
 INSERT INTO `oc_information_description` (`information_id`, `language_id`, `title`, `description`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
-(4, 1, 'About Us', '&lt;p&gt;\r\n	About Us&lt;/p&gt;\r\n', 'About Us', '', ''),
-(5, 1, 'Terms &amp; Conditions', '&lt;p&gt;\r\n	Terms &amp;amp; Conditions&lt;/p&gt;\r\n', 'Terms &amp; Conditions', '', ''),
-(3, 1, 'Privacy Policy', '&lt;p&gt;\r\n	Privacy Policy&lt;/p&gt;\r\n', 'Privacy Policy', '', ''),
-(6, 1, 'Delivery Information', '&lt;p&gt;\r\n	Delivery Information&lt;/p&gt;\r\n', 'Delivery Information', '', '');
+(1, 1, 'About Us', '', 'About Us', '', ''),
+(1, 2, 'About Us', '', 'About Us', '', ''),
+(1, 3, 'About Us', '', 'About Us', '', ''),
+(1, 4, 'About Us', '', 'About Us', '', ''),
+(1, 5, 'About Us', '', 'About Us', '', ''),
+(1, 6, 'About Us', '', 'About Us', '', ''),
+(1, 7, 'About Us', '', 'About Us', '', ''),
+(1, 8, 'About Us', '', 'About Us', '', ''),
+(2, 1, 'Terms &amp; Conditions', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Terms &amp; Conditions', '', ''),
+(2, 6, 'Terms &amp; Conditions', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Terms &amp; Conditions', '', ''),
+(2, 7, 'Terms &amp; Conditions', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Terms &amp; Conditions', '', ''),
+(2, 8, 'Terms &amp; Conditions', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Terms &amp; Conditions', '', ''),
+(3, 1, 'Privacy Policy', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Privacy Policy', '', ''),
+(3, 6, 'Privacy Policy', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Privacy Policy', '', ''),
+(3, 7, 'Privacy Policy', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Privacy Policy', '', ''),
+(3, 8, 'Privacy Policy', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Privacy Policy', '', ''),
+(4, 1, 'Information', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Information', '', ''),
+(4, 6, 'Information', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Information', '', ''),
+(4, 7, 'Information', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Information', '', ''),
+(4, 8, 'Information', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Information', '', ''),
+(5, 1, 'Delivery', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Delivery', '', ''),
+(5, 6, 'Delivery', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Delivery', '', ''),
+(5, 7, 'Delivery', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Delivery', '', ''),
+(5, 8, 'Delivery', '&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;\r\n\r\n&lt;p&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it\'s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;There are many variations of passages of Lorem Ipsum available&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;ol&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;sometimes on purpose (injected humour and the like).&lt;/li&gt;\r\n	&lt;li&gt;Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.&lt;/li&gt;\r\n	&lt;li&gt;All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary&lt;/li&gt;\r\n	&lt;li&gt;It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.&lt;/li&gt;\r\n&lt;/ol&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Sample Paragraph Text&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;/p&gt;', 'Delivery', '', ''),
+(6, 1, 'FAQ', '', 'FAQ', '', ''),
+(6, 6, 'FAQ', '', 'FAQ', '', ''),
+(6, 7, 'FAQ', '', 'FAQ', '', ''),
+(6, 8, 'FAQ', '', 'FAQ', '', '');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_information_to_layout`
 --
 
-DROP TABLE IF EXISTS `oc_information_to_layout`;
 CREATE TABLE `oc_information_to_layout` (
   `information_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `layout_id` int(11) NOT NULL,
-  PRIMARY KEY (`information_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `layout_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_information_to_layout`
+--
+
+INSERT INTO `oc_information_to_layout` (`information_id`, `store_id`, `layout_id`) VALUES
+(1, 0, 14),
+(2, 0, 0),
+(3, 0, 0),
+(4, 0, 0),
+(5, 0, 0),
+(6, 0, 15);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_information_to_store`
 --
 
-DROP TABLE IF EXISTS `oc_information_to_store`;
 CREATE TABLE `oc_information_to_store` (
   `information_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL,
-  PRIMARY KEY (`information_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `store_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_information_to_store`
 --
 
 INSERT INTO `oc_information_to_store` (`information_id`, `store_id`) VALUES
+(1, 0),
+(2, 0),
 (3, 0),
 (4, 0),
 (5, 0),
 (6, 0);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_language`
 --
 
-DROP TABLE IF EXISTS `oc_language`;
 CREATE TABLE `oc_language` (
-  `language_id` int(11) NOT NULL AUTO_INCREMENT,
+  `language_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
   `code` varchar(5) NOT NULL,
   `locale` varchar(255) NOT NULL,
-  `image` varchar(64) NOT NULL,
-  `directory` varchar(32) NOT NULL,
-  `sort_order` int(3) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`language_id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `extension` varchar(255) NOT NULL,
+  `sort_order` int(3) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_language`
 --
 
-INSERT INTO `oc_language` (`language_id`, `name`, `code`, `locale`, `image`, `directory`, `sort_order`, `status`) VALUES
-(1, 'English', 'en-gb', 'en-US,en_US.UTF-8,en_US,en-gb,english', 'gb.png', 'english', 1, 1);
+INSERT INTO `oc_language` (`language_id`, `name`, `code`, `locale`, `extension`, `sort_order`, `status`) VALUES
+(1, 'English', 'en-gb', 'en-gb,en', '', 1, 1),
+(6, 'Arabic', 'ar', 'ar', 'arabic_language', 2, 1),
+(7, 'Українська', 'uk-ua', 'uk,ua,uk_ua,uk-ua,uk_UA,uk_UA.UTF-8,ukrainian', 'ukrainian', 1, 1),
+(8, 'Russian', 'ru-ru', 'ru-ru', 'ocn_language_russian', 1, 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_layout`
 --
 
-DROP TABLE IF EXISTS `oc_layout`;
 CREATE TABLE `oc_layout` (
-  `layout_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`layout_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `layout_id` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_layout`
@@ -1798,86 +5868,265 @@ INSERT INTO `oc_layout` (`layout_id`, `name`) VALUES
 (10, 'Affiliate'),
 (11, 'Information'),
 (12, 'Compare'),
-(13, 'Search');
+(13, 'Search'),
+(14, 'About Us'),
+(15, 'FAQs');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_layout_module`
 --
 
-DROP TABLE IF EXISTS `oc_layout_module`;
 CREATE TABLE `oc_layout_module` (
-  `layout_module_id` int(11) NOT NULL AUTO_INCREMENT,
+  `layout_module_id` int(11) NOT NULL,
   `layout_id` int(11) NOT NULL,
   `code` varchar(64) NOT NULL,
   `position` varchar(14) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`layout_module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_layout_module`
 --
 
 INSERT INTO `oc_layout_module` (`layout_module_id`, `layout_id`, `code`, `position`, `sort_order`) VALUES
-(2, 4, '0', 'content_top', 0),
-(3, 4, '0', 'content_top', 1),
-(20, 5, '0', 'column_left', 2),
-(69, 10, 'account', 'column_right', 1),
-(68, 6, 'account', 'column_right', 1),
-(67, 1, 'carousel.29', 'content_top', 3),
-(66, 1, 'slideshow.27', 'content_top', 1),
-(65, 1, 'featured.28', 'content_top', 2),
-(72, 3, 'category', 'column_left', 1),
-(73, 3, 'banner.30', 'column_left', 2);
+(12050, 14, 'opencart.html.204', 'header_before', 0),
+(12051, 14, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12052, 14, 'ishiaboutusblock.ishiaboutusblock.67', 'content_top', 0),
+(12053, 14, 'ishiaboutusblock.ishiaboutusblock.65', 'content_top', 1),
+(12054, 14, 'ishiaboutusservicesblock.ishiaboutusservicesblock.69', 'content_top', 2),
+(12055, 14, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12056, 14, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12057, 14, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12058, 14, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12059, 14, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12060, 14, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12097, 7, 'opencart.category', 'column_left', 0),
+(12098, 7, 'opencart.filter', 'column_left', 1),
+(12099, 7, 'opencart.bestseller.73', 'column_left', 2),
+(12100, 7, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12101, 7, 'opencart.latest.71', 'column_left', 4),
+(12102, 7, 'opencart.html.204', 'header_before', 0),
+(12103, 7, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12104, 7, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12105, 7, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12106, 7, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12107, 7, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12108, 7, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12109, 7, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12204, 2, 'opencart.category', 'column_left', 0),
+(12205, 2, 'opencart.filter', 'column_left', 1),
+(12206, 2, 'opencart.bestseller.73', 'column_left', 2),
+(12207, 2, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12208, 2, 'opencart.latest.71', 'column_left', 4),
+(12209, 2, 'opencart.html.204', 'header_before', 0),
+(12210, 2, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12211, 2, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12212, 2, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12213, 2, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12214, 2, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12215, 2, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12216, 2, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12231, 13, 'opencart.category', 'column_left', 0),
+(12232, 13, 'opencart.filter', 'column_left', 1),
+(12233, 13, 'opencart.bestseller.73', 'column_left', 2),
+(12234, 13, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12235, 13, 'opencart.latest.71', 'column_left', 4),
+(12236, 13, 'opencart.html.204', 'header_before', 0),
+(12237, 13, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12238, 13, 'ishistoreinfoblock.ishistoreinfoblock.188', 'footer_before', 0),
+(12239, 13, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12240, 13, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12241, 13, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12242, 13, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12243, 13, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12244, 13, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12245, 9, 'opencart.category', 'column_left', 0),
+(12246, 9, 'opencart.filter', 'column_left', 1),
+(12247, 9, 'opencart.bestseller.73', 'column_left', 2),
+(12248, 9, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12249, 9, 'opencart.latest.71', 'column_left', 4),
+(12250, 9, 'opencart.html.204', 'header_before', 0),
+(12251, 9, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12252, 9, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12253, 9, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12254, 9, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12255, 9, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12256, 9, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12257, 9, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12258, 6, 'opencart.account', 'column_left', 0),
+(12259, 6, 'opencart.html.204', 'header_before', 0),
+(12260, 6, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12261, 6, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12262, 6, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12263, 6, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12264, 6, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12265, 6, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12266, 6, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12267, 10, 'opencart.category', 'column_left', 0),
+(12268, 10, 'opencart.filter', 'column_left', 1),
+(12269, 10, 'opencart.bestseller.73', 'column_left', 2),
+(12270, 10, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12271, 10, 'opencart.latest.71', 'column_left', 4),
+(12272, 10, 'opencart.html.204', 'header_before', 0),
+(12273, 10, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12274, 10, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12275, 10, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12276, 10, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12277, 10, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12278, 10, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12279, 10, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12280, 10, 'opencart.account', 'column_right', 1),
+(12281, 3, 'opencart.category', 'column_left', 0),
+(12282, 3, 'opencart.filter', 'column_left', 1),
+(12283, 3, 'opencart.bestseller.73', 'column_left', 2),
+(12284, 3, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12285, 3, 'opencart.latest.71', 'column_left', 4),
+(12286, 3, 'opencart.html.204', 'header_before', 0),
+(12287, 3, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12288, 3, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12289, 3, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12290, 3, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12291, 3, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12292, 3, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12293, 3, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12294, 12, 'opencart.category', 'column_left', 0),
+(12295, 12, 'opencart.filter', 'column_left', 1),
+(12296, 12, 'opencart.bestseller.73', 'column_left', 2),
+(12297, 12, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12298, 12, 'opencart.latest.71', 'column_left', 4),
+(12299, 12, 'opencart.html.204', 'header_before', 0),
+(12300, 12, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12301, 12, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12302, 12, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12303, 12, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12304, 12, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12305, 12, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12306, 12, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12307, 8, 'opencart.html.204', 'header_before', 0),
+(12308, 8, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12309, 8, 'ishibannerblock.ishibannerblock.40', 'content_top', 0),
+(12310, 8, 'ishisocialfollowblock.ishisocialfollow.11', 'content_middle', 0),
+(12311, 8, 'ishimaplinkblock.ishimaplinkblock.74', 'content_bottom', 0),
+(12312, 8, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12313, 8, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12314, 8, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12315, 8, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12316, 8, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12317, 8, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12318, 4, 'opencart.category', 'column_left', 0),
+(12319, 4, 'opencart.filter', 'column_left', 1),
+(12320, 4, 'opencart.bestseller.73', 'column_left', 2),
+(12321, 4, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12322, 4, 'opencart.latest.71', 'column_left', 4),
+(12323, 4, 'opencart.html.204', 'header_before', 0),
+(12324, 4, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12325, 4, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12326, 4, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12327, 4, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12328, 4, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12329, 4, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12330, 4, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12331, 15, 'opencart.html.204', 'header_before', 0),
+(12332, 15, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12333, 15, 'ishifaqblock.ishifaqblock.76', 'content_top', 0),
+(12334, 15, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12335, 15, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12336, 15, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12337, 15, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12338, 15, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12339, 15, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12340, 1, 'opencart.html.204', 'header_before', 0),
+(12341, 1, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12342, 1, 'ishislider.ishislider.81', 'content_top', 0),
+(12343, 1, 'ishibannerblock.ishibannerblock.214', 'content_top', 1),
+(12344, 1, 'ishiproductsblock.ishiproductsblock.153', 'content_top', 2),
+(12345, 1, 'ishiparallaxblock.ishiparallaxblock.172', 'content_top', 3),
+(12346, 1, 'ishispecialproductblock.ishispecialblock.210', 'content_top', 4),
+(12347, 1, 'ishiservicesblock.ishiservicesblock.79', 'content_top', 5),
+(12348, 1, 'blogger.blogger.91', 'content_middle', 0),
+(12349, 1, 'ishitestimonialblock.ishitestimonialblock.208', 'content_middle', 1),
+(12350, 1, 'ishimanufacture.ishimanufacturerblock.48', 'content_bottom', 0),
+(12351, 1, 'ishiinstagramblock.ishiinstagramblock.186', 'content_bottom', 1),
+(12352, 1, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12353, 1, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12354, 1, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12355, 1, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12356, 1, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12357, 1, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12358, 1, 'newslettersubscribepopup.newslettersubscribepopup.216', 'popup', 0),
+(12359, 11, 'opencart.category', 'column_left', 0),
+(12360, 11, 'opencart.filter', 'column_left', 1),
+(12361, 11, 'opencart.bestseller.73', 'column_left', 2),
+(12362, 11, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12363, 11, 'opencart.latest.71', 'column_left', 4),
+(12364, 11, 'opencart.html.204', 'header_before', 0),
+(12365, 11, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12366, 11, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12367, 11, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12368, 11, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12369, 11, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12370, 11, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12371, 11, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1),
+(12372, 5, 'opencart.category', 'column_left', 0),
+(12373, 5, 'opencart.filter', 'column_left', 1),
+(12374, 5, 'opencart.bestseller.73', 'column_left', 2),
+(12375, 5, 'ishibannerblock.ishibannerblock.44', 'column_left', 3),
+(12376, 5, 'opencart.latest.71', 'column_left', 4),
+(12377, 5, 'opencart.html.204', 'header_before', 0),
+(12378, 5, 'ishishopreassurance.ishishopreassurance.220', 'cart_service', 0),
+(12379, 5, 'ishicontactinfoblock.ishicontactinfoblock.148', 'footer_middle', 0),
+(12380, 5, 'ishifooterlinkblock.ishifooterlinkblock.212', 'footer_middle', 1),
+(12381, 5, 'ishifooterlinkblock.ishifooterlinkblock.174', 'footer_middle', 2),
+(12382, 5, 'ishifooterlinkblock.ishifooterlinkblock.168', 'footer_middle', 3),
+(12383, 5, 'newslettersubscribe.newslettersubscribe.146', 'footer_middle', 4),
+(12384, 5, 'ishipaymentblock.ishipaymentblock.63', 'footer_after', 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_layout_route`
 --
 
-DROP TABLE IF EXISTS `oc_layout_route`;
 CREATE TABLE `oc_layout_route` (
-  `layout_route_id` int(11) NOT NULL AUTO_INCREMENT,
+  `layout_route_id` int(11) NOT NULL,
   `layout_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `route` varchar(64) NOT NULL,
-  PRIMARY KEY (`layout_route_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `route` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_layout_route`
 --
 
 INSERT INTO `oc_layout_route` (`layout_route_id`, `layout_id`, `store_id`, `route`) VALUES
-(38, 6, 0, 'account/%'),
-(17, 10, 0, 'affiliate/%'),
-(44, 3, 0, 'product/category'),
-(42, 1, 0, 'common/home'),
-(20, 2, 0, 'product/product'),
-(24, 11, 0, 'information/information'),
-(23, 7, 0, 'checkout/%'),
-(31, 8, 0, 'information/contact'),
-(32, 9, 0, 'information/sitemap'),
-(34, 4, 0, ''),
-(45, 5, 0, 'product/manufacturer'),
-(52, 12, 0, 'product/compare'),
-(53, 13, 0, 'product/search');
+(1044, 14, 0, 'information/About Us'),
+(1048, 7, 0, 'checkout/%'),
+(1057, 2, 0, 'product/product'),
+(1059, 13, 0, 'product/search'),
+(1060, 9, 0, 'information/sitemap'),
+(1061, 6, 0, 'account/%'),
+(1062, 10, 0, 'affiliate/%'),
+(1063, 3, 0, 'product/category'),
+(1064, 12, 0, 'product/compare'),
+(1065, 8, 0, 'information/contact'),
+(1066, 4, 0, ''),
+(1067, 15, 0, 'information/FAQs'),
+(1068, 1, 0, 'common/home'),
+(1069, 11, 0, 'information/information'),
+(1070, 5, 0, 'product/manufacturer');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_length_class`
 --
 
-DROP TABLE IF EXISTS `oc_length_class`;
 CREATE TABLE `oc_length_class` (
-  `length_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `value` decimal(15,8) NOT NULL,
-  PRIMARY KEY (`length_class_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `length_class_id` int(11) NOT NULL,
+  `value` decimal(15,8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_length_class`
@@ -1888,20 +6137,18 @@ INSERT INTO `oc_length_class` (`length_class_id`, `value`) VALUES
 (2, '10.00000000'),
 (3, '0.39370000');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_length_class_description`
 --
 
-DROP TABLE IF EXISTS `oc_length_class_description`;
 CREATE TABLE `oc_length_class_description` (
   `length_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `title` varchar(32) NOT NULL,
-  `unit` varchar(4) NOT NULL,
-  PRIMARY KEY (`length_class_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `unit` varchar(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_length_class_description`
@@ -1909,69 +6156,135 @@ CREATE TABLE `oc_length_class_description` (
 
 INSERT INTO `oc_length_class_description` (`length_class_id`, `language_id`, `title`, `unit`) VALUES
 (1, 1, 'Centimeter', 'cm'),
+(1, 2, 'Centimeter', 'cm'),
+(1, 3, 'Centimeter', 'cm'),
+(1, 4, 'Centimeter', 'cm'),
+(1, 5, 'Centimeter', 'cm'),
+(1, 6, 'Centimeter', 'cm'),
+(1, 7, 'Centimeter', 'cm'),
+(1, 8, 'Centimeter', 'cm'),
 (2, 1, 'Millimeter', 'mm'),
-(3, 1, 'Inch', 'in');
+(2, 2, 'Millimeter', 'mm'),
+(2, 3, 'Millimeter', 'mm'),
+(2, 4, 'Millimeter', 'mm'),
+(2, 5, 'Millimeter', 'mm'),
+(2, 6, 'Millimeter', 'mm'),
+(2, 7, 'Millimeter', 'mm'),
+(2, 8, 'Millimeter', 'mm'),
+(3, 1, 'Inch', 'in'),
+(3, 2, 'Inch', 'in'),
+(3, 3, 'Inch', 'in'),
+(3, 4, 'Inch', 'in'),
+(3, 5, 'Inch', 'in'),
+(3, 6, 'Inch', 'in'),
+(3, 7, 'Inch', 'in'),
+(3, 8, 'Inch', 'in');
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_linklist`
+--
+
+CREATE TABLE `oc_linklist` (
+  `linklist_id` int(11) NOT NULL,
+  `module_id` int(11) DEFAULT NULL,
+  `status` int(1) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `date_added` datetime DEFAULT NULL,
+  `date_modified` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_linklist_description`
+--
+
+CREATE TABLE `oc_linklist_description` (
+  `linklist_id` int(11) DEFAULT NULL,
+  `language_id` int(11) DEFAULT NULL,
+  `title` varchar(64) DEFAULT NULL,
+  `sub_title` varchar(64) DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_location`
 --
 
-DROP TABLE IF EXISTS `oc_location`;
 CREATE TABLE `oc_location` (
-  `location_id` int(11) NOT NULL AUTO_INCREMENT,
+  `location_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
   `address` text NOT NULL,
   `telephone` varchar(32) NOT NULL,
-  `fax` varchar(32) NOT NULL,
   `geocode` varchar(32) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `image` varchar(255) NOT NULL,
   `open` text NOT NULL,
-  `comment` text NOT NULL,
-  PRIMARY KEY (`location_id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `comment` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_manufacturer`
 --
 
-DROP TABLE IF EXISTS `oc_manufacturer`;
 CREATE TABLE `oc_manufacturer` (
-  `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `manufacturer_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`manufacturer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `image` varchar(255) NOT NULL,
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_manufacturer`
 --
 
 INSERT INTO `oc_manufacturer` (`manufacturer_id`, `name`, `image`, `sort_order`) VALUES
-(5, 'HTC', 'catalog/demo/htc_logo.jpg', 0),
-(6, 'Palm', 'catalog/demo/palm_logo.jpg', 0),
-(7, 'Hewlett-Packard', 'catalog/demo/hp_logo.jpg', 0),
-(8, 'Apple', 'catalog/demo/apple_logo.jpg', 0),
-(9, 'Canon', 'catalog/demo/canon_logo.jpg', 0),
-(10, 'Sony', 'catalog/demo/sony_logo.jpg', 0);
+(5, 'HTC', 'catalog/brand/Brand-Logo-4.png', 0),
+(6, 'Palm', 'catalog/brand/Brand-Logo-5.png', 0),
+(7, 'Hewlett-Packard', 'catalog/brand/Brand-Logo-3.png', 0),
+(8, 'Apple', 'catalog/brand/Brand-Logo-1.png', 0),
+(9, 'Canon', 'catalog/brand/Brand-Logo-2.png', 0),
+(10, 'Sony', 'catalog/brand/Brand-Logo-6.png', 0);
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_manufacturer_to_layout`
+--
+
+CREATE TABLE `oc_manufacturer_to_layout` (
+  `manufacturer_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `layout_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_manufacturer_to_layout`
+--
+
+INSERT INTO `oc_manufacturer_to_layout` (`manufacturer_id`, `store_id`, `layout_id`) VALUES
+(5, 0, 0),
+(6, 0, 0),
+(7, 0, 0),
+(8, 0, 0),
+(9, 0, 0),
+(10, 0, 0);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_manufacturer_to_store`
 --
 
-DROP TABLE IF EXISTS `oc_manufacturer_to_store`;
 CREATE TABLE `oc_manufacturer_to_store` (
   `manufacturer_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL,
-  PRIMARY KEY (`manufacturer_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `store_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_manufacturer_to_store`
@@ -1985,223 +6298,377 @@ INSERT INTO `oc_manufacturer_to_store` (`manufacturer_id`, `store_id`) VALUES
 (9, 0),
 (10, 0);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_marketing`
 --
 
-DROP TABLE IF EXISTS `oc_marketing`;
 CREATE TABLE `oc_marketing` (
-  `marketing_id` int(11) NOT NULL AUTO_INCREMENT,
+  `marketing_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
   `description` text NOT NULL,
   `code` varchar(64) NOT NULL,
-  `clicks` int(5) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`marketing_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `clicks` int(5) NOT NULL DEFAULT 0,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
--------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
--- Table structure for table `oc_modification`
+-- Table structure for table `oc_marketing_report`
 --
 
-DROP TABLE IF EXISTS `oc_modification`;
-CREATE TABLE `oc_modification` (
-  `modification_id` int(11) NOT NULL AUTO_INCREMENT,
-  `extension_install_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  `code` varchar(64) NOT NULL,
-  `author` varchar(64) NOT NULL,
-  `version` varchar(32) NOT NULL,
-  `link` varchar(255) NOT NULL,
-  `xml` mediumtext NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`modification_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE `oc_marketing_report` (
+  `marketing_report_id` int(11) NOT NULL,
+  `marketing_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `country` varchar(2) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
--------------------------------------------------------------
+-- --------------------------------------------------------
 
+--
 -- Table structure for table `oc_module`
 --
 
-DROP TABLE IF EXISTS `oc_module`;
 CREATE TABLE `oc_module` (
-  `module_id` int(11) NOT NULL AUTO_INCREMENT,
+  `module_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  `setting` text NOT NULL,
-  PRIMARY KEY (`module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `code` varchar(64) NOT NULL,
+  `setting` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_module`
 --
 
 INSERT INTO `oc_module` (`module_id`, `name`, `code`, `setting`) VALUES
-(30, 'Category', 'banner', '{"name":"Category","banner_id":"6","width":"182","height":"182","status":"1"}'),
-(29, 'Home Page', 'carousel', '{"name":"Home Page","banner_id":"8","width":"130","height":"100","status":"1"}'),
-(28, 'Home Page', 'featured', '{"name":"Home Page","product":["43","40","42","30"],"limit":"4","width":"200","height":"200","status":"1"}'),
-(27, 'Home Page', 'slideshow', '{"name":"Home Page","banner_id":"7","width":"1140","height":"380","status":"1"}'),
-(31, 'Banner 1', 'banner', '{"name":"Banner 1","banner_id":"6","width":"182","height":"182","status":"1"}');
+(1, 'Category Banner', 'opencart.banner', '{\"name\":\"Category Banner\",\"banner_id\":\"6\",\"effect\":\"fade\",\"items\":\"1\",\"controls\":\"0\",\"indicators\":\"0\",\"interval\":\"5000\",\"width\":\"200\",\"height\":\"180\",\"status\":\"1\"}'),
+(2, 'Featured', 'opencart.featured', '{\"name\":\"Featured\",\"product_name\":\"\",\"product\":[\"43\",\"40\",\"42\",\"30\"],\"axis\":\"horizontal\",\"limit\":\"4\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\"}'),
+(3, 'Homepage Slideshow', 'opencart.banner', '{\"name\":\"Homepage Slideshow\",\"banner_id\":\"7\",\"effect\":\"slide\",\"items\":\"1\",\"controls\":\"1\",\"indicators\":\"1\",\"interval\":\"5000\",\"width\":\"1140\",\"height\":\"380\",\"status\":\"1\"}'),
+(4, 'Homepage Manufacturers', 'opencart.banner', '{\"name\":\"Homepage Manufacturers\",\"banner_id\":\"8\",\"effect\":\"slide\",\"items\":\"5\",\"controls\":\"1\",\"indicators\":\"1\",\"interval\":\"5000\",\"width\":\"130\",\"height\":\"100\",\"status\":\"1\"}'),
+(6, 'Ishi Special Deals', 'ishispecialdeals', '{\"name\":\"Ishi Special Deals\",\"title\":{\"1\":\"Best of Beauty Makeup\"},\"special_title\":{\"1\":\"On Sale\"},\"special_desc\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non eros tellus. Phasellus nec iaculis sapien. Fusce quisest bibendum ornare erat in pretium aliquam.\"},\"product_row\":\"1\",\"limit\":\"5\",\"width\":\"370\",\"height\":\"370\",\"review\":\"1\",\"description\":\"1\",\"status\":\"1\"}'),
+(8, 'Ishi Special Deals', 'ishispecialdeals', '{\"name\":\"Ishi Special Deals\",\"title\":{\"1\":\"Best of Beauty Makeup\"},\"special_title\":{\"1\":\"On Sale\"},\"special_desc\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non eros tellus. Phasellus nec iaculis sapien. Fusce quisest bibendum ornare erat in pretium aliquam.\"},\"product_row\":\"1\",\"limit\":\"3\",\"width\":\"319\",\"height\":\"226\",\"status\":\"1\"}'),
+(10, 'Ishi Services Block', 'ishiservicesblock', '{\"name\":\"Ishi Services Block\",\"bg_color\":\"#ffffff\",\"column\":\"4\",\"width\":\"50\",\"height\":\"50\",\"status\":\"1\"}'),
+(11, 'Ishi Social Block', 'ishisocialfollowblock.ishisocialfollow', '{\"name\":\"Ishi Social Block\",\"column\":\"6\",\"facebook\":\"#\",\"twitter\":\"#\",\"youtube\":\"#\",\"gplus\":\"\",\"rss\":\"\",\"pinterest\":\"#\",\"vimeo\":\"\",\"instagram\":\"#\",\"status\":\"1\"}'),
+(12, 'Ishi Social Block', 'ishisocialfollow', '{\"name\":\"Ishi Social Block\",\"facebook\":\"#\",\"twitter\":\"#\",\"youtube\":\"#\",\"gplus\":\"\",\"rss\":\"\",\"pinterest\":\"#\",\"vimeo\":\"\",\"instagram\":\"#\",\"status\":\"1\"}'),
+(14, 'Ishi Headerlink Block', 'ishiheaderlinkblock', '{\"name\":\"Ishi Headerlink Block\",\"status\":\"1\"}'),
+(16, 'Ishi Offers Block', 'ishioffersblock', '{\"name\":\"Ishi Offers Block\",\"status\":\"1\"}'),
+(18, 'Ishi Slider', 'ishislider', '{\"name\":\"Ishi Slider\",\"width\":\"884\",\"height\":\"522\",\"mobilewidth\":\"575\",\"mobileheight\":\"400\",\"status\":\"1\",\"autoplay\":\"1\",\"navigation\":\"1\",\"navigation_style\":\"ishi-style-nav4\",\"dot\":\"1\",\"dot_style\":\"ishi-style-dot5\"}'),
+(20, 'Ishi Two Banner Block', 'ishitwobannerblock', '{\"name\":\"Ishi Two Banner Block\",\"status\":\"1\",\"image1\":\"catalog\\/banner\\/2banner\\/bannerblock-1.png\",\"title1\":{\"1\":\"Compare Ipad\"},\"title_color1\":\"#232323\",\"subtitle1\":{\"1\":\"New Arrival\"},\"subtitle_color1\":\"#2e6ed5\",\"button1\":{\"1\":\"SHOP NOW\"},\"button_color1\":\"#232323\",\"btnlink1\":\"#\",\"image2\":\"catalog\\/banner\\/2banner\\/bannerblock-2.png\",\"title2\":{\"1\":\"On Discount\"},\"title_color2\":\"#ffffff\",\"subtitle2\":{\"1\":\"Get 40% Off\"},\"subtitle_color2\":\"#eeeeee\",\"button2\":{\"1\":\"SHOP NOW\"},\"button_color2\":\"#ffffff\",\"btnlink2\":\"#\"}'),
+(22, 'Ishi Two Banner Block', 'ishitwobannerblock', '{\"name\":\"Ishi Two Banner Block\",\"status\":\"1\",\"image1\":\"catalog\\/banner\\/2banner\\/bannerblock-1.png\",\"title1\":{\"1\":\"Compare Ipad\"},\"title_color1\":\"#232323\",\"subtitle1\":{\"1\":\"New Arrival\"},\"subtitle_color1\":\"#2e6ed5\",\"button1\":{\"1\":\"SHOP NOW\"},\"button_color1\":\"#232323\",\"btnlink1\":\"#\",\"image2\":\"catalog\\/banner\\/2banner\\/bannerblock-2.png\",\"title2\":{\"1\":\"On Discount\"},\"title_color2\":\"#ffffff\",\"subtitle2\":{\"1\":\"Get 40% Off\"},\"subtitle_color2\":\"#eeeeee\",\"button2\":{\"1\":\"SHOP NOW\"},\"button_color2\":\"#ffffff\",\"btnlink2\":\"#\"}'),
+(24, 'Ishi Two Banner Block', 'ishitwobannerblock', '{\"name\":\"Ishi Two Banner Block\",\"status\":\"1\",\"image1\":\"catalog\\/banner\\/2banner\\/bannerblock-1.png\",\"title1\":{\"1\":\"Compare Ipad\"},\"title_color1\":\"#232323\",\"subtitle1\":{\"1\":\"New Arrival\"},\"subtitle_color1\":\"#2e6ed5\",\"button1\":{\"1\":\"SHOP NOW\"},\"button_color1\":\"#232323\",\"btnlink1\":\"#\",\"image2\":\"catalog\\/banner\\/2banner\\/bannerblock-2.png\",\"title2\":{\"1\":\"On Discount\"},\"title_color2\":\"#ffffff\",\"subtitle2\":{\"1\":\"Get 40% Off\"},\"subtitle_color2\":\"#eeeeee\",\"button2\":{\"1\":\"SHOP NOW\"},\"button_color2\":\"#ffffff\",\"btnlink2\":\"#\"}'),
+(26, 'Ishi Two Banner Block', 'ishitwobannerblock', '{\"name\":\"Ishi Two Banner Block\",\"status\":\"1\",\"image1\":\"catalog\\/banner\\/2banner\\/bannerblock-1.png\",\"title1\":{\"1\":\"Compare Ipad\"},\"title_color1\":\"#232323\",\"subtitle1\":{\"1\":\"New Arrival\"},\"subtitle_color1\":\"#2e6ed5\",\"button1\":{\"1\":\"SHOP NOW\"},\"button_color1\":\"#232323\",\"btnlink1\":\"#\",\"image2\":\"catalog\\/banner\\/2banner\\/bannerblock-2.png\",\"title2\":{\"1\":\"On Discount\"},\"title_color2\":\"#ffffff\",\"subtitle2\":{\"1\":\"Get 40% Off\"},\"subtitle_color2\":\"#eeeeee\",\"button2\":{\"1\":\"SHOP NOW\"},\"button_color2\":\"#ffffff\",\"btnlink2\":\"#\"}'),
+(28, 'Ishi Products Block', 'ishiproductsblock', '{\"name\":\"Ishi Products Block\",\"title\":{\"1\":\"Ishi Products Block\"},\"type\":\"type1\",\"category\":\"MacBook Pro\",\"showbestseller\":\"1\",\"shownew\":\"1\",\"limit\":\"5\",\"product_row\":\"1\",\"hover_image\":\"1\",\"desktop_column\":\"4\",\"laptop_column\":\"3\",\"tablet_column\":\"2\",\"mobile_column\":\"1\",\"width\":\"370\",\"height\":\"370\",\"status\":\"1\"}'),
+(31, 'Ishi Five Banner Block', 'ishifivebannerblock', '{\"name\":\"Ishi Five Banner Block\",\"scale\":\"1\",\"style\":\"ishi-customhover-fadeinflip\",\"status\":\"1\",\"image1\":\"catalog\\/banner\\/1.png\",\"title1\":{\"1\":\"Noise Cancelling\"},\"title_color1\":\"#232323\",\"subtitle1\":{\"1\":\"Beats on The Go\"},\"subtitle_color1\":\"#7a7a7a\",\"button1\":{\"1\":\"SHOP NOW\"},\"btnlink1\":\"#\",\"position1\":\"2\",\"alignment1\":\"2\",\"image2\":\"catalog\\/banner\\/2.png\",\"title2\":{\"1\":\"Get 10% Off\"},\"title_color2\":\"#232323\",\"subtitle2\":{\"1\":\"SMART PHONE\"},\"subtitle_color2\":\"#7a7a7a\",\"button2\":{\"1\":\"SHOP NOW\"},\"btnlink2\":\"#\",\"position2\":\"2\",\"alignment2\":\"2\",\"image3\":\"catalog\\/banner\\/3.png\",\"title3\":{\"1\":\"New Arrivals\"},\"title_color3\":\"#232323\",\"subtitle3\":{\"1\":\"GOOGLE SPEAKER\"},\"subtitle_color3\":\"#7a7a7a\",\"button3\":{\"1\":\"SHOP NOW\"},\"btnlink3\":\"#\",\"position3\":\"2\",\"alignment3\":\"2\",\"image4\":\"catalog\\/banner\\/4.png\",\"title4\":{\"1\":\"Samsung Gear Pro\"},\"title_color4\":\"#232323\",\"subtitle4\":{\"1\":\"Captured Moment\"},\"subtitle_color4\":\"#7a7a7a\",\"button4\":{\"1\":\"SHOP NOW\"},\"btnlink4\":\"#\",\"position4\":\"2\",\"alignment4\":\"2\",\"image5\":\"catalog\\/banner\\/5.png\",\"title5\":{\"1\":\"Get Your Smartness\"},\"title_color5\":\"#232323\",\"subtitle5\":{\"1\":\"Special Editing\"},\"subtitle_color5\":\"#7a7a7a\",\"button5\":{\"1\":\"SHOP NOW\"},\"btnlink5\":\"#\",\"position5\":\"2\",\"alignment5\":\"2\"}'),
+(33, 'Ishi Five Banner Block', 'ishifivebannerblock', '{\"name\":\"Ishi Five Banner Block\",\"scale\":\"1\",\"style\":\"ishi-customhover-fadeinflip\",\"status\":\"1\",\"image1\":\"catalog\\/banner\\/1.png\",\"title1\":{\"1\":\"Noise Cancelling\"},\"title_color1\":\"#232323\",\"subtitle1\":{\"1\":\"Beats on The Go\"},\"subtitle_color1\":\"#7a7a7a\",\"button1\":{\"1\":\"SHOP NOW\"},\"btnlink1\":\"#\",\"position1\":\"2\",\"alignment1\":\"2\",\"image2\":\"catalog\\/banner\\/2.png\",\"title2\":{\"1\":\"Get 10% Off\"},\"title_color2\":\"#232323\",\"subtitle2\":{\"1\":\"SMART PHONE\"},\"subtitle_color2\":\"#7a7a7a\",\"button2\":{\"1\":\"SHOP NOW\"},\"btnlink2\":\"#\",\"position2\":\"2\",\"alignment2\":\"2\",\"image3\":\"catalog\\/banner\\/3.png\",\"title3\":{\"1\":\"New Arrivals\"},\"title_color3\":\"#232323\",\"subtitle3\":{\"1\":\"GOOGLE SPEAKER\"},\"subtitle_color3\":\"#7a7a7a\",\"button3\":{\"1\":\"SHOP NOW\"},\"btnlink3\":\"#\",\"position3\":\"2\",\"alignment3\":\"2\",\"image4\":\"catalog\\/banner\\/4.png\",\"title4\":{\"1\":\"Samsung Gear Pro\"},\"title_color4\":\"#232323\",\"subtitle4\":{\"1\":\"Captured Moment\"},\"subtitle_color4\":\"#7a7a7a\",\"button4\":{\"1\":\"SHOP NOW\"},\"btnlink4\":\"#\",\"position4\":\"2\",\"alignment4\":\"2\",\"image5\":\"catalog\\/banner\\/5.png\",\"title5\":{\"1\":\"Get Your Smartness\"},\"title_color5\":\"#232323\",\"subtitle5\":{\"1\":\"Special Editing\"},\"subtitle_color5\":\"#7a7a7a\",\"button5\":{\"1\":\"SHOP NOW\"},\"btnlink5\":\"#\",\"position5\":\"2\",\"alignment5\":\"2\"}'),
+(35, 'Ishi Special Deals', 'ishispecialdeals', '{\"name\":\"Ishi Special Deals\",\"title\":{\"1\":\"Deals Of The Day\"},\"special_title\":{\"1\":\"On Sale\"},\"special_desc\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non eros tellus. Phasellus nec iaculis sapien. Fusce quisest bibendum ornare erat in pretium aliquam.\"},\"product_row\":\"1\",\"limit\":\"6\",\"width\":\"370\",\"height\":\"370\",\"review\":\"1\",\"description\":\"1\",\"counter\":\"1\",\"status\":\"1\"}'),
+(37, 'Three Banner Block', 'ishibannerblock', '{\"name\":\"Three Banner Block\",\"width\":\"630\",\"height\":\"350\",\"column\":\"3\",\"scale\":\"1\",\"style\":\"ishi-customhover-fadeinflip\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/banner\\/3banner\\/1.jpg\",\"showtext\":\"1\",\"title\":{\"1\":\"Newest\"},\"titlecolor\":\"#2e6ed5\",\"subtitle\":{\"1\":\"Headphone\"},\"subtitlecolor\":\"#232323\",\"position\":\"0\",\"alignment\":\"1\",\"button_name\":{\"1\":\"SHOP NOW\"},\"link\":\"#\",\"sort_order\":\"0\"},{\"image\":\"catalog\\/banner\\/3banner\\/2.png\",\"showtext\":\"1\",\"title\":{\"1\":\"Latest\"},\"titlecolor\":\"#2e6ed5\",\"subtitle\":{\"1\":\"Smart Watch\"},\"subtitlecolor\":\"#232323\",\"position\":\"0\",\"alignment\":\"1\",\"button_name\":{\"1\":\"SHOP NOW\"},\"link\":\"#\",\"sort_order\":\"1\"},{\"image\":\"catalog\\/banner\\/3banner\\/3.jpg\",\"showtext\":\"1\",\"title\":{\"1\":\"Smart\"},\"titlecolor\":\"#2e6ed5\",\"subtitle\":{\"1\":\"Mobilephones\"},\"subtitlecolor\":\"#232323\",\"position\":\"0\",\"alignment\":\"1\",\"button_name\":{\"1\":\"SHOP NOW\"},\"link\":\"#\",\"sort_order\":\"2\"}]}'),
+(39, 'Three Banner Block', 'ishibannerblock', '{\"name\":\"Three Banner Block\",\"width\":\"630\",\"height\":\"350\",\"column\":\"3\",\"scale\":\"1\",\"style\":\"ishi-customhover-fadeinflip\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/banner\\/3banner\\/1.jpg\",\"showtext\":\"1\",\"title\":{\"1\":\"Newest\"},\"titlecolor\":\"#2e6ed5\",\"subtitle\":{\"1\":\"Headphone\"},\"subtitlecolor\":\"#232323\",\"position\":\"0\",\"alignment\":\"1\",\"button_name\":{\"1\":\"SHOP NOW\"},\"link\":\"#\",\"sort_order\":\"0\"},{\"image\":\"catalog\\/banner\\/3banner\\/2.png\",\"showtext\":\"1\",\"title\":{\"1\":\"Latest\"},\"titlecolor\":\"#2e6ed5\",\"subtitle\":{\"1\":\"Smart Watch\"},\"subtitlecolor\":\"#232323\",\"position\":\"0\",\"alignment\":\"1\",\"button_name\":{\"1\":\"SHOP NOW\"},\"link\":\"#\",\"sort_order\":\"1\"},{\"image\":\"catalog\\/banner\\/3banner\\/3.jpg\",\"showtext\":\"1\",\"title\":{\"1\":\"Smart\"},\"titlecolor\":\"#2e6ed5\",\"subtitle\":{\"1\":\"Mobilephones\"},\"subtitlecolor\":\"#232323\",\"position\":\"0\",\"alignment\":\"1\",\"button_name\":{\"1\":\"SHOP NOW\"},\"link\":\"#\",\"sort_order\":\"2\"}]}'),
+(40, 'Ishi Contact Banner', 'ishibannerblock.ishibannerblock', '{\"name\":\"Ishi Contact Banner\",\"width\":\"570\",\"height\":\"570\",\"column\":\"1\",\"style\":\"ishi-customhover-fadeinrotate3D\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/otherimage\\/contact us.png\",\"title\":{\"1\":\"\",\"8\":\"\",\"7\":\"\",\"6\":\"\"},\"titlecolor\":\"\",\"subtitle\":{\"1\":\"\",\"8\":\"\",\"7\":\"\",\"6\":\"\"},\"subtitlecolor\":\"\",\"button_name\":{\"1\":\"\",\"8\":\"\",\"7\":\"\",\"6\":\"\"},\"position\":\"0\",\"alignment\":\"0\",\"link\":\"\",\"sort_order\":\"1\"}]}'),
+(41, 'Ishi Contact Banner', 'ishibannerblock', '{\"name\":\"Ishi Contact Banner\",\"width\":\"700\",\"height\":\"550\",\"column\":\"1\",\"style\":\"ishi-customhover-fadeinnormal\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/banner\\/contact-Img.png\",\"title\":{\"1\":\"\"},\"titlecolor\":\"\",\"subtitle\":{\"1\":\"\"},\"subtitlecolor\":\"\",\"position\":\"0\",\"alignment\":\"0\",\"button_name\":{\"1\":\"\"},\"link\":\"\",\"sort_order\":\"1\"}]}'),
+(43, 'Ishi Contact Banner', 'ishibannerblock', '{\"name\":\"Ishi Contact Banner\",\"width\":\"700\",\"height\":\"550\",\"column\":\"1\",\"style\":\"ishi-customhover-fadeinnormal\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/banner\\/contact-Img.png\",\"title\":{\"1\":\"\"},\"titlecolor\":\"\",\"subtitle\":{\"1\":\"\"},\"subtitlecolor\":\"\",\"position\":\"0\",\"alignment\":\"0\",\"button_name\":{\"1\":\"\"},\"link\":\"#\",\"sort_order\":\"1\"}]}'),
+(44, 'Left Banner', 'ishibannerblock.ishibannerblock', '{\"name\":\"Left Banner\",\"width\":\"276\",\"height\":\"350\",\"column\":\"1\",\"style\":\"ishi-customhover-fadeinnormal\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/otherimage\\/Left-banner.png\",\"title\":{\"1\":\"\",\"7\":\"\",\"6\":\"\"},\"titlecolor\":\"\",\"subtitle\":{\"1\":\"\",\"7\":\"\",\"6\":\"\"},\"subtitlecolor\":\"\",\"button_name\":{\"1\":\"\",\"7\":\"\",\"6\":\"\"},\"position\":\"0\",\"alignment\":\"0\",\"link\":\"#\",\"sort_order\":\"1\"}]}'),
+(45, 'Left Banner', 'ishibannerblock', '{\"name\":\"Left Banner\",\"width\":\"308\",\"height\":\"358\",\"column\":\"1\",\"style\":\"ishi-customhover-fadeinnormal\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/left-banner.jpg\",\"title\":{\"1\":\"\"},\"titlecolor\":\"\",\"subtitle\":{\"1\":\"\"},\"subtitlecolor\":\"\",\"position\":\"0\",\"alignment\":\"0\",\"button_name\":{\"1\":\"\"},\"link\":\"#\",\"sort_order\":\"1\"}]}'),
+(47, 'Ishi Feature Product Block', 'ishifeatureproductblock', '{\"name\":\"Ishi Feature Product Block\",\"title\":{\"1\":\"Make Up Is An Art\"},\"showcategory\":\"1\",\"category\":\"\",\"limit\":\"8\",\"product_row\":\"3\",\"desktop_column\":\"1\",\"laptop_column\":\"1\",\"tablet_column\":\"1\",\"mobile_column\":\"1\",\"width\":\"370\",\"height\":\"370\",\"status\":\"1\"}'),
+(48, 'Ishi Manufacturer Block', 'ishimanufacture.ishimanufacturerblock', '{\"name\":\"Ishi Manufacturer Block\",\"width\":\"130\",\"height\":\"130\",\"autoplay\":\"1\",\"loop\":\"1\",\"status\":\"1\"}'),
+(49, 'Ishi Manufacturer Block', 'ishimanufacturerblock', '{\"name\":\"Ishi Manufacturer Block\",\"width\":\"130\",\"height\":\"130\",\"autoplay\":\"1\",\"loop\":\"1\",\"status\":\"1\"}'),
+(52, 'Ishi Contactinfo Block', 'ishicontactinfoblock', '{\"name\":\"Ishi Contactinfo Block\",\"title\":{\"1\":\"Store Information\"},\"column\":\"4\",\"status\":\"1\"}'),
+(54, 'Quick link account', 'ishifooterlinkblock', '{\"name\":\"Quick link account\",\"column\":\"4\",\"showaccount\":\"1\",\"footerlinktitle\":{\"1\":\"Account\"},\"status\":\"1\"}'),
+(56, 'Quick link extra', 'ishifooterlinkblock', '{\"name\":\"Quick link extra\",\"column\":\"4\",\"showextra\":\"1\",\"footerlinktitle\":{\"1\":\"Extra\"},\"ishiextra\":{\"1\":[{\"linkname\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer\"},{\"linkname\":\"Gift Certificates\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=en-gb\"},{\"linkname\":\"Affiliate\",\"link\":\"index.php?route=account\\/affiliate&amp;language=en-gb&amp;customer_token=14847228f5cfb02d6982e782c9\"},{\"linkname\":\"Specials\",\"link\":\"index.php?route=product\\/special\"},{\"linkname\":\"Site Map\",\"link\":\"index.php?route=information\\/sitemap\"}]},\"status\":\"1\"}'),
+(58, 'Quick link information', 'ishifooterlinkblock', '{\"name\":\"Quick link information\",\"column\":\"4\",\"showinformation\":\"1\",\"footerlinktitle\":{\"1\":\"information\"},\"status\":\"1\"}'),
+(60, 'Ishi Testimonials Block', 'ishitestimonialsblock', '{\"name\":\"Ishi Testimonials Block\",\"title\":{\"1\":\"Our Testimonials\"},\"width\":\"100\",\"height\":\"100\",\"autoplay\":\"1\",\"bgcolor\":\"#1f1f1f\",\"status\":\"1\",\"ishitestimonial\":[{\"image\":\"catalog\\/testimonial\\/Testimonial-1.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non eros tellus. Phasellus nec iaculis sapien.\",\"username\":\"Meck Jeckno\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/Testimonial-2.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non eros tellus. Phasellus nec iaculis sapien.\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/Testimonial-3.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non eros tellus. Phasellus nec iaculis sapien.\",\"username\":\"Meck Jeckno\",\"designation\":\"Web Designer\"}]}'),
+(62, 'Ishi Newsletter', 'newslettersubscribe', '{\"name\":\"Ishi Newsletter\",\"title\":{\"1\":\"SIGN UP &amp; GET OFFERS\"},\"subtitle\":{\"1\":\"Newsletter Subscription &amp; Latest Offer\"},\"status\":\"1\"}'),
+(63, 'Ishi Payment Block', 'ishipaymentblock.ishipaymentblock', '{\"name\":\"Ishi Payment Block\",\"column\":\"1\",\"width\":\"38\",\"height\":\"24\",\"status\":\"1\",\"ishibanner\":{\"1\":[{\"title\":\"Paymenticon-1\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/american-express.png\",\"sort_order\":\"0\"},{\"title\":\"Paymenticon-2\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/discover.png\",\"sort_order\":\"1\"},{\"title\":\"Paymenticon-3\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/google-wallet.png\",\"sort_order\":\"2\"},{\"title\":\"Paymenticon-4\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/mastercard.png\",\"sort_order\":\"3\"},{\"title\":\"Paymenticon-5\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/paypal.png\",\"sort_order\":\"4\"},{\"title\":\"Paymenticon-6\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/visa.png\",\"sort_order\":\"5\"}],\"8\":{\"12\":{\"title\":\"Paymenticon-1\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/american-express.png\",\"sort_order\":\"0\"},\"13\":{\"title\":\"Paymenticon-2\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/discover.png\",\"sort_order\":\"1\"},\"14\":{\"title\":\"Paymenticon-3\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/google-wallet.png\",\"sort_order\":\"2\"},\"15\":{\"title\":\"Paymenticon-4\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/mastercard.png\",\"sort_order\":\"3\"},\"16\":{\"title\":\"Paymenticon-5\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/paypal.png\",\"sort_order\":\"4\"},\"17\":{\"title\":\"Paymenticon-6\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/visa.png\",\"sort_order\":\"5\"}},\"6\":{\"6\":{\"title\":\"Paymenticon-1\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/american-express.png\",\"sort_order\":\"0\"},\"7\":{\"title\":\"Paymenticon-2\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/discover.png\",\"sort_order\":\"1\"},\"8\":{\"title\":\"Paymenticon-3\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/google-wallet.png\",\"sort_order\":\"2\"},\"9\":{\"title\":\"Paymenticon-4\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/mastercard.png\",\"sort_order\":\"3\"},\"10\":{\"title\":\"Paymenticon-5\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/paypal.png\",\"sort_order\":\"4\"},\"11\":{\"title\":\"Paymenticon-6\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/visa.png\",\"sort_order\":\"5\"}}}}'),
+(64, 'Ishi Payment Block', 'ishipaymentblock', '{\"name\":\"Ishi Payment Block\",\"width\":\"40\",\"height\":\"28\",\"status\":\"1\",\"ishibanner\":{\"1\":[{\"title\":\"Paymenticon-1\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/american-express.png\",\"sort_order\":\"0\"},{\"title\":\"Paymenticon-2\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/discover.png\",\"sort_order\":\"1\"},{\"title\":\"Paymenticon-3\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/google-wallet.png\",\"sort_order\":\"2\"},{\"title\":\"Paymenticon-4\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/mastercard.png\",\"sort_order\":\"3\"},{\"title\":\"Paymenticon-5\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/paypal.png\",\"sort_order\":\"4\"},{\"title\":\"Paymenticon-6\",\"link\":\"#\",\"image\":\"catalog\\/Payment\\/visa.png\",\"sort_order\":\"5\"}]}}'),
+(65, 'Ishi Aboutus Banner', 'ishiaboutusblock.ishiaboutusblock', '{\"name\":\"Ishi Aboutus Banner\",\"image\":\"catalog\\/otherimage\\/about us2.png\",\"style1\":\"ishi-customhover-fadeinnormal\",\"btnname\":{\"1\":\"Contact Us\",\"8\":\"Contact Us\",\"7\":\"\\u0417\\u0432\'\\u044f\\u0436\\u0456\\u0442\\u044c\\u0441\\u044f \\u0437 \\u043d\\u0430\\u043c\\u0438\",\"6\":\"Contact Us\"},\"btnlink\":{\"1\":\"index.php?route=information\\/contact&amp;language=en-gb\",\"8\":\"index.php?route=information\\/contact&amp;language=ru-ru\",\"7\":\"index.php?route=information\\/contact&amp;language=uk-ua\",\"6\":\"index.php?route=information\\/contact&amp;language=ar\"},\"position\":\"0\",\"module_description\":{\"1\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"},\"8\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"},\"7\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"},\"6\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"}},\"status\":\"1\"}'),
+(66, 'Ishi Aboutus Banner', 'ishiaboutusblock', '{\"name\":\"Ishi Aboutus Banner\",\"image\":\"catalog\\/otherimage\\/Aboutus2.png\",\"style1\":\"ishi-customhover-fadeinnormal\",\"btnname\":{\"1\":\"Contact Us\"},\"btnlink\":\"index.php?route=information\\/contact&amp;language=en-gb\",\"position\":\"0\",\"module_description\":{\"1\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"}},\"status\":\"1\"}'),
+(67, 'Ishi Aboutus Block', 'ishiaboutusblock.ishiaboutusblock', '{\"name\":\"Ishi Aboutus Block\",\"image\":\"catalog\\/otherimage\\/about us.png\",\"style1\":\"ishi-customhover-fadeinnormal\",\"btnname\":{\"1\":\"Contact Us\",\"8\":\"Contact Us\",\"7\":\"\\u0417\\u0432\'\\u044f\\u0436\\u0456\\u0442\\u044c\\u0441\\u044f \\u0437 \\u043d\\u0430\\u043c\\u0438\",\"6\":\"Contact Us\"},\"btnlink\":{\"1\":\"index.php?route=information\\/contact&amp;language=en-gb\",\"8\":\"index.php?route=information\\/contact&amp;language=ru-ru\",\"7\":\"index.php?route=information\\/contact&amp;language=uk-ua\",\"6\":\"index.php?route=information\\/contact&amp;language=ar\"},\"position\":\"1\",\"module_description\":{\"1\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"},\"8\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"},\"7\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"},\"6\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"}},\"status\":\"1\"}'),
+(68, 'Ishi Aboutus Block', 'ishiaboutusblock', '{\"name\":\"Ishi Aboutus Block\",\"image\":\"catalog\\/otherimage\\/Aboutus1.png\",\"style1\":\"ishi-customhover-fadeinnormal\",\"btnname\":{\"1\":\"Contact Us\"},\"btnlink\":\"index.php?route=information\\/contact&amp;language=en-gb\",\"position\":\"1\",\"module_description\":{\"1\":{\"description\":\"&lt;h3 class=&quot;heading&quot;&gt;We Have Everything You Need ?&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;list-Aboutus-info rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Lorem ipsum, or lipsum as it is sometimes known&lt;\\/li&gt;\\r\\n&lt;li&gt;Dummy text used in laying out print, graphic or web designs&lt;\\/li&gt;\\r\\n&lt;li&gt;The passage is attributed to.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"}},\"status\":\"1\"}'),
+(69, 'Ishi About Us Services Block', 'ishiaboutusservicesblock.ishiaboutusservicesblock', '{\"name\":\"Ishi About Us Services Block\",\"column\":\"3\",\"width\":\"73\",\"height\":\"73\",\"showtitle\":\"1\",\"title\":{\"1\":\"Our Services\",\"8\":\"\\u041d\\u0430\\u0448\\u0438 \\u0443\\u0441\\u043b\\u0443\\u0433\\u0438\",\"7\":\"\\u041d\\u0430\\u0448\\u0456 \\u041f\\u043e\\u0441\\u043b\\u0443\\u0433\\u0438\",\"6\":\"Our Services\"},\"status\":\"1\",\"service\":{\"1\":[{\"image\":\"catalog\\/services\\/aboutusservices\\/1.png\",\"title\":\"FREE RESOURCES\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"},{\"image\":\"catalog\\/services\\/aboutusservices\\/2.png\",\"title\":\"MULTI PURPOSE\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"},{\"image\":\"catalog\\/services\\/aboutusservices\\/3.png\",\"title\":\"FULLY RESPONSIVE\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"}],\"8\":{\"9\":{\"image\":\"catalog\\/services\\/aboutusservices\\/1.png\",\"title\":\"\\u0411\\u0415\\u0421\\u041f\\u041b\\u0410\\u0422\\u041d\\u042b\\u0415 \\u0420\\u0415\\u0421\\u0423\\u0420\\u0421\\u042b\",\"description\":\"\\u0418\\u0441\\u043f\\u043e\\u043b\\u044c\\u0437\\u0443\\u0439\\u0442\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0438\\u0433\\u0440\\u044b\\u0448\\u043d\\u044b\\u0435 \\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\\u0438\\u0438 \\u0432\\u044b\\u0436\\u0438\\u0432\\u0430\\u043d\\u0438\\u044f, \\u0447\\u0442\\u043e\\u0431\\u044b \\u043e\\u0431\\u0435\\u0441\\u043f\\u0435\\u0447\\u0438\\u0442\\u044c \\u0430\\u043a\\u0442\\u0438\\u0432\\u043d\\u043e\\u0435 \\u0434\\u043e\\u043c\\u0438\\u043d\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435.\"},\"10\":{\"image\":\"catalog\\/services\\/aboutusservices\\/2.png\",\"title\":\"\\u041c\\u041d\\u041e\\u0413\\u041e\\u0426\\u0415\\u041b\\u0415\\u0412\\u041e\\u0419\",\"description\":\"\\u0418\\u0441\\u043f\\u043e\\u043b\\u044c\\u0437\\u0443\\u0439\\u0442\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0438\\u0433\\u0440\\u044b\\u0448\\u043d\\u044b\\u0435 \\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\\u0438\\u0438 \\u0432\\u044b\\u0436\\u0438\\u0432\\u0430\\u043d\\u0438\\u044f, \\u0447\\u0442\\u043e\\u0431\\u044b \\u043e\\u0431\\u0435\\u0441\\u043f\\u0435\\u0447\\u0438\\u0442\\u044c \\u0430\\u043a\\u0442\\u0438\\u0432\\u043d\\u043e\\u0435 \\u0434\\u043e\\u043c\\u0438\\u043d\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435.\"},\"11\":{\"image\":\"catalog\\/services\\/aboutusservices\\/3.png\",\"title\":\"\\u041f\\u041e\\u041b\\u041d\\u041e\\u0421\\u0422\\u042c\\u042e \\u041e\\u0422\\u0412\\u0415\\u0422\\u0421\\u0422\\u0412\\u0415\\u041d\\u041d\\u042b\\u0419\",\"description\":\"\\u0418\\u0441\\u043f\\u043e\\u043b\\u044c\\u0437\\u0443\\u0439\\u0442\\u0435 \\u0431\\u0435\\u0441\\u043f\\u0440\\u043e\\u0438\\u0433\\u0440\\u044b\\u0448\\u043d\\u044b\\u0435 \\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\\u0438\\u0438 \\u0432\\u044b\\u0436\\u0438\\u0432\\u0430\\u043d\\u0438\\u044f, \\u0447\\u0442\\u043e\\u0431\\u044b \\u043e\\u0431\\u0435\\u0441\\u043f\\u0435\\u0447\\u0438\\u0442\\u044c \\u0430\\u043a\\u0442\\u0438\\u0432\\u043d\\u043e\\u0435 \\u0434\\u043e\\u043c\\u0438\\u043d\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435.\"}},\"7\":{\"3\":{\"image\":\"catalog\\/services\\/aboutusservices\\/1.png\",\"title\":\"\\u0411\\u0415\\u0417\\u041a\\u041e\\u0428\\u0422\\u041e\\u0412\\u041d\\u0406 \\u0420\\u0415\\u0421\\u0423\\u0420\\u0421\\u0418\",\"description\":\"\\u0412\\u0438\\u043a\\u043e\\u0440\\u0438\\u0441\\u0442\\u043e\\u0432\\u0443\\u0439\\u0442\\u0435 \\u0431\\u0435\\u0437\\u043f\\u0440\\u043e\\u0433\\u0440\\u0430\\u0448\\u043d\\u0456 \\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\\u0456\\u0457 \\u0432\\u0438\\u0436\\u0438\\u0432\\u0430\\u043d\\u043d\\u044f, \\u0449\\u043e\\u0431 \\u0437\\u0430\\u0431\\u0435\\u0437\\u043f\\u0435\\u0447\\u0438\\u0442\\u0438 \\u043f\\u0440\\u043e\\u0430\\u043a\\u0442\\u0438\\u0432\\u043d\\u0435 \\u0434\\u043e\\u043c\\u0456\\u043d\\u0443\\u0432\\u0430\\u043d\\u043d\\u044f.\"},\"4\":{\"image\":\"catalog\\/services\\/aboutusservices\\/2.png\",\"title\":\"\\u0411\\u0410\\u0413\\u0410\\u0422\\u041e\\u0426\\u0406\\u041b\\u042c\\u041e\\u0412\\u0418\\u0419\",\"description\":\"\\u0412\\u0438\\u043a\\u043e\\u0440\\u0438\\u0441\\u0442\\u043e\\u0432\\u0443\\u0439\\u0442\\u0435 \\u0431\\u0435\\u0437\\u043f\\u0440\\u043e\\u0433\\u0440\\u0430\\u0448\\u043d\\u0456 \\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\\u0456\\u0457 \\u0432\\u0438\\u0436\\u0438\\u0432\\u0430\\u043d\\u043d\\u044f, \\u0449\\u043e\\u0431 \\u0437\\u0430\\u0431\\u0435\\u0437\\u043f\\u0435\\u0447\\u0438\\u0442\\u0438 \\u043f\\u0440\\u043e\\u0430\\u043a\\u0442\\u0438\\u0432\\u043d\\u0435 \\u0434\\u043e\\u043c\\u0456\\u043d\\u0443\\u0432\\u0430\\u043d\\u043d\\u044f.\"},\"5\":{\"image\":\"catalog\\/services\\/aboutusservices\\/3.png\",\"title\":\"\\u041f\\u041e\\u0412\\u041d\\u0406\\u0421\\u0422\\u042e \\u0412\\u0406\\u0414\\u041f\\u041e\\u0412\\u0406\\u0414\\u041d\\u0406\",\"description\":\"\\u0412\\u0438\\u043a\\u043e\\u0440\\u0438\\u0441\\u0442\\u043e\\u0432\\u0443\\u0439\\u0442\\u0435 \\u0431\\u0435\\u0437\\u043f\\u0440\\u043e\\u0433\\u0440\\u0430\\u0448\\u043d\\u0456 \\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\\u0456\\u0457 \\u0432\\u0438\\u0436\\u0438\\u0432\\u0430\\u043d\\u043d\\u044f, \\u0449\\u043e\\u0431 \\u0437\\u0430\\u0431\\u0435\\u0437\\u043f\\u0435\\u0447\\u0438\\u0442\\u0438 \\u043f\\u0440\\u043e\\u0430\\u043a\\u0442\\u0438\\u0432\\u043d\\u0435 \\u0434\\u043e\\u043c\\u0456\\u043d\\u0443\\u0432\\u0430\\u043d\\u043d\\u044f.\"}},\"6\":{\"6\":{\"image\":\"catalog\\/services\\/aboutusservices\\/1.png\",\"title\":\"FREE RESOURCES\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"},\"7\":{\"image\":\"catalog\\/services\\/aboutusservices\\/2.png\",\"title\":\"MULTI PURPOSE\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"},\"8\":{\"image\":\"catalog\\/services\\/aboutusservices\\/3.png\",\"title\":\"FULLY RESPONSIVE\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"}}}}'),
+(70, 'Ishi About Us Services Block', 'ishiaboutusservicesblock', '{\"name\":\"Ishi About Us Services Block\",\"column\":\"3\",\"width\":\"73\",\"height\":\"73\",\"showtitle\":\"1\",\"title\":{\"1\":\"Our Services\"},\"status\":\"1\",\"service\":{\"1\":[{\"image\":\"\",\"title\":\"FREE RESOURCES\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"},{\"image\":\"\",\"title\":\"MULTI PURPOSE\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"},{\"image\":\"\",\"title\":\"FULLY RESPONSIVE\",\"description\":\"Bring to the table win-win survival strategies to ensure proactive domination.\"}]}}'),
+(71, 'Latest', 'opencart.latest', '{\"name\":\"Latest\",\"axis\":\"horizontal\",\"limit\":\"4\",\"width\":\"85\",\"height\":\"85\",\"status\":\"1\",\"module_id\":\"0\"}'),
+(73, 'Bestsellers', 'opencart.bestseller', '{\"name\":\"Bestsellers\",\"axis\":\"vertical\",\"limit\":\"4\",\"width\":\"85\",\"height\":\"85\",\"status\":\"1\",\"module_id\":\"73\"}'),
+(74, 'Ishi Maplink Block', 'ishimaplinkblock.ishimaplinkblock', '{\"name\":\"Ishi Maplink Block\",\"width\":\"100%\",\"height\":\"400\",\"link\":\"https:\\/\\/www.google.com\\/maps\\/embed?pb=!1m14!1m12!1m3!1d112173.0227855024!2d77.1389451881658!3d28.527485061500744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1606909721649!5m2!1sen!2sin\",\"status\":\"1\"}'),
+(75, 'Ishi Maplink Block', 'ishimaplinkblock', '{\"name\":\"Ishi Maplink Block\",\"width\":\"100%\",\"height\":\"400\",\"link\":\"https:\\/\\/www.google.com\\/maps\\/embed?pb=!1m14!1m12!1m3!1d112173.0227855024!2d77.1389451881658!3d28.527485061500744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1606909721649!5m2!1sen!2sin\",\"status\":\"1\"}');
+INSERT INTO `oc_module` (`module_id`, `name`, `code`, `setting`) VALUES
+(76, 'Ishi FAQ Block', 'ishifaqblock.ishifaqblock', '{\"name\":\"Ishi FAQ Block\",\"status\":\"1\",\"ishifaq\":[{\"title\":{\"1\":\"How long is Lorem Ipsum?\",\"8\":\"How long is Lorem Ipsum?\",\"7\":\"\\u0421\\u043a\\u0456\\u043b\\u044c\\u043a\\u0438 \\u0442\\u0440\\u0438\\u0432\\u0430\\u0454 Lorem Ipsum?\",\"6\":\"How long is Lorem Ipsum?\"},\"description\":{\"1\":\"&lt;p&gt;\\tLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.&lt;\\/p&gt;\",\"8\":\"&lt;p&gt;\\tLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.&lt;\\/p&gt;\",\"7\":\"&lt;p&gt; Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.&lt;\\/p&gt;\",\"6\":\"&lt;p&gt;\\tLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.&lt;\\/p&gt;\"}},{\"title\":{\"1\":\"What is a Lorem Ipsum generator?\",\"8\":\"What is a Lorem Ipsum generator?\",\"7\":\"What is a Lorem Ipsum generator?\",\"6\":\"What is a Lorem Ipsum generator?\"},\"description\":{\"1\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt; &lt;h4&gt;Sample Unordered List&lt;\\/h4&gt; &lt;ul&gt; &lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt; &lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt; &lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt; &lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt; &lt;\\/ul&gt;         &lt;\\/div&gt;\",\"8\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt; &lt;h4&gt;Sample Unordered List&lt;\\/h4&gt; &lt;ul&gt; &lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt; &lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt; &lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt; &lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt; &lt;\\/ul&gt;         &lt;\\/div&gt;\",\"7\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt; &lt;h4&gt;Sample Unordered List&lt;\\/h4&gt; &lt;ul&gt; &lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt; &lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt; &lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt; &lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt; &lt;\\/ul&gt;         &lt;\\/div&gt;\",\"6\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt; &lt;h4&gt;Sample Unordered List&lt;\\/h4&gt; &lt;ul&gt; &lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt; &lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt; &lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt; &lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt; &lt;\\/ul&gt;         &lt;\\/div&gt;\"}},{\"title\":{\"1\":\"Minim veniam quis enim?\",\"8\":\"Minim veniam quis enim?\",\"7\":\"Minim veniam quis enim?\",\"6\":\"Minim veniam quis enim?\"},\"description\":{\"1\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"8\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"7\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"6\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\"}},{\"title\":{\"1\":\"Ut enim ad minim veniam quis nostrud?\",\"8\":\"Ut enim ad minim veniam quis nostrud?\",\"7\":\"Ut enim ad minim veniam quis nostrud?\",\"6\":\"Ut enim ad minim veniam quis nostrud?\"},\"description\":{\"1\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&lt;\\/p&gt; &lt;h4&gt;Sample Ordered List&lt;\\/h4&gt; &lt;ol&gt; &lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt; &lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt; &lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt; &lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremous&lt;\\/li&gt; &lt;\\/ol&gt;         &lt;\\/div&gt;\",\"8\":\"\",\"7\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&lt;\\/p&gt; &lt;h4&gt;Sample Ordered List&lt;\\/h4&gt; &lt;ol&gt; &lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt; &lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt; &lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt; &lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremous&lt;\\/li&gt; &lt;\\/ol&gt;         &lt;\\/div&gt;\",\"6\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&lt;\\/p&gt; &lt;h4&gt;Sample Ordered List&lt;\\/h4&gt; &lt;ol&gt; &lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt; &lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt; &lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt; &lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremous&lt;\\/li&gt; &lt;\\/ol&gt;         &lt;\\/div&gt;\"}},{\"title\":{\"1\":\"who is thought to have scrambled parts of Cicero?\",\"8\":\"\",\"7\":\"who is thought to have scrambled parts of Cicero?\",\"6\":\"who is thought to have scrambled parts of Cicero?\"},\"description\":{\"1\":\"&lt;p&gt;The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn\'t distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content.&lt;\\/p&gt;\",\"8\":\"&lt;p&gt;The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn\'t distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content.&lt;\\/p&gt;\",\"7\":\"who is thought to have scrambled parts of Cicero?\",\"6\":\"&lt;p&gt;The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn\'t distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content.&lt;\\/p&gt;\"}},{\"title\":{\"1\":\"What is the use of Lorem Ipsum?\",\"8\":\"What is the use of Lorem Ipsum?\",\"7\":\"What is the use of Lorem Ipsum?\",\"6\":\"What is the use of Lorem Ipsum?\"},\"description\":{\"1\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;In publishing and graphic design, lorem ipsum is a filler text commonly used to demonstrate the graphic elements of a document or visual presentation. &lt;\\/p&gt; &lt;h4&gt;Sample Paragraph Text&lt;\\/h4&gt; &lt;blockquote&gt; &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;\\/p&gt; &lt;\\/blockquote&gt;         &lt;\\/div&gt;\",\"8\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;In publishing and graphic design, lorem ipsum is a filler text commonly used to demonstrate the graphic elements of a document or visual presentation. &lt;\\/p&gt; &lt;h4&gt;Sample Paragraph Text&lt;\\/h4&gt; &lt;blockquote&gt; &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;\\/p&gt; &lt;\\/blockquote&gt;         &lt;\\/div&gt;\",\"7\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;In publishing and graphic design, lorem ipsum is a filler text commonly used to demonstrate the graphic elements of a document or visual presentation. &lt;\\/p&gt; &lt;h4&gt;Sample Paragraph Text&lt;\\/h4&gt; &lt;blockquote&gt; &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;\\/p&gt; &lt;\\/blockquote&gt;         &lt;\\/div&gt;\",\"6\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;           &lt;p&gt;In publishing and graphic design, lorem ipsum is a filler text commonly used to demonstrate the graphic elements of a document or visual presentation. &lt;\\/p&gt; &lt;h4&gt;Sample Paragraph Text&lt;\\/h4&gt; &lt;blockquote&gt; &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;\\/p&gt; &lt;\\/blockquote&gt;         &lt;\\/div&gt;\"}},{\"title\":{\"1\":\"How do I generate Lorem Ipsum in Word?\",\"8\":\"How do I generate Lorem Ipsum in Word?\",\"7\":\"How do I generate Lorem Ipsum in Word?\",\"6\":\"How do I generate Lorem Ipsum in Word?\"},\"description\":{\"1\":\"&lt;p&gt;Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book&lt;\\/p&gt;\",\"8\":\"&lt;p&gt;Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book&lt;\\/p&gt;\",\"7\":\"&lt;p&gt;Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book&lt;\\/p&gt;\",\"6\":\"&lt;p&gt;Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book&lt;\\/p&gt;\"}},{\"title\":{\"1\":\"What is Lorem Ipsum in HTML?\",\"8\":\"What is Lorem Ipsum in HTML?\",\"7\":\"What is Lorem Ipsum in HTML?\",\"6\":\"What is Lorem Ipsum in HTML?\"},\"description\":{\"1\":\"&lt;p&gt;sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"8\":\"&lt;p&gt;sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"7\":\"&lt;p&gt;sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"6\":\"&lt;p&gt;sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\"}},{\"title\":{\"1\":\"How do I get Lorem Ipsum text in Sublime Text?\",\"8\":\"How do I get Lorem Ipsum text in Sublime Text?\",\"7\":\"How do I get Lorem Ipsum text in Sublime Text?\",\"6\":\"How do I get Lorem Ipsum text in Sublime Text?\"},\"description\":{\"1\":\"&lt;p&gt;An extension for Sublime Text 2 and 3! It allows you to Insert Lorem Ipsum in the editor via menu items or keyboard shortcut. Select how much text you want from the menu item in Lorem Ipsum or on the right click menu in Lorem Ipsum to add Lorem Ipsum text.&lt;\\/p&gt;\",\"8\":\"&lt;p&gt;An extension for Sublime Text 2 and 3! It allows you to Insert Lorem Ipsum in the editor via menu items or keyboard shortcut. Select how much text you want from the menu item in Lorem Ipsum or on the right click menu in Lorem Ipsum to add Lorem Ipsum text.&lt;\\/p&gt;\",\"7\":\"&lt;p&gt;An extension for Sublime Text 2 and 3! It allows you to Insert Lorem Ipsum in the editor via menu items or keyboard shortcut. Select how much text you want from the menu item in Lorem Ipsum or on the right click menu in Lorem Ipsum to add Lorem Ipsum text.&lt;\\/p&gt;\",\"6\":\"&lt;p&gt;An extension for Sublime Text 2 and 3! It allows you to Insert Lorem Ipsum in the editor via menu items or keyboard shortcut. Select how much text you want from the menu item in Lorem Ipsum or on the right click menu in Lorem Ipsum to add Lorem Ipsum text.&lt;\\/p&gt;\"}},{\"title\":{\"1\":\"Lorem Ipsum generator?\",\"8\":\"Lorem Ipsum generator?\",\"7\":\"Lorem Ipsum generator?\",\"6\":\"Lorem Ipsum generator?\"},\"description\":{\"1\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"8\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"7\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\",\"6\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\"}}]}'),
+(77, 'Ishi FAQ Block', 'ishifaqblock', '{\"name\":\"Ishi FAQ Block\",\"status\":\"1\",\"ishitestimonial\":[{\"username\":\"How long is Lorem Ipsum?\",\"description\":\"&lt;p&gt;\\tLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.&lt;\\/p&gt;\"},{\"username\":\"What is a Lorem Ipsum generator?\",\"description\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;\\r\\n          &lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Unordered List&lt;\\/h4&gt;\\r\\n&lt;ul&gt;\\r\\n&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt;\\r\\n&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt;\\r\\n&lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;\\/li&gt;\\r\\n&lt;\\/ul&gt;\\r\\n        &lt;\\/div&gt;\"},{\"username\":\"Minim veniam quis enim?\",\"description\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\"},{\"username\":\"Ut enim ad minim veniam quis nostrud?\",\"description\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;\\r\\n          &lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Ordered List&lt;\\/h4&gt;\\r\\n&lt;ol&gt;\\r\\n&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;\\/li&gt;\\r\\n&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;\\/li&gt;\\r\\n&lt;li&gt;Divamus sit amet purus justo.&lt;\\/li&gt;\\r\\n&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremous&lt;\\/li&gt;\\r\\n&lt;\\/ol&gt;\\r\\n        &lt;\\/div&gt;\"},{\"username\":\"who is thought to have scrambled parts of Cicero?\",\"description\":\"&lt;p&gt;The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn\'t distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content.&lt;\\/p&gt;\"},{\"username\":\"What is the use of Lorem Ipsum?\",\"description\":\"&lt;div class=&quot;accordion__content rte&quot;&gt;\\r\\n          &lt;p&gt;In publishing and graphic design, lorem ipsum is a filler text commonly used to demonstrate the graphic elements of a document or visual presentation. &lt;\\/p&gt;\\r\\n&lt;h4&gt;Sample Paragraph Text&lt;\\/h4&gt;\\r\\n&lt;blockquote&gt;\\r\\n&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summe!&lt;\\/p&gt;\\r\\n&lt;\\/blockquote&gt;\\r\\n        &lt;\\/div&gt;\"},{\"username\":\"How do I generate Lorem Ipsum in Word?\",\"description\":\"&lt;p&gt;Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book&lt;\\/p&gt;\"},{\"username\":\"What is Lorem Ipsum in HTML?\",\"description\":\"&lt;p&gt;sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\"},{\"username\":\"How do I get Lorem Ipsum text in Sublime Text?\",\"description\":\"&lt;p&gt;An extension for Sublime Text 2 and 3! It allows you to Insert Lorem Ipsum in the editor via menu items or keyboard shortcut. Select how much text you want from the menu item in Lorem Ipsum or on the right click menu in Lorem Ipsum to add Lorem Ipsum text.&lt;\\/p&gt;\"},{\"username\":\"Lorem Ipsum generator?\",\"description\":\"&lt;p&gt;tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;\\/p&gt;\"}]}'),
+(78, 'Ishi Services Block', 'ishiservicesblock', '{\"name\":\"Ishi Services Block\",\"column\":\"4\",\"width\":\"80\",\"height\":\"30\",\"title\":{\"1\":\"About Egger Farm\",\"6\":\"About Egger Farm\"},\"status\":\"1\"}'),
+(79, 'Ishi Services Block', 'ishiservicesblock.ishiservicesblock', '{\"name\":\"Ishi Services Block\",\"column\":\"4\",\"width\":\"120\",\"height\":\"50\",\"showtitle\":\"1\",\"title\":{\"1\":\"Our Services\",\"8\":\"\\u041d\\u0430\\u0448\\u0438 \\u0443\\u0441\\u043b\\u0443\\u0433\\u0438\",\"7\":\"Our Services\",\"6\":\"Our Services\"},\"desc\":{\"1\":\"One Girl\\u2019s Journey To Making Her Fashion Dreams Come True In Fashionist\",\"8\":\"\\u041f\\u0443\\u0442\\u044c \\u043e\\u0434\\u043d\\u043e\\u0439 \\u0434\\u0435\\u0432\\u0443\\u0448\\u043a\\u0438 \\u043a \\u043e\\u0441\\u0443\\u0449\\u0435\\u0441\\u0442\\u0432\\u043b\\u0435\\u043d\\u0438\\u044e \\u0441\\u0432\\u043e\\u0435\\u0439 \\u043c\\u0435\\u0447\\u0442\\u044b \\u043e \\u043c\\u043e\\u0434\\u0435 \\u0432 Fashionist\",\"7\":\"One Girl\\u2019s Journey To Making Her Fashion Dreams Come True In Fashionist\",\"6\":\"One Girl\\u2019s Journey To Making Her Fashion Dreams Come True In Fashionist\"},\"status\":\"1\",\"service\":{\"1\":[{\"image\":\"catalog\\/services\\/services-1.png\",\"title\":\"Fast Delivery\",\"description\":\"Free For All Type order\"},{\"image\":\"catalog\\/services\\/services-2.png\",\"title\":\"Best Quality\",\"description\":\"Best Prices Best Product\"},{\"image\":\"catalog\\/services\\/services-3.png\",\"title\":\"Gift Voucher\",\"description\":\"1 day To Chang Product\"},{\"image\":\"catalog\\/services\\/services-4.png\",\"title\":\"Help Center\",\"description\":\"Support System 24\\/7\"}],\"8\":{\"8\":{\"image\":\"catalog\\/services\\/services-1.png\",\"title\":\"\\u0411\\u044b\\u0441\\u0442\\u0440\\u0430\\u044f \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430\",\"description\":\"\\u0411\\u0435\\u0441\\u043f\\u043b\\u0430\\u0442\\u043d\\u043e \\u0434\\u043b\\u044f \\u0432\\u0441\\u0435\\u0445 \\u0422\\u0438\\u043f \\u0437\\u0430\\u043a\\u0430\\u0437\\u0430\"},\"9\":{\"image\":\"catalog\\/services\\/services-2.png\",\"title\":\"\\u041b\\u0443\\u0447\\u0448\\u0435\\u0435 \\u043a\\u0430\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\",\"description\":\"\\u041b\\u0443\\u0447\\u0448\\u0438\\u0435 \\u0446\\u0435\\u043d\\u044b \\u041b\\u0443\\u0447\\u0448\\u0438\\u0439 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\"},\"10\":{\"image\":\"catalog\\/services\\/services-3.png\",\"title\":\"\\u041f\\u043e\\u0434\\u0430\\u0440\\u043e\\u0447\\u043d\\u044b\\u0439 \\u0441\\u0435\\u0440\\u0442\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\",\"description\":\"1 \\u0434\\u0435\\u043d\\u044c, \\u0447\\u0442\\u043e\\u0431\\u044b \\u0438\\u0437\\u043c\\u0435\\u043d\\u0438\\u0442\\u044c \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\"},\"11\":{\"image\":\"catalog\\/services\\/services-4.png\",\"title\":\"\\u0426\\u0435\\u043d\\u0442\\u0440 \\u043f\\u043e\\u043c\\u043e\\u0449\\u0438\",\"description\":\"\\u0421\\u0438\\u0441\\u0442\\u0435\\u043c\\u0430 \\u043f\\u043e\\u0434\\u0434\\u0435\\u0440\\u0436\\u043a\\u0438 24\\/7\"}},\"6\":{\"4\":{\"image\":\"catalog\\/services\\/services-1.png\",\"title\":\"Fast Delivery\",\"description\":\"Free For All Type order\"},\"5\":{\"image\":\"catalog\\/services\\/services-2.png\",\"title\":\"Best Quality\",\"description\":\"Best Prices Best Product\"},\"6\":{\"image\":\"catalog\\/services\\/services-3.png\",\"title\":\"Gift Voucher\",\"description\":\"1 day To Chang Product\"},\"7\":{\"image\":\"catalog\\/services\\/services-4.png\",\"title\":\"Help Center\",\"description\":\"Support System 24\\/7\"}}}}'),
+(80, 'Ishi Services Block', 'ishiservicesblock', '{\"name\":\"Ishi Services Block\",\"column\":\"4\",\"width\":\"80\",\"height\":\"30\",\"title\":{\"1\":\"About Egger Farm\",\"6\":\"About Egger Farm\"},\"status\":\"1\"}'),
+(81, 'Ishi Slider Block', 'ishislider.ishislider', '{\"name\":\"Ishi Slider Block\",\"width\":\"1920\",\"height\":\"700\",\"mobilewidth\":\"575\",\"mobileheight\":\"400\",\"status\":\"1\",\"autoplay\":\"1\",\"navigation\":\"1\",\"navigation_style\":\"ishi-style-nav3\",\"dot\":\"1\",\"dot_style\":\"ishi-style-dot2\",\"slider\":{\"1\":[{\"title\":\"NEW ARRIVALS\",\"titlecolor\":\"#ffffff\",\"titlebgcolor\":\"#cc9966\",\"subtitle\":\"ENJOY SPRING 2021\",\"subtitlecolor\":\"#777777\",\"desc\":\"WE MAKE YOUR STYLE\",\"desccolor\":\"#333333\",\"btntext\":\"SHOP NOW\",\"textalignment\":\"center\",\"textposition\":\"slider-content-left\",\"mobiletextalignment\":\"center\",\"mobiletextposition\":\"slider-content-left\",\"link\":\"index.php?route=common\\/home&amp;language=en-gb\",\"image\":\"catalog\\/slider\\/Slider-1.png\",\"imagehover\":\"catalog\\/slider\\/mobileslider-1.png\"},{\"title\":\"NEW ARRIVALS\",\"titlecolor\":\"#ffffff\",\"titlebgcolor\":\"#cc9966\",\"subtitle\":\"ENJOY SPRING 2021\",\"subtitlecolor\":\"#777777\",\"desc\":\"WE MAKE YOUR STYLE\",\"desccolor\":\"#333333\",\"btntext\":\"SHOP NOW\",\"textalignment\":\"center\",\"textposition\":\"slider-content-right\",\"mobiletextalignment\":\"center\",\"mobiletextposition\":\"slider-content-right\",\"link\":\"index.php?route=common\\/home&amp;language=en-gb\",\"image\":\"catalog\\/slider\\/Slider-2.png\",\"imagehover\":\"catalog\\/slider\\/mobileslider-2.png\"}],\"8\":{\"2\":{\"title\":\"\\u041d\\u041e\\u0412\\u042b\\u0415 \\u041f\\u041e\\u0421\\u0422\\u0423\\u041f\\u041b\\u0415\\u041d\\u0418\\u042f\",\"titlecolor\":\"#ffffff\",\"titlebgcolor\":\"#cc9966\",\"subtitle\":\"\\u041d\\u0410\\u0421\\u041b\\u0410\\u0416\\u0414\\u0410\\u0419\\u0422\\u0415\\u0421\\u042c \\u0412\\u0415\\u0421\\u041d\\u041e\\u0419 2021 \\u0413\\u041e\\u0414\\u0410\",\"subtitlecolor\":\"#777777\",\"desc\":\"\\u041c\\u042b \\u0421\\u041e\\u0417\\u0414\\u0410\\u0415\\u041c \\u0412\\u0410\\u0428 \\u0421\\u0422\\u0418\\u041b\\u042c\",\"desccolor\":\"#333333\",\"btntext\":\"\\u041a\\u0423\\u041f\\u0418\\u0422\\u042c \\u0421\\u0415\\u0419\\u0427\\u0410\\u0421\",\"textalignment\":\"center\",\"textposition\":\"slider-content-left\",\"mobiletextalignment\":\"center\",\"mobiletextposition\":\"slider-content-left\",\"link\":\"index.php?route=common\\/home&amp;language=ru-ru\",\"image\":\"catalog\\/slider\\/Slider-1.png\",\"imagehover\":\"catalog\\/slider\\/mobileslider-1.png\"},\"3\":{\"title\":\"\\u041d\\u041e\\u0412\\u042b\\u0415 \\u041f\\u041e\\u0421\\u0422\\u0423\\u041f\\u041b\\u0415\\u041d\\u0418\\u042f\",\"titlecolor\":\"#ffffff\",\"titlebgcolor\":\"#cc9966\",\"subtitle\":\"\\u041d\\u0410\\u0421\\u041b\\u0410\\u0416\\u0414\\u0410\\u0419\\u0422\\u0415\\u0421\\u042c \\u0412\\u0415\\u0421\\u041d\\u041e\\u0419 2021 \\u0413\\u041e\\u0414\\u0410\",\"subtitlecolor\":\"#777777\",\"desc\":\"\\u041c\\u042b \\u0421\\u041e\\u0417\\u0414\\u0410\\u0415\\u041c \\u0412\\u0410\\u0428 \\u0421\\u0422\\u0418\\u041b\\u042c\",\"desccolor\":\"#333333\",\"btntext\":\"\\u041a\\u0423\\u041f\\u0418\\u0422\\u042c \\u0421\\u0415\\u0419\\u0427\\u0410\\u0421\",\"textalignment\":\"center\",\"textposition\":\"slider-content-right\",\"mobiletextalignment\":\"center\",\"mobiletextposition\":\"slider-content-right\",\"link\":\"index.php?route=common\\/home&amp;language=ru-ru\",\"image\":\"catalog\\/slider\\/Slider-2.png\",\"imagehover\":\"catalog\\/slider\\/mobileslider-2.png\"}},\"7\":{\"4\":{\"title\":\"NEW ARRIVALS\",\"titlecolor\":\"#ffffff\",\"titlebgcolor\":\"#cc9966\",\"subtitle\":\"ENJOY SPRING 2021\",\"subtitlecolor\":\"#777777\",\"desc\":\"WE MAKE YOUR STYLE\",\"desccolor\":\"#333333\",\"btntext\":\"SHOP NOW\",\"textalignment\":\"center\",\"textposition\":\"slider-content-left\",\"mobiletextalignment\":\"center\",\"mobiletextposition\":\"slider-content-left\",\"link\":\"index.php?route=common\\/home&amp;language=uk-ua\",\"image\":\"catalog\\/slider\\/Slider-1.png\",\"imagehover\":\"catalog\\/slider\\/mobileslider-1.png\"},\"5\":{\"title\":\"NEW ARRIVALS\",\"titlecolor\":\"#ffffff\",\"titlebgcolor\":\"#cc9966\",\"subtitle\":\"ENJOY SPRING 2021\",\"subtitlecolor\":\"#777777\",\"desc\":\"WE MAKE YOUR STYLE\",\"desccolor\":\"#333333\",\"btntext\":\"SHOP NOW\",\"textalignment\":\"center\",\"textposition\":\"slider-content-right\",\"mobiletextalignment\":\"center\",\"mobiletextposition\":\"slider-content-right\",\"link\":\"index.php?route=common\\/home&amp;language=uk-ua\",\"image\":\"catalog\\/slider\\/Slider-2.png\",\"imagehover\":\"catalog\\/slider\\/mobileslider-2.png\"}},\"6\":{\"6\":{\"title\":\"NEW ARRIVALS\",\"titlecolor\":\"#ffffff\",\"titlebgcolor\":\"#cc9966\",\"subtitle\":\"ENJOY SPRING 2021\",\"subtitlecolor\":\"#777777\",\"desc\":\"WE MAKE YOUR STYLE\",\"desccolor\":\"#333333\",\"btntext\":\"SHOP NOW\",\"textalignment\":\"center\",\"textposition\":\"slider-content-left\",\"mobiletextalignment\":\"center\",\"mobiletextposition\":\"slider-content-left\",\"link\":\"index.php?route=common\\/home&amp;language=ar\",\"image\":\"catalog\\/slider\\/Slider-1.png\",\"imagehover\":\"catalog\\/slider\\/mobileslider-1.png\"},\"7\":{\"title\":\"NEW ARRIVALS\",\"titlecolor\":\"#ffffff\",\"titlebgcolor\":\"#cc9966\",\"subtitle\":\"ENJOY SPRING 2021\",\"subtitlecolor\":\"#777777\",\"desc\":\"WE MAKE YOUR STYLE\",\"desccolor\":\"#333333\",\"btntext\":\"SHOP NOW\",\"textalignment\":\"center\",\"textposition\":\"slider-content-right\",\"mobiletextalignment\":\"center\",\"mobiletextposition\":\"slider-content-right\",\"link\":\"index.php?route=common\\/home&amp;language=ar\",\"image\":\"catalog\\/slider\\/Slider-2.png\",\"imagehover\":\"catalog\\/slider\\/mobileslider-2.png\"}}}}'),
+(82, 'Ishi Slider Block', 'ishislider', '{\"name\":\"Ishi Slider Block\",\"width\":\"1920\",\"height\":\"750\",\"mobilewidth\":\"575\",\"mobileheight\":\"340\",\"status\":\"1\",\"autoplay\":\"1\",\"navigation\":\"1\",\"navigation_style\":\"ishi-style-nav4\",\"dot\":\"1\",\"dot_style\":\"ishi-style-dot2\"}'),
+(84, 'Ishi Parallax Block', 'ishiparallaxblock', '{\"name\":\"Ishi Parallax Block\",\"image\":\"catalog\\/otherimage\\/parallax_bg.png\",\"bg_color\":\"#06c9ab\",\"startdate\":\"2023-08-08\",\"enddate\":\"2024-09-19\",\"module_description\":{\"1\":{\"description\":\"\"},\"6\":{\"description\":\"\"}},\"status\":\"0\"}'),
+(86, 'Ishi Category Block', 'ishicategoryblock', '{\"name\":\"Ishi Category Block\",\"width\":\"165\",\"height\":\"165\",\"status\":\"1\"}'),
+(88, 'Ishi Testimonials Block', 'ishitestimonialsblock', '{\"name\":\"Ishi Testimonials Block\",\"width\":\"401\",\"height\":\"388\",\"autoplay\":\"1\",\"status\":\"1\",\"ishitestimonial\":[{\"image\":\"\",\"description\":\"\\u201cLorem ipsum dolor sit amet, consecr adipiscing elit. Nibh proin libero, amet, is aenean commodo neque\\u201droin libero, amet, is aenean commet, consecr adipiscing elit. Nibh proin libero, amet, is aenodo\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"},{\"image\":\"\",\"description\":\"\\u201cLorem ipsum dolor sit amet, consecr adipiscing elit. Nibh proin libero, amet, is aenean commodo neque\\u201droin libero, amet, is aenean commet, consecr adipiscing elit. Nibh proin libero, amet, is aenodo\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"},{\"image\":\"\",\"description\":\"\\u201cLorem ipsum dolor sit amet, consecr adipiscing elit. Nibh proin libero, amet, is aenean commodo neque\\u201droin libero, amet, is aenean commet, consecr adipiscing elit. Nibh proin libero, amet, is aenodo\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"},{\"image\":\"\",\"description\":\"\\u201cLorem ipsum dolor sit amet, consecr adipiscing elit. Nibh proin libero, amet, is aenean commodo neque\\u201droin libero, amet, is aenean commet, consecr adipiscing elit. Nibh proin libero, amet, is aenodo\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"}]}'),
+(90, 'Ishi Instagram Block', 'ishiinstagramblock', '{\"name\":\"Ishi Instagram Block\",\"title\":{\"1\":\"Follow Us\",\"6\":\"Follow Us\"},\"username\":\"instagram\",\"userid\":\"6827780227\",\"accesstoken\":\"IGQVJXc0lkdGNiWE9UUS1hY0RxdXA3Q1lMenkzRU40NW42QzZACRzhYdjZAfTU9KWkJKcHlTSkQxbTl4ZAUowTG1sbzZANajNmQ1dvWDZAHM1hwem5hMnhwalB4cEVFdTRJZAU5sX0ZAfRllZAZAUdZAUVo1UzlQWgZDZD\",\"sortby\":\"random\",\"status\":\"1\"}'),
+(91, 'Ishi Themes Blog', 'blogger.blogger', '{\"module_id\":\"91\",\"name\":\"Ishi Themes Blog\",\"title\":{\"1\":\"Our Latest Blog\",\"8\":\"Our Latest Blog\",\"7\":\"Our Latest Blog\",\"6\":\"Our Latest Blog\"},\"column\":\"2\",\"status\":\"1\",\"width\":\"870\",\"height\":\"588\",\"limit\":\"8\",\"char_limit\":\"100\",\"comments\":\"1\",\"login\":\"1\",\"auto_approve\":\"1\"}'),
+(93, 'Ishi Newsletter', 'newslettersubscribe', '{\"name\":\"Ishi Newsletter\",\"column\":\"2\",\"bg_color\":\"#f7f7f7\",\"title\":{\"1\":\"NEWSLETTER\",\"6\":\"NEWSLETTER\"},\"sub_title\":{\"1\":\"SIGN UP &amp; GET OFFER\",\"6\":\"SIGN UP &amp; GET OFFER\"},\"desc\":{\"1\":\"Subscribe to our newsletters now and stay up-to-date with new collections, the latest lookbooks and exclusive offers.\",\"6\":\"Subscribe to our newsletters now and stay up-to-date with new collections, the latest lookbooks and exclusive offers.\"},\"status\":\"1\"}'),
+(95, 'Ishi Contactinfo Block', 'ishicontactinfoblock', '{\"name\":\"Ishi Contactinfo Block\",\"title\":{\"1\":\"STORE INFORMATION\",\"6\":\"STORE INFORMATION\"},\"column\":\"4\",\"status\":\"1\"}'),
+(97, 'Quick link account', 'ishifooterlinkblock', '{\"name\":\"Quick link account\",\"column\":\"4\",\"showaccount\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"ACCOUNT\",\"6\":\"ACCOUNT\"},\"status\":\"0\"}'),
+(99, 'Quick link extra', 'ishifooterlinkblock', '{\"name\":\"Quick link extra\",\"column\":\"4\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"EXTRAS\",\"6\":\"EXTRAS\"},\"ishiextra\":{\"1\":[{\"linkname\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer\"},{\"linkname\":\"Gift Certificates\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=en-gb\"},{\"linkname\":\"Affiliate\",\"link\":\"index.php?route=account\\/tracking&amp;language=en-gb&amp;customer_token=3a53fc4c14031f2c6e25f96a5e\"},{\"linkname\":\"Specials\",\"link\":\"index.php?route=product\\/special\"},{\"linkname\":\"Wishlist\",\"link\":\"index.php?route=account\\/wishlist&amp;language=en-gb&amp;customer_token=d1f05b20ba19e44e810f00ba22\"}],\"6\":{\"5\":{\"linkname\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer&amp;language=ar\"},\"6\":{\"linkname\":\"Gift Certificates\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=ar\"},\"7\":{\"linkname\":\"Affiliate\",\"link\":\"index.php?route=account\\/tracking&amp;language=ar&amp;customer_token=d1f05b20ba19e44e810f00ba22\"},\"8\":{\"linkname\":\"Specials\",\"link\":\"index.php?route=product\\/special&amp;language=ar\"},\"9\":{\"linkname\":\"Wishlist\",\"link\":\"index.php?route=account\\/wishlist&amp;language=ar&amp;customer_token=d1f05b20ba19e44e810f00ba22\"}}},\"status\":\"0\"}'),
+(101, 'Quick link information', 'ishifooterlinkblock', '{\"name\":\"Quick link information\",\"column\":\"4\",\"showinformation\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"INFORMATION\",\"6\":\"INFORMATION\"},\"status\":\"1\"}'),
+(103, 'Ishi Storeinfo Block', 'ishistoreinfoblock', '{\"name\":\"Ishi Storeinfo Block\",\"image\":\"no_image.png\",\"column\":\"1\",\"alignment1\":\"2\",\"facebook\":\"#\",\"twitter\":\"#\",\"youtube\":\"#\",\"gplus\":\"\",\"rss\":\"#\",\"pinterest\":\"#\",\"vimeo\":\"\",\"instagram\":\"#\",\"status\":\"1\"}'),
+(105, 'Ishi Special Block', 'ishispecialblock', '{\"name\":\"Ishi Special Block\",\"title\":{\"1\":\"SPECIAL PRODUCT\",\"6\":\"SPECIAL PRODUCT\"},\"width\":\"370\",\"height\":\"370\",\"limit\":\"10\",\"product_row\":\"2\",\"desktop_column\":\"3\",\"laptop_column\":\"2\",\"tablet_column\":\"2\",\"mobile_column\":\"2\",\"status\":\"1\"}'),
+(109, 'Ishi Special Products Block', 'ishispecialblock', '{\"name\":\"Ishi Special Products Block\",\"title\":{\"1\":\"Special Product\",\"6\":\"Special Product\"},\"width\":\"370\",\"height\":\"370\",\"limit\":\"8\",\"product_row\":\"1\",\"desktop_column\":\"4\",\"laptop_column\":\"3\",\"tablet_column\":\"3\",\"mobile_column\":\"2\",\"status\":\"1\"}'),
+(111, 'ishi Contactinfo Block', 'ishicontactinfoblock', '{\"name\":\"ishi Contactinfo Block\",\"title4\":{\"1\":\"STORE INFORMATION\",\"6\":\"STORE INFORMATION\"},\"title\":{\"1\":\"Call Us\",\"6\":\"Call Us\"},\"title2\":{\"1\":\"Email\",\"6\":\"Email\"},\"title3\":{\"1\":\"Address\",\"6\":\"Address\"},\"column\":\"1\",\"bgcolor\":\"#ffffff\",\"status\":\"1\"}'),
+(113, 'Ishi Newsletter', 'newslettersubscribe', '{\"name\":\"Ishi Newsletter\",\"column\":\"1\",\"bg_color\":\"\",\"title\":{\"1\":\"NEVER MISS AN UPDATE\",\"6\":\"NEVER MISS AN UPDATE\"},\"title_color\":\"#ffffff\",\"desc\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac ex sit amet arcu ultricies\",\"6\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac ex sit amet arcu ultricies\"},\"desc_color\":\"#dddddd\",\"status\":\"1\"}'),
+(115, 'Ishi Category Block', 'ishicategoryblock', '{\"name\":\"Ishi Category Block\",\"title\":{\"1\":\"Choose Your Type\",\"6\":\"Choose Your Type\"},\"width\":\"390\",\"height\":\"432\",\"status\":\"1\"}'),
+(117, 'Ishi Special Block', 'ishispecialblock', '{\"name\":\"Ishi Special Block\",\"title\":{\"1\":\"This Week\\u2019s Highlight\",\"6\":\"This Week\\u2019s Highlight\"},\"width\":\"370\",\"height\":\"370\",\"limit\":\"5\",\"product_row\":\"1\",\"hover_image\":\"1\",\"desktop_column\":\"4\",\"laptop_column\":\"3\",\"tablet_column\":\"2\",\"mobile_column\":\"2\",\"status\":\"1\"}'),
+(119, 'Ishi Features Block', 'ishifeaturesblock', '{\"name\":\"Ishi Features Block\",\"width\":\"46\",\"height\":\"46\",\"status\":\"1\"}'),
+(121, 'Ishi Story Block', 'ishistoryblock', '{\"name\":\"Ishi Story Block\",\"title\":{\"1\":\"Why Choose Us\",\"6\":\"Why Choose Us\"},\"banner1\":\"catalog\\/otherimage\\/story-banner.png\",\"bannerposition\":\"center\",\"btn\":{\"1\":\"BUY NOW\",\"6\":\"BUY NOW\"},\"btnlink\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=57\",\"status\":\"1\",\"service\":{\"1\":[{\"title\":\"Joyful Mood\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Shining Skin\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Nature Face\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integerLorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Improve Skin Glow\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Bring Comfort\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Reduce Stress\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"}],\"6\":{\"6\":{\"title\":\"Joyful Mood\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"7\":{\"title\":\"Shining Skin\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"8\":{\"title\":\"Nature Face\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"9\":{\"title\":\"Improve Skin Glow\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"10\":{\"title\":\"Bring Comfort\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"11\":{\"title\":\"Reduce Stress\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"}}}}'),
+(123, 'Ishi Story Block', 'ishistoryblock', '{\"name\":\"Ishi Story Block\",\"title\":{\"1\":\"Why Choose Us\",\"6\":\"Why Choose Us\"},\"banner1\":\"catalog\\/otherimage\\/story-banner.png\",\"bannerposition\":\"center\",\"btn\":{\"1\":\"BUY NOW\",\"6\":\"BUY NOW\"},\"btnlink\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=57\",\"status\":\"1\",\"service\":{\"1\":[{\"title\":\"Joyful Mood\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Shining Skin\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Nature Face\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integerLorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Improve Skin Glow\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Bring Comfort\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},{\"title\":\"Reduce Stress\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"}],\"6\":{\"6\":{\"title\":\"Joyful Mood\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"7\":{\"title\":\"Shining Skin\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"8\":{\"title\":\"Nature Face\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"9\":{\"title\":\"Improve Skin Glow\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"10\":{\"title\":\"Bring Comfort\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"},\"11\":{\"title\":\"Reduce Stress\",\"desc\":\"Lorem ipsum dolor sit amet, consectetur erra. Etiam id sit donec  integer\"}}}}'),
+(125, 'Ishi Productbestseller Block', 'ishiproductbestsellerblock', '{\"name\":\"Ishi Productbestseller Block\",\"width\":\"370\",\"height\":\"370\",\"product\":\"\",\"scale\":\"1\",\"image\":\"catalog\\/otherimage\\/bestseller-banner-1.png\",\"bannerposition\":\"top\",\"title1\":{\"1\":\"Skin Solution\",\"6\":\"Skin Solution\"},\"titlecolor1\":\"#232323\",\"subtitle1\":{\"1\":\"Our commitment to sutainability\",\"6\":\"Our commitment to sutainability\"},\"subtitlecolor1\":\"#777777\",\"btnname\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"btnlink\":\"index.php?route=product\\/category&amp;path=57\",\"status\":\"1\"}'),
+(127, 'Ishi Productbestseller Block 2', 'ishiproductbestsellerblock', '{\"name\":\"Ishi Productbestseller Block 2\",\"width\":\"370\",\"height\":\"370\",\"product\":[\"30\",\"41\",\"28\"],\"image\":\"catalog\\/otherimage\\/bestseller-banner-2.png\",\"bannerposition\":\"bottom\",\"title1\":{\"1\":\"Natural Beauty\",\"6\":\"Natural Beauty\"},\"titlecolor1\":\"#333333\",\"subtitle1\":{\"1\":\"Beauty inspired by real life of our product\",\"6\":\"Beauty inspired by real life of our product\"},\"subtitlecolor1\":\"#777777\",\"btnname\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"btnlink\":\"index.php?route=information\\/contact&amp;language=en-gb\",\"status\":\"1\"}'),
+(129, 'Ishi FAQ With Image Block', 'ishifaqwithimageblock', '{\"name\":\"Ishi FAQ With Image Block\",\"beforeimage\":\"catalog\\/faq\\/faq-banner-1.png\",\"afterimage\":\"catalog\\/faq\\/faq-banner-2.png\",\"width\":\"130\",\"height\":\"130\",\"title\":{\"1\":\"What are The Benefits of our Product?\",\"6\":\"What are The Benefits of our Product?\"},\"description\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida volutpat sapien viverra. Etiam id sit donec integer tincidunt vestibulum. Com molestitincidunt massa ut nulla etiam. Ut odi\",\"6\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida volutpat sapien viverra. Etiam id sit donec integer tincidunt vestibulum. Com molestitincidunt massa ut nulla etiam. Ut odi\"},\"btntext\":{\"1\":\"Learn More\",\"6\":\"Learn More\"},\"btnlink\":\"index.php?route=information\\/contact&amp;language=en-gb\",\"status\":\"1\"}'),
+(131, 'Ishi Newsletter', 'newslettersubscribe', '{\"name\":\"Ishi Newsletter\",\"column\":\"1\",\"title\":{\"1\":\"Get 20% off on your first order\",\"6\":\"Get 20% off on your first order\"},\"desc\":{\"1\":\"Join our email list for exclusive offers and the latest news.\",\"6\":\"Join our email list for exclusive offers and the latest news.\"},\"status\":\"1\"}'),
+(133, 'Ishi Contactinfo Block', 'ishicontactinfoblock', '{\"name\":\"Ishi Contactinfo Block\",\"title4\":{\"1\":\"Contact Information\",\"6\":\"Contact Information\"},\"title\":{\"1\":\"Contact Us:\",\"6\":\"Contact Us:\"},\"title2\":{\"1\":\"Email:\",\"6\":\"Email:\"},\"title3\":{\"1\":\"Location:\",\"6\":\"Location:\"},\"column\":\"3\",\"status\":\"1\"}'),
+(135, 'Quick link account', 'ishifooterlinkblock', '{\"name\":\"Quick link account\",\"column\":\"6\",\"showaccount\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"Account\",\"6\":\"Account\"},\"status\":\"0\"}'),
+(137, 'Quick link information', 'ishifooterlinkblock', '{\"name\":\"Quick link information\",\"column\":\"6\",\"showinformation\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"Information\",\"6\":\"Information\"},\"status\":\"0\"}');
+INSERT INTO `oc_module` (`module_id`, `name`, `code`, `setting`) VALUES
+(139, 'Ishi Storeinfo Block', 'ishistoreinfoblock', '{\"name\":\"Ishi Storeinfo Block\",\"image\":\"catalog\\/otherimage\\/footer-logo.png\",\"column\":\"3\",\"alignment\":\"0\",\"facebook\":\"#\",\"twitter\":\"#\",\"youtube\":\"#\",\"gplus\":\"\",\"rss\":\"\",\"pinterest\":\"#\",\"vimeo\":\"\",\"instagram\":\"#\",\"status\":\"1\"}'),
+(141, 'Ishi Offers Block', 'ishioffersblock', '{\"name\":\"Ishi Offers Block\",\"status\":\"0\",\"module_id\":141}'),
+(143, 'Ishi Timmer With Image Block', 'ishitimmerwithimageblock', '{\"name\":\"Ishi Timmer With Image Block\",\"beforeimage\":\"catalog\\/timmerimg\\/after-img.png\",\"afterimage\":\"catalog\\/timmerimg\\/before-img.png\",\"image2\":\"catalog\\/timmerimg\\/timmer-banner.png\",\"bg_color\":\"#eeeeee\",\"startdate\":\"2023-08-25\",\"enddate\":\"2024-04-23\",\"module_description\":{\"1\":{\"description\":\"&lt;div class=&quot;timmer-content&quot;&gt;\\r\\n    &lt;div class=&quot;sub-title&quot; style=&quot;color:#666;&quot;&gt;SPECIAL OFFER&lt;\\/div&gt;\\r\\n    &lt;div class=&quot;home-title&quot;  style=&quot;color:var(--brand-primary);&quot;&gt;Love Your Skin Naturally&lt;\\/div&gt;\\r\\n    &lt;div class=&quot;desc&quot;  style=&quot;color:#777;&quot;&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida volume have not cosmo \\r\\n                    exten tetur adipiscing elit. Gravida volsapien viverra. Etiam id sit don sapien entunci\\r\\n                    viverra. Etiam id sit donec integer dui the mame&lt;\\/div&gt;\\r\\n    &lt;div id=&quot;bannercountdown&quot; class=&quot;countdowncontainer&quot; style=&quot;background-color:#fff;&quot;&gt;\\r\\n        &lt;div class=&quot;countdown-days countdown&quot;&gt;\\r\\n            &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n            &lt;div class=&quot;text&quot;&gt;Days&lt;\\/div&gt;\\r\\n        &lt;\\/div&gt;\\r\\n        &lt;div class=&quot;countdown-hours countdown&quot;&gt;\\r\\n            &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n            &lt;div class=&quot;text&quot;&gt;Hours&lt;\\/div&gt;\\r\\n        &lt;\\/div&gt;\\r\\n        &lt;div class=&quot;countdown-minutes countdown&quot;&gt;\\r\\n            &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n            &lt;div class=&quot;text&quot;&gt;Mins&lt;\\/div&gt;\\r\\n        &lt;\\/div&gt;\\r\\n        &lt;div class=&quot;countdown-seconds countdown&quot;&gt;\\r\\n            &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n            &lt;div class=&quot;text&quot;&gt;Secs&lt;\\/div&gt;\\r\\n        &lt;\\/div&gt;\\r\\n    &lt;\\/div&gt;\\r\\n    &lt;div class=&quot;banner-btn&quot;&gt;\\r\\n        &lt;a href=&quot;index.php?route=product\\/category&amp;language=en-gb&amp;path=57&quot; class=&quot;btn-primary&quot;&gt;\\r\\n          GET 20% OFF\\r\\n        &lt;\\/a&gt;\\r\\n    &lt;\\/div&gt;\\r\\n&lt;\\/div&gt;\"},\"6\":{\"description\":\"\"}},\"status\":\"1\"}'),
+(145, 'Ishi Video Block', 'ishivideoblock', '{\"name\":\"Ishi Video Block\",\"title\":{\"1\":\"Natural Beauty\",\"6\":\"Natural Beauty\"},\"sub_title\":{\"1\":\"Made using clean, non-toxic ingredients, our products are designed for everyone.\",\"6\":\"Made using clean, non-toxic ingredients, our products are designed for everyone.\"},\"button\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"button_link\":\"index.php?route=product\\/category&amp;path=57\",\"textposition\":\"center\",\"videolink\":\"https:\\/\\/www.youtube.com\\/watch?v=wH3s5zscg7A\",\"status\":\"1\"}'),
+(146, 'Ishi Newsletter', 'newslettersubscribe.newslettersubscribe', '{\"name\":\"Ishi Newsletter\",\"title\":{\"1\":\"CONTACT US\",\"7\":\"\\u0417\\u0412\'\\u042f\\u0416\\u0406\\u0422\\u042c\\u0421\\u042f \\u0417 \\u041d\\u0410\\u041c\\u0418\",\"6\":\"CONTACT US\"},\"mobile_title\":{\"1\":\"Our Newsletter\",\"7\":\"\\u041d\\u0430\\u0448 \\u0456\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0456\\u0439\\u043d\\u0438\\u0439 \\u0431\\u044e\\u043b\\u0435\\u0442\\u0435\\u043d\\u044c\",\"6\":\"Our Newsletter\"},\"column\":\"4\",\"facebook\":\"#\",\"twitter\":\"#\",\"youtube\":\"\",\"gplus\":\"#\",\"rss\":\"\",\"pinterest\":\"#\",\"vimeo\":\"\",\"instagram\":\"#\",\"status\":\"1\"}'),
+(147, 'Ishi Newsletter', 'newslettersubscribe', '{\"name\":\"Ishi Newsletter\",\"bg_img\":\"catalog\\/otherimage\\/newslatterbg.png\",\"bg_color\":\"#eeeeee\",\"column\":\"1\",\"title\":{\"1\":\"Sign up now &amp; get 10% off\",\"6\":\"Sign up now &amp; get 10% off\"},\"desc\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing Gravida not do nec not up inter not up to now tinsucyre...\",\"6\":\"Lorem ipsum dolor sit amet, consectetur adipiscing Gravida not do nec not up inter not up to now tinsucyre...\"},\"status\":\"1\"}'),
+(148, 'Ishi Contactinfo Block', 'ishicontactinfoblock.ishicontactinfoblock', '{\"name\":\"Ishi Contactinfo Block\",\"title\":{\"1\":\"STORE INFORMATION\",\"8\":\"STORE INFORMATION\",\"7\":\"\\u041c\\u0410\\u0413\\u0410\\u0417\\u0418\\u041d \\u0406\\u041d\\u0424\\u041e\\u0420\\u041c\\u0410\\u0426\\u0406\\u0407\",\"6\":\"STORE INFORMATION\"},\"column\":\"4\",\"status\":\"1\"}'),
+(149, 'Ishi Contactinfo Block', 'ishicontactinfoblock', '{\"name\":\"Ishi Contactinfo Block\",\"title\":{\"1\":\"Contact information\",\"6\":\"Contact information\"},\"column\":\"6\",\"status\":\"1\"}'),
+(150, '', 'ishiextensivesearchblock', '{\"name\":\"\",\"title\":{\"1\":\"OUR SEARCH\",\"6\":\"OUR SEARCH\"},\"desc\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Venenatis mauris, gravida tortor eget laoreet\",\"6\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Venenatis mauris, gravida tortor eget laoreet\"},\"image\":\"catalog\\/otherimage\\/searchbanner.png\",\"status\":\"1\"}'),
+(152, 'Ishi Extensivesearch Block', 'ishiextensivesearchblock', '{\"name\":\"Ishi Extensivesearch Block\",\"title\":{\"1\":\"Search Our Product\",\"6\":\"Search Our Product\"},\"desc\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Venenatis mauris, gravida tortor eget laoreet\",\"6\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Venenatis mauris, gravida tortor eget laoreet\"},\"image\":\"catalog\\/otherimage\\/searchbanner.png\",\"status\":\"1\"}'),
+(153, 'Ishi Products Block', 'ishiproductsblock.ishiproductsblock', '{\"name\":\"Ishi Products Block\",\"title\":{\"1\":\"Trending Products\",\"8\":\"\\u0422\\u0440\\u0435\\u043d\\u0434\\u043e\\u0432\\u044b\\u0435 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u044b\",\"7\":\"\\u041f\\u043e\\u043f\\u0443\\u043b\\u044f\\u0440\\u043d\\u0456 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u0438\",\"6\":\"Trending Products\"},\"desc\":{\"1\":\"One Girl\\u2019s Journey To Making Her Fashion Dreams Come True In Fashionist\",\"8\":\"\\u041f\\u0443\\u0442\\u044c \\u043e\\u0434\\u043d\\u043e\\u0439 \\u0434\\u0435\\u0432\\u0443\\u0448\\u043a\\u0438 \\u043a \\u043e\\u0441\\u0443\\u0449\\u0435\\u0441\\u0442\\u0432\\u043b\\u0435\\u043d\\u0438\\u044e \\u0441\\u0432\\u043e\\u0435\\u0439 \\u043c\\u0435\\u0447\\u0442\\u044b \\u043e \\u043c\\u043e\\u0434\\u0435 \\u0432 Fashionist\",\"7\":\"\\u041f\\u043e\\u0434\\u043e\\u0440\\u043e\\u0436 \\u043e\\u0434\\u043d\\u0456\\u0454\\u0457 \\u0434\\u0456\\u0432\\u0447\\u0438\\u043d\\u0438 \\u0434\\u043e \\u0432\\u0442\\u0456\\u043b\\u0435\\u043d\\u043d\\u044f \\u0457\\u0457 \\u043c\\u043e\\u0434\\u043d\\u0438\\u0445 \\u043c\\u0440\\u0456\\u0439 \\u0443 Fashionist\",\"6\":\"One Girl\\u2019s Journey To Making Her Fashion Dreams Come True In Fashionist\"},\"category\":\"\",\"showfeatured\":\"1\",\"product\":[\"42\",\"30\",\"41\",\"33\",\"46\",\"49\",\"28\",\"47\",\"40\",\"36\",\"34\"],\"showbestseller\":\"1\",\"shownew\":\"1\",\"limit\":\"12\",\"product_row\":\"2\",\"desktop_column\":\"4\",\"laptop_column\":\"3\",\"tablet_column\":\"2\",\"mobile_column\":\"2\",\"width\":\"370\",\"height\":\"370\",\"status\":\"1\"}'),
+(154, 'Ishi Products Block', 'ishiproductsblock', '{\"name\":\"Ishi Products Block\",\"title\":{\"1\":\"Our Best Products\",\"6\":\"Our Best Products\"},\"category\":\"\",\"showfeatured\":\"1\",\"product\":[\"42\",\"30\",\"47\",\"41\",\"33\",\"49\",\"28\"],\"limit\":\"12\",\"product_row\":\"2\",\"desktop_column\":\"4\",\"laptop_column\":\"3\",\"tablet_column\":\"2\",\"mobile_column\":\"1\",\"width\":\"370\",\"height\":\"370\",\"status\":\"1\"}'),
+(157, 'Ishi Feature Block', 'ishifeaturesblock', '{\"name\":\"Ishi Feature Block\",\"title\":{\"1\":\"Ready To Print Your Dream Works\",\"6\":\"Ready To Print Your Dream Works\"},\"width\":\"34\",\"height\":\"31\",\"bg_img\":\"catalog\\/otherimage\\/featurebanner.png\",\"bgcolor\":\"#ffffff\",\"status\":\"1\"}'),
+(159, 'Two Banner Block', 'ishibannerblock', '{\"name\":\"Two Banner Block\",\"width\":\"570\",\"height\":\"304\",\"column\":\"2\",\"scale\":\"1\",\"style\":\"ishi-customhover-fadeinflip\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/banner\\/banner_1.png\",\"showtext\":\"1\",\"title\":{\"1\":\"Get Discount\",\"6\":\"Get Discount\"},\"titlecolor\":\"#f6973f\",\"subtitle\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing\",\"6\":\"Lorem ipsum dolor sit amet, consectetur adipiscing\"},\"subtitlecolor\":\"#888888\",\"position\":\"0\",\"alignment\":\"0\",\"button_name\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"link\":\"#\",\"sort_order\":\"1\"},{\"image\":\"catalog\\/banner\\/banner_2.png\",\"showtext\":\"1\",\"title\":{\"1\":\"Customize  Cover\",\"6\":\"Customize  Cover\"},\"titlecolor\":\"#509abd\",\"subtitle\":{\"1\":\"Lorem ipsum dolor sit amet, consectetur adipiscing\",\"6\":\"Lorem ipsum dolor sit amet, consectetur adipiscing\"},\"subtitlecolor\":\"#888888\",\"position\":\"0\",\"alignment\":\"0\",\"button_name\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"link\":\"#\",\"sort_order\":\"2\"}]}'),
+(161, 'Ishi Testimonials Block', 'ishitestimonialsblock', '{\"name\":\"Ishi Testimonials Block\",\"title\":{\"1\":\"Our Services\",\"6\":\"What are The Benefits of our Product?\"},\"width\":\"70\",\"height\":\"70\",\"autoplay\":\"1\",\"bgcolor\":\"#ffffff\",\"status\":\"1\"}'),
+(163, 'Ishi Testimonials Block', 'ishitestimonialsblock', '{\"name\":\"Ishi Testimonials Block\",\"title\":{\"1\":\"What Our Client Say\",\"6\":\"What Our Client Say\"},\"width\":\"70\",\"height\":\"70\",\"autoplay\":\"1\",\"bgcolor\":\"#ffffff\",\"status\":\"1\",\"ishitestimonial\":[{\"image\":\"\",\"description\":\"\",\"username\":\"\",\"designation\":\"\"}]}'),
+(165, 'Ishi Testimonials Block', 'ishitestimonialsblock', '{\"name\":\"Ishi Testimonials Block\",\"title\":{\"1\":\"What Our Client Say\",\"6\":\"What Our Client Say\"},\"width\":\"70\",\"height\":\"70\",\"autoplay\":\"1\",\"bgcolor\":\"#ffffff\",\"status\":\"1\",\"ishitestimonial\":[{\"image\":\"catalog\\/testimonial\\/testimonial-1.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui tincidunt neque,\",\"username\":\"luies charls\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/testimonial-2.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui tincidunt neque,\",\"username\":\"luies charls\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/testimonial-3.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui tincidunt neque,\",\"username\":\"luies charls\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/testimonial-4.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui tincidunt neque,\",\"username\":\"luies charls\",\"designation\":\"Web Designer\"}]}'),
+(167, 'Ishi Testimonials Block', 'ishitestimonialsblock', '{\"name\":\"Ishi Testimonials Block\",\"title\":{\"1\":\"What Our Client Say\",\"6\":\"What Our Client Say\"},\"width\":\"70\",\"height\":\"70\",\"autoplay\":\"1\",\"bgcolor\":\"#ffffff\",\"status\":\"1\",\"ishitestimonial\":[{\"image\":\"catalog\\/testimonial\\/testimonial-1.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui tincidunt neque,\",\"username\":\"luies charls\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/testimonial-2.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui tincidunt neque,\",\"username\":\"luies charls\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/testimonial-3.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui tincidunt neque,\",\"username\":\"luies charls\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/testimonial-4.png\",\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui tincidunt neque,\",\"username\":\"luies charls\",\"designation\":\"Web Designer\"}]}'),
+(168, 'Quick link account', 'ishifooterlinkblock.ishifooterlinkblock', '{\"name\":\"Quick link account\",\"column\":\"4\",\"showaccount\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"ACCOUNT\",\"8\":\"\\u0421\\u0427\\u0415\\u0422\",\"7\":\"\\u041e\\u0411\\u041b\\u0406\\u041a\\u041e\\u0412\\u0418\\u0419 \\u0417\\u0410\\u041f\\u0418\\u0421\",\"6\":\"ACCOUNT\"},\"status\":\"1\"}'),
+(169, 'Ishi FooterLink Account', 'ishifooterlinkblock', '{\"name\":\"Ishi FooterLink Account\",\"column\":\"3\",\"showaccount\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"Account\",\"6\":\"Account\"},\"status\":\"1\"}'),
+(171, 'Ishi Story Block', 'ishistoryblock', '{\"name\":\"Ishi Story Block\",\"image\":\"no_image.png\",\"videolink\":\"\",\"module_description\":{\"1\":{\"description\":\"\"},\"6\":{\"description\":\"\"}},\"status\":\"1\"}'),
+(172, 'Ishi Parallax Block', 'ishiparallaxblock.ishiparallaxblock', '{\"name\":\"Ishi Parallax Block\",\"image\":\"catalog\\/otherimage\\/Parallex.jpg\",\"bg_color\":\"#f1f1f1\",\"startdate\":\"2023-11-15\",\"enddate\":\"2024-08-20\",\"parallax\":\"1\",\"module_description\":{\"1\":{\"description\":\"&lt;div class=&quot;parallax-list&quot;&gt;\\r\\n  &lt;div class=&quot;parallax-title&quot;&gt;NEW TRENDS LOOKBOOK !&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;parallax-subtitle&quot;&gt;Largest Sale  &lt;span&gt;50% Off&lt;\\/span&gt;&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;parallax-desc&quot;&gt; Big Discount Sale &lt;\\/div&gt;\\r\\n  &lt;div id=&quot;parallaxcountdown&quot;&gt;\\r\\n      &lt;div class=&quot;countdown-days countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n        &lt;div class=&quot;text&quot;&gt;days&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-hours countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n        &lt;div class=&quot;text&quot;&gt;hours&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-minutes countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n       &lt;div class=&quot;text&quot;&gt;minutes&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-seconds countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n       &lt;div class=&quot;text&quot;&gt;seconds&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n  &lt;\\/div&gt; \\r\\n  &lt;a class=&quot;btn btn-primary&quot; href=&quot;index.php?route=product\\/category&amp;language=en-gb&amp;path=84&quot;&gt;SHOP NOW&lt;\\/a&gt;\\r\\n&lt;\\/div&gt;\"},\"8\":{\"description\":\"&lt;div class=&quot;parallax-list&quot;&gt;\\r\\n  &lt;div class=&quot;parallax-title&quot;&gt;NEW TRENDS LOOKBOOK !&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;parallax-subtitle&quot;&gt;Largest Sale  &lt;span&gt;50% Off&lt;\\/span&gt;&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;parallax-desc&quot;&gt; Big Discount Sale &lt;\\/div&gt;\\r\\n  &lt;div id=&quot;parallaxcountdown&quot;&gt;\\r\\n      &lt;div class=&quot;countdown-days countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n        &lt;div class=&quot;text&quot;&gt;days&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-hours countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n        &lt;div class=&quot;text&quot;&gt;hours&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-minutes countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n       &lt;div class=&quot;text&quot;&gt;minutes&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-seconds countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n       &lt;div class=&quot;text&quot;&gt;seconds&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n  &lt;\\/div&gt; \\r\\n  &lt;a class=&quot;btn btn-primary&quot; href=&quot;index.php?route=product\\/category&amp;language=en-gb&amp;path=84&quot;&gt;SHOP NOW&lt;\\/a&gt;\\r\\n&lt;\\/div&gt;\"},\"7\":{\"description\":\"&lt;div class=&quot;parallax-list&quot;&gt;\\r\\n  &lt;div class=&quot;parallax-title&quot;&gt;\\u041d\\u041e\\u0412\\u0418\\u0419 \\u041b\\u0423\\u041a\\u0411\\u0423\\u041a \\u0422\\u0420\\u0415\\u041d\\u0414\\u0406\\u0412!&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;parallax-subtitle&quot;&gt;\\u041d\\u0430\\u0439\\u0431\\u0456\\u043b\\u044c\\u0448\\u0438\\u0439 \\u0440\\u043e\\u0437\\u043f\\u0440\\u043e\\u0434\\u0430\\u0436&lt;span&gt;\\u0417\\u043d\\u0438\\u0436\\u043a\\u0430 50%.&lt;\\/span&gt;&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;parallax-desc&quot;&gt; Big Discount Sale &lt;\\/div&gt;\\r\\n  &lt;div id=&quot;parallaxcountdown&quot;&gt;\\r\\n      &lt;div class=&quot;countdown-days countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n        &lt;div class=&quot;text&quot;&gt;\\u0434\\u043d\\u0456\\u0432&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-hours countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n        &lt;div class=&quot;text&quot;&gt;\\u0433\\u043e\\u0434\\u0438\\u043d\\u0438&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-minutes countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n       &lt;div class=&quot;text&quot;&gt;\\u0445\\u0432\\u0438\\u043b\\u0438\\u043d&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-seconds countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n       &lt;div class=&quot;text&quot;&gt;\\u0441\\u0435\\u043a\\u0443\\u043d\\u0434&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n  &lt;\\/div&gt; \\r\\n  &lt;a class=&quot;btn btn-primary&quot; href=&quot;index.php?route=product\\/category&amp;language=uk-ua&amp;path=84&quot;&gt;\\u0417\\u0414\\u0406\\u0419\\u0421\\u041d\\u0418\\u0422\\u0418 \\u041f\\u041e\\u041a\\u0423\\u041f\\u041a\\u0423&lt;\\/a&gt;\\r\\n&lt;\\/div&gt;\"},\"6\":{\"description\":\"&lt;div class=&quot;parallax-list&quot;&gt;\\r\\n  &lt;div class=&quot;parallax-title&quot;&gt;Start Today !&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;parallax-subtitle&quot;&gt;The Trends &lt;span&gt;Benefits&lt;\\/span&gt;&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;parallax-desc&quot;&gt;Select From Wide Range of Collection &lt;\\/div&gt;\\r\\n  &lt;div id=&quot;parallaxcountdown&quot;&gt;\\r\\n      &lt;div class=&quot;countdown-days countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n        &lt;div class=&quot;text&quot;&gt;days&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-hours countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n        &lt;div class=&quot;text&quot;&gt;hours&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-minutes countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n       &lt;div class=&quot;text&quot;&gt;minutes&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n      &lt;div class=&quot;countdown-seconds countdown&quot;&gt;\\r\\n        &lt;div class=&quot;data&quot;&gt;&lt;\\/div&gt;\\r\\n       &lt;div class=&quot;text&quot;&gt;seconds&lt;\\/div&gt;\\r\\n      &lt;\\/div&gt;\\r\\n  &lt;\\/div&gt; \\r\\n  &lt;a class=&quot;btn btn-primary&quot; href=&quot;index.php?route=product\\/category&amp;language=ar&amp;path=84&quot;&gt;SHOP NOW&lt;\\/a&gt;\\r\\n&lt;\\/div&gt;\"}},\"status\":\"1\"}'),
+(173, 'Ishi Parallax Block', 'ishiparallaxblock', '{\"name\":\"Ishi Parallax Block\",\"image\":\"catalog\\/services\\/2.png\",\"bg_color\":\"#232323\",\"startdate\":\"2023-11-01\",\"enddate\":\"2023-11-18\",\"parallax\":\"1\",\"module_description\":{\"1\":{\"description\":\"\"},\"6\":{\"description\":\"\"}},\"status\":\"0\"}'),
+(174, 'Quick link extra', 'ishifooterlinkblock.ishifooterlinkblock', '{\"name\":\"Quick link extra\",\"column\":\"4\",\"showextra\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"EXTRAS\",\"8\":\"\\u0414\\u041e\\u041f\\u041e\\u041b\\u041d\\u0418\\u0422\\u0415\\u041b\\u042c\\u041d\\u041e\",\"7\":\"\\u0414\\u041e\\u0414\\u0410\\u0422\\u041a\\u041e\\u0412\\u041e\",\"6\":\"EXTRAS\"},\"ishiextra\":{\"1\":[{\"linkname\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer\"},{\"linkname\":\"Gift Certificates\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=en-gb\"},{\"linkname\":\"About Us\",\"link\":\"index.php?route=information\\/information&amp;language=en-gb&amp;information_id=1\"},{\"linkname\":\"Search\",\"link\":\"index.php?route=product\\/search&amp;language=en-gb\"},{\"linkname\":\"Site Map\",\"link\":\"index.php?route=information\\/sitemap&amp;language=en-gb\"}],\"8\":{\"15\":{\"linkname\":\"\\u0411\\u0440\\u0435\\u043d\\u0434\",\"link\":\"index.php?route=product\\/manufacturer\"},\"16\":{\"linkname\":\"\\u041f\\u043e\\u0434\\u0430\\u0440\\u043e\\u0447\\u043d\\u044b\\u0435 \\u0441\\u0435\\u0440\\u0442\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\\u044b\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=ru-ru\"},\"17\":{\"linkname\":\"\\u041e \\u043d\\u0430\\u0441\",\"link\":\"index.php?route=information\\/information&amp;language=ru-ru&amp;information_id=1\"},\"18\":{\"linkname\":\"\\u041f\\u043e\\u0438\\u0441\\u043a\",\"link\":\"index.php?route=product\\/search&amp;language=ru-ru\"},\"19\":{\"linkname\":\"\\u041a\\u0430\\u0440\\u0442\\u0430 \\u0441\\u0430\\u0439\\u0442\\u0430\",\"link\":\"index.php?route=information\\/sitemap&amp;language=ru-ru\"}},\"7\":{\"5\":{\"linkname\":\"\\u0411\\u0440\\u0435\\u043d\\u0434\",\"link\":\"index.php?route=product\\/manufacturer\"},\"6\":{\"linkname\":\"\\u041f\\u043e\\u0434\\u0430\\u0440\\u0443\\u043d\\u043a\\u043e\\u0432\\u0456 \\u0441\\u0435\\u0440\\u0442\\u0438\\u0444\\u0456\\u043a\\u0430\\u0442\\u0438\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=uk-ua\"},\"7\":{\"linkname\":\"\\u041f\\u0440\\u043e \\u043d\\u0430\\u0441\",\"link\":\"index.php?route=information\\/information&amp;language=uk-ua&amp;information_id=1\"},\"8\":{\"linkname\":\"\\u041f\\u043e\\u0448\\u0443\\u043a\",\"link\":\"index.php?route=product\\/search&amp;language=uk-ua\"},\"9\":{\"linkname\":\"\\u041a\\u0430\\u0440\\u0442\\u0430 \\u0441\\u0430\\u0439\\u0442\\u0443\",\"link\":\"index.php?route=information\\/sitemap&amp;language=uk-ua\"}},\"6\":{\"10\":{\"linkname\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer&amp;language=ar\"},\"11\":{\"linkname\":\"Gift Certificates\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=ar\"},\"12\":{\"linkname\":\"About Us\",\"link\":\"index.php?route=information\\/information&amp;language=ar&amp;information_id=1\"},\"13\":{\"linkname\":\"Search\",\"link\":\"index.php?route=product\\/search&amp;language=ar\"},\"14\":{\"linkname\":\"Site Map\",\"link\":\"index.php?route=information\\/sitemap&amp;language=ar\"}}},\"status\":\"1\"}'),
+(175, 'Quick link extra', 'ishifooterlinkblock', '{\"name\":\"Quick link extra\",\"column\":\"4\",\"showextra\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"EXTRA\",\"6\":\"EXTRA\"},\"ishiextra\":{\"1\":[{\"linkname\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer\"},{\"linkname\":\"Gift Certificates\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=en-gb\"},{\"linkname\":\"Affiliate\",\"link\":\"index.php?route=account\\/affiliate&amp;language=en-gb&amp;customer_token=febf7081529fe4c172b25ba6aa\"},{\"linkname\":\"Search\",\"link\":\"index.php?route=product\\/search&amp;language=en-gb\"},{\"linkname\":\"FAQ\",\"link\":\"index.php?route=information\\/information&amp;language=en-gb&amp;information_id=6\"}],\"6\":{\"5\":{\"linkname\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer&amp;language=ar\"},\"6\":{\"linkname\":\"Gift Certificates\",\"link\":\"index.php?route=checkout\\/voucher&amp;language=ar\"},\"7\":{\"linkname\":\"Affiliate\",\"link\":\"index.php?route=account\\/affiliate&amp;language=ar&amp;customer_token=febf7081529fe4c172b25ba6aa\"},\"8\":{\"linkname\":\"Search\",\"link\":\"index.php?route=product\\/search&amp;language=ar\"},\"9\":{\"linkname\":\"FAQ\",\"link\":\"index.php?route=information\\/information&amp;language=ar&amp;information_id=6\"}}},\"status\":\"0\"}'),
+(177, 'Ishi Story Block', 'ishistoryblock', '{\"name\":\"Ishi Story Block\",\"image\":\"no_image.png\",\"videolink\":\"\",\"module_description\":{\"1\":{\"description\":\"&lt;div class=&quot;story-container&quot;&gt;\\r\\n&lt;div class=&quot;subtitle&quot;&gt;ALL ABOUT US&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;home-title&quot;&gt;Summer Fashion&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;story-des&quot;&gt;\\r\\n    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis..&lt;\\/p&gt;\\r\\n&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore .&lt;\\/p&gt;\\r\\n  &lt;\\/div&gt;\\r\\n &lt;a class=&quot;btn-theme btn-primary&quot; ;&quot; href=&quot;index.php?route=product\\/category&amp;amp;language=en-gb&amp;amp;path=84&quot;;&gt;View More&lt;\\/a&gt;&lt;\\/div&gt;\"},\"6\":{\"description\":\"&lt;div class=&quot;story-container&quot;&gt;\\r\\n&lt;div class=&quot;subtitle&quot;&gt;ALL ABOUT US&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;home-title&quot;&gt;Summer Fashion&lt;\\/div&gt;\\r\\n  &lt;div class=&quot;story-des&quot;&gt;\\r\\n    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis..&lt;\\/p&gt;\\r\\n&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore .&lt;\\/p&gt;\\r\\n  &lt;\\/div&gt;\\r\\n &lt;a class=&quot;btn-theme btn-primary&quot; ;&quot; href=&quot;index.php?route=product\\/category&amp;amp;language=ar&amp;amp;path=84&quot;;&gt;View More&lt;\\/a&gt;&lt;\\/div&gt;\"}},\"status\":\"0\"}'),
+(179, 'Ishi Five Banner Block', 'ishifivebannerblock', '{\"name\":\"Ishi Five Banner Block\",\"scale\":\"1\",\"style\":\"ishi-customhover-fadeinflip\",\"status\":\"1\",\"image1\":\"catalog\\/otherimage\\/aboutus.png\",\"button1\":{\"1\":\"daasd\",\"6\":\"SHOP NOW\"},\"button_link1\":{\"1\":\"sad\",\"6\":\"sad\"},\"image2\":\"catalog\\/productsimage\\/16.jpg\",\"button2\":{\"1\":\"READ MORE\",\"6\":\"SHOP NOW\"},\"button_link2\":{\"1\":\"sdad\",\"6\":\"ad\"},\"image3\":\"catalog\\/services\\/2.png\",\"button3\":{\"1\":\"dgg\",\"6\":\"SHOP NOW\"},\"button_link3\":{\"1\":\"asa\",\"6\":\"sadda\"},\"image4\":\"catalog\\/productsimage\\/15.jpg\",\"button4\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"button_link4\":{\"1\":\"sdas\",\"6\":\"sdasd\"}}'),
+(181, 'Ishi Offers Block', 'ishioffersblock', '{\"name\":\"Ishi Offers Block\",\"status\":\"1\",\"module_id\":181}'),
+(183, 'Ishi Special Deals', 'ishispecialdeals', '{\"name\":\"Ishi Special Deals\",\"title\":{\"1\":\"BEST DEAL\",\"6\":\"BEST DEAL\"},\"product_row\":\"1\",\"limit\":\"5\",\"width\":\"1000\",\"height\":\"1000\",\"review\":\"1\",\"description\":\"1\",\"counter\":\"1\",\"left_product\":\"1\",\"status\":\"1\"}'),
+(185, 'Ishi Feature Products Block', 'ishifeatureproductsblock', '{\"name\":\"Ishi Feature Products Block\",\"title\":{\"1\":\"Feature Products Block\",\"6\":\"Feature Products Block\"},\"category\":\"\",\"product\":\"\",\"showbestseller\":\"1\",\"shownew\":\"1\",\"showspecial\":\"1\",\"limit\":\"8\",\"product_row\":\"3\",\"desktop_column\":\"1\",\"laptop_column\":\"2\",\"tablet_column\":\"2\",\"mobile_column\":\"1\",\"column\":\"4\",\"width\":\"370\",\"height\":\"370\",\"status\":\"1\"}'),
+(186, 'Ishi Instagram Block', 'ishiinstagramblock.ishiinstagramblock', '{\"name\":\"Ishi Instagram Block\",\"title\":{\"1\":\"Follow Us\",\"8\":\"Follow Us\",\"7\":\"Follow Us\",\"6\":\"Follow Us\"},\"username\":{\"1\":\"instagram\",\"8\":\"\\u0438\\u043d\\u0441\\u0442\\u0430\\u0433\\u0440\\u0430\\u043c\",\"7\":\"instagram\",\"6\":\"instagram\"},\"userid\":\"6827780227\",\"accesstoken\":\"IGQWRPVjluV25zcUZAsQ2ZAjVlR2ZA0F0YmdlMWJoeGFpWGhsc1lUZAzh2ZAVgwbDhGSDlKd3lKVkdRT2h2cUtabERRM200emxSRHltWFAxQUxCa1Ruc2VjNm1PcHVwRUdWanNabUIzQTQ2RWhnUU5hN2hLWXJWUkVWQm8ZD\",\"sortby\":\"random\",\"status\":\"1\"}'),
+(187, 'Ishi Instagram Block', 'ishiinstagramblock', '{\"name\":\"Ishi Instagram Block\",\"title\":{\"1\":\"Follow Us\",\"6\":\"Follow Us\"},\"username\":\"instagram\",\"userid\":\"6827780227\",\"accesstoken\":\"IGQWRNNVBhM0Roc1hQdU1mdVMtNTZAqREZACc2owcU93Q3ZAjcXhSR29XcW43RTBLUXBCREs3dmxxYXpCQlp1SV9pR1RuZAkJmS0dGVVhnZA2QzMnNmM251eDMwYWRmaTJ0cDROVDhvbmNJNXpzUk5wVFFsNHBjYlQ2UDgZD\",\"sortby\":\"random\",\"status\":\"1\"}'),
+(188, 'Ishi Storeinfo Block', 'ishistoreinfoblock.ishistoreinfoblock', '{\"name\":\"Ishi Storeinfo Block\",\"image\":\"catalog\\/otherimage\\/Logo.png\",\"column\":\"1\",\"alignment\":\"1\",\"status\":\"1\"}'),
+(189, 'Ishi Storeinfo Block', 'ishistoreinfoblock', '{\"name\":\"Ishi Storeinfo Block\",\"image\":\"catalog\\/otherimage\\/Logo.png\",\"column\":\"1\",\"alignment1\":\"2\",\"status\":\"0\"}'),
+(191, 'Ishi Headerlink Block', 'ishiheaderlinkblock', '{\"name\":\"Ishi Headerlink Block\",\"status\":\"1\",\"service\":{\"1\":[{\"title\":\"Home\",\"link\":\"index.php?route=common\\/home&amp;language=en-gb\"},{\"title\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer\"},{\"title\":\"Collection\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=84\"},{\"title\":\"Contact\",\"link\":\"index.php?route=information\\/contact&amp;language=en-gb\"},{\"title\":\"About Us\",\"link\":\"index.php?route=information\\/information&amp;language=en-gb&amp;information_id=1\"},{\"title\":\"Blog\",\"link\":\"index.php?route=extension\\/blogger\\/information\\/blogger.blogs&amp;language=en-gb\"},{\"title\":\"Login\",\"link\":\"index.php?route=account\\/login&amp;language=en-gb\"},{\"title\":\"CheckOut\",\"link\":\"index.php?route=checkout\\/checkout&amp;language=en-gb\"},{\"title\":\"Wishlist\",\"link\":\"index.php?route=account\\/wishlist&amp;language=en-gb&amp;customer_token=ad9d043cb0c1e611c4ab5fb591\"}],\"6\":{\"9\":{\"title\":\"Home\",\"link\":\"index.php?route=common\\/home&amp;language=ar\"},\"10\":{\"title\":\"Brand\",\"link\":\"index.php?route=product\\/manufacturer&amp;language=ar\"},\"11\":{\"title\":\"Collection\",\"link\":\"index.php?route=product\\/category&amp;language=ar&amp;path=84\"},\"12\":{\"title\":\"Contact\",\"link\":\"index.php?route=information\\/contact&amp;language=ar\"},\"13\":{\"title\":\"About Us\",\"link\":\"index.php?route=information\\/information&amp;language=ar&amp;information_id=1\"},\"14\":{\"title\":\"Blog\",\"link\":\"index.php?route=extension\\/blogger\\/information\\/blogger.blogs&amp;language=ar\"},\"15\":{\"title\":\"Login\",\"link\":\"index.php?route=account\\/login&amp;language=ar\"},\"16\":{\"title\":\"CheckOut\",\"link\":\"index.php?route=checkout\\/checkout&amp;language=ar\"},\"17\":{\"title\":\"Wishlist\",\"link\":\"index.php?route=account\\/wishlist&amp;language=ar&amp;customer_token=ad9d043cb0c1e611c4ab5fb591\"}}}}'),
+(193, 'Ishi Category Block', 'ishicategoryblock', '{\"name\":\"Ishi Category Block\",\"width\":\"165\",\"height\":\"165\",\"status\":\"1\",\"ishibanner\":{\"1\":[{\"title\":\"Clothes\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=57\",\"image\":\"catalog\\/Category\\/Category-1.jpg\",\"sort_order\":\"0\"},{\"title\":\"Bags\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=18\",\"image\":\"catalog\\/Category\\/Category-2.jpg\",\"sort_order\":\"1\"},{\"title\":\"Shoes\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=18_45_74\",\"image\":\"catalog\\/Category\\/Category-3.jpg\",\"sort_order\":\"2\"},{\"title\":\"Goggles\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=20_66\",\"image\":\"catalog\\/Category\\/Category-4.jpg\",\"sort_order\":\"3\"},{\"title\":\"Jeans\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=20_66_68\",\"image\":\"catalog\\/Category\\/Category-5.jpg\",\"sort_order\":\"4\"},{\"title\":\"Shirts\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=20_27_65\",\"image\":\"catalog\\/Category\\/Category-6.jpg\",\"sort_order\":\"5\"}],\"6\":{\"6\":{\"title\":\"Clothes\",\"link\":\"index.php?route=product\\/category&amp;language=ar&amp;path=57\",\"image\":\"catalog\\/Category\\/Category-1.jpg\",\"sort_order\":\"0\"},\"7\":{\"title\":\"Bags\",\"link\":\"index.php?route=product\\/category&amp;language=ar&amp;path=18\",\"image\":\"catalog\\/Category\\/Category-2.jpg\",\"sort_order\":\"1\"},\"8\":{\"title\":\"Shoes\",\"link\":\"index.php?route=product\\/category&amp;language=ar&amp;path=18_45_74\",\"image\":\"catalog\\/Category\\/Category-3.jpg\",\"sort_order\":\"2\"},\"9\":{\"title\":\"Goggles\",\"link\":\"index.php?route=product\\/category&amp;language=ar&amp;path=20_66\",\"image\":\"catalog\\/Category\\/Category-4.jpg\",\"sort_order\":\"3\"},\"10\":{\"title\":\"Jeans\",\"link\":\"index.php?route=product\\/category&amp;language=ar&amp;path=20_66_68\",\"image\":\"catalog\\/Category\\/Category-5.jpg\",\"sort_order\":\"4\"},\"11\":{\"title\":\"Shirts\",\"link\":\"index.php?route=product\\/category&amp;language=ar&amp;path=20_27_65\",\"image\":\"catalog\\/Category\\/Category-6.jpg\",\"sort_order\":\"5\"}}}}'),
+(195, 'Ishi Testimonials Block', 'ishitestimonialsblock', '{\"name\":\"Ishi Testimonials Block\",\"width\":\"401\",\"height\":\"388\",\"autoplay\":\"1\",\"status\":\"1\",\"ishitestimonial\":[{\"image\":\"catalog\\/testimonial\\/Testimonial-1.png\",\"description\":\"\\u201cLorem ipsum dolor sit amet, consecr adipiscing elit. Nibh proin libero, amet, is aenean commodo neque\\u201droin libero, amet, is aenean commet, consecr adipiscing elit. Nibh proin libero, amet, is aenodo\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/Testimonial-2.png\",\"description\":\"\\u201cLorem ipsum dolor sit amet, consecr adipiscing elit. Nibh proin libero, amet, is aenean commodo neque\\u201droin libero, amet, is aenean commet, consecr adipiscing elit. Nibh proin libero, amet, is aenodo\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/Testimonial-3.png\",\"description\":\"\\u201cLorem ipsum dolor sit amet, consecr adipiscing elit. Nibh proin libero, amet, is aenean commodo neque\\u201droin libero, amet, is aenean commet, consecr adipiscing elit. Nibh proin libero, amet, is aenodo\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"},{\"image\":\"catalog\\/testimonial\\/testimonial-4.png\",\"description\":\"\\u201cLorem ipsum dolor sit amet, consecr adipiscing elit. Nibh proin libero, amet, is aenean commodo neque\\u201droin libero, amet, is aenean commet, consecr adipiscing elit. Nibh proin libero, amet, is aenodo\",\"username\":\"John Duff\",\"designation\":\"Web Designer\"}]}'),
+(197, 'Ishi Special Block', 'ishispecialblock', '{\"name\":\"Ishi Special Block\",\"title\":{\"1\":\"SPECIAL PRODUCT\",\"6\":\"SPECIAL PRODUCT\"},\"width\":\"370\",\"height\":\"370\",\"limit\":\"10\",\"product_row\":\"2\",\"desktop_column\":\"3\",\"laptop_column\":\"2\",\"tablet_column\":\"2\",\"mobile_column\":\"1\",\"status\":\"1\"}'),
+(199, 'Ishi Offers Block', 'ishioffersblock', '{\"name\":\"Ishi Offers Block\",\"status\":\"1\"}'),
+(201, 'Ishi Story Block', 'ishistoryblock', '{\"name\":\"Ishi Story Block\",\"image\":\"catalog\\/otherimage\\/storyblock.png\",\"position1\":\"1\",\"alignment1\":\"0\",\"module_description\":{\"1\":{\"description\":\"&lt;div class=&quot;sub-title&quot;&gt;OSOME!&lt;\\/div&gt;\\r\\n&lt;h3 class=&quot;home-title&quot;&gt;About Us!&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;section-sub-heading&quot;&gt;\\r\\n   Latest Collection Coming soon\\r\\n&lt;\\/div&gt;   \\r\\n &lt;div class=&quot;list-Aboutus-info&quot;&gt;\\r\\n    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. &lt;\\/p&gt;\\r\\n&lt;\\/div&gt;\\r\\n&lt;div class=&quot;story-btn&quot;&gt;\\r\\n    &lt;a href=&quot;#&quot; class=&quot;btn-primary&quot;&gt;\\r\\n       READ MORE\\r\\n     &lt;\\/a&gt;\\r\\n&lt;\\/div&gt;\"},\"6\":{\"description\":\"&lt;div class=&quot;sub-title&quot;&gt;OSOME!&lt;\\/div&gt;\\r\\n&lt;h3 class=&quot;home-title&quot;&gt;About Us!&lt;\\/h3&gt;\\r\\n&lt;div class=&quot;section-sub-heading&quot;&gt;\\r\\n   Latest Collection Coming soon\\r\\n&lt;\\/div&gt;   \\r\\n &lt;div class=&quot;list-Aboutus-info&quot;&gt;\\r\\n    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. &lt;\\/p&gt;\\r\\n&lt;\\/div&gt;\\r\\n&lt;div class=&quot;story-btn&quot;&gt;\\r\\n    &lt;a href=&quot;#&quot; class=&quot;btn-primary&quot;&gt;\\r\\n       READ MORE\\r\\n     &lt;\\/a&gt;\\r\\n&lt;\\/div&gt;\"}},\"status\":\"1\"}'),
+(203, 'Ishi Testimonial Block', 'ishitestimonialblock', '{\"name\":\"Ishi Testimonial Block\",\"subtitle\":{\"1\":\"OSOME!\",\"6\":\"OSOME!\"},\"title\":{\"1\":\"Our Client Say\",\"6\":\"Our Client Say\"},\"image\":\"catalog\\/otherimage\\/testimonialbackground.png\",\"bg_color\":\"#fafafa\",\"width\":\"120\",\"height\":\"120\",\"autoplay\":\"1\",\"status\":\"1\",\"ishitestimonial\":[{\"description\":\"There are many variations of lorem ipsum available, but the have suffered alteration in some form by humour.\\u201dLorem Ipsum is simply dummy text of the printing and typesetting industry.\",\"username\":\"luies charls\",\"designation\":\"- Web Designer\"},{\"description\":\"There are many variations of lorem ipsum available, but the have suffered alteration in some form by humour.\\u201dLorem Ipsum is simply dummy text of the printing and typesetting industry.\",\"username\":\"luies charls\",\"designation\":\"- Web Designer\"},{\"description\":\"There are many variations of lorem ipsum available, but the have suffered alteration in some form by humour.\\u201dLorem Ipsum is simply dummy text of the printing and typesetting industry.\",\"username\":\"luies charls\",\"designation\":\"- Web Designer\"}]}'),
+(204, 'Ishi Header Block', 'opencart.html', '{\"name\":\"Ishi Header Block\",\"module_description\":{\"1\":{\"title\":\"\",\"description\":\"&lt;div id=&quot;ishiheaderblock&quot;&gt;\\r\\n&lt;p&gt;New Summer Sale &lt;span&gt;50%&lt;\\/span&gt; Off&lt;\\/p&gt;\\r\\n&lt;\\/div&gt;\"},\"6\":{\"title\":\"\",\"description\":\"&lt;div id=&quot;ishiheaderblock&quot;&gt;\\r\\n&lt;p&gt;New Summer Sale &lt;span&gt;50%&lt;\\/span&gt; Off&lt;\\/p&gt;\\r\\n&lt;\\/div&gt;\"}},\"status\":\"1\",\"module_id\":\"204\"}'),
+(206, 'Ishi Special Deals', 'ishispecialdeals', '{\"name\":\"Ishi Special Deals\",\"product_row\":\"1\",\"limit\":\"5\",\"width\":\"370\",\"height\":\"370\",\"review\":\"1\",\"description\":\"1\",\"counter\":\"1\",\"left_product\":\"1\",\"status\":\"1\",\"image1\":\"catalog\\/special banner\\/1.png\",\"title1\":{\"1\":\"Get 15% Off\",\"6\":\"Get 15% Off\"},\"title_color1\":\"#232323\",\"subtitle1\":{\"1\":\"Cap Collection\",\"6\":\"Cap Collection\"},\"subtitle_color1\":\"#232323\",\"button1\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"btnlink1\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=59\",\"image2\":\"catalog\\/special banner\\/2.png\",\"title2\":{\"1\":\"Get 20% Off\",\"6\":\"Get 20% Off\"},\"title_color2\":\"#232323\",\"subtitle2\":{\"1\":\"Trendy Collection\",\"6\":\"Trendy Collection\"},\"subtitle_color2\":\"#232323\",\"button2\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"btnlink2\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=74\",\"image3\":\"catalog\\/special banner\\/3.png\",\"title3\":{\"1\":\"New Arrivals!\",\"6\":\"New Arrivals!\"},\"title_color3\":\"#232323\",\"subtitle3\":{\"1\":\"Crop Top\",\"6\":\"Crop Top\"},\"subtitle_color3\":\"#232323\",\"button3\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"btnlink3\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=83\",\"image4\":\"catalog\\/special banner\\/4.png\",\"title4\":{\"1\":\"Just For You!\",\"6\":\"Just For You!\"},\"title_color4\":\"#232323\",\"subtitle4\":{\"1\":\"Get 20 % off\",\"6\":\"Get 20 % off\"},\"subtitle_color4\":\"#232323\",\"button4\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"btnlink4\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=84\"}'),
+(207, '', 'ishitestimonialblock', '{\"name\":\"\",\"title\":{\"1\":\"Testimonials\",\"6\":\"Testimonials\"},\"bg_color\":\"#f8f8f8\",\"width\":\"180\",\"height\":\"180\",\"autoplay\":\"1\",\"status\":\"1\",\"ishitestimonial\":[{\"description\":{\"1\":\"\",\"6\":\"\"},\"username\":{\"1\":\"\",\"6\":\"\"},\"designation\":{\"1\":\"\",\"6\":\"\"}},{\"description\":{\"1\":\"\",\"6\":\"\"},\"username\":{\"1\":\"\",\"6\":\"\"},\"designation\":{\"1\":\"\",\"6\":\"\"}},{\"description\":{\"1\":\"\",\"6\":\"\"},\"username\":{\"1\":\"\",\"6\":\"\"},\"designation\":{\"1\":\"\",\"6\":\"\"}}]}'),
+(208, 'Ishi Testimonial Block', 'ishitestimonialblock.ishitestimonialblock', '{\"name\":\"Ishi Testimonial Block\",\"title\":{\"1\":\"Testimonials\",\"8\":\"Testimonials\",\"7\":\"\\u0412\\u0456\\u0434\\u0433\\u0443\\u043a\\u0438\",\"6\":\"Testimonials\"},\"bg_color\":\"#f7f8f9\",\"width\":\"120\",\"height\":\"120\",\"column\":\"2\",\"status\":\"1\",\"ishitestimonial\":[{\"image\":\"catalog\\/testimonial\\/testimonial-1.jpg\",\"description\":{\"1\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\",\"8\":\"Lorem Ipsum \\u2014 \\u044d\\u0442\\u043e \\u043f\\u0440\\u043e\\u0441\\u0442\\u043e \\u0442\\u0435\\u043a\\u0441\\u0442-\\u043f\\u0443\\u0441\\u0442\\u044b\\u0448\\u043a\\u0430 \\u043f\\u043e\\u043b\\u0438\\u0433\\u0440\\u0430\\u0444\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0439 \\u0438 \\u043d\\u0430\\u0431\\u043e\\u0440\\u043d\\u043e\\u0439 \\u0438\\u043d\\u0434\\u0443\\u0441\\u0442\\u0440\\u0438\\u0438. Lorem Ipsum \\u0431\\u044b\\u043b \\u0438\\u043d\\u0434\\u0443\\u0441\\u0442\\u0440\\u0438\\u0435\\u0439\",\"7\":\"Lorem Ipsum \\u2014 \\u0446\\u0435 \\u043f\\u0440\\u043e\\u0441\\u0442\\u043e \\u0444\\u0456\\u043a\\u0442\\u0438\\u0432\\u043d\\u0438\\u0439 \\u0442\\u0435\\u043a\\u0441\\u0442 \\u043f\\u043e\\u043b\\u0456\\u0433\\u0440\\u0430\\u0444\\u0456\\u0447\\u043d\\u043e\\u0457 \\u0442\\u0430 \\u043d\\u0430\\u0431\\u0456\\u0440\\u043d\\u043e\\u0457 \\u0433\\u0430\\u043b\\u0443\\u0437\\u0456. Lorem Ipsum \\u0431\\u0443\\u043b\\u0430 \\u0433\\u0430\\u043b\\u0443\\u0437\\u0437\\u044e\",\"6\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\"},\"username\":{\"1\":\"luies charls\",\"8\":\"\\u041b\\u0443\\u0438 \\u0427\\u0430\\u0440\\u043b\\u044c\\u0437\",\"7\":\"\\u043b\\u0443\\u0457 \\u0447\\u0430\\u0440\\u043b\\u044c\\u0437\",\"6\":\"luies charls\"},\"designation\":{\"1\":\"Web Designer\",\"8\":\"\\u0412\\u0435\\u0431-\\u0434\\u0438\\u0437\\u0430\\u0439\\u043d\\u0435\\u0440\",\"7\":\"\\u0412\\u0435\\u0431-\\u0434\\u0438\\u0437\\u0430\\u0439\\u043d\\u0435\\u0440\",\"6\":\"Web Designer\"}},{\"image\":\"catalog\\/testimonial\\/testimonial-2.jpg\",\"description\":{\"1\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\",\"8\":\"Lorem Ipsum \\u2014 \\u044d\\u0442\\u043e \\u043f\\u0440\\u043e\\u0441\\u0442\\u043e \\u0442\\u0435\\u043a\\u0441\\u0442-\\u043f\\u0443\\u0441\\u0442\\u044b\\u0448\\u043a\\u0430 \\u043f\\u043e\\u043b\\u0438\\u0433\\u0440\\u0430\\u0444\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0439 \\u0438 \\u043d\\u0430\\u0431\\u043e\\u0440\\u043d\\u043e\\u0439 \\u0438\\u043d\\u0434\\u0443\\u0441\\u0442\\u0440\\u0438\\u0438. Lorem Ipsum \\u0431\\u044b\\u043b \\u0438\\u043d\\u0434\\u0443\\u0441\\u0442\\u0440\\u0438\\u0435\\u0439\",\"7\":\"Lorem Ipsum \\u2014 \\u0446\\u0435 \\u043f\\u0440\\u043e\\u0441\\u0442\\u043e \\u0444\\u0456\\u043a\\u0442\\u0438\\u0432\\u043d\\u0438\\u0439 \\u0442\\u0435\\u043a\\u0441\\u0442 \\u043f\\u043e\\u043b\\u0456\\u0433\\u0440\\u0430\\u0444\\u0456\\u0447\\u043d\\u043e\\u0457 \\u0442\\u0430 \\u043d\\u0430\\u0431\\u0456\\u0440\\u043d\\u043e\\u0457 \\u0433\\u0430\\u043b\\u0443\\u0437\\u0456. Lorem Ipsum \\u0431\\u0443\\u043b\\u0430 \\u0433\\u0430\\u043b\\u0443\\u0437\\u0437\\u044e\",\"6\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\"},\"username\":{\"1\":\"luies charls\",\"8\":\"\\u041b\\u0443\\u0438 \\u0427\\u0430\\u0440\\u043b\\u044c\\u0437\",\"7\":\"\\u043b\\u0443\\u0457 \\u0447\\u0430\\u0440\\u043b\\u044c\\u0437\",\"6\":\"luies charls\"},\"designation\":{\"1\":\"Web Designer\",\"8\":\"\\u0412\\u0435\\u0431-\\u0434\\u0438\\u0437\\u0430\\u0439\\u043d\\u0435\\u0440\",\"7\":\"\\u0412\\u0435\\u0431-\\u0434\\u0438\\u0437\\u0430\\u0439\\u043d\\u0435\\u0440\",\"6\":\"Web Designer\"}},{\"image\":\"catalog\\/testimonial\\/testimonial-3.jpg\",\"description\":{\"1\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\",\"8\":\"Lorem Ipsum \\u2014 \\u044d\\u0442\\u043e \\u043f\\u0440\\u043e\\u0441\\u0442\\u043e \\u0442\\u0435\\u043a\\u0441\\u0442-\\u043f\\u0443\\u0441\\u0442\\u044b\\u0448\\u043a\\u0430 \\u043f\\u043e\\u043b\\u0438\\u0433\\u0440\\u0430\\u0444\\u0438\\u0447\\u0435\\u0441\\u043a\\u043e\\u0439 \\u0438 \\u043d\\u0430\\u0431\\u043e\\u0440\\u043d\\u043e\\u0439 \\u0438\\u043d\\u0434\\u0443\\u0441\\u0442\\u0440\\u0438\\u0438. Lorem Ipsum \\u0431\\u044b\\u043b \\u0438\\u043d\\u0434\\u0443\\u0441\\u0442\\u0440\\u0438\\u0435\\u0439\",\"7\":\"Lorem Ipsum \\u2014 \\u0446\\u0435 \\u043f\\u0440\\u043e\\u0441\\u0442\\u043e \\u0444\\u0456\\u043a\\u0442\\u0438\\u0432\\u043d\\u0438\\u0439 \\u0442\\u0435\\u043a\\u0441\\u0442 \\u043f\\u043e\\u043b\\u0456\\u0433\\u0440\\u0430\\u0444\\u0456\\u0447\\u043d\\u043e\\u0457 \\u0442\\u0430 \\u043d\\u0430\\u0431\\u0456\\u0440\\u043d\\u043e\\u0457 \\u0433\\u0430\\u043b\\u0443\\u0437\\u0456. Lorem Ipsum \\u0431\\u0443\\u043b\\u0430 \\u0433\\u0430\\u043b\\u0443\\u0437\\u0437\\u044e\",\"6\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\"},\"username\":{\"1\":\"luies charls\",\"8\":\"\\u041b\\u0443\\u0438 \\u0427\\u0430\\u0440\\u043b\\u044c\\u0437\",\"7\":\"\\u043b\\u0443\\u0457 \\u0447\\u0430\\u0440\\u043b\\u044c\\u0437\",\"6\":\"luies charls\"},\"designation\":{\"1\":\"Web Designer\",\"8\":\"\\u0412\\u0435\\u0431-\\u0434\\u0438\\u0437\\u0430\\u0439\\u043d\\u0435\\u0440\",\"7\":\"\\u0412\\u0435\\u0431-\\u0434\\u0438\\u0437\\u0430\\u0439\\u043d\\u0435\\u0440\",\"6\":\"Web Designer\"}}]}'),
+(209, 'Ishi Testimonial Block', 'ishitestimonialblock', '{\"name\":\"Ishi Testimonial Block\",\"title\":{\"1\":\"Testimonials\",\"6\":\"Testimonials\"},\"bg_color\":\"#f8f8f8\",\"width\":\"180\",\"height\":\"180\",\"column\":\"3\",\"status\":\"1\"}'),
+(210, 'Ishi Special Products Block', 'ishispecialproductblock.ishispecialblock', '{\"name\":\"Ishi Special Products Block\",\"title\":{\"1\":\"Specials Products\",\"8\":\"\\u0421\\u043f\\u0435\\u0446\\u0438\\u0430\\u043b\\u044c\\u043d\\u044b\\u0435 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u044b\",\"7\":\"Specials Products\",\"6\":\"Specials Products\"},\"desc\":{\"1\":\"One Girl\\u2019s Journey To Making Her Fashion Dreams Come True In Fashionist\",\"8\":\"\\u041f\\u0443\\u0442\\u044c \\u043e\\u0434\\u043d\\u043e\\u0439 \\u0434\\u0435\\u0432\\u0443\\u0448\\u043a\\u0438 \\u043a \\u043e\\u0441\\u0443\\u0449\\u0435\\u0441\\u0442\\u0432\\u043b\\u0435\\u043d\\u0438\\u044e \\u0441\\u0432\\u043e\\u0435\\u0439 \\u043c\\u0435\\u0447\\u0442\\u044b \\u043e \\u043c\\u043e\\u0434\\u0435 \\u0432 Fashionist\",\"7\":\"One Girl\\u2019s Journey To Making Her Fashion Dreams Come True In Fashionist\",\"6\":\"One Girl\\u2019s Journey To Making Her Fashion Dreams Come True In Fashionist\"},\"width\":\"370\",\"height\":\"370\",\"limit\":\"8\",\"product_row\":\"1\",\"hover_image\":\"1\",\"desktop_column\":\"4\",\"laptop_column\":\"3\",\"tablet_column\":\"3\",\"mobile_column\":\"2\",\"status\":\"1\"}'),
+(211, 'Ishi Special Products Block', 'ishispecialblock', '{\"name\":\"Ishi Special Products Block\",\"title\":{\"1\":\"Specials Products\",\"6\":\"Specials Products\"},\"width\":\"370\",\"height\":\"370\",\"limit\":\"8\",\"product_row\":\"1\",\"hover_image\":\"1\",\"desktop_column\":\"4\",\"laptop_column\":\"3\",\"tablet_column\":\"2\",\"mobile_column\":\"1\",\"status\":\"1\"}');
+INSERT INTO `oc_module` (`module_id`, `name`, `code`, `setting`) VALUES
+(212, 'Quick link information', 'ishifooterlinkblock.ishifooterlinkblock', '{\"name\":\"Quick link information\",\"column\":\"4\",\"showinformation\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"INFORMATION\",\"8\":\"\\u0418\\u041d\\u0424\\u041e\\u0420\\u041c\\u0410\\u0426\\u0418\\u042f\",\"7\":\"\\u0418\\u041d\\u0424\\u041e\\u0420\\u041c\\u0410\\u0426\\u0418\\u042f\",\"6\":\"INFORMATION\"},\"status\":\"1\"}'),
+(213, 'Quick link information', 'ishifooterlinkblock', '{\"name\":\"Quick link information\",\"column\":\"6\",\"showinformation\":\"1\",\"showtitle\":\"1\",\"footerlinktitle\":{\"1\":\"Information\",\"6\":\"Information\"},\"status\":\"0\"}'),
+(214, 'Ishi Banner Block', 'ishibannerblock.ishibannerblock', '{\"name\":\"Ishi Banner Block\",\"width\":\"620\",\"height\":\"350\",\"column\":\"3\",\"style\":\"ishi-customhover-fadeinnormal\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"catalog\\/banner\\/bannerblock-1.png\",\"showtext\":\"1\",\"title\":{\"1\":\"For Women\",\"8\":\"For Women\",\"7\":\"\\u0414\\u043b\\u044f \\u0436\\u0456\\u043d\\u043a\\u0438\",\"6\":\"For Women\"},\"titlecolor\":\"#232323\",\"subtitle\":{\"1\":\"TRENDS 2021\",\"8\":\"TRENDS 2021\",\"7\":\"\\u0422\\u0415\\u041d\\u0414\\u0415\\u041d\\u0426\\u0406\\u0407 2021\",\"6\":\"TRENDS 2021\"},\"subtitlecolor\":\"#777777\",\"button_name\":{\"1\":\"SHOP NOW\",\"8\":\"SHOP NOW\",\"7\":\"\\u0437\\u0434\\u0456\\u0439\\u0441\\u043d\\u0438\\u0442\\u0438 \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0443\",\"6\":\"SHOP NOW\"},\"position\":\"1\",\"alignment\":\"1\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=59\",\"sort_order\":\"1\"},{\"image\":\"catalog\\/banner\\/bannerblock-2.png\",\"showtext\":\"1\",\"title\":{\"1\":\"Accesories\",\"8\":\"Accesories\",\"7\":\"\\u0410\\u043a\\u0441\\u0435\\u0441\\u0443\\u0430\\u0440\\u0438\",\"6\":\"Accesories\"},\"titlecolor\":\"#232323\",\"subtitle\":{\"1\":\"BAGS FOR MAN\",\"8\":\"BAGS FOR MAN\",\"7\":\"\\u0421\\u0423\\u041c\\u041a\\u0418 \\u0427\\u041e\\u041b\\u041e\\u0412\\u0406\\u0427\\u0406\",\"6\":\"BAGS FOR MAN\"},\"subtitlecolor\":\"#777777\",\"button_name\":{\"1\":\"SHOP NOW\",\"8\":\"\",\"7\":\"\\u0417\\u0414\\u0406\\u0419\\u0421\\u041d\\u0418\\u0422\\u0418 \\u041f\\u041e\\u041a\\u0423\\u041f\\u041a\\u0423\",\"6\":\"SHOP NOW\"},\"position\":\"1\",\"alignment\":\"1\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=74\",\"sort_order\":\"2\"},{\"image\":\"catalog\\/banner\\/bannerblock-3.png\",\"showtext\":\"1\",\"title\":{\"1\":\"Real Men\",\"8\":\"Real Men\",\"7\":\"\\u0421\\u043f\\u0440\\u0430\\u0432\\u0436\\u043d\\u0456 \\u0447\\u043e\\u043b\\u043e\\u0432\\u0456\\u043a\\u0438\",\"6\":\"Real Men\"},\"titlecolor\":\"#232323\",\"subtitle\":{\"1\":\"OF THE YEAR\",\"8\":\"OF THE YEAR\",\"7\":\"\\u0420\\u041e\\u041a\\u0423\",\"6\":\"OF THE YEAR\"},\"subtitlecolor\":\"#777777\",\"button_name\":{\"1\":\"SHOP NOW\",\"8\":\"SHOP NOW\",\"7\":\"\\u0417\\u0414\\u0406\\u0419\\u0421\\u041d\\u0418\\u0422\\u0418 \\u041f\\u041e\\u041a\\u0423\\u041f\\u041a\\u0423\",\"6\":\"SHOP NOW\"},\"position\":\"1\",\"alignment\":\"1\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=84\",\"sort_order\":\"3\"}]}'),
+(215, 'Banner Block', 'ishibannerblock', '{\"name\":\"Banner Block\",\"width\":\"652\",\"height\":\"294\",\"column\":\"2\",\"style\":\"ishi-customhover-fadeinnormal\",\"status\":\"1\",\"ishibanner\":[{\"image\":\"\",\"showtext\":\"1\",\"title\":{\"1\":\"50% OFF\",\"6\":\"50% OFF\"},\"titlecolor\":\"#ef615d\",\"subtitle\":{\"1\":\"BIG DISSCOUNT\",\"6\":\"BIG DISSCOUNT\"},\"subtitlecolor\":\"#ffffff\",\"button_name\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"position\":\"2\",\"alignment\":\"2\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=59\",\"sort_order\":\"1\"},{\"image\":\"catalog\\/banner\\/2.png\",\"showtext\":\"1\",\"title\":{\"1\":\"Latest\",\"6\":\"Latest\"},\"titlecolor\":\"#ef615d\",\"subtitle\":{\"1\":\"NEW ARRIVALS\",\"6\":\"NEW ARRIVALS\"},\"subtitlecolor\":\"#232323\",\"button_name\":{\"1\":\"SHOP NOW\",\"6\":\"SHOP NOW\"},\"position\":\"1\",\"alignment\":\"1\",\"link\":\"index.php?route=product\\/category&amp;language=en-gb&amp;path=74\",\"sort_order\":\"2\"}]}'),
+(216, 'Ishi Newsletter PopUp', 'newslettersubscribepopup.newslettersubscribepopup', '{\"name\":\"Ishi Newsletter PopUp\",\"title\":{\"1\":\"Join Our Newsletter And Get Discount\",\"8\":\"\\u041f\\u043e\\u0434\\u043f\\u0438\\u0448\\u0438\\u0442\\u0435\\u0441\\u044c \\u043d\\u0430 \\u043d\\u0430\\u0448\\u0443 \\u0440\\u0430\\u0441\\u0441\\u044b\\u043b\\u043a\\u0443 \\u0438 \\u043f\\u043e\\u043b\\u0443\\u0447\\u0438\\u0442\\u0435 \\u0441\\u043a\\u0438\\u0434\\u043a\\u0443\",\"7\":\"\\u041f\\u0456\\u0434\\u043f\\u0438\\u0448\\u0456\\u0442\\u044c\\u0441\\u044f \\u043d\\u0430 \\u043d\\u0430\\u0448\\u0443 \\u0440\\u043e\\u0437\\u0441\\u0438\\u043b\\u043a\\u0443 \\u0439 \\u043e\\u0442\\u0440\\u0438\\u043c\\u0430\\u0439\\u0442\\u0435 \\u0437\\u043d\\u0438\\u0436\\u043a\\u0443\",\"6\":\"Join Our Newsletter And Get Discount\"},\"desc\":{\"1\":\"Subscribe to the newsletter to receive updates about new products.\",\"8\":\"\\u041f\\u043e\\u0434\\u043f\\u0438\\u0448\\u0438\\u0442\\u0435\\u0441\\u044c \\u043d\\u0430 \\u0440\\u0430\\u0441\\u0441\\u044b\\u043b\\u043a\\u0443, \\u0447\\u0442\\u043e\\u0431\\u044b \\u043f\\u043e\\u043b\\u0443\\u0447\\u0430\\u0442\\u044c \\u043e\\u0431\\u043d\\u043e\\u0432\\u043b\\u0435\\u043d\\u0438\\u044f \\u043e \\u043d\\u043e\\u0432\\u044b\\u0445 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442\\u0430\\u0445.\",\"7\":\"\\u041f\\u0456\\u0434\\u043f\\u0438\\u0448\\u0456\\u0442\\u044c\\u0441\\u044f \\u043d\\u0430 \\u0440\\u043e\\u0437\\u0441\\u0438\\u043b\\u043a\\u0443, \\u0449\\u043e\\u0431 \\u043e\\u0442\\u0440\\u0438\\u043c\\u0443\\u0432\\u0430\\u0442\\u0438 \\u043e\\u043d\\u043e\\u0432\\u043b\\u0435\\u043d\\u043d\\u044f \\u043f\\u0440\\u043e \\u043d\\u043e\\u0432\\u0438\\u043d\\u043a\\u0438.\",\"6\":\"Subscribe to the newsletter to receive updates about new products.\"},\"newsletter_banner\":\"catalog\\/otherimage\\/newslatter-popup.png\",\"bg_color\":\"#ffffff\",\"facebook\":\"#\",\"twitter\":\"#\",\"youtube\":\"#\",\"gplus\":\"\",\"rss\":\"\",\"pinterest\":\"#\",\"vimeo\":\"\",\"instagram\":\"#\",\"status\":\"1\"}'),
+(217, 'Ishi Newsletter PopUp', 'newslettersubscribepopup', '{\"name\":\"Ishi Newsletter PopUp\",\"title\":{\"1\":\"Join Our Newsletter And Get Discount\",\"6\":\"Join Our Newsletter And Get Discount\"},\"desc\":{\"1\":\"Subscribe to the newsletter to receive updates about new products.\",\"6\":\"Subscribe to the newsletter to receive updates about new products.\"},\"newsletter_banner\":\"catalog\\/otherimage\\/newslatter-popup.png\",\"bg_color\":\"#ffffff\",\"facebook\":\"#\",\"twitter\":\"#\",\"youtube\":\"#\",\"gplus\":\"\",\"rss\":\"\",\"pinterest\":\"#\",\"vimeo\":\"\",\"instagram\":\"#\",\"status\":\"1\"}'),
+(219, 'Ishi Cart Services Block', 'ishicartservicesblock', '{\"name\":\"Ishi Cart Services Block\",\"width\":\"35\",\"height\":\"35\",\"status\":\"1\",\"service\":{\"1\":[{\"image\":\"catalog\\/services\\/cartservices\\/services-1.png\",\"title\":\"Lorem ipsum Dolor Site Amet\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-2.png\",\"title\":\"Big Savings\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-3.png\",\"title\":\"Customer Support\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-4.png\",\"title\":\"Gift Voucher\",\"desc\":\"Lorem ipsum Dolor Site Amet\"}],\"6\":{\"4\":{\"image\":\"catalog\\/services\\/cartservices\\/services-1.png\",\"title\":\"Free Delivery\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"5\":{\"image\":\"catalog\\/services\\/cartservices\\/services-2.png\",\"title\":\"Big Savings\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"6\":{\"image\":\"catalog\\/services\\/cartservices\\/services-3.png\",\"title\":\"Customer Support\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"7\":{\"image\":\"catalog\\/services\\/cartservices\\/services-4.png\",\"title\":\"Gift Voucher\",\"desc\":\"Lorem ipsum Dolor Site Amet\"}}}}'),
+(220, 'Ishi Shop Reassurance', 'ishishopreassurance.ishishopreassurance', '{\"name\":\"Ishi Shop Reassurance\",\"width\":\"35\",\"height\":\"35\",\"status\":\"1\",\"service\":{\"1\":[{\"image\":\"catalog\\/services\\/cartservices\\/services-1.png\",\"title\":\"Free Delivery\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-2.png\",\"title\":\"Big Savings\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-3.png\",\"title\":\"Customer Support\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-4.png\",\"title\":\"Gift Voucher\",\"desc\":\"Lorem ipsum Dolor Site Amet\"}],\"8\":{\"12\":{\"image\":\"catalog\\/services\\/cartservices\\/services-1.png\",\"title\":\"\\u0411\\u0435\\u0441\\u043f\\u043b\\u0430\\u0442\\u043d\\u0430\\u044f \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430\",\"desc\":\"Lorem ipsum \\u0414\\u043e\\u043b\\u043e\\u0440 \\u0421\\u0430\\u0439\\u0442 \\u0410\\u043c\\u0435\\u0442\"},\"13\":{\"image\":\"catalog\\/services\\/cartservices\\/services-2.png\",\"title\":\"\\u0411\\u043e\\u043b\\u044c\\u0448\\u0430\\u044f \\u044d\\u043a\\u043e\\u043d\\u043e\\u043c\\u0438\\u044f\",\"desc\":\"Lorem ipsum \\u0414\\u043e\\u043b\\u043e\\u0440 \\u0421\\u0430\\u0439\\u0442 \\u0410\\u043c\\u0435\\u0442\"},\"14\":{\"image\":\"catalog\\/services\\/cartservices\\/services-3.png\",\"title\":\"Customer Support\",\"desc\":\"Lorem ipsum \\u0414\\u043e\\u043b\\u043e\\u0440 \\u0421\\u0430\\u0439\\u0442 \\u0410\\u043c\\u0435\\u0442\"},\"15\":{\"image\":\"catalog\\/services\\/cartservices\\/services-4.png\",\"title\":\"\\u041f\\u043e\\u0434\\u0430\\u0440\\u043e\\u0447\\u043d\\u044b\\u0439 \\u0441\\u0435\\u0440\\u0442\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\",\"desc\":\"Lorem ipsum \\u0414\\u043e\\u043b\\u043e\\u0440 \\u0421\\u0430\\u0439\\u0442 \\u0410\\u043c\\u0435\\u0442\"}},\"7\":{\"4\":{\"image\":\"catalog\\/services\\/cartservices\\/services-1.png\",\"title\":\"Free Delivery\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"5\":{\"image\":\"catalog\\/services\\/cartservices\\/services-2.png\",\"title\":\"Big Savings\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"6\":{\"image\":\"catalog\\/services\\/cartservices\\/services-3.png\",\"title\":\"Customer Support\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"7\":{\"image\":\"catalog\\/services\\/cartservices\\/services-4.png\",\"title\":\"Gift Voucher\",\"desc\":\"Lorem ipsum Dolor Site Amet\"}},\"6\":{\"8\":{\"image\":\"catalog\\/services\\/cartservices\\/services-1.png\",\"title\":\"Free Delivery\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"9\":{\"image\":\"catalog\\/services\\/cartservices\\/services-2.png\",\"title\":\"Big Savings\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"10\":{\"image\":\"catalog\\/services\\/cartservices\\/services-3.png\",\"title\":\"Customer Support\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"11\":{\"image\":\"catalog\\/services\\/cartservices\\/services-4.png\",\"title\":\"Gift Voucher\",\"desc\":\"Lorem ipsum Dolor Site Amet\"}}}}'),
+(221, 'Ishi Shop Reassurance', 'ishishopreassurance', '{\"name\":\"Ishi Shop Reassurance\",\"width\":\"35\",\"height\":\"35\",\"status\":\"1\",\"service\":{\"1\":[{\"image\":\"catalog\\/services\\/cartservices\\/services-1.png\",\"title\":\"Free Delivery\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-2.png\",\"title\":\"Big Savings\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-3.png\",\"title\":\"Customer Support\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},{\"image\":\"catalog\\/services\\/cartservices\\/services-4.png\",\"title\":\"Gift Voucher\",\"desc\":\"Lorem ipsum Dolor Site Amet\"}],\"6\":{\"4\":{\"image\":\"catalog\\/services\\/cartservices\\/services-1.png\",\"title\":\"Free Delivery\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"5\":{\"image\":\"catalog\\/services\\/cartservices\\/services-2.png\",\"title\":\"Big Savings\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"6\":{\"image\":\"catalog\\/services\\/cartservices\\/services-3.png\",\"title\":\"Customer Support\",\"desc\":\"Lorem ipsum Dolor Site Amet\"},\"7\":{\"image\":\"catalog\\/services\\/cartservices\\/services-4.png\",\"title\":\"Gift Voucher\",\"desc\":\"Lorem ipsum Dolor Site Amet\"}}}}');
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_notification`
+--
+
+CREATE TABLE `oc_notification` (
+  `notification_id` int(11) NOT NULL,
+  `title` varchar(64) NOT NULL,
+  `text` text NOT NULL,
+  `status` tinyint(11) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_offer`
+--
+
+CREATE TABLE `oc_offer` (
+  `offer_id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_offer_description`
+--
+
+CREATE TABLE `oc_offer_description` (
+  `offer_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `title` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_option`
 --
 
-DROP TABLE IF EXISTS `oc_option`;
 CREATE TABLE `oc_option` (
-  `option_id` int(11) NOT NULL AUTO_INCREMENT,
+  `option_id` int(11) NOT NULL,
   `type` varchar(32) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`option_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_option`
 --
 
 INSERT INTO `oc_option` (`option_id`, `type`, `sort_order`) VALUES
-(1, 'radio', 1),
-(2, 'checkbox', 2),
-(4, 'text', 3),
-(5, 'select', 4),
-(6, 'textarea', 5),
-(7, 'file', 6),
-(8, 'date', 7),
-(9, 'time', 8),
-(10, 'datetime', 9),
-(11, 'select', 10),
-(12, 'date', 11);
+(5, 'select', 4);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_option_description`
 --
 
-DROP TABLE IF EXISTS `oc_option_description`;
 CREATE TABLE `oc_option_description` (
   `option_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`option_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_option_description`
 --
 
 INSERT INTO `oc_option_description` (`option_id`, `language_id`, `name`) VALUES
-(1, 1, 'Radio'),
-(2, 1, 'Checkbox'),
-(4, 1, 'Text'),
-(6, 1, 'Textarea'),
-(8, 1, 'Date'),
-(7, 1, 'File'),
 (5, 1, 'Select'),
-(9, 1, 'Time'),
-(10, 1, 'Date &amp; Time'),
-(12, 1, 'Delivery Date'),
-(11, 1, 'Size');
+(5, 2, 'Select'),
+(5, 3, 'Select'),
+(5, 4, 'Select'),
+(5, 5, 'Select'),
+(5, 6, 'Select'),
+(5, 7, 'Select'),
+(5, 8, 'Select');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_option_value`
 --
 
-DROP TABLE IF EXISTS `oc_option_value`;
 CREATE TABLE `oc_option_value` (
-  `option_value_id` int(11) NOT NULL AUTO_INCREMENT,
+  `option_value_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`option_value_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_option_value`
 --
 
 INSERT INTO `oc_option_value` (`option_value_id`, `option_id`, `image`, `sort_order`) VALUES
-(43, 1, '', 3),
-(32, 1, '', 1),
-(45, 2, '', 4),
-(44, 2, '', 3),
-(42, 5, '', 4),
-(41, 5, '', 3),
 (39, 5, '', 1),
 (40, 5, '', 2),
-(31, 1, '', 2),
-(23, 2, '', 1),
-(24, 2, '', 2),
-(46, 11, '', 1),
-(47, 11, '', 2),
-(48, 11, '', 3);
+(41, 5, '', 3),
+(42, 5, '', 4);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_option_value_description`
 --
 
-DROP TABLE IF EXISTS `oc_option_value_description`;
 CREATE TABLE `oc_option_value_description` (
   `option_value_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`option_value_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_option_value_description`
 --
 
 INSERT INTO `oc_option_value_description` (`option_value_id`, `language_id`, `option_id`, `name`) VALUES
-(43, 1, 1, 'Large'),
-(32, 1, 1, 'Small'),
-(45, 1, 2, 'Checkbox 4'),
-(44, 1, 2, 'Checkbox 3'),
-(31, 1, 1, 'Medium'),
-(42, 1, 5, 'Yellow'),
-(41, 1, 5, 'Green'),
 (39, 1, 5, 'Red'),
+(39, 2, 5, 'Red'),
+(39, 3, 5, 'Red'),
+(39, 4, 5, 'Red'),
+(39, 5, 5, 'Red'),
+(39, 6, 5, 'Red'),
+(39, 7, 5, 'Red'),
+(39, 8, 5, 'Red'),
 (40, 1, 5, 'Blue'),
-(23, 1, 2, 'Checkbox 1'),
-(24, 1, 2, 'Checkbox 2'),
-(48, 1, 11, 'Large'),
-(47, 1, 11, 'Medium'),
-(46, 1, 11, 'Small');
+(40, 2, 5, 'Blue'),
+(40, 3, 5, 'Blue'),
+(40, 4, 5, 'Blue'),
+(40, 5, 5, 'Blue'),
+(40, 6, 5, 'Blue'),
+(40, 7, 5, 'Blue'),
+(40, 8, 5, 'Blue'),
+(41, 1, 5, 'Green'),
+(41, 2, 5, 'Green'),
+(41, 3, 5, 'Green'),
+(41, 4, 5, 'Green'),
+(41, 5, 5, 'Green'),
+(41, 6, 5, 'Green'),
+(41, 7, 5, 'Green'),
+(41, 8, 5, 'Green'),
+(42, 1, 5, 'Yellow'),
+(42, 2, 5, 'Yellow'),
+(42, 3, 5, 'Yellow'),
+(42, 4, 5, 'Yellow'),
+(42, 5, 5, 'Yellow'),
+(42, 6, 5, 'Yellow'),
+(42, 7, 5, 'Yellow'),
+(42, 8, 5, 'Yellow');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_order`
 --
 
-DROP TABLE IF EXISTS `oc_order`;
 CREATE TABLE `oc_order` (
-  `order_id` int(11) NOT NULL AUTO_INCREMENT,
-  `invoice_no` int(11) NOT NULL DEFAULT '0',
+  `order_id` int(11) NOT NULL,
+  `subscription_id` int(11) NOT NULL,
+  `invoice_no` int(11) NOT NULL DEFAULT 0,
   `invoice_prefix` varchar(26) NOT NULL,
-  `store_id` int(11) NOT NULL DEFAULT '0',
+  `transaction_id` varchar(100) NOT NULL,
+  `store_id` int(11) NOT NULL DEFAULT 0,
   `store_name` varchar(64) NOT NULL,
   `store_url` varchar(255) NOT NULL,
-  `customer_id` int(11) NOT NULL DEFAULT '0',
-  `customer_group_id` int(11) NOT NULL DEFAULT '0',
+  `customer_id` int(11) NOT NULL DEFAULT 0,
+  `customer_group_id` int(11) NOT NULL DEFAULT 0,
   `firstname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
   `email` varchar(96) NOT NULL,
   `telephone` varchar(32) NOT NULL,
-  `fax` varchar(32) NOT NULL,
   `custom_field` text NOT NULL,
+  `payment_address_id` int(11) NOT NULL,
   `payment_firstname` varchar(32) NOT NULL,
   `payment_lastname` varchar(32) NOT NULL,
   `payment_company` varchar(60) NOT NULL,
@@ -2215,11 +6682,11 @@ CREATE TABLE `oc_order` (
   `payment_zone_id` int(11) NOT NULL,
   `payment_address_format` text NOT NULL,
   `payment_custom_field` text NOT NULL,
-  `payment_method` varchar(128) NOT NULL,
-  `payment_code` varchar(128) NOT NULL,
+  `payment_method` text NOT NULL,
+  `shipping_address_id` int(11) NOT NULL,
   `shipping_firstname` varchar(32) NOT NULL,
   `shipping_lastname` varchar(32) NOT NULL,
-  `shipping_company` varchar(40) NOT NULL,
+  `shipping_company` varchar(60) NOT NULL,
   `shipping_address_1` varchar(128) NOT NULL,
   `shipping_address_2` varchar(128) NOT NULL,
   `shipping_city` varchar(128) NOT NULL,
@@ -2230,237 +6697,350 @@ CREATE TABLE `oc_order` (
   `shipping_zone_id` int(11) NOT NULL,
   `shipping_address_format` text NOT NULL,
   `shipping_custom_field` text NOT NULL,
-  `shipping_method` varchar(128) NOT NULL,
-  `shipping_code` varchar(128) NOT NULL,
+  `shipping_method` text NOT NULL,
   `comment` text NOT NULL,
-  `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `order_status_id` int(11) NOT NULL DEFAULT '0',
+  `total` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `order_status_id` int(11) NOT NULL DEFAULT 0,
   `affiliate_id` int(11) NOT NULL,
   `commission` decimal(15,4) NOT NULL,
   `marketing_id` int(11) NOT NULL,
   `tracking` varchar(64) NOT NULL,
   `language_id` int(11) NOT NULL,
+  `language_code` varchar(5) NOT NULL,
   `currency_id` int(11) NOT NULL,
   `currency_code` varchar(3) NOT NULL,
-  `currency_value` decimal(15,8) NOT NULL DEFAULT '1.00000000',
+  `currency_value` decimal(15,8) NOT NULL DEFAULT 1.00000000,
   `ip` varchar(40) NOT NULL,
   `forwarded_ip` varchar(40) NOT NULL,
   `user_agent` varchar(255) NOT NULL,
   `accept_language` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`order_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_order`
+--
+
+INSERT INTO `oc_order` (`order_id`, `subscription_id`, `invoice_no`, `invoice_prefix`, `transaction_id`, `store_id`, `store_name`, `store_url`, `customer_id`, `customer_group_id`, `firstname`, `lastname`, `email`, `telephone`, `custom_field`, `payment_address_id`, `payment_firstname`, `payment_lastname`, `payment_company`, `payment_address_1`, `payment_address_2`, `payment_city`, `payment_postcode`, `payment_country`, `payment_country_id`, `payment_zone`, `payment_zone_id`, `payment_address_format`, `payment_custom_field`, `payment_method`, `shipping_address_id`, `shipping_firstname`, `shipping_lastname`, `shipping_company`, `shipping_address_1`, `shipping_address_2`, `shipping_city`, `shipping_postcode`, `shipping_country`, `shipping_country_id`, `shipping_zone`, `shipping_zone_id`, `shipping_address_format`, `shipping_custom_field`, `shipping_method`, `comment`, `total`, `order_status_id`, `affiliate_id`, `commission`, `marketing_id`, `tracking`, `language_id`, `language_code`, `currency_id`, `currency_code`, `currency_value`, `ip`, `forwarded_ip`, `user_agent`, `accept_language`, `date_added`, `date_modified`) VALUES
+(1, 0, 0, 'INV-2023-00', '', 0, 'Your Store', 'http://localhost/OPC4.2/', 1, 1, 'abc', 'xyz', 'demo@gmail.com', '', '[]', 0, '', '', '', '', '', '', '', '', 0, '', 0, '', '[]', '{\"code\":\"cod.cod\",\"name\":\"Cash On Delivery\"}', 1, 'abc', 'xyz', 'abds', 'abds', 'abds', 'surat', '021365', 'Ukraine', 220, 'Poltavska', 3496, '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}', '\"\"', '{\"code\":\"flat.flat\",\"name\":\"Flat Shipping Rate\",\"cost\":\"5.00\",\"tax_class_id\":\"9\",\"text\":\"$5.00\"}', '', '106.0000', 1, 0, '0.0000', 0, '', 1, '', 2, 'USD', '1.00000000', '::1', '', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', 'en-US,en;q=0.9', '2023-04-21 03:54:18', '2023-04-21 03:54:20'),
+(2, 0, 0, 'INV-2023-00', '', 0, 'Your Store', 'http://localhost/OPC4.2.1/', 1, 1, 'abc', 'xyz', 'demo@gmail.com', '', '\"\"', 0, '', '', '', '', '', '', '', '', 0, '', 0, '', '[]', '{\"code\":\"cod.cod\",\"name\":\"Cash On Delivery\"}', 3, 'abcfgrvg', 'xyz', 'abds', 'abds', 'abds', 'surat', '021365', 'Ukraine', 220, 'Poltavska', 3496, '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}', '[]', '{\"code\":\"flat.flat\",\"name\":\"Flat Shipping Rate\",\"cost\":\"5.00\",\"tax_class_id\":\"9\",\"text\":\"$5.00\"}', '', '85.0000', 1, 0, '0.0000', 0, '', 1, '', 2, 'USD', '1.00000000', '::1', '', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', 'en-US,en;q=0.9', '2023-04-26 09:00:53', '2023-04-26 09:00:55'),
+(3, 0, 0, 'INV-2023-00', '', 0, 'Your Store', 'http://localhost/OPC4.2.1/', 1, 1, 'abc', 'xyz', 'demo@gmail.com', '', '\"\"', 0, '', '', '', '', '', '', '', '', 0, '', 0, '', '[]', '{\"code\":\"cod.cod\",\"name\":\"Cash On Delivery\"}', 128, 'abc', 'xyz', 'abds', 'abds', 'abds', 'surat', '021365', 'Ukraine', 220, 'Poltavska', 3496, '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}', '[]', '{\"code\":\"flat.flat\",\"name\":\"Flat Shipping Rate\",\"cost\":\"5.00\",\"tax_class_id\":\"9\",\"text\":\"$5.00\"}', '', '2805.0000', 1, 0, '0.0000', 0, '', 1, '', 2, 'USD', '1.00000000', '::1', '', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', 'en-US,en;q=0.9', '2023-05-03 05:48:33', '2023-05-03 05:48:36'),
+(4, 0, 0, 'INV-2023-00', '', 0, 'Your Store', 'http://localhost/OPC145/', 3, 1, 'asdasd', 'fdfdf', 'admin@gmail.com', '', '\"\\\"\\\"\"', 0, '', '', '', '', '', '', '', '', 0, '', 0, '', '[]', '{\"code\":\"cod.cod\",\"name\":\"Cash On Delivery\"}', 3, 'abc', 'xyz', 'abds', 'abds', 'abds', 'surat', '021365', 'Ukraine', 220, 'Poltavska', 3496, '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}', '\"\"', '{\"code\":\"flat.flat\",\"name\":\"Flat Shipping Rate\",\"cost\":\"5.00\",\"tax_class_id\":\"9\",\"text\":\"$5.00\"}', '', '395.0000', 1, 0, '0.0000', 0, '', 1, '', 2, 'USD', '1.00000000', '::1', '', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', 'en-US,en;q=0.9', '2023-10-05 09:24:05', '2023-10-05 09:24:08'),
+(5, 0, 0, 'INV-2023-00', '', 0, 'Your Store', 'http://localhost/update_v4.0.2.3/', 4, 1, 'abc', 'xyz', 'demo7586@gmail.com', '', '\"\"', 0, '', '', '', '', '', '', '', '', 0, '', 0, '', '[]', '{\"code\":\"cod.cod\",\"name\":\"Cash On Delivery\"}', 5, 'abc', 'xyz', 'abds', 'abds', 'abds', 'surat', '021365', 'Ukraine', 220, 'Donetska', 3485, '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}', '[]', '{\"code\":\"flat.flat\",\"name\":\"Flat Shipping Rate\",\"cost\":\"5.00\",\"tax_class_id\":\"9\",\"text\":\"$5.00\"}', '', '2665.0000', 1, 0, '0.0000', 0, '', 1, '', 2, 'USD', '1.00000000', '::1', '', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36', 'en-US,en;q=0.9', '2023-10-18 10:51:20', '2023-10-18 10:51:22'),
+(6, 0, 0, 'INV-2024-00', '', 0, 'Your Store', 'http://localhost/OPC010/OPC010_new/', 0, 1, 'demo', 'example', 'admin@yopmial.com', '', '[]', 0, '', '', '', '', '', '', '', '', 0, '', 0, '', '[]', '{\"code\":\"cod.cod\",\"name\":\"Cash On Delivery\"}', 6, 'demo', 'example', 'fsdf', 'dasda', 'dasd', 'adas', '2252525', 'Trinidad and Tobago', 213, 'Mayaro/Rio Claro', 3278, '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}', '\"\"', '{\"code\":\"flat.flat\",\"name\":\"Flat Shipping Rate\",\"cost\":\"5.00\",\"tax_class_id\":\"9\",\"text\":\"$5.00\"}', '', '105.0000', 1, 0, '0.0000', 0, '', 1, '', 2, 'USD', '1.00000000', '::1', '', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', 'en-US,en;q=0.9', '2024-03-26 10:13:14', '2024-03-26 10:13:21');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_order_history`
 --
 
-DROP TABLE IF EXISTS `oc_order_history`;
 CREATE TABLE `oc_order_history` (
-  `order_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_history_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `order_status_id` int(11) NOT NULL,
-  `notify` tinyint(1) NOT NULL DEFAULT '0',
+  `notify` tinyint(1) NOT NULL DEFAULT 0,
   `comment` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`order_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_order_history`
+--
+
+INSERT INTO `oc_order_history` (`order_history_id`, `order_id`, `order_status_id`, `notify`, `comment`, `date_added`) VALUES
+(1, 1, 1, 0, '', '2023-04-21 03:54:20'),
+(2, 2, 1, 0, '', '2023-04-26 09:00:55'),
+(3, 3, 1, 0, '', '2023-05-03 05:48:36'),
+(4, 4, 1, 0, '', '2023-10-05 09:24:08'),
+(5, 5, 1, 0, '', '2023-10-18 10:51:22'),
+(6, 6, 0, 0, '', '2024-03-26 10:13:17'),
+(7, 6, 0, 0, '', '2024-03-26 10:13:17'),
+(8, 6, 1, 0, '', '2024-03-26 10:13:21');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_order_option`
 --
 
-DROP TABLE IF EXISTS `oc_order_option`;
 CREATE TABLE `oc_order_option` (
-  `order_option_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_option_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
   `product_option_id` int(11) NOT NULL,
-  `product_option_value_id` int(11) NOT NULL DEFAULT '0',
+  `product_option_value_id` int(11) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL,
   `value` text NOT NULL,
-  `type` varchar(32) NOT NULL,
-  PRIMARY KEY (`order_option_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `type` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_order_option`
+--
+
+INSERT INTO `oc_order_option` (`order_option_id`, `order_id`, `order_product_id`, `product_option_id`, `product_option_value_id`, `name`, `value`, `type`) VALUES
+(1, 2, 2, 226, 15, 'Select', 'Red', 'select'),
+(2, 3, 4, 226, 16, 'Select', 'Blue', 'select'),
+(3, 4, 11, 226, 16, 'Select', 'Blue', 'select');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_order_product`
 --
 
-DROP TABLE IF EXISTS `oc_order_product`;
 CREATE TABLE `oc_order_product` (
-  `order_product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_product_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
+  `master_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `model` varchar(64) NOT NULL,
   `quantity` int(4) NOT NULL,
-  `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `reward` int(8) NOT NULL,
-  PRIMARY KEY (`order_product_id`),
-  KEY `order_id` (`order_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
------------------------------------------------------------
+  `price` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `total` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `tax` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `reward` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
--- Table structure for table `oc_order_recurring`
+-- Dumping data for table `oc_order_product`
 --
 
-DROP TABLE IF EXISTS `oc_order_recurring`;
-CREATE TABLE `oc_order_recurring` (
-  `order_recurring_id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) NOT NULL,
-  `reference` varchar(255) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `product_name` varchar(255) NOT NULL,
-  `product_quantity` int(11) NOT NULL,
-  `recurring_id` int(11) NOT NULL,
-  `recurring_name` varchar(255) NOT NULL,
-  `recurring_description` varchar(255) NOT NULL,
-  `recurring_frequency` varchar(25) NOT NULL,
-  `recurring_cycle` smallint(6) NOT NULL,
-  `recurring_duration` smallint(6) NOT NULL,
-  `recurring_price` decimal(10,4) NOT NULL,
-  `trial` tinyint(1) NOT NULL,
-  `trial_frequency` varchar(25) NOT NULL,
-  `trial_cycle` smallint(6) NOT NULL,
-  `trial_duration` smallint(6) NOT NULL,
-  `trial_price` decimal(10,4) NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`order_recurring_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+INSERT INTO `oc_order_product` (`order_product_id`, `order_id`, `product_id`, `master_id`, `name`, `model`, `quantity`, `price`, `total`, `tax`, `reward`) VALUES
+(1, 1, 40, 0, 'iPhone', 'product 11', 1, '101.0000', '101.0000', '0.0000', 0),
+(2, 2, 30, 0, 'Canon EOS 5D', 'Product 3', 1, '80.0000', '80.0000', '0.0000', 200),
+(3, 3, 41, 0, 'iMac', 'Product 14', 1, '100.0000', '100.0000', '0.0000', 0),
+(4, 3, 30, 0, 'Canon EOS 5D', 'Product 3', 1, '80.0000', '80.0000', '0.0000', 200),
+(5, 3, 48, 0, 'iPod Classic', 'product 20', 1, '100.0000', '100.0000', '0.0000', 0),
+(6, 3, 47, 0, 'HP LP3065', 'Product 21', 1, '20.0000', '20.0000', '0.0000', 300),
+(7, 3, 43, 0, 'MacBook', 'Product 16', 1, '500.0000', '500.0000', '0.0000', 600),
+(8, 3, 45, 0, 'MacBook Pro', 'Product 18', 1, '2000.0000', '2000.0000', '0.0000', 800),
+(9, 4, 41, 0, 'iMac', 'Product 14', 2, '100.0000', '200.0000', '0.0000', 0),
+(10, 4, 47, 0, 'HP LP3065', 'Product 21', 1, '20.0000', '20.0000', '0.0000', 300),
+(11, 4, 30, 0, 'Canon EOS 5D', 'Product 3', 1, '80.0000', '80.0000', '0.0000', 200),
+(12, 4, 42, 0, 'Apple Cinema 30&quot;', 'Product 15', 1, '90.0000', '90.0000', '0.0000', 100),
+(13, 5, 46, 0, 'Sony VAIO', 'Product 19', 2, '1000.0000', '2000.0000', '0.0000', 0),
+(14, 5, 28, 0, 'HTC Touch HD', 'Product 1', 2, '30.0000', '60.0000', '0.0000', 800),
+(15, 5, 41, 0, 'iMac', 'Product 14', 6, '100.0000', '600.0000', '0.0000', 0),
+(18, 6, 41, 0, 'iMac', 'Product 14', 1, '100.0000', '100.0000', '0.0000', 0);
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_order_recurring_transaction`
---
-
-DROP TABLE IF EXISTS `oc_order_recurring_transaction`;
-CREATE TABLE `oc_order_recurring_transaction` (
-  `order_recurring_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_recurring_id` int(11) NOT NULL,
-  `reference` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `amount` decimal(10,4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`order_recurring_transaction_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
------------------------------------------------------------
-
---
--- Table structure for table `oc_order_shipment`
---
-
-DROP TABLE IF EXISTS `oc_order_shipment`;
-CREATE TABLE `oc_order_shipment` (
-  `order_shipment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) NOT NULL,
-  `date_added` datetime NOT NULL,
-  `shipping_courier_id` varchar(255) NOT NULL DEFAULT '',
-  `tracking_number` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`order_shipment_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
------------------------------------------------------------
-
---
--- Table structure for table `oc_shipping_courier`
---
-
-DROP TABLE IF EXISTS `oc_shipping_courier`;
-CREATE TABLE `oc_shipping_courier` (
-  `shipping_courier_id` int(11) NOT NULL,
-  `shipping_courier_code` varchar(255) NOT NULL DEFAULT '',
-  `shipping_courier_name` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`shipping_courier_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `oc_shipping_courier`
---
-
-INSERT INTO `oc_shipping_courier` (`shipping_courier_id`, `shipping_courier_code`, `shipping_courier_name`) VALUES
-  (1, 'dhl', 'DHL'),
-  (2, 'fedex', 'Fedex'),
-  (3, 'ups', 'UPS'),
-  (4, 'royal-mail', 'Royal Mail'),
-  (5, 'usps', 'United States Postal Service'),
-  (6, 'auspost', 'Australia Post');
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_order_status`
 --
 
-DROP TABLE IF EXISTS `oc_order_status`;
 CREATE TABLE `oc_order_status` (
-  `order_status_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`order_status_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_order_status`
 --
 
 INSERT INTO `oc_order_status` (`order_status_id`, `language_id`, `name`) VALUES
-(2, 1, 'Processing'),
-(3, 1, 'Shipped'),
-(7, 1, 'Canceled'),
-(5, 1, 'Complete'),
-(8, 1, 'Denied'),
-(9, 1, 'Canceled Reversal'),
-(10, 1, 'Failed'),
-(11, 1, 'Refunded'),
-(12, 1, 'Reversed'),
-(13, 1, 'Chargeback'),
 (1, 1, 'Pending'),
-(16, 1, 'Voided'),
+(1, 2, 'Pending'),
+(1, 3, 'Pending'),
+(1, 4, 'Pending'),
+(1, 5, 'Pending'),
+(1, 6, 'Pending'),
+(1, 7, 'Pending'),
+(1, 8, 'Pending'),
+(2, 1, 'Processing'),
+(2, 2, 'Processing'),
+(2, 3, 'Processing'),
+(2, 4, 'Processing'),
+(2, 5, 'Processing'),
+(2, 6, 'Processing'),
+(2, 7, 'Processing'),
+(2, 8, 'Processing'),
+(3, 1, 'Shipped'),
+(3, 2, 'Shipped'),
+(3, 3, 'Shipped'),
+(3, 4, 'Shipped'),
+(3, 5, 'Shipped'),
+(3, 6, 'Shipped'),
+(3, 7, 'Shipped'),
+(3, 8, 'Shipped'),
+(4, 1, 'Pickup'),
+(4, 7, 'Pickup'),
+(4, 8, 'Pickup'),
+(5, 1, 'Complete'),
+(5, 2, 'Complete'),
+(5, 3, 'Complete'),
+(5, 4, 'Complete'),
+(5, 5, 'Complete'),
+(5, 6, 'Complete'),
+(5, 7, 'Complete'),
+(5, 8, 'Complete'),
+(7, 1, 'Canceled'),
+(7, 2, 'Canceled'),
+(7, 3, 'Canceled'),
+(7, 4, 'Canceled'),
+(7, 5, 'Canceled'),
+(7, 6, 'Canceled'),
+(7, 7, 'Canceled'),
+(7, 8, 'Canceled'),
+(8, 1, 'Denied'),
+(8, 2, 'Denied'),
+(8, 3, 'Denied'),
+(8, 4, 'Denied'),
+(8, 5, 'Denied'),
+(8, 6, 'Denied'),
+(8, 7, 'Denied'),
+(8, 8, 'Denied'),
+(9, 1, 'Canceled Reversal'),
+(9, 2, 'Canceled Reversal'),
+(9, 3, 'Canceled Reversal'),
+(9, 4, 'Canceled Reversal'),
+(9, 5, 'Canceled Reversal'),
+(9, 6, 'Canceled Reversal'),
+(9, 7, 'Canceled Reversal'),
+(9, 8, 'Canceled Reversal'),
+(10, 1, 'Failed'),
+(10, 2, 'Failed'),
+(10, 3, 'Failed'),
+(10, 4, 'Failed'),
+(10, 5, 'Failed'),
+(10, 6, 'Failed'),
+(10, 7, 'Failed'),
+(10, 8, 'Failed'),
+(11, 1, 'Refunded'),
+(11, 2, 'Refunded'),
+(11, 3, 'Refunded'),
+(11, 4, 'Refunded'),
+(11, 5, 'Refunded'),
+(11, 6, 'Refunded'),
+(11, 7, 'Refunded'),
+(11, 8, 'Refunded'),
+(12, 1, 'Reversed'),
+(12, 2, 'Reversed'),
+(12, 3, 'Reversed'),
+(12, 4, 'Reversed'),
+(12, 5, 'Reversed'),
+(12, 6, 'Reversed'),
+(12, 7, 'Reversed'),
+(12, 8, 'Reversed'),
+(13, 1, 'Chargeback'),
+(13, 2, 'Chargeback'),
+(13, 3, 'Chargeback'),
+(13, 4, 'Chargeback'),
+(13, 5, 'Chargeback'),
+(13, 6, 'Chargeback'),
+(13, 7, 'Chargeback'),
+(13, 8, 'Chargeback'),
+(14, 1, 'Expired'),
+(14, 2, 'Expired'),
+(14, 3, 'Expired'),
+(14, 4, 'Expired'),
+(14, 5, 'Expired'),
+(14, 6, 'Expired'),
+(14, 7, 'Expired'),
+(14, 8, 'Expired'),
 (15, 1, 'Processed'),
-(14, 1, 'Expired');
+(15, 2, 'Processed'),
+(15, 3, 'Processed'),
+(15, 4, 'Processed'),
+(15, 5, 'Processed'),
+(15, 6, 'Processed'),
+(15, 7, 'Processed'),
+(15, 8, 'Processed'),
+(16, 1, 'Voided'),
+(16, 2, 'Voided'),
+(16, 3, 'Voided'),
+(16, 4, 'Voided'),
+(16, 5, 'Voided'),
+(16, 6, 'Voided'),
+(16, 7, 'Voided'),
+(16, 8, 'Voided'),
+(17, 1, 'Invoiced'),
+(17, 7, 'Invoiced'),
+(17, 8, 'Invoiced'),
+(18, 1, 'Order offer'),
+(18, 7, 'Order offer'),
+(18, 8, 'Order offer'),
+(19, 1, 'Reminder'),
+(19, 7, 'Reminder'),
+(19, 8, 'Reminder');
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_order_subscription`
+--
+
+CREATE TABLE `oc_order_subscription` (
+  `order_subscription_id` int(11) NOT NULL,
+  `order_product_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `subscription_plan_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `trial_price` decimal(10,4) NOT NULL,
+  `trial_frequency` enum('day','week','semi_month','month','year') NOT NULL,
+  `trial_cycle` smallint(6) NOT NULL,
+  `trial_duration` smallint(6) NOT NULL,
+  `trial_remaining` smallint(6) NOT NULL,
+  `trial_status` tinyint(1) NOT NULL,
+  `price` decimal(10,4) NOT NULL,
+  `frequency` enum('day','week','semi_month','month','year') NOT NULL,
+  `cycle` smallint(6) NOT NULL,
+  `duration` smallint(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_order_total`
 --
 
-DROP TABLE IF EXISTS `oc_order_total`;
 CREATE TABLE `oc_order_total` (
-  `order_total_id` int(10) NOT NULL AUTO_INCREMENT,
+  `order_total_id` int(10) NOT NULL,
   `order_id` int(11) NOT NULL,
+  `extension` varchar(255) NOT NULL,
   `code` varchar(32) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `value` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`order_total_id`),
-  KEY `order_id` (`order_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `value` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_order_total`
+--
+
+INSERT INTO `oc_order_total` (`order_total_id`, `order_id`, `extension`, `code`, `title`, `value`, `sort_order`) VALUES
+(1, 1, 'opencart', 'sub_total', 'Sub-Total', '101.0000', 1),
+(2, 1, 'opencart', 'shipping', 'Flat Shipping Rate', '5.0000', 3),
+(3, 1, 'opencart', 'total', 'Total', '106.0000', 9),
+(4, 2, 'opencart', 'sub_total', 'Sub-Total', '80.0000', 1),
+(5, 2, 'opencart', 'shipping', 'Flat Shipping Rate', '5.0000', 3),
+(6, 2, 'opencart', 'total', 'Total', '85.0000', 9),
+(7, 3, 'opencart', 'sub_total', 'Sub-Total', '2800.0000', 1),
+(8, 3, 'opencart', 'shipping', 'Flat Shipping Rate', '5.0000', 3),
+(9, 3, 'opencart', 'total', 'Total', '2805.0000', 9),
+(10, 4, 'opencart', 'sub_total', 'Sub-Total', '390.0000', 1),
+(11, 4, 'opencart', 'shipping', 'Flat Shipping Rate', '5.0000', 3),
+(12, 4, 'opencart', 'total', 'Total', '395.0000', 9),
+(13, 5, 'opencart', 'sub_total', 'Sub-Total', '2660.0000', 1),
+(14, 5, 'opencart', 'shipping', 'Flat Shipping Rate', '5.0000', 3),
+(15, 5, 'opencart', 'total', 'Total', '2665.0000', 9),
+(22, 6, 'opencart', 'sub_total', 'Sub-Total', '100.0000', 1),
+(23, 6, 'opencart', 'shipping', 'Flat Shipping Rate', '5.0000', 3),
+(24, 6, 'opencart', 'total', 'Total', '105.0000', 9);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_order_voucher`
 --
 
-DROP TABLE IF EXISTS `oc_order_voucher`;
 CREATE TABLE `oc_order_voucher` (
-  `order_voucher_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_voucher_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `voucher_id` int(11) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -2471,19 +7051,18 @@ CREATE TABLE `oc_order_voucher` (
   `to_email` varchar(96) NOT NULL,
   `voucher_theme_id` int(11) NOT NULL,
   `message` text NOT NULL,
-  `amount` decimal(15,4) NOT NULL,
-  PRIMARY KEY (`order_voucher_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `amount` decimal(15,4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product`
 --
 
-DROP TABLE IF EXISTS `oc_product`;
 CREATE TABLE `oc_product` (
-  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `master_id` int(11) NOT NULL DEFAULT 0,
   `model` varchar(64) NOT NULL,
   `sku` varchar(64) NOT NULL,
   `upc` varchar(12) NOT NULL,
@@ -2492,136 +7071,68 @@ CREATE TABLE `oc_product` (
   `isbn` varchar(17) NOT NULL,
   `mpn` varchar(64) NOT NULL,
   `location` varchar(128) NOT NULL,
-  `quantity` int(4) NOT NULL DEFAULT '0',
+  `variant` text NOT NULL DEFAULT '',
+  `override` text NOT NULL DEFAULT '',
+  `quantity` int(4) NOT NULL DEFAULT 0,
   `stock_status_id` int(11) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `image` varchar(255) NOT NULL,
   `manufacturer_id` int(11) NOT NULL,
-  `shipping` tinyint(1) NOT NULL DEFAULT '1',
-  `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `points` int(8) NOT NULL DEFAULT '0',
+  `shipping` tinyint(1) NOT NULL DEFAULT 1,
+  `price` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `points` int(8) NOT NULL DEFAULT 0,
   `tax_class_id` int(11) NOT NULL,
-  `date_available` date NOT NULL DEFAULT '0000-00-00',
-  `weight` decimal(15,8) NOT NULL DEFAULT '0.00000000',
-  `weight_class_id` int(11) NOT NULL DEFAULT '0',
-  `length` decimal(15,8) NOT NULL DEFAULT '0.00000000',
-  `width` decimal(15,8) NOT NULL DEFAULT '0.00000000',
-  `height` decimal(15,8) NOT NULL DEFAULT '0.00000000',
-  `length_class_id` int(11) NOT NULL DEFAULT '0',
-  `subtract` tinyint(1) NOT NULL DEFAULT '1',
-  `minimum` int(11) NOT NULL DEFAULT '1',
-  `sort_order` int(11) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `viewed` int(5) NOT NULL DEFAULT '0',
+  `date_available` date NOT NULL,
+  `weight` decimal(15,8) NOT NULL DEFAULT 0.00000000,
+  `weight_class_id` int(11) NOT NULL DEFAULT 0,
+  `length` decimal(15,8) NOT NULL DEFAULT 0.00000000,
+  `width` decimal(15,8) NOT NULL DEFAULT 0.00000000,
+  `height` decimal(15,8) NOT NULL DEFAULT 0.00000000,
+  `length_class_id` int(11) NOT NULL DEFAULT 0,
+  `subtract` tinyint(1) NOT NULL DEFAULT 1,
+  `minimum` int(11) NOT NULL DEFAULT 1,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product`
 --
 
-INSERT INTO `oc_product` (`product_id`, `model`, `sku`, `upc`, `ean`, `jan`, `isbn`, `mpn`, `location`, `quantity`, `stock_status_id`, `image`, `manufacturer_id`, `shipping`, `price`, `points`, `tax_class_id`, `date_available`, `weight`, `weight_class_id`, `length`, `width`, `height`, `length_class_id`, `subtract`, `minimum`, `sort_order`, `status`, `viewed`, `date_added`, `date_modified`) VALUES
-(28, 'Product 1', '', '', '', '', '', '', '', 939, 7, 'catalog/demo/htc_touch_hd_1.jpg', 5, 1, '100.0000', 200, 9, '2009-02-03', '146.40000000', 2, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 0, '2009-02-03 16:06:50', '2011-09-30 01:05:39'),
-(29, 'Product 2', '', '', '', '', '', '', '', 999, 6, 'catalog/demo/palm_treo_pro_1.jpg', 6, 1, '279.9900', 0, 9, '2009-02-03', '133.00000000', 2, '0.00000000', '0.00000000', '0.00000000', 3, 1, 1, 0, 1, 0, '2009-02-03 16:42:17', '2011-09-30 01:06:08'),
-(30, 'Product 3', '', '', '', '', '', '', '', 7, 6, 'catalog/demo/canon_eos_5d_1.jpg', 9, 1, '100.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 0, '2009-02-03 16:59:00', '2011-09-30 01:05:23'),
-(31, 'Product 4', '', '', '', '', '', '', '', 1000, 6, 'catalog/demo/nikon_d300_1.jpg', 0, 1, '80.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 3, 1, 1, 0, 1, 0, '2009-02-03 17:00:10', '2011-09-30 01:06:00'),
-(32, 'Product 5', '', '', '', '', '', '', '', 999, 6, 'catalog/demo/ipod_touch_1.jpg', 8, 1, '100.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 0, '2009-02-03 17:07:26', '2011-09-30 01:07:22'),
-(33, 'Product 6', '', '', '', '', '', '', '', 1000, 6, 'catalog/demo/samsung_syncmaster_941bw.jpg', 0, 1, '200.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, 0, '2009-02-03 17:08:31', '2011-09-30 01:06:29'),
-(34, 'Product 7', '', '', '', '', '', '', '', 1000, 6, 'catalog/demo/ipod_shuffle_1.jpg', 8, 1, '100.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, 0, '2009-02-03 18:07:54', '2011-09-30 01:07:17'),
-(35, 'Product 8', '', '', '', '', '', '', '', 1000, 5, '', 0, 0, '100.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 0, '2009-02-03 18:08:31', '2011-09-30 01:06:17'),
-(36, 'Product 9', '', '', '', '', '', '', '', 994, 6, 'catalog/demo/ipod_nano_1.jpg', 8, 0, '100.0000', 100, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, 0, '2009-02-03 18:09:19', '2011-09-30 01:07:12'),
-(40, 'product 11', '', '', '', '', '', '', '', 970, 5, 'catalog/demo/iphone_1.jpg', 8, 1, '101.0000', 0, 9, '2009-02-03', '10.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 0, '2009-02-03 21:07:12', '2011-09-30 01:06:53'),
-(41, 'Product 14', '', '', '', '', '', '', '', 977, 5, 'catalog/demo/imac_1.jpg', 8, 1, '100.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 0, '2009-02-03 21:07:26', '2011-09-30 01:06:44'),
-(42, 'Product 15', '', '', '', '', '', '', '', 990, 5, 'catalog/demo/apple_cinema_30.jpg', 8, 1, '100.0000', 400, 9, '2009-02-04', '12.50000000', 1, '1.00000000', '2.00000000', '3.00000000', 1, 1, 2, 0, 1, 0, '2009-02-03 21:07:37', '2011-09-30 00:46:19'),
-(43, 'Product 16', '', '', '', '', '', '', '', 929, 5, 'catalog/demo/macbook_1.jpg', 8, 0, '500.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, 0, '2009-02-03 21:07:49', '2011-09-30 01:05:46'),
-(44, 'Product 17', '', '', '', '', '', '', '', 1000, 5, 'catalog/demo/macbook_air_1.jpg', 8, 1, '1000.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, 0, '2009-02-03 21:08:00', '2011-09-30 01:05:53'),
-(45, 'Product 18', '', '', '', '', '', '', '', 998, 5, 'catalog/demo/macbook_pro_1.jpg', 8, 1, '2000.0000', 0, 100, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, 0, '2009-02-03 21:08:17', '2011-09-15 22:22:01'),
-(46, 'Product 19', '', '', '', '', '', '', '', 1000, 5, 'catalog/demo/sony_vaio_1.jpg', 10, 1, '1000.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, 0, '2009-02-03 21:08:29', '2011-09-30 01:06:39'),
-(47, 'Product 21', '', '', '', '', '', '', '', 1000, 5, 'catalog/demo/hp_1.jpg', 7, 1, '100.0000', 400, 9, '2009-02-03', '1.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 0, 1, 0, 1, 0, '2009-02-03 21:08:40', '2011-09-30 01:05:28'),
-(48, 'product 20', 'test 1', '', '', '', '', '', 'test 2', 995, 5, 'catalog/demo/ipod_classic_1.jpg', 8, 1, '100.0000', 0, 9, '2009-02-08', '1.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, 0, '2009-02-08 17:21:51', '2011-09-30 01:07:06'),
-(49, 'SAM1', '', '', '', '', '', '', '', 0, 8, 'catalog/demo/samsung_tab_1.jpg', 0, 1, '199.9900', 0, 9, '2011-04-25', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 1, 1, 1, '2011-04-26 08:57:34', '2011-09-30 01:06:23');
+INSERT INTO `oc_product` (`product_id`, `master_id`, `model`, `sku`, `upc`, `ean`, `jan`, `isbn`, `mpn`, `location`, `variant`, `override`, `quantity`, `stock_status_id`, `image`, `manufacturer_id`, `shipping`, `price`, `points`, `tax_class_id`, `date_available`, `weight`, `weight_class_id`, `length`, `width`, `height`, `length_class_id`, `subtract`, `minimum`, `sort_order`, `status`, `date_added`, `date_modified`) VALUES
+(28, 0, 'Product 1', '', '', '', '', '', '', '', '', '', 937, 7, 'catalog/productsimage/12.jpg', 5, 1, '100.0000', 200, 9, '2009-02-03', '146.40000000', 2, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, '2009-02-03 16:06:50', '2023-12-05 04:12:53'),
+(29, 0, 'Product 2', '', '', '', '', '', '', '', '', '', 999, 6, 'catalog/productsimage/9.jpg', 6, 1, '279.9900', 0, 9, '2009-02-03', '133.00000000', 2, '0.00000000', '0.00000000', '0.00000000', 3, 1, 1, 0, 1, '2009-02-03 16:42:17', '2023-10-03 12:22:27'),
+(30, 0, 'Product 3', '', '', '', '', '', '', '', '', '', 4, 6, 'catalog/productsimage/10.jpg', 9, 1, '100.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, '2009-02-03 16:59:00', '2023-10-03 12:15:23'),
+(31, 0, 'Product 4', '', '', '', '', '', '', '', '', '', 1000, 6, 'catalog/productsimage/8.jpg', 0, 1, '80.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 3, 1, 1, 0, 1, '2009-02-03 17:00:10', '2023-10-03 12:21:53'),
+(32, 0, 'Product 5', '', '', '', '', '', '', '', '', '', 999, 6, 'catalog/productsimage/19.jpg', 8, 1, '100.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, '2009-02-03 17:07:26', '2023-10-03 12:18:54'),
+(33, 0, 'Product 6', '', '', '', '', '', '', '', '', '', 1000, 6, 'catalog/productsimage/4.jpg', 0, 1, '200.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, '2009-02-03 17:08:31', '2023-10-06 09:44:15'),
+(34, 0, 'Product 7', '', '', '', '', '', '', '', '', '', 1000, 6, 'catalog/productsimage/18.jpg', 8, 1, '100.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, '2009-02-03 18:07:54', '2023-11-08 05:06:21'),
+(35, 0, 'Product 8', '', '', '', '', '', '', '', '', '', 1000, 5, 'catalog/productsimage/3.jpg', 0, 0, '100.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, '2009-02-03 18:08:31', '2023-10-03 12:22:58'),
+(36, 0, 'Product 9', '', '', '', '', '', '', '', '', '', 994, 6, 'catalog/productsimage/16.jpg', 8, 0, '100.0000', 100, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, '2009-02-03 18:09:19', '2023-10-03 12:17:42'),
+(40, 0, 'product 11', '', '', '', '', '', '', '', '', '', 969, 5, 'catalog/productsimage/14.jpg', 8, 1, '101.0000', 0, 9, '2009-02-03', '10.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, '2009-02-03 21:07:12', '2023-11-08 05:06:09'),
+(41, 0, 'Product 14', '', '', '', '', '', '', '', '', '', 967, 7, 'catalog/productsimage/13.jpg', 8, 1, '100.0000', 0, 9, '2009-02-03', '5.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, '2009-02-03 21:07:26', '2023-11-08 05:06:15'),
+(42, 0, 'Product 15', '', '', '', '', '', '', '', '', '', 199, 5, 'catalog/productsimage/1.jpg', 8, 1, '100.0000', 400, 9, '2009-02-04', '12.50000000', 1, '1.00000000', '2.00000000', '3.00000000', 1, 1, 0, 0, 1, '2009-02-03 21:07:37', '2023-11-08 05:06:04'),
+(43, 0, 'Product 16', '', '', '', '', '', '', '', '', '', 928, 5, 'catalog/productsimage/9.jpg', 8, 0, '500.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, '2009-02-03 21:07:49', '2023-10-31 12:14:31'),
+(44, 0, 'Product 17', '', '', '', '', '', '', '', '', '', 1000, 5, 'catalog/productsimage/5.jpg', 8, 1, '1000.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, '2009-02-03 21:08:00', '2023-10-03 12:20:02'),
+(45, 0, 'Product 18', '', '', '', '', '', '', '', '', '', 997, 5, 'catalog/productsimage/4.jpg', 8, 1, '2000.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, '2009-02-03 21:08:17', '2023-10-03 12:21:27'),
+(46, 0, 'Product 19', '', '', '', '', '', '', '', '', '', 998, 5, 'catalog/productsimage/19.jpg', 10, 1, '1000.0000', 0, 9, '2009-02-03', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, '2009-02-03 21:08:29', '2023-10-03 12:24:53'),
+(47, 0, 'Product 21', '', '', '', '', '', '', '', '', '', 1000, 5, 'catalog/productsimage/11.jpg', 7, 1, '100.0000', 400, 9, '2009-02-03', '1.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 0, 1, 0, 1, '2009-02-03 21:08:40', '2023-10-03 12:15:40'),
+(48, 0, 'product 20', 'test 1', '', '', '', '', '', 'test 2', '', '', 994, 5, 'catalog/productsimage/17.jpg', 8, 1, '100.0000', 0, 9, '2009-02-08', '1.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 2, 1, 1, 0, 1, '2009-02-08 17:21:51', '2023-10-03 12:17:07'),
+(49, 0, 'SAM1', '', '', '', '', '', '', '', '', '', 0, 8, 'catalog/productsimage/5.jpg', 0, 1, '199.9900', 0, 9, '2011-04-25', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 1, 1, '2011-04-26 08:57:34', '2023-10-03 12:23:30');
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_googleshopping_product`
---
-
-DROP TABLE IF EXISTS `oc_googleshopping_product`;
-CREATE TABLE `oc_googleshopping_product` (
-  `product_advertise_google_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) DEFAULT NULL,
-  `store_id` int(11) NOT NULL DEFAULT '0',
-  `has_issues` tinyint(1) DEFAULT NULL,
-  `destination_status` enum('pending','approved','disapproved') NOT NULL DEFAULT 'pending',
-  `impressions` int(11) NOT NULL DEFAULT '0',
-  `clicks` int(11) NOT NULL DEFAULT '0',
-  `conversions` int(11) NOT NULL DEFAULT '0',
-  `cost` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `conversion_value` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `google_product_category` varchar(10) DEFAULT NULL,
-  `condition` enum('new','refurbished','used') DEFAULT NULL,
-  `adult` tinyint(1) DEFAULT NULL,
-  `multipack` int(11) DEFAULT NULL,
-  `is_bundle` tinyint(1) DEFAULT NULL,
-  `age_group` enum('newborn','infant','toddler','kids','adult') DEFAULT NULL,
-  `color` int(11) DEFAULT NULL,
-  `gender` enum('male','female','unisex') DEFAULT NULL,
-  `size_type` enum('regular','petite','plus','big and tall','maternity') DEFAULT NULL,
-  `size_system` enum('AU','BR','CN','DE','EU','FR','IT','JP','MEX','UK','US') DEFAULT NULL,
-  `size` int(11) DEFAULT NULL,
-  `is_modified` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`product_advertise_google_id`),
-  UNIQUE KEY `product_id_store_id` (`product_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
------------------------------------------------------------
-
---
--- Table structure for table `oc_googleshopping_product_status`
---
-
-DROP TABLE IF EXISTS `oc_googleshopping_product_status`;
-CREATE TABLE `oc_googleshopping_product_status` (
-  `product_id` int(11) NOT NULL DEFAULT '0',
-  `store_id` int(11) NOT NULL DEFAULT '0',
-  `product_variation_id` varchar(64) NOT NULL DEFAULT '',
-  `destination_statuses` text NOT NULL,
-  `data_quality_issues` text NOT NULL,
-  `item_level_issues` text NOT NULL,
-  `google_expiration_date` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`product_id`,`store_id`,`product_variation_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
------------------------------------------------------------
-
---
--- Table structure for table `oc_googleshopping_product_target`
---
-
-DROP TABLE IF EXISTS `oc_googleshopping_product_target`;
-CREATE TABLE `oc_googleshopping_product_target` (
-  `product_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL DEFAULT '0',
-  `advertise_google_target_id` int(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`product_id`,`advertise_google_target_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_attribute`
 --
 
-DROP TABLE IF EXISTS `oc_product_attribute`;
 CREATE TABLE `oc_product_attribute` (
   `product_id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `text` text NOT NULL,
-  PRIMARY KEY (`product_id`,`attribute_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_attribute`
@@ -2629,18 +7140,28 @@ CREATE TABLE `oc_product_attribute` (
 
 INSERT INTO `oc_product_attribute` (`product_id`, `attribute_id`, `language_id`, `text`) VALUES
 (43, 2, 1, '1'),
-(47, 4, 1, '16GB'),
+(43, 2, 6, '1'),
+(43, 2, 7, '1'),
+(43, 2, 8, '1'),
 (43, 4, 1, '8gb'),
-(42, 3, 1, '100mhz'),
-(47, 2, 1, '4');
+(43, 4, 6, '8gb'),
+(43, 4, 7, '8gb'),
+(43, 4, 8, '8gb'),
+(47, 2, 1, '4'),
+(47, 2, 6, '4'),
+(47, 2, 7, '4'),
+(47, 2, 8, '4'),
+(47, 4, 1, '16GB'),
+(47, 4, 6, '16GB'),
+(47, 4, 7, '16GB'),
+(47, 4, 8, '16GB');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_description`
 --
 
-DROP TABLE IF EXISTS `oc_product_description`;
 CREATE TABLE `oc_product_description` (
   `product_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
@@ -2649,204 +7170,266 @@ CREATE TABLE `oc_product_description` (
   `tag` text NOT NULL,
   `meta_title` varchar(255) NOT NULL,
   `meta_description` varchar(255) NOT NULL,
-  `meta_keyword` varchar(255) NOT NULL,
-  PRIMARY KEY (`product_id`,`language_id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `meta_keyword` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_description`
 --
 
 INSERT INTO `oc_product_description` (`product_id`, `language_id`, `name`, `description`, `tag`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
-(35, 1, 'Product 8', '&lt;p&gt;\r\n	Product 8&lt;/p&gt;\r\n', '', 'Product 8', '', ''),
-(48, 1, 'iPod Classic', '&lt;div class=&quot;cpt_product_description &quot;&gt;\r\n	&lt;div&gt;\r\n		&lt;p&gt;\r\n			&lt;strong&gt;More room to move.&lt;/strong&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			With 80GB or 160GB of storage and up to 40 hours of battery life, the new iPod classic lets you enjoy up to 40,000 songs or up to 200 hours of video or any combination wherever you go.&lt;/p&gt;\r\n		&lt;p&gt;\r\n			&lt;strong&gt;Cover Flow.&lt;/strong&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			Browse through your music collection by flipping through album art. Select an album to turn it over and see the track list.&lt;/p&gt;\r\n		&lt;p&gt;\r\n			&lt;strong&gt;Enhanced interface.&lt;/strong&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			Experience a whole new way to browse and view your music and video.&lt;/p&gt;\r\n		&lt;p&gt;\r\n			&lt;strong&gt;Sleeker design.&lt;/strong&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			Beautiful, durable, and sleeker than ever, iPod classic now features an anodized aluminum and polished stainless steel enclosure with rounded edges.&lt;/p&gt;\r\n	&lt;/div&gt;\r\n&lt;/div&gt;\r\n&lt;!-- cpt_container_end --&gt;', '', 'iPod Classic', '', ''),
-(40, 1, 'iPhone', '&lt;p class=&quot;intro&quot;&gt;\r\n	iPhone is a revolutionary new mobile phone that allows you to make a call by simply tapping a name or number in your address book, a favorites list, or a call log. It also automatically syncs all your contacts from a PC, Mac, or Internet service. And it lets you select and listen to voicemail messages in whatever order you want just like email.&lt;/p&gt;\r\n', '', 'iPhone', '', ''),
-(28, 1, 'HTC Touch HD', '&lt;p&gt;\r\n	HTC Touch - in High Definition. Watch music videos and streaming content in awe-inspiring high definition clarity for a mobile experience you never thought possible. Seductively sleek, the HTC Touch HD provides the next generation of mobile functionality, all at a simple touch. Fully integrated with Windows Mobile Professional 6.1, ultrafast 3.5G, GPS, 5MP camera, plus lots more - all delivered on a breathtakingly crisp 3.8&amp;quot; WVGA touchscreen - you can take control of your mobile world with the HTC Touch HD.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Processor Qualcomm&amp;reg; MSM 7201A&amp;trade; 528 MHz&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Windows Mobile&amp;reg; 6.1 Professional Operating System&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Memory: 512 MB ROM, 288 MB RAM&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Dimensions: 115 mm x 62.8 mm x 12 mm / 146.4 grams&lt;/li&gt;\r\n	&lt;li&gt;\r\n		3.8-inch TFT-LCD flat touch-sensitive screen with 480 x 800 WVGA resolution&lt;/li&gt;\r\n	&lt;li&gt;\r\n		HSDPA/WCDMA: Europe/Asia: 900/2100 MHz; Up to 2 Mbps up-link and 7.2 Mbps down-link speeds&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Quad-band GSM/GPRS/EDGE: Europe/Asia: 850/900/1800/1900 MHz (Band frequency, HSUPA availability, and data speed are operator dependent.)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Device Control via HTC TouchFLO&amp;trade; 3D &amp;amp; Touch-sensitive front panel buttons&lt;/li&gt;\r\n	&lt;li&gt;\r\n		GPS and A-GPS ready&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Bluetooth&amp;reg; 2.0 with Enhanced Data Rate and A2DP for wireless stereo headsets&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Wi-Fi&amp;reg;: IEEE 802.11 b/g&lt;/li&gt;\r\n	&lt;li&gt;\r\n		HTC ExtUSB&amp;trade; (11-pin mini-USB 2.0)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		5 megapixel color camera with auto focus&lt;/li&gt;\r\n	&lt;li&gt;\r\n		VGA CMOS color camera&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Built-in 3.5 mm audio jack, microphone, speaker, and FM radio&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Ring tone formats: AAC, AAC+, eAAC+, AMR-NB, AMR-WB, QCP, MP3, WMA, WAV&lt;/li&gt;\r\n	&lt;li&gt;\r\n		40 polyphonic and standard MIDI format 0 and 1 (SMF)/SP MIDI&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Rechargeable Lithium-ion or Lithium-ion polymer 1350 mAh battery&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Expansion Slot: microSD&amp;trade; memory card (SD 2.0 compatible)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		AC Adapter Voltage range/frequency: 100 ~ 240V AC, 50/60 Hz DC output: 5V and 1A&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Special Features: FM Radio, G-Sensor&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', '', '	 HTC Touch HD', '', ''),
-(44, 1, 'MacBook Air', '&lt;div&gt;\r\n	MacBook Air is ultrathin, ultraportable, and ultra unlike anything else. But you don&amp;rsquo;t lose inches and pounds overnight. It&amp;rsquo;s the result of rethinking conventions. Of multiple wireless innovations. And of breakthrough design. With MacBook Air, mobile computing suddenly has a new standard.&lt;/div&gt;\r\n', '', 'MacBook Air', '', ''),
-(45, 1, 'MacBook Pro', '&lt;div class=&quot;cpt_product_description &quot;&gt;\r\n	&lt;div&gt;\r\n		&lt;p&gt;\r\n			&lt;b&gt;Latest Intel mobile architecture&lt;/b&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			Powered by the most advanced mobile processors from Intel, the new Core 2 Duo MacBook Pro is over 50% faster than the original Core Duo MacBook Pro and now supports up to 4GB of RAM.&lt;/p&gt;\r\n		&lt;p&gt;\r\n			&lt;b&gt;Leading-edge graphics&lt;/b&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			The NVIDIA GeForce 8600M GT delivers exceptional graphics processing power. For the ultimate creative canvas, you can even configure the 17-inch model with a 1920-by-1200 resolution display.&lt;/p&gt;\r\n		&lt;p&gt;\r\n			&lt;b&gt;Designed for life on the road&lt;/b&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			Innovations such as a magnetic power connection and an illuminated keyboard with ambient light sensor put the MacBook Pro in a class by itself.&lt;/p&gt;\r\n		&lt;p&gt;\r\n			&lt;b&gt;Connect. Create. Communicate.&lt;/b&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			Quickly set up a video conference with the built-in iSight camera. Control presentations and media from up to 30 feet away with the included Apple Remote. Connect to high-bandwidth peripherals with FireWire 800 and DVI.&lt;/p&gt;\r\n		&lt;p&gt;\r\n			&lt;b&gt;Next-generation wireless&lt;/b&gt;&lt;/p&gt;\r\n		&lt;p&gt;\r\n			Featuring 802.11n wireless technology, the MacBook Pro delivers up to five times the performance and up to twice the range of previous-generation technologies.&lt;/p&gt;\r\n	&lt;/div&gt;\r\n&lt;/div&gt;\r\n&lt;!-- cpt_container_end --&gt;', '', 'MacBook Pro', '', ''),
-(29, 1, 'Palm Treo Pro', '&lt;p&gt;\r\n	Redefine your workday with the Palm Treo Pro smartphone. Perfectly balanced, you can respond to business and personal email, stay on top of appointments and contacts, and use Wi-Fi or GPS when you&amp;rsquo;re out and about. Then watch a video on YouTube, catch up with news and sports on the web, or listen to a few songs. Balance your work and play the way you like it, with the Palm Treo Pro.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Features&lt;/strong&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Windows Mobile&amp;reg; 6.1 Professional Edition&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Qualcomm&amp;reg; MSM7201 400MHz Processor&lt;/li&gt;\r\n	&lt;li&gt;\r\n		320x320 transflective colour TFT touchscreen&lt;/li&gt;\r\n	&lt;li&gt;\r\n		HSDPA/UMTS/EDGE/GPRS/GSM radio&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Tri-band UMTS &amp;mdash; 850MHz, 1900MHz, 2100MHz&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Quad-band GSM &amp;mdash; 850/900/1800/1900&lt;/li&gt;\r\n	&lt;li&gt;\r\n		802.11b/g with WPA, WPA2, and 801.1x authentication&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Built-in GPS&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Bluetooth Version: 2.0 + Enhanced Data Rate&lt;/li&gt;\r\n	&lt;li&gt;\r\n		256MB storage (100MB user available), 128MB RAM&lt;/li&gt;\r\n	&lt;li&gt;\r\n		2.0 megapixel camera, up to 8x digital zoom and video capture&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Removable, rechargeable 1500mAh lithium-ion battery&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Up to 5.0 hours talk time and up to 250 hours standby&lt;/li&gt;\r\n	&lt;li&gt;\r\n		MicroSDHC card expansion (up to 32GB supported)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		MicroUSB 2.0 for synchronization and charging&lt;/li&gt;\r\n	&lt;li&gt;\r\n		3.5mm stereo headset jack&lt;/li&gt;\r\n	&lt;li&gt;\r\n		60mm (W) x 114mm (L) x 13.5mm (D) / 133g&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', '', 'Palm Treo Pro', '', ''),
-(36, 1, 'iPod Nano', '&lt;div&gt;\r\n	&lt;p&gt;\r\n		&lt;strong&gt;Video in your pocket.&lt;/strong&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		Its the small iPod with one very big idea: video. The worlds most popular music player now lets you enjoy movies, TV shows, and more on a two-inch display thats 65% brighter than before.&lt;/p&gt;\r\n	&lt;p&gt;\r\n		&lt;strong&gt;Cover Flow.&lt;/strong&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		Browse through your music collection by flipping through album art. Select an album to turn it over and see the track list.&lt;strong&gt;&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		&lt;strong&gt;Enhanced interface.&lt;/strong&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		Experience a whole new way to browse and view your music and video.&lt;/p&gt;\r\n	&lt;p&gt;\r\n		&lt;strong&gt;Sleek and colorful.&lt;/strong&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		With an anodized aluminum and polished stainless steel enclosure and a choice of five colors, iPod nano is dressed to impress.&lt;/p&gt;\r\n	&lt;p&gt;\r\n		&lt;strong&gt;iTunes.&lt;/strong&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		Available as a free download, iTunes makes it easy to browse and buy millions of songs, movies, TV shows, audiobooks, and games and download free podcasts all at the iTunes Store. And you can import your own music, manage your whole media library, and sync your iPod or iPhone with ease.&lt;/p&gt;\r\n&lt;/div&gt;\r\n', '', 'iPod Nano', '', ''),
-(46, 1, 'Sony VAIO', '&lt;div&gt;\r\n	Unprecedented power. The next generation of processing technology has arrived. Built into the newest VAIO notebooks lies Intel&amp;#39;s latest, most powerful innovation yet: Intel&amp;reg; Centrino&amp;reg; 2 processor technology. Boasting incredible speed, expanded wireless connectivity, enhanced multimedia support and greater energy efficiency, all the high-performance essentials are seamlessly combined into a single chip.&lt;/div&gt;\r\n', '', 'Sony VAIO', '', ''),
-(47, 1, 'HP LP3065', '&lt;p&gt;\r\n	Stop your co-workers in their tracks with the stunning new 30-inch diagonal HP LP3065 Flat Panel Monitor. This flagship monitor features best-in-class performance and presentation features on a huge wide-aspect screen while letting you work as comfortably as possible - you might even forget you&amp;#39;re at the office&lt;/p&gt;\r\n', '', 'HP LP3065', '', ''),
-(32, 1, 'iPod Touch', '&lt;p&gt;\r\n	&lt;strong&gt;Revolutionary multi-touch interface.&lt;/strong&gt;&lt;br /&gt;\r\n	iPod touch features the same multi-touch screen technology as iPhone. Pinch to zoom in on a photo. Scroll through your songs and videos with a flick. Flip through your library by album artwork with Cover Flow.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Gorgeous 3.5-inch widescreen display.&lt;/strong&gt;&lt;br /&gt;\r\n	Watch your movies, TV shows, and photos come alive with bright, vivid color on the 320-by-480-pixel display.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Music downloads straight from iTunes.&lt;/strong&gt;&lt;br /&gt;\r\n	Shop the iTunes Wi-Fi Music Store from anywhere with Wi-Fi.1 Browse or search to find the music youre looking for, preview it, and buy it with just a tap.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Surf the web with Wi-Fi.&lt;/strong&gt;&lt;br /&gt;\r\n	Browse the web using Safari and watch YouTube videos on the first iPod with Wi-Fi built in&lt;br /&gt;\r\n	&amp;nbsp;&lt;/p&gt;\r\n', '', '	 iPod Touch', '', ''),
-(41, 1, 'iMac', '&lt;div&gt;\r\n	Just when you thought iMac had everything, now there&acute;s even more. More powerful Intel Core 2 Duo processors. And more memory standard. Combine this with Mac OS X Leopard and iLife &acute;08, and it&acute;s more all-in-one than ever. iMac packs amazing performance into a stunningly slim space.&lt;/div&gt;\r\n', '', 'iMac', '', ''),
-(33, 1, 'Samsung SyncMaster 941BW', '&lt;div&gt;\r\n	Imagine the advantages of going big without slowing down. The big 19&amp;quot; 941BW monitor combines wide aspect ratio with fast pixel response time, for bigger images, more room to work and crisp motion. In addition, the exclusive MagicBright 2, MagicColor and MagicTune technologies help deliver the ideal image in every situation, while sleek, narrow bezels and adjustable stands deliver style just the way you want it. With the Samsung 941BW widescreen analog/digital LCD monitor, it&amp;#39;s not hard to imagine.&lt;/div&gt;\r\n', '', 'Samsung SyncMaster 941BW', '', ''),
-(34, 1, 'iPod Shuffle', '&lt;div&gt;\r\n	&lt;strong&gt;Born to be worn.&lt;/strong&gt;\r\n	&lt;p&gt;\r\n		Clip on the worlds most wearable music player and take up to 240 songs with you anywhere. Choose from five colors including four new hues to make your musical fashion statement.&lt;/p&gt;\r\n	&lt;p&gt;\r\n		&lt;strong&gt;Random meets rhythm.&lt;/strong&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		With iTunes autofill, iPod shuffle can deliver a new musical experience every time you sync. For more randomness, you can shuffle songs during playback with the slide of a switch.&lt;/p&gt;\r\n	&lt;strong&gt;Everything is easy.&lt;/strong&gt;\r\n	&lt;p&gt;\r\n		Charge and sync with the included USB dock. Operate the iPod shuffle controls with one hand. Enjoy up to 12 hours straight of skip-free music playback.&lt;/p&gt;\r\n&lt;/div&gt;\r\n', '', 'iPod Shuffle', '', ''),
-(43, 1, 'MacBook', '&lt;div&gt;\r\n	&lt;p&gt;\r\n		&lt;b&gt;Intel Core 2 Duo processor&lt;/b&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		Powered by an Intel Core 2 Duo processor at speeds up to 2.16GHz, the new MacBook is the fastest ever.&lt;/p&gt;\r\n	&lt;p&gt;\r\n		&lt;b&gt;1GB memory, larger hard drives&lt;/b&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		The new MacBook now comes with 1GB of memory standard and larger hard drives for the entire line perfect for running more of your favorite applications and storing growing media collections.&lt;/p&gt;\r\n	&lt;p&gt;\r\n		&lt;b&gt;Sleek, 1.08-inch-thin design&lt;/b&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		MacBook makes it easy to hit the road thanks to its tough polycarbonate case, built-in wireless technologies, and innovative MagSafe Power Adapter that releases automatically if someone accidentally trips on the cord.&lt;/p&gt;\r\n	&lt;p&gt;\r\n		&lt;b&gt;Built-in iSight camera&lt;/b&gt;&lt;/p&gt;\r\n	&lt;p&gt;\r\n		Right out of the box, you can have a video chat with friends or family,2 record a video at your desk, or take fun pictures with Photo Booth&lt;/p&gt;\r\n&lt;/div&gt;\r\n', '', 'MacBook', '', ''),
-(31, 1, 'Nikon D300', '&lt;div class=&quot;cpt_product_description &quot;&gt;\r\n	&lt;div&gt;\r\n		Engineered with pro-level features and performance, the 12.3-effective-megapixel D300 combines brand new technologies with advanced features inherited from Nikon&amp;#39;s newly announced D3 professional digital SLR camera to offer serious photographers remarkable performance combined with agility.&lt;br /&gt;\r\n		&lt;br /&gt;\r\n		Similar to the D3, the D300 features Nikon&amp;#39;s exclusive EXPEED Image Processing System that is central to driving the speed and processing power needed for many of the camera&amp;#39;s new features. The D300 features a new 51-point autofocus system with Nikon&amp;#39;s 3D Focus Tracking feature and two new LiveView shooting modes that allow users to frame a photograph using the camera&amp;#39;s high-resolution LCD monitor. The D300 shares a similar Scene Recognition System as is found in the D3; it promises to greatly enhance the accuracy of autofocus, autoexposure, and auto white balance by recognizing the subject or scene being photographed and applying this information to the calculations for the three functions.&lt;br /&gt;\r\n		&lt;br /&gt;\r\n		The D300 reacts with lightning speed, powering up in a mere 0.13 seconds and shooting with an imperceptible 45-millisecond shutter release lag time. The D300 is capable of shooting at a rapid six frames per second and can go as fast as eight frames per second when using the optional MB-D10 multi-power battery pack. In continuous bursts, the D300 can shoot up to 100 shots at full 12.3-megapixel resolution. (NORMAL-LARGE image setting, using a SanDisk Extreme IV 1GB CompactFlash card.)&lt;br /&gt;\r\n		&lt;br /&gt;\r\n		The D300 incorporates a range of innovative technologies and features that will significantly improve the accuracy, control, and performance photographers can get from their equipment. Its new Scene Recognition System advances the use of Nikon&amp;#39;s acclaimed 1,005-segment sensor to recognize colors and light patterns that help the camera determine the subject and the type of scene being photographed before a picture is taken. This information is used to improve the accuracy of autofocus, autoexposure, and auto white balance functions in the D300. For example, the camera can track moving subjects better and by identifying them, it can also automatically select focus points faster and with greater accuracy. It can also analyze highlights and more accurately determine exposure, as well as infer light sources to deliver more accurate white balance detection.&lt;/div&gt;\r\n&lt;/div&gt;\r\n&lt;!-- cpt_container_end --&gt;', '', 'Nikon D300', '', ''),
-(49, 1, 'Samsung Galaxy Tab 10.1', '&lt;p&gt;\r\n	Samsung Galaxy Tab 10.1, is the world&amp;rsquo;s thinnest tablet, measuring 8.6 mm thickness, running with Android 3.0 Honeycomb OS on a 1GHz dual-core Tegra 2 processor, similar to its younger brother Samsung Galaxy Tab 8.9.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Samsung Galaxy Tab 10.1 gives pure Android 3.0 experience, adding its new TouchWiz UX or TouchWiz 4.0 &amp;ndash; includes a live panel, which lets you to customize with different content, such as your pictures, bookmarks, and social feeds, sporting a 10.1 inches WXGA capacitive touch screen with 1280 x 800 pixels of resolution, equipped with 3 megapixel rear camera with LED flash and a 2 megapixel front camera, HSPA+ connectivity up to 21Mbps, 720p HD video recording capability, 1080p HD playback, DLNA support, Bluetooth 2.1, USB 2.0, gyroscope, Wi-Fi 802.11 a/b/g/n, micro-SD slot, 3.5mm headphone jack, and SIM slot, including the Samsung Stick &amp;ndash; a Bluetooth microphone that can be carried in a pocket like a pen and sound dock with powered subwoofer.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Samsung Galaxy Tab 10.1 will come in 16GB / 32GB / 64GB verities and pre-loaded with Social Hub, Reader&amp;rsquo;s Hub, Music Hub and Samsung Mini Apps Tray &amp;ndash; which gives you access to more commonly used apps to help ease multitasking and it is capable of Adobe Flash Player 10.2, powered by 6860mAh battery that gives you 10hours of video-playback time.&amp;nbsp;&amp;auml;&amp;ouml;&lt;/p&gt;\r\n', '', 'Samsung Galaxy Tab 10.1', '', ''),
-(42, 1, 'Apple Cinema 30&quot;', '&lt;p&gt;\r\n	&lt;font face=&quot;helvetica,geneva,arial&quot; size=&quot;2&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;2&quot;&gt;The 30-inch Apple Cinema HD Display delivers an amazing 2560 x 1600 pixel resolution. Designed specifically for the creative professional, this display provides more space for easier access to all the tools and palettes needed to edit, format and composite your work. Combine this display with a Mac Pro, MacBook Pro, or PowerMac G5 and there''s no limit to what you can achieve. &lt;br&gt;\r\n	&lt;br&gt;\r\n	&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;2&quot;&gt;The Cinema HD features an active-matrix liquid crystal display that produces flicker-free images that deliver twice the brightness, twice the sharpness and twice the contrast ratio of a typical CRT display. Unlike other flat panels, it''s designed with a pure digital interface to deliver distortion-free images that never need adjusting. With over 4 million digital pixels, the display is uniquely suited for scientific and technical applications such as visualizing molecular structures or analyzing geological data. &lt;br&gt;\r\n	&lt;br&gt;\r\n	&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;2&quot;&gt;Offering accurate, brilliant color performance, the Cinema HD delivers up to 16.7 million colors across a wide gamut allowing you to see subtle nuances between colors from soft pastels to rich jewel tones. A wide viewing angle ensures uniform color from edge to edge. Apple''s ColorSync technology allows you to create custom profiles to maintain consistent color onscreen and in print. The result: You can confidently use this display in all your color-critical applications. &lt;br&gt;\r\n	&lt;br&gt;\r\n	&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;2&quot;&gt;Housed in a new aluminum design, the display has a very thin bezel that enhances visual accuracy. Each display features two FireWire 400 ports and two USB 2.0 ports, making attachment of desktop peripherals, such as iSight, iPod, digital and still cameras, hard drives, printers and scanners, even more accessible and convenient. Taking advantage of the much thinner and lighter footprint of an LCD, the new displays support the VESA (Video Electronics Standards Association) mounting interface standard. Customers with the optional Cinema Display VESA Mount Adapter kit gain the flexibility to mount their display in locations most appropriate for their work environment. &lt;br&gt;\r\n	&lt;br&gt;\r\n	&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;2&quot;&gt;The Cinema HD features a single cable design with elegant breakout for the USB 2.0, FireWire 400 and a pure digital connection using the industry standard Digital Video Interface (DVI) interface. The DVI connection allows for a direct pure-digital connection.&lt;br&gt;\r\n	&lt;/font&gt;&lt;/font&gt;&lt;/p&gt;\r\n&lt;h3&gt;\r\n	Features:&lt;/h3&gt;\r\n&lt;p&gt;\r\n	Unrivaled display performance&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		30-inch (viewable) active-matrix liquid crystal display provides breathtaking image quality and vivid, richly saturated color.&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Support for 2560-by-1600 pixel resolution for display of high definition still and video imagery.&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Wide-format design for simultaneous display of two full pages of text and graphics.&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Industry standard DVI connector for direct attachment to Mac- and Windows-based desktops and notebooks&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Incredibly wide (170 degree) horizontal and vertical viewing angle for maximum visibility and color performance.&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Lightning-fast pixel response for full-motion digital video playback.&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Support for 16.7 million saturated colors, for use in all graphics-intensive applications.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	Simple setup and operation&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Single cable with elegant breakout for connection to DVI, USB and FireWire ports&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Built-in two-port USB 2.0 hub for easy connection of desktop peripheral devices.&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Two FireWire 400 ports to support iSight and other desktop peripherals&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	Sleek, elegant design&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Huge virtual workspace, very small footprint.&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Narrow Bezel design to minimize visual impact of using dual displays&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Unique hinge design for effortless adjustment&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Support for VESA mounting solutions (Apple Cinema Display VESA Mount Adapter sold separately)&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;h3&gt;\r\n	Technical specifications&lt;/h3&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Screen size (diagonal viewable image size)&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Apple Cinema HD Display: 30 inches (29.7-inch viewable)&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Screen type&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Thin film transistor (TFT) active-matrix liquid crystal display (AMLCD)&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Resolutions&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		2560 x 1600 pixels (optimum resolution)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		2048 x 1280&lt;/li&gt;\r\n	&lt;li&gt;\r\n		1920 x 1200&lt;/li&gt;\r\n	&lt;li&gt;\r\n		1280 x 800&lt;/li&gt;\r\n	&lt;li&gt;\r\n		1024 x 640&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Display colors (maximum)&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		16.7 million&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Viewing angle (typical)&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		170° horizontal; 170° vertical&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Brightness (typical)&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		30-inch Cinema HD Display: 400 cd/m2&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Contrast ratio (typical)&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		700:1&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Response time (typical)&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		16 ms&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Pixel pitch&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		30-inch Cinema HD Display: 0.250 mm&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Screen treatment&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Antiglare hardcoat&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;User controls (hardware and software)&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Display Power,&lt;/li&gt;\r\n	&lt;li&gt;\r\n		System sleep, wake&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Brightness&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Monitor tilt&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Connectors and cables&lt;/b&gt;&lt;br&gt;\r\n	Cable&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		DVI (Digital Visual Interface)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		FireWire 400&lt;/li&gt;\r\n	&lt;li&gt;\r\n		USB 2.0&lt;/li&gt;\r\n	&lt;li&gt;\r\n		DC power (24 V)&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	Connectors&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Two-port, self-powered USB 2.0 hub&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Two FireWire 400 ports&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Kensington security port&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;VESA mount adapter&lt;/b&gt;&lt;br&gt;\r\n	Requires optional Cinema Display VESA Mount Adapter (M9649G/A)&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Compatible with VESA FDMI (MIS-D, 100, C) compliant mounting solutions&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Electrical requirements&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Input voltage: 100-240 VAC 50-60Hz&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Maximum power when operating: 150W&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Energy saver mode: 3W or less&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Environmental requirements&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Operating temperature: 50° to 95° F (10° to 35° C)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Storage temperature: -40° to 116° F (-40° to 47° C)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Operating humidity: 20% to 80% noncondensing&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Maximum operating altitude: 10,000 feet&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Agency approvals&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		FCC Part 15 Class B&lt;/li&gt;\r\n	&lt;li&gt;\r\n		EN55022 Class B&lt;/li&gt;\r\n	&lt;li&gt;\r\n		EN55024&lt;/li&gt;\r\n	&lt;li&gt;\r\n		VCCI Class B&lt;/li&gt;\r\n	&lt;li&gt;\r\n		AS/NZS 3548 Class B&lt;/li&gt;\r\n	&lt;li&gt;\r\n		CNS 13438 Class B&lt;/li&gt;\r\n	&lt;li&gt;\r\n		ICES-003 Class B&lt;/li&gt;\r\n	&lt;li&gt;\r\n		ISO 13406 part 2&lt;/li&gt;\r\n	&lt;li&gt;\r\n		MPR II&lt;/li&gt;\r\n	&lt;li&gt;\r\n		IEC 60950&lt;/li&gt;\r\n	&lt;li&gt;\r\n		UL 60950&lt;/li&gt;\r\n	&lt;li&gt;\r\n		CSA 60950&lt;/li&gt;\r\n	&lt;li&gt;\r\n		EN60950&lt;/li&gt;\r\n	&lt;li&gt;\r\n		ENERGY STAR&lt;/li&gt;\r\n	&lt;li&gt;\r\n		TCO ''03&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;Size and weight&lt;/b&gt;&lt;br&gt;\r\n	30-inch Apple Cinema HD Display&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Height: 21.3 inches (54.3 cm)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Width: 27.2 inches (68.8 cm)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Depth: 8.46 inches (21.5 cm)&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Weight: 27.5 pounds (12.5 kg)&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;b&gt;System Requirements&lt;/b&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Mac Pro, all graphic options&lt;/li&gt;\r\n	&lt;li&gt;\r\n		MacBook Pro&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Power Mac G5 (PCI-X) with ATI Radeon 9650 or better or NVIDIA GeForce 6800 GT DDL or better&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Power Mac G5 (PCI Express), all graphics options&lt;/li&gt;\r\n	&lt;li&gt;\r\n		PowerBook G4 with dual-link DVI support&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Windows PC and graphics card that supports DVI ports with dual-link digital bandwidth and VESA DDC standard for plug-and-play setup&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', '', 'Apple Cinema 30', '', ''),
-(30, 1, 'Canon EOS 5D', '&lt;p&gt;\r\n	Canon''s press material for the EOS 5D states that it ''defines (a) new D-SLR category'', while we''re not typically too concerned with marketing talk this particular statement is clearly pretty accurate. The EOS 5D is unlike any previous digital SLR in that it combines a full-frame (35 mm sized) high resolution sensor (12.8 megapixels) with a relatively compact body (slightly larger than the EOS 20D, although in your hand it feels noticeably ''chunkier''). The EOS 5D is aimed to slot in between the EOS 20D and the EOS-1D professional digital SLR''s, an important difference when compared to the latter is that the EOS 5D doesn''t have any environmental seals. While Canon don''t specifically refer to the EOS 5D as a ''professional'' digital SLR it will have obvious appeal to professionals who want a high quality digital SLR in a body lighter than the EOS-1D. It will also no doubt appeal to current EOS 20D owners (although lets hope they''ve not bought too many EF-S lenses...) äë&lt;/p&gt;\r\n', '', 'sdf', '', '');
+(28, 1, 'HTC Touch HD', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'HTC Touch HD', '', ''),
+(28, 6, 'HTC Touch HD', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'HTC Touch HD', '', ''),
+(28, 7, 'HTC Touch HD', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'HTC Touch HD', '', ''),
+(28, 8, 'HTC Touch HD', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'HTC Touch HD', '', ''),
+(29, 1, 'Palm Treo Pro', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Palm Treo Pro', '', ''),
+(29, 6, 'Palm Treo Pro', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Palm Treo Pro', '', ''),
+(29, 7, 'Palm Treo Pro', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Palm Treo Pro', '', ''),
+(29, 8, 'Palm Treo Pro', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Palm Treo Pro', '', ''),
+(30, 1, 'Canon EOS 5D', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'sdf', '', ''),
+(30, 6, 'Canon EOS 5D', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'sdf', '', ''),
+(30, 7, 'Canon EOS 5D', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'sdf', '', ''),
+(30, 8, 'Canon EOS 5D', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'sdf', '', ''),
+(31, 1, 'Nikon D300', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Nikon D300', '', ''),
+(31, 6, 'Nikon D300', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Nikon D300', '', ''),
+(31, 7, 'Nikon D300', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Nikon D300', '', ''),
+(31, 8, 'Nikon D300', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Nikon D300', '', ''),
+(32, 1, 'iPod Touch', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Touch', '', ''),
+(32, 6, 'iPod Touch', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Touch', '', ''),
+(32, 7, 'iPod Touch', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Touch', '', ''),
+(32, 8, 'iPod Touch', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Touch', '', ''),
+(33, 1, 'Samsung SyncMaster 941BW', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Samsung SyncMaster 941BW', '', ''),
+(33, 6, 'Samsung SyncMaster 941BW', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Samsung SyncMaster 941BW', '', ''),
+(33, 7, 'Samsung SyncMaster 941BW', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Samsung SyncMaster 941BW', '', ''),
+(33, 8, 'Samsung SyncMaster 941BW', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Samsung SyncMaster 941BW', '', ''),
+(34, 1, 'iPod Shuffle', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Shuffle', '', ''),
+(34, 6, 'iPod Shuffle', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Shuffle', '', ''),
+(34, 7, 'iPod Shuffle', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Shuffle', '', ''),
+(34, 8, 'iPod Shuffle', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Shuffle', '', ''),
+(35, 1, 'Product 8', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Product 8', '', ''),
+(35, 6, 'Product 8', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Product 8', '', ''),
+(35, 7, 'Product 8', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Product 8', '', ''),
+(35, 8, 'Product 8', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Product 8', '', ''),
+(36, 1, 'iPod Nano', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Nano', '', ''),
+(36, 6, 'iPod Nano', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Nano', '', ''),
+(36, 7, 'iPod Nano', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Nano', '', ''),
+(36, 8, 'iPod Nano', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Nano', '', ''),
+(40, 1, 'iPhone', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPhone', '', ''),
+(40, 6, 'iPhone', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPhone', '', ''),
+(40, 7, 'iPhone', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPhone', '', ''),
+(40, 8, 'iPhone', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPhone', '', ''),
+(41, 1, 'iMac', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iMac', '', ''),
+(41, 6, 'iMac', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iMac', '', ''),
+(41, 7, 'iMac', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iMac', '', ''),
+(41, 8, 'iMac', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iMac', '', ''),
+(42, 1, 'Apple Cinema 30&quot;', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Apple Cinema 30', '', ''),
+(42, 6, 'Apple Cinema 30&quot;', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Apple Cinema 30', '', ''),
+(42, 7, 'Apple Cinema 30&quot;', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Apple Cinema 30', '', ''),
+(42, 8, 'Apple Cinema 30&quot;', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Apple Cinema 30', '', ''),
+(43, 1, 'MacBook', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook', '', ''),
+(43, 6, 'MacBook', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook', '', ''),
+(43, 7, 'MacBook', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook', '', ''),
+(43, 8, 'MacBook', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook', '', ''),
+(44, 1, 'MacBook Air', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook Air', '', ''),
+(44, 6, 'MacBook Air', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook Air', '', ''),
+(44, 7, 'MacBook Air', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook Air', '', ''),
+(44, 8, 'MacBook Air', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook Air', '', ''),
+(45, 1, 'MacBook Pro', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook Pro', '', ''),
+(45, 6, 'MacBook Pro', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook Pro', '', ''),
+(45, 7, 'MacBook Pro', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook Pro', '', ''),
+(45, 8, 'MacBook Pro', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'MacBook Pro', '', ''),
+(46, 1, 'Sony VAIO', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Sony VAIO', '', ''),
+(46, 6, 'Sony VAIO', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Sony VAIO', '', ''),
+(46, 7, 'Sony VAIO', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Sony VAIO', '', ''),
+(46, 8, 'Sony VAIO', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Sony VAIO', '', ''),
+(47, 1, 'HP LP3065', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'HP LP3065', '', ''),
+(47, 6, 'HP LP3065', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'HP LP3065', '', ''),
+(47, 7, 'HP LP3065', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'HP LP3065', '', ''),
+(47, 8, 'HP LP3065', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'HP LP3065', '', ''),
+(48, 1, 'iPod Classic', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Classic', '', ''),
+(48, 6, 'iPod Classic', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Classic', '', ''),
+(48, 7, 'iPod Classic', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Classic', '', ''),
+(48, 8, 'iPod Classic', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'iPod Classic', '', ''),
+(49, 1, 'Samsung Galaxy', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Samsung Galaxy', '', ''),
+(49, 6, 'Samsung Galaxy', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Samsung Galaxy', '', ''),
+(49, 7, 'Samsung Galaxy', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Samsung Galaxy', '', ''),
+(49, 8, 'Samsung Galaxy', '&lt;p&gt;Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you\'re ready for summer!&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Comodous in tempor ullamcorper miaculis&lt;/li&gt;\r\n	&lt;li&gt;Pellentesque vitae neque mollis urna mattis laoreet.&lt;/li&gt;\r\n	&lt;li&gt;Divamus sit amet purus justo.&lt;/li&gt;\r\n	&lt;li&gt;Proin molestie egestas orci ac suscipit risus posuere loremou.&lt;/li&gt;\r\n&lt;/ul&gt;', '', 'Samsung Galaxy', '', '');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_discount`
 --
 
-DROP TABLE IF EXISTS `oc_product_discount`;
 CREATE TABLE `oc_product_discount` (
-  `product_discount_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_discount_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_group_id` int(11) NOT NULL,
-  `quantity` int(4) NOT NULL DEFAULT '0',
-  `priority` int(5) NOT NULL DEFAULT '1',
-  `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `date_start` date NOT NULL DEFAULT '0000-00-00',
-  `date_end` date NOT NULL DEFAULT '0000-00-00',
-  PRIMARY KEY (`product_discount_id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `quantity` int(4) NOT NULL DEFAULT 0,
+  `priority` int(5) NOT NULL DEFAULT 1,
+  `price` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `oc_product_discount`
---
-
-INSERT INTO `oc_product_discount` (`product_discount_id`, `product_id`, `customer_group_id`, `quantity`, `priority`, `price`, `date_start`, `date_end`) VALUES
-(440, 42, 1, 30, 1, '66.0000', '0000-00-00', '0000-00-00'),
-(439, 42, 1, 20, 1, '77.0000', '0000-00-00', '0000-00-00'),
-(438, 42, 1, 10, 1, '88.0000', '0000-00-00', '0000-00-00');
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_filter`
 --
 
-DROP TABLE IF EXISTS `oc_product_filter`;
 CREATE TABLE `oc_product_filter` (
   `product_id` int(11) NOT NULL,
-  `filter_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`filter_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `filter_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_product_filter`
+--
+
+INSERT INTO `oc_product_filter` (`product_id`, `filter_id`) VALUES
+(28, 1),
+(28, 2),
+(28, 4),
+(28, 5),
+(30, 1),
+(30, 2),
+(30, 4),
+(30, 5),
+(30, 6),
+(40, 1),
+(40, 2),
+(40, 4),
+(40, 5),
+(41, 1),
+(41, 2),
+(41, 4),
+(41, 5),
+(42, 1),
+(42, 2),
+(42, 4),
+(42, 5),
+(42, 6),
+(47, 1),
+(47, 2),
+(47, 4),
+(47, 5),
+(47, 6);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_image`
 --
 
-DROP TABLE IF EXISTS `oc_product_image`;
 CREATE TABLE `oc_product_image` (
-  `product_image_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_image_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `sort_order` int(3) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`product_image_id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `image` varchar(255) NOT NULL,
+  `sort_order` int(3) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_image`
 --
 
 INSERT INTO `oc_product_image` (`product_image_id`, `product_id`, `image`, `sort_order`) VALUES
-(2345, 30, 'catalog/demo/canon_eos_5d_2.jpg', 0),
-(2321, 47, 'catalog/demo/hp_3.jpg', 0),
-(2035, 28, 'catalog/demo/htc_touch_hd_2.jpg', 0),
-(2351, 41, 'catalog/demo/imac_3.jpg', 0),
-(1982, 40, 'catalog/demo/iphone_6.jpg', 0),
-(2001, 36, 'catalog/demo/ipod_nano_5.jpg', 0),
-(2000, 36, 'catalog/demo/ipod_nano_4.jpg', 0),
-(2005, 34, 'catalog/demo/ipod_shuffle_5.jpg', 0),
-(2004, 34, 'catalog/demo/ipod_shuffle_4.jpg', 0),
-(2011, 32, 'catalog/demo/ipod_touch_7.jpg', 0),
-(2010, 32, 'catalog/demo/ipod_touch_6.jpg', 0),
-(2009, 32, 'catalog/demo/ipod_touch_5.jpg', 0),
-(1971, 43, 'catalog/demo/macbook_5.jpg', 0),
-(1970, 43, 'catalog/demo/macbook_4.jpg', 0),
-(1974, 44, 'catalog/demo/macbook_air_4.jpg', 0),
-(1973, 44, 'catalog/demo/macbook_air_2.jpg', 0),
-(1977, 45, 'catalog/demo/macbook_pro_2.jpg', 0),
-(1976, 45, 'catalog/demo/macbook_pro_3.jpg', 0),
-(1986, 31, 'catalog/demo/nikon_d300_3.jpg', 0),
-(1985, 31, 'catalog/demo/nikon_d300_2.jpg', 0),
-(1988, 29, 'catalog/demo/palm_treo_pro_3.jpg', 0),
-(1995, 46, 'catalog/demo/sony_vaio_5.jpg', 0),
-(1994, 46, 'catalog/demo/sony_vaio_4.jpg', 0),
-(1991, 48, 'catalog/demo/ipod_classic_4.jpg', 0),
-(1990, 48, 'catalog/demo/ipod_classic_3.jpg', 0),
-(1981, 40, 'catalog/demo/iphone_2.jpg', 0),
-(1980, 40, 'catalog/demo/iphone_5.jpg', 0),
-(2344, 30, 'catalog/demo/canon_eos_5d_3.jpg', 0),
-(2320, 47, 'catalog/demo/hp_2.jpg', 0),
-(2034, 28, 'catalog/demo/htc_touch_hd_3.jpg', 0),
-(2350, 41, 'catalog/demo/imac_2.jpg', 0),
-(1979, 40, 'catalog/demo/iphone_3.jpg', 0),
-(1978, 40, 'catalog/demo/iphone_4.jpg', 0),
-(1989, 48, 'catalog/demo/ipod_classic_2.jpg', 0),
-(1999, 36, 'catalog/demo/ipod_nano_2.jpg', 0),
-(1998, 36, 'catalog/demo/ipod_nano_3.jpg', 0),
-(2003, 34, 'catalog/demo/ipod_shuffle_2.jpg', 0),
-(2002, 34, 'catalog/demo/ipod_shuffle_3.jpg', 0),
-(2008, 32, 'catalog/demo/ipod_touch_2.jpg', 0),
-(2007, 32, 'catalog/demo/ipod_touch_3.jpg', 0),
-(2006, 32, 'catalog/demo/ipod_touch_4.jpg', 0),
-(1969, 43, 'catalog/demo/macbook_2.jpg', 0),
-(1968, 43, 'catalog/demo/macbook_3.jpg', 0),
-(1972, 44, 'catalog/demo/macbook_air_3.jpg', 0),
-(1975, 45, 'catalog/demo/macbook_pro_4.jpg', 0),
-(1984, 31, 'catalog/demo/nikon_d300_4.jpg', 0),
-(1983, 31, 'catalog/demo/nikon_d300_5.jpg', 0),
-(1987, 29, 'catalog/demo/palm_treo_pro_2.jpg', 0),
-(1993, 46, 'catalog/demo/sony_vaio_2.jpg', 0),
-(1992, 46, 'catalog/demo/sony_vaio_3.jpg', 0),
-(2327, 49, 'catalog/demo/samsung_tab_7.jpg', 0),
-(2326, 49, 'catalog/demo/samsung_tab_6.jpg', 0),
-(2325, 49, 'catalog/demo/samsung_tab_5.jpg', 0),
-(2324, 49, 'catalog/demo/samsung_tab_4.jpg', 0),
-(2323, 49, 'catalog/demo/samsung_tab_3.jpg', 0),
-(2322, 49, 'catalog/demo/samsung_tab_2.jpg', 0),
-(2317, 42, 'catalog/demo/canon_logo.jpg', 0),
-(2316, 42, 'catalog/demo/hp_1.jpg', 0),
-(2315, 42, 'catalog/demo/compaq_presario.jpg', 0),
-(2314, 42, 'catalog/demo/canon_eos_5d_1.jpg', 0),
-(2313, 42, 'catalog/demo/canon_eos_5d_2.jpg', 0);
+(3145, 30, 'catalog/productsimage/11.jpg', 0),
+(3146, 30, 'catalog/productsimage/12.jpg', 0),
+(3147, 47, 'catalog/productsimage/12.jpg', 0),
+(3148, 47, 'catalog/productsimage/13.jpg', 0),
+(3158, 48, 'catalog/productsimage/18.jpg', 0),
+(3159, 48, 'catalog/productsimage/2.jpg', 0),
+(3160, 48, 'catalog/productsimage/3.jpg', 0),
+(3161, 36, 'catalog/productsimage/18.jpg', 0),
+(3162, 36, 'catalog/productsimage/2.jpg', 0),
+(3163, 36, 'catalog/productsimage/3.jpg', 0),
+(3164, 36, 'catalog/productsimage/20.jpg', 0),
+(3169, 32, 'catalog/productsimage/2.jpg', 0),
+(3170, 32, 'catalog/productsimage/20.jpg', 0),
+(3171, 32, 'catalog/productsimage/4.jpg', 0),
+(3172, 32, 'catalog/productsimage/1.jpg', 0),
+(3173, 32, 'catalog/productsimage/11.jpg', 0),
+(3174, 32, 'catalog/productsimage/12.jpg', 0),
+(3179, 44, 'catalog/productsimage/16.jpg', 0),
+(3180, 44, 'catalog/productsimage/14.jpg', 0),
+(3181, 44, 'catalog/productsimage/17.jpg', 0),
+(3182, 45, 'catalog/productsimage/6.jpg', 0),
+(3183, 45, 'catalog/productsimage/8.jpg', 0),
+(3184, 45, 'catalog/productsimage/9.jpg', 0),
+(3185, 31, 'catalog/productsimage/1.jpg', 0),
+(3186, 31, 'catalog/productsimage/10.jpg', 0),
+(3187, 31, 'catalog/productsimage/11.jpg', 0),
+(3188, 31, 'catalog/productsimage/12.jpg', 0),
+(3191, 29, 'catalog/productsimage/16.jpg', 0),
+(3192, 29, 'catalog/productsimage/14.jpg', 0),
+(3193, 35, 'catalog/productsimage/14.jpg', 0),
+(3194, 35, 'catalog/productsimage/13.jpg', 0),
+(3195, 35, 'catalog/productsimage/12.jpg', 0),
+(3196, 35, 'catalog/productsimage/2.jpg', 0),
+(3197, 35, 'catalog/productsimage/17.jpg', 0),
+(3198, 49, 'catalog/productsimage/14.jpg', 0),
+(3199, 49, 'catalog/productsimage/15.jpg', 0),
+(3200, 49, 'catalog/productsimage/1.jpg', 0),
+(3201, 49, 'catalog/productsimage/16.jpg', 0),
+(3202, 49, 'catalog/productsimage/18.jpg', 0),
+(3203, 49, 'catalog/productsimage/2.jpg', 0),
+(3206, 46, 'catalog/productsimage/2.jpg', 0),
+(3207, 46, 'catalog/productsimage/17.jpg', 0),
+(3208, 46, 'catalog/productsimage/4.jpg', 0),
+(3209, 46, 'catalog/productsimage/20.jpg', 0),
+(3210, 33, 'catalog/productsimage/11.jpg', 0),
+(3211, 33, 'catalog/productsimage/13.jpg', 0),
+(3218, 43, 'catalog/productsimage/4.jpg', 0),
+(3219, 43, 'catalog/productsimage/3.jpg', 0),
+(3220, 43, 'catalog/productsimage/13.jpg', 0),
+(3221, 43, 'catalog/productsimage/12.jpg', 0),
+(3225, 42, 'catalog/productsimage/10.jpg', 0),
+(3226, 42, 'catalog/productsimage/11.jpg', 0),
+(3227, 42, 'catalog/productsimage/12.jpg', 0),
+(3228, 40, 'catalog/productsimage/15.jpg', 0),
+(3229, 40, 'catalog/productsimage/16.jpg', 0),
+(3230, 40, 'catalog/productsimage/17.jpg', 0),
+(3231, 40, 'catalog/productsimage/18.jpg', 0),
+(3232, 40, 'catalog/productsimage/19.jpg', 0),
+(3233, 41, 'catalog/productsimage/14.jpg', 0),
+(3234, 41, 'catalog/productsimage/15.jpg', 0),
+(3235, 34, 'catalog/productsimage/19.jpg', 0),
+(3236, 34, 'catalog/productsimage/2.jpg', 0),
+(3237, 34, 'catalog/productsimage/20.jpg', 0),
+(3238, 34, 'catalog/productsimage/4.jpg', 0),
+(3239, 28, 'catalog/productsimage/13.jpg', 0),
+(3240, 28, 'catalog/productsimage/14.jpg', 0);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_option`
 --
 
-DROP TABLE IF EXISTS `oc_product_option`;
 CREATE TABLE `oc_product_option` (
-  `product_option_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_option_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   `value` text NOT NULL,
-  `required` tinyint(1) NOT NULL,
-  PRIMARY KEY (`product_option_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `required` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_option`
 --
 
 INSERT INTO `oc_product_option` (`product_option_id`, `product_id`, `option_id`, `value`, `required`) VALUES
-(224, 35, 11, '', 1),
-(225, 47, 12, '2011-04-22', 1),
-(223, 42, 2, '', 1),
-(217, 42, 5, '', 1),
-(209, 42, 6, '', 1),
-(218, 42, 1, '', 1),
-(208, 42, 4, 'test', 1),
-(219, 42, 8, '2011-02-20', 1),
-(222, 42, 7, '', 1),
-(221, 42, 9, '22:25', 1),
-(220, 42, 10, '2011-02-20 22:25', 1),
 (226, 30, 5, '', 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_option_value`
 --
 
-DROP TABLE IF EXISTS `oc_product_option_value`;
 CREATE TABLE `oc_product_option_value` (
-  `product_option_value_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_option_value_id` int(11) NOT NULL,
   `product_option_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
@@ -2858,226 +7441,365 @@ CREATE TABLE `oc_product_option_value` (
   `points` int(8) NOT NULL,
   `points_prefix` varchar(1) NOT NULL,
   `weight` decimal(15,8) NOT NULL,
-  `weight_prefix` varchar(1) NOT NULL,
-  PRIMARY KEY (`product_option_value_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `weight_prefix` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_option_value`
 --
 
 INSERT INTO `oc_product_option_value` (`product_option_value_id`, `product_option_id`, `product_id`, `option_id`, `option_value_id`, `quantity`, `subtract`, `price`, `price_prefix`, `points`, `points_prefix`, `weight`, `weight_prefix`) VALUES
-(1, 217, 42, 5, 41, 100, 0, '1.0000', '+', 0, '+', '1.00000000', '+'),
-(6, 218, 42, 1, 31, 146, 1, '20.0000', '+', 2, '-', '20.00000000', '+'),
-(7, 218, 42, 1, 43, 300, 1, '30.0000', '+', 3, '+', '30.00000000', '+'),
-(5, 218, 42, 1, 32, 96, 1, '10.0000', '+', 1, '+', '10.00000000', '+'),
-(4, 217, 42, 5, 39, 92, 1, '4.0000', '+', 0, '+', '4.00000000', '+'),
-(2, 217, 42, 5, 42, 200, 1, '2.0000', '+', 0, '+', '2.00000000', '+'),
-(3, 217, 42, 5, 40, 300, 0, '3.0000', '+', 0, '+', '3.00000000', '+'),
-(8, 223, 42, 2, 23, 48, 1, '10.0000', '+', 0, '+', '10.00000000', '+'),
-(10, 223, 42, 2, 44, 2696, 1, '30.0000', '+', 0, '+', '30.00000000', '+'),
-(9, 223, 42, 2, 24, 194, 1, '20.0000', '+', 0, '+', '20.00000000', '+'),
-(11, 223, 42, 2, 45, 3998, 1, '40.0000', '+', 0, '+', '40.00000000', '+'),
-(12, 224, 35, 11, 46, 0, 1, '5.0000', '+', 0, '+', '0.00000000', '+'),
-(13, 224, 35, 11, 47, 10, 1, '10.0000', '+', 0, '+', '0.00000000', '+'),
-(14, 224, 35, 11, 48, 15, 1, '15.0000', '+', 0, '+', '0.00000000', '+'),
-(16, 226, 30, 5, 40, 5, 1, '0.0000', '+', 0, '+', '0.00000000', '+'),
-(15, 226, 30, 5, 39, 2, 1, '0.0000', '+', 0, '+', '0.00000000', '+');
+(15, 226, 30, 5, 39, 1, 1, '0.0000', '+', 0, '+', '0.00000000', '+'),
+(16, 226, 30, 5, 40, 3, 1, '0.0000', '+', 0, '+', '0.00000000', '+');
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_product_recurring`
---
-
-DROP TABLE IF EXISTS `oc_product_recurring`;
-CREATE TABLE `oc_product_recurring` (
-  `product_id` int(11) NOT NULL,
-  `recurring_id` int(11) NOT NULL,
-  `customer_group_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`recurring_id`,`customer_group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_related`
 --
 
-DROP TABLE IF EXISTS `oc_product_related`;
 CREATE TABLE `oc_product_related` (
   `product_id` int(11) NOT NULL,
-  `related_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`related_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `related_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_related`
 --
 
 INSERT INTO `oc_product_related` (`product_id`, `related_id`) VALUES
+(28, 28),
+(28, 30),
+(28, 31),
+(28, 34),
+(28, 35),
+(28, 36),
+(28, 42),
+(28, 43),
+(28, 49),
+(29, 33),
+(29, 35),
+(29, 46),
+(29, 49),
+(30, 28),
+(30, 30),
+(30, 31),
+(30, 41),
+(30, 44),
+(30, 47),
+(30, 48),
+(31, 28),
+(31, 30),
+(31, 42),
+(32, 41),
+(32, 42),
+(32, 47),
+(33, 29),
+(33, 34),
+(33, 48),
+(34, 28),
+(34, 33),
+(34, 34),
+(35, 28),
+(35, 29),
+(35, 47),
+(36, 28),
+(36, 36),
+(36, 40),
+(36, 48),
+(40, 36),
 (40, 42),
+(40, 47),
+(41, 30),
+(41, 32),
 (41, 42),
+(41, 43),
+(41, 44),
+(41, 45),
+(41, 49),
+(42, 28),
+(42, 31),
+(42, 32),
 (42, 40),
-(42, 41);
+(42, 41),
+(42, 43),
+(42, 44),
+(42, 45),
+(43, 28),
+(43, 41),
+(43, 42),
+(44, 30),
+(44, 41),
+(44, 42),
+(45, 41),
+(45, 42),
+(45, 47),
+(46, 29),
+(46, 48),
+(47, 30),
+(47, 32),
+(47, 35),
+(47, 40),
+(47, 45),
+(48, 30),
+(48, 33),
+(48, 36),
+(48, 46),
+(49, 28),
+(49, 29),
+(49, 41);
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_product_report`
+--
+
+CREATE TABLE `oc_product_report` (
+  `product_report_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL DEFAULT 0,
+  `ip` varchar(40) NOT NULL,
+  `country` varchar(2) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_reward`
 --
 
-DROP TABLE IF EXISTS `oc_product_reward`;
 CREATE TABLE `oc_product_reward` (
-  `product_reward_id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL DEFAULT '0',
-  `customer_group_id` int(11) NOT NULL DEFAULT '0',
-  `points` int(8) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`product_reward_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `product_reward_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL DEFAULT 0,
+  `customer_group_id` int(11) NOT NULL DEFAULT 0,
+  `points` int(8) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_reward`
 --
 
 INSERT INTO `oc_product_reward` (`product_reward_id`, `product_id`, `customer_group_id`, `points`) VALUES
-(515, 42, 1, 100),
-(519, 47, 1, 300),
-(379, 28, 1, 400),
-(329, 43, 1, 600),
-(339, 29, 1, 0),
-(343, 48, 1, 0),
-(335, 40, 1, 0),
-(539, 30, 1, 200),
-(331, 44, 1, 700),
-(333, 45, 1, 800),
-(337, 31, 1, 0),
-(425, 35, 1, 0),
-(345, 33, 1, 0),
-(347, 46, 1, 0),
-(545, 41, 1, 0),
-(351, 36, 1, 0),
-(353, 34, 1, 0),
-(355, 32, 1, 0),
-(521, 49, 1, 1000);
+(660, 30, 1, 200),
+(661, 47, 1, 300),
+(664, 44, 1, 700),
+(665, 45, 1, 800),
+(666, 49, 1, 1000),
+(669, 43, 1, 600),
+(671, 42, 1, 100),
+(672, 28, 1, 400);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_special`
 --
 
-DROP TABLE IF EXISTS `oc_product_special`;
 CREATE TABLE `oc_product_special` (
-  `product_special_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_special_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_group_id` int(11) NOT NULL,
-  `priority` int(5) NOT NULL DEFAULT '1',
-  `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `date_start` date NOT NULL DEFAULT '0000-00-00',
-  `date_end` date NOT NULL DEFAULT '0000-00-00',
-  PRIMARY KEY (`product_special_id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `priority` int(5) NOT NULL DEFAULT 1,
+  `price` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_special`
 --
 
 INSERT INTO `oc_product_special` (`product_special_id`, `product_id`, `customer_group_id`, `priority`, `price`, `date_start`, `date_end`) VALUES
-(419, 42, 1, 1, '90.0000', '0000-00-00', '0000-00-00'),
-(439, 30, 1, 2, '90.0000', '0000-00-00', '0000-00-00'),
-(438, 30, 1, 1, '80.0000', '0000-00-00', '0000-00-00');
+(576, 30, 1, 1, '80.0000', '2023-01-22', '2024-04-24'),
+(577, 47, 1, 4, '20.0000', '2023-04-23', '2024-05-22'),
+(579, 36, 1, 4, '98.0000', '2023-04-23', '2024-08-21'),
+(581, 44, 1, 6, '500.0000', '2023-04-23', '2025-02-19'),
+(583, 29, 1, 7, '100.0000', '2023-04-23', '2024-11-27'),
+(584, 49, 1, 8, '20.0000', '2023-04-23', '2024-12-17'),
+(588, 42, 1, 1, '90.0000', '2023-04-23', '2024-04-24'),
+(589, 34, 1, 5, '35.0000', '2023-04-23', '2024-12-16'),
+(590, 28, 1, 3, '30.0000', '2023-04-23', '2024-09-18');
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_product_subscription`
+--
+
+CREATE TABLE `oc_product_subscription` (
+  `product_id` int(11) NOT NULL,
+  `subscription_plan_id` int(11) NOT NULL,
+  `customer_group_id` int(11) NOT NULL,
+  `trial_price` decimal(10,4) NOT NULL,
+  `price` decimal(10,4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_to_category`
 --
 
-DROP TABLE IF EXISTS `oc_product_to_category`;
 CREATE TABLE `oc_product_to_category` (
   `product_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`category_id`),
-  KEY `category_id` (`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `category_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_to_category`
 --
 
 INSERT INTO `oc_product_to_category` (`product_id`, `category_id`) VALUES
-(28, 20),
-(28, 24),
-(29, 20),
-(29, 24),
-(30, 20),
-(30, 33),
-(31, 33),
-(32, 34),
-(33, 20),
-(33, 28),
-(34, 34),
-(35, 20),
-(36, 34),
-(40, 20),
-(40, 24),
-(41, 27),
-(42, 20),
-(42, 28),
-(43, 18),
-(43, 20),
-(44, 18),
-(44, 20),
-(45, 18),
-(46, 18),
-(46, 20),
-(47, 18),
-(47, 20),
-(48, 20),
-(48, 34),
-(49, 57);
+(28, 59),
+(28, 74),
+(29, 60),
+(29, 61),
+(29, 62),
+(29, 63),
+(29, 64),
+(29, 65),
+(29, 66),
+(29, 67),
+(29, 68),
+(29, 69),
+(29, 70),
+(29, 71),
+(30, 59),
+(30, 74),
+(31, 86),
+(32, 83),
+(34, 59),
+(34, 60),
+(34, 61),
+(34, 62),
+(34, 64),
+(34, 65),
+(34, 66),
+(34, 74),
+(34, 75),
+(34, 76),
+(34, 77),
+(34, 78),
+(34, 83),
+(35, 86),
+(36, 83),
+(40, 75),
+(40, 76),
+(40, 77),
+(40, 78),
+(40, 79),
+(40, 80),
+(40, 81),
+(40, 82),
+(42, 59),
+(42, 74),
+(42, 75),
+(42, 76),
+(42, 77),
+(42, 78),
+(42, 79),
+(42, 80),
+(42, 81),
+(42, 82),
+(43, 83),
+(43, 86),
+(44, 60),
+(44, 61),
+(44, 62),
+(44, 64),
+(44, 65),
+(44, 66),
+(44, 67),
+(44, 86),
+(45, 83),
+(45, 86),
+(46, 84),
+(46, 86),
+(47, 59),
+(47, 63),
+(47, 71),
+(47, 74),
+(47, 75),
+(47, 76),
+(47, 77),
+(47, 78),
+(47, 79),
+(47, 80),
+(47, 81),
+(47, 82),
+(47, 83),
+(48, 59),
+(48, 74),
+(48, 83),
+(49, 63),
+(49, 68),
+(49, 69),
+(49, 70),
+(49, 71),
+(49, 83),
+(49, 84),
+(49, 86);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_to_download`
 --
 
-DROP TABLE IF EXISTS `oc_product_to_download`;
 CREATE TABLE `oc_product_to_download` (
   `product_id` int(11) NOT NULL,
-  `download_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `download_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_to_layout`
 --
 
-DROP TABLE IF EXISTS `oc_product_to_layout`;
 CREATE TABLE `oc_product_to_layout` (
   `product_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `layout_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `layout_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_product_to_layout`
+--
+
+INSERT INTO `oc_product_to_layout` (`product_id`, `store_id`, `layout_id`) VALUES
+(28, 0, 0),
+(29, 0, 0),
+(30, 0, 0),
+(31, 0, 0),
+(32, 0, 0),
+(33, 0, 0),
+(34, 0, 0),
+(35, 0, 0),
+(36, 0, 0),
+(40, 0, 0),
+(41, 0, 0),
+(42, 0, 0),
+(43, 0, 0),
+(44, 0, 0),
+(45, 0, 0),
+(46, 0, 0),
+(47, 0, 0),
+(48, 0, 0),
+(49, 0, 0);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_product_to_store`
 --
 
-DROP TABLE IF EXISTS `oc_product_to_store`;
 CREATE TABLE `oc_product_to_store` (
   `product_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`product_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `store_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_product_to_store`
@@ -3104,52 +7826,25 @@ INSERT INTO `oc_product_to_store` (`product_id`, `store_id`) VALUES
 (48, 0),
 (49, 0);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
--- Table structure for table `oc_recurring`
+-- Table structure for table `oc_product_viewed`
 --
 
-DROP TABLE IF EXISTS `oc_recurring`;
-CREATE TABLE `oc_recurring` (
-  `recurring_id` int(11) NOT NULL AUTO_INCREMENT,
-  `price` decimal(10,4) NOT NULL,
-  `frequency` enum('day','week','semi_month','month','year') NOT NULL,
-  `duration` int(10) unsigned NOT NULL,
-  `cycle` int(10) unsigned NOT NULL,
-  `trial_status` tinyint(4) NOT NULL,
-  `trial_price` decimal(10,4) NOT NULL,
-  `trial_frequency` enum('day','week','semi_month','month','year') NOT NULL,
-  `trial_duration` int(10) unsigned NOT NULL,
-  `trial_cycle` int(10) unsigned NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  `sort_order` int(11) NOT NULL,
-  PRIMARY KEY (`recurring_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE `oc_product_viewed` (
+  `product_id` int(11) NOT NULL,
+  `viewed` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_recurring_description`
---
-
-DROP TABLE IF EXISTS `oc_recurring_description`;
-CREATE TABLE `oc_recurring_description` (
-  `recurring_id` int(11) NOT NULL,
-  `language_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`recurring_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_return`
 --
 
-DROP TABLE IF EXISTS `oc_return`;
 CREATE TABLE `oc_return` (
-  `return_id` int(11) NOT NULL AUTO_INCREMENT,
+  `return_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
@@ -3164,26 +7859,31 @@ CREATE TABLE `oc_return` (
   `return_reason_id` int(11) NOT NULL,
   `return_action_id` int(11) NOT NULL,
   `return_status_id` int(11) NOT NULL,
-  `comment` text,
-  `date_ordered` date NOT NULL DEFAULT '0000-00-00',
+  `comment` text NOT NULL,
+  `date_ordered` date NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`return_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_return`
+--
+
+INSERT INTO `oc_return` (`return_id`, `order_id`, `product_id`, `customer_id`, `firstname`, `lastname`, `email`, `telephone`, `product`, `model`, `quantity`, `opened`, `return_reason_id`, `return_action_id`, `return_status_id`, `comment`, `date_ordered`, `date_added`, `date_modified`) VALUES
+(1, 5, 46, 4, 'abc', 'xyz', 'demo7586@gmail.com', '1234567890', 'Sony VAIO', 'Product 19', 1, 1, 1, 0, 2, '', '2023-10-18', '2023-10-19 04:55:44', '2023-10-19 04:55:44'),
+(2, 4, 42, 3, 'asdasd', 'fdfdf', 'admin@gmail.com', '1234567891', 'Apple Cinema 30&quot;', 'Product 15', 1, 1, 1, 0, 2, 'saddddddddddddddddddd', '2023-10-05', '2023-11-03 05:05:42', '2023-11-03 05:05:42');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_return_action`
 --
 
-DROP TABLE IF EXISTS `oc_return_action`;
 CREATE TABLE `oc_return_action` (
-  `return_action_id` int(11) NOT NULL AUTO_INCREMENT,
-  `language_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`return_action_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `return_action_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL DEFAULT 0,
+  `name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_return_action`
@@ -3191,39 +7891,56 @@ CREATE TABLE `oc_return_action` (
 
 INSERT INTO `oc_return_action` (`return_action_id`, `language_id`, `name`) VALUES
 (1, 1, 'Refunded'),
+(1, 2, 'Refunded'),
+(1, 3, 'Refunded'),
+(1, 4, 'Refunded'),
+(1, 5, 'Refunded'),
+(1, 6, 'Refunded'),
+(1, 7, 'Refunded'),
+(1, 8, 'Refunded'),
 (2, 1, 'Credit Issued'),
-(3, 1, 'Replacement Sent');
+(2, 2, 'Credit Issued'),
+(2, 3, 'Credit Issued'),
+(2, 4, 'Credit Issued'),
+(2, 5, 'Credit Issued'),
+(2, 6, 'Credit Issued'),
+(2, 7, 'Credit Issued'),
+(2, 8, 'Credit Issued'),
+(3, 1, 'Replacement Sent'),
+(3, 2, 'Replacement Sent'),
+(3, 3, 'Replacement Sent'),
+(3, 4, 'Replacement Sent'),
+(3, 5, 'Replacement Sent'),
+(3, 6, 'Replacement Sent'),
+(3, 7, 'Replacement Sent'),
+(3, 8, 'Replacement Sent');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_return_history`
 --
 
-DROP TABLE IF EXISTS `oc_return_history`;
 CREATE TABLE `oc_return_history` (
-  `return_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `return_history_id` int(11) NOT NULL,
   `return_id` int(11) NOT NULL,
   `return_status_id` int(11) NOT NULL,
   `notify` tinyint(1) NOT NULL,
   `comment` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`return_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_return_reason`
 --
 
-DROP TABLE IF EXISTS `oc_return_reason`;
 CREATE TABLE `oc_return_reason` (
-  `return_reason_id` int(11) NOT NULL AUTO_INCREMENT,
-  `language_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`return_reason_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `return_reason_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL DEFAULT 0,
+  `name` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_return_reason`
@@ -3231,24 +7948,57 @@ CREATE TABLE `oc_return_reason` (
 
 INSERT INTO `oc_return_reason` (`return_reason_id`, `language_id`, `name`) VALUES
 (1, 1, 'Dead On Arrival'),
+(1, 2, 'Dead On Arrival'),
+(1, 3, 'Dead On Arrival'),
+(1, 4, 'Dead On Arrival'),
+(1, 5, 'Dead On Arrival'),
+(1, 6, 'Dead On Arrival'),
+(1, 7, 'Dead On Arrival'),
+(1, 8, 'Dead On Arrival'),
 (2, 1, 'Received Wrong Item'),
+(2, 2, 'Received Wrong Item'),
+(2, 3, 'Received Wrong Item'),
+(2, 4, 'Received Wrong Item'),
+(2, 5, 'Received Wrong Item'),
+(2, 6, 'Received Wrong Item'),
+(2, 7, 'Received Wrong Item'),
+(2, 8, 'Received Wrong Item'),
 (3, 1, 'Order Error'),
+(3, 2, 'Order Error'),
+(3, 3, 'Order Error'),
+(3, 4, 'Order Error'),
+(3, 5, 'Order Error'),
+(3, 6, 'Order Error'),
+(3, 7, 'Order Error'),
+(3, 8, 'Order Error'),
 (4, 1, 'Faulty, please supply details'),
-(5, 1, 'Other, please supply details');
+(4, 2, 'Faulty, please supply details'),
+(4, 3, 'Faulty, please supply details'),
+(4, 4, 'Faulty, please supply details'),
+(4, 5, 'Faulty, please supply details'),
+(4, 6, 'Faulty, please supply details'),
+(4, 7, 'Faulty, please supply details'),
+(4, 8, 'Faulty, please supply details'),
+(5, 1, 'Other, please supply details'),
+(5, 2, 'Other, please supply details'),
+(5, 3, 'Other, please supply details'),
+(5, 4, 'Other, please supply details'),
+(5, 5, 'Other, please supply details'),
+(5, 6, 'Other, please supply details'),
+(5, 7, 'Other, please supply details'),
+(5, 8, 'Other, please supply details');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_return_status`
 --
 
-DROP TABLE IF EXISTS `oc_return_status`;
 CREATE TABLE `oc_return_status` (
-  `return_status_id` int(11) NOT NULL AUTO_INCREMENT,
-  `language_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`return_status_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `return_status_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL DEFAULT 0,
+  `name` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_return_status`
@@ -3256,349 +8006,769 @@ CREATE TABLE `oc_return_status` (
 
 INSERT INTO `oc_return_status` (`return_status_id`, `language_id`, `name`) VALUES
 (1, 1, 'Pending'),
+(1, 2, 'Pending'),
+(1, 3, 'Pending'),
+(1, 4, 'Pending'),
+(1, 5, 'Pending'),
+(1, 6, 'Pending'),
+(1, 7, 'Pending'),
+(1, 8, 'Pending'),
+(2, 1, 'Awaiting Products'),
+(2, 2, 'Awaiting Products'),
+(2, 3, 'Awaiting Products'),
+(2, 4, 'Awaiting Products'),
+(2, 5, 'Awaiting Products'),
+(2, 6, 'Awaiting Products'),
+(2, 7, 'Awaiting Products'),
+(2, 8, 'Awaiting Products'),
 (3, 1, 'Complete'),
-(2, 1, 'Awaiting Products');
+(3, 2, 'Complete'),
+(3, 3, 'Complete'),
+(3, 4, 'Complete'),
+(3, 5, 'Complete'),
+(3, 6, 'Complete'),
+(3, 7, 'Complete'),
+(3, 8, 'Complete');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_review`
 --
 
-DROP TABLE IF EXISTS `oc_review`;
 CREATE TABLE `oc_review` (
-  `review_id` int(11) NOT NULL AUTO_INCREMENT,
+  `review_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `author` varchar(64) NOT NULL,
   `text` text NOT NULL,
   `rating` int(1) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`review_id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_review`
+--
+
+INSERT INTO `oc_review` (`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating`, `status`, `date_added`, `date_modified`) VALUES
+(1, 28, 1, 'abc xyz', 'testingtestingtestingtestingtestingtesting', 3, 1, '2023-04-28 06:09:15', '2023-04-28 06:09:37'),
+(2, 41, 0, 'Banner Block', 'vvvvvvvvdddddddddddddddddddddddddddd', 4, 0, '2023-11-09 05:22:12', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_seo_url`
+--
+
+CREATE TABLE `oc_seo_url` (
+  `seo_url_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `key` varchar(64) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `keyword` varchar(255) NOT NULL,
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_seo_url`
+--
+
+INSERT INTO `oc_seo_url` (`seo_url_id`, `store_id`, `language_id`, `key`, `value`, `keyword`, `sort_order`) VALUES
+(19, 0, 1, 'product_id', '50', 'apple-4', 1),
+(27, 0, 1, 'path', '30', 'printer', 0),
+(70, 0, 1, 'language', 'en-gb', 'en-gb', -2),
+(71, 0, 1, 'route', 'information/information.info', 'info', 0),
+(72, 0, 1, 'route', 'information/information', 'information', -1),
+(73, 0, 1, 'route', 'product/product', 'product', -1),
+(74, 0, 1, 'route', 'product/category', 'catalog', -1),
+(75, 0, 1, 'route', 'product/manufacturer', 'brands', -1),
+(214, 0, 1, 'manufacturer_id', '8', 'apple', 0),
+(216, 0, 1, 'manufacturer_id', '9', 'canon', 0),
+(218, 0, 1, 'manufacturer_id', '7', 'hewlett-packard', 0),
+(220, 0, 1, 'manufacturer_id', '5', 'htc', 0),
+(222, 0, 1, 'manufacturer_id', '6', 'palm', 0),
+(224, 0, 1, 'manufacturer_id', '10', 'sony', 0),
+(404, 0, 1, 'information_id', '1', 'about-usabout-us', 0),
+(1070, 0, 1, 'information_id', '4', 'Informations', 0),
+(1071, 0, 6, 'information_id', '4', 'Informations', 0),
+(1076, 0, 1, 'information_id', '3', 'privacy', 0),
+(1077, 0, 6, 'information_id', '3', 'privacy', 0),
+(1082, 0, 1, 'information_id', '2', 'terms', 0),
+(1083, 0, 6, 'information_id', '2', 'terms', 0),
+(1258, 0, 1, 'information_id', '5', 'DeliveryDelivery', 0),
+(1259, 0, 6, 'information_id', '5', 'DeliveryDelivery', 0),
+(1260, 0, 1, 'information_id', '6', 'FAQ', 0),
+(1261, 0, 6, 'information_id', '6', 'FAQ', 0),
+(1264, 0, 1, 'product_id', '30', 'canon-eos-5d', 0),
+(1265, 0, 6, 'product_id', '30', 'canon-eos-5d', 0),
+(1266, 0, 1, 'product_id', '47', 'hp-lp3065', 0),
+(1267, 0, 6, 'product_id', '47', 'hp-lp3065', 0),
+(1274, 0, 1, 'product_id', '48', 'ipod-classic', 0),
+(1275, 0, 6, 'product_id', '48', 'ipod-classic', 0),
+(1276, 0, 1, 'product_id', '36', 'ipod-nano', 0),
+(1277, 0, 6, 'product_id', '36', 'ipod-nano', 0),
+(1280, 0, 1, 'product_id', '32', 'ipod-touch', 0),
+(1281, 0, 6, 'product_id', '32', 'ipod-touch', 0),
+(1284, 0, 1, 'product_id', '44', 'macbook-air', 0),
+(1285, 0, 6, 'product_id', '44', 'macbook-air', 0),
+(1286, 0, 1, 'product_id', '45', 'macbook-pro', 0),
+(1287, 0, 6, 'product_id', '45', 'macbook-pro', 0),
+(1288, 0, 1, 'product_id', '31', 'nikon-d300', 0),
+(1289, 0, 6, 'product_id', '31', 'nikon-d300', 0),
+(1292, 0, 1, 'product_id', '29', 'palm-treo-pro', 0),
+(1293, 0, 6, 'product_id', '29', 'palm-treo-pro', 0),
+(1294, 0, 1, 'product_id', '35', 'product-8', 0),
+(1295, 0, 6, 'product_id', '35', 'product-8', 0),
+(1296, 0, 1, 'product_id', '49', 'samsung-galaxy-tab-10-1', 0),
+(1297, 0, 6, 'product_id', '49', 'samsung-galaxy-tab-10-1', 0),
+(1300, 0, 1, 'product_id', '46', 'sony-vaio', 0),
+(1301, 0, 6, 'product_id', '46', 'sony-vaio', 0),
+(1352, 0, 1, 'path', '74', 'Accessories', 0),
+(1353, 0, 6, 'path', '74', 'Accessories', 0),
+(1400, 0, 1, 'product_id', '33', 'samsung-syncmaster-941bw', 0),
+(1401, 0, 6, 'product_id', '33', 'samsung-syncmaster-941bw', 0),
+(1406, 0, 1, 'product_id', '43', 'macbook', 0),
+(1407, 0, 6, 'product_id', '43', 'macbook', 0),
+(1532, 0, 1, 'product_id', '42', 'apple-cinema', 0),
+(1533, 0, 6, 'product_id', '42', 'apple-cinema', 0),
+(1534, 0, 1, 'product_id', '40', 'iphone', 0),
+(1535, 0, 6, 'product_id', '40', 'iphone', 0),
+(1536, 0, 1, 'product_id', '41', 'imac', 0),
+(1537, 0, 6, 'product_id', '41', 'imac', 0),
+(1538, 0, 1, 'product_id', '34', 'ipod-shuffle', 0),
+(1539, 0, 6, 'product_id', '34', 'ipod-shuffle', 0),
+(1540, 0, 1, 'product_id', '28', 'htc-touch-hd', 0),
+(1541, 0, 6, 'product_id', '28', 'htc-touch-hd', 0),
+(1542, 0, 1, 'path', '83', 'Category', 0),
+(1543, 0, 6, 'path', '83', 'Category', 0),
+(1628, 0, 1, 'path', '86', 'Wallet', 0),
+(1629, 0, 6, 'path', '86', 'Wallet', 0),
+(1630, 0, 1, 'path', '59', 'Fashion', 0),
+(1631, 0, 6, 'path', '59', 'Fashion', 0),
+(1634, 0, 1, 'path', '59_64', 'Fashion/Men', 0),
+(1635, 0, 6, 'path', '59_64', 'Fashion/Men', 0),
+(1638, 0, 1, 'path', '59_64_65', 'Fashion/Men/Jeans', 0),
+(1639, 0, 6, 'path', '59_64_65', 'Fashion/Men/Jeans', 0),
+(1642, 0, 1, 'path', '59_64_66', 'Fashion/Men/Tops', 0),
+(1643, 0, 6, 'path', '59_64_66', 'Fashion/Men/Tops', 0),
+(1646, 0, 1, 'path', '59_64_67', 'Fashion/Men/T-shirt', 0),
+(1647, 0, 6, 'path', '59_64_67', 'Fashion/Men/T-shirt', 0),
+(1648, 0, 1, 'path', '59_60', 'Fashion/Women', 0),
+(1649, 0, 6, 'path', '59_60', 'Fashion/Women', 0),
+(1652, 0, 1, 'path', '59_60_61', 'Fashion/Women/Dresses', 0),
+(1653, 0, 6, 'path', '59_60_61', 'Fashion/Women/Dresses', 0),
+(1658, 0, 1, 'path', '59_60_62', 'Fashion/Women/Sarees', 0),
+(1659, 0, 6, 'path', '59_60_62', 'Fashion/Women/Sarees', 0),
+(1660, 0, 1, 'path', '59_60_63', 'Fashion/Women/Topsd', 0),
+(1661, 0, 6, 'path', '59_60_63', 'Fashion/Women/Topsd', 0),
+(1662, 0, 1, 'path', '59_68', 'Fashion/Accessoriess', 0),
+(1663, 0, 6, 'path', '59_68', 'Fashion/Accessoriess', 0),
+(1664, 0, 1, 'path', '59_68_69', 'Fashion/Accessoriess/Googles', 0),
+(1665, 0, 6, 'path', '59_68_69', 'Fashion/Accessoriess/Googles', 0),
+(1668, 0, 1, 'path', '59_68_71', 'Fashion/Accessoriess/Watches', 0),
+(1669, 0, 6, 'path', '59_68_71', 'Fashion/Accessoriess/Watches', 0),
+(1674, 0, 1, 'path', '59_68_70', 'Fashion/Accessoriess/Shoes', 0),
+(1675, 0, 6, 'path', '59_68_70', 'Fashion/Accessoriess/Shoes', 0),
+(1678, 0, 1, 'path', '74_79', 'Accessories/Earphone', 0),
+(1679, 0, 6, 'path', '74_79', 'Accessories/Earphone', 0),
+(1680, 0, 1, 'path', '74_79_80', 'Accessories/Earphone/Cap', 0),
+(1681, 0, 6, 'path', '74_79_80', 'Accessories/Earphone/Cap', 0),
+(1684, 0, 1, 'path', '74_79_81', 'Accessories/Earphone/Shirts', 0),
+(1685, 0, 6, 'path', '74_79_81', 'Accessories/Earphone/Earphoneirts', 0),
+(1686, 0, 1, 'path', '74_79_82', 'Accessories/Earphone/T-shirts', 0),
+(1687, 0, 6, 'path', '74_79_82', 'Accessories/Earphone/T-shirts', 0),
+(1688, 0, 1, 'path', '74_75', 'Accessories/TopWear', 0),
+(1689, 0, 6, 'path', '74_75', 'Accessories/TopWear', 0),
+(1694, 0, 1, 'path', '74_75_77', 'Accessories/TopWear/Joggers', 0),
+(1695, 0, 6, 'path', '74_75_77', 'Accessories/TopWear/Joggers', 0),
+(1696, 0, 1, 'path', '74_75_76', 'Accessories/TopWear/Jeanss', 0),
+(1697, 0, 6, 'path', '74_75_76', 'Accessories/TopWear/Jeanss', 0),
+(1702, 0, 1, 'path', '74_75_78', 'Accessories/TopWear/Shorts', 0),
+(1703, 0, 6, 'path', '74_75_78', 'Accessories/TopWear/Shorts', 0),
+(1706, 0, 1, 'path', '84', 'Collection', 0),
+(1707, 0, 6, 'path', '84', 'Collection', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_session`
+--
+
+CREATE TABLE `oc_session` (
+  `session_id` varchar(32) NOT NULL,
+  `data` text NOT NULL,
+  `expire` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_session`
+--
+
+INSERT INTO `oc_session` (`session_id`, `data`, `expire`) VALUES
+('23eb612109e534865ea0f0054b', '{\"user_id\":\"1\",\"user_token\":\"01a58de93e9d7b7150a3facf49f30a63\"}', '2024-04-28 05:20:00'),
+('c58c21cb2b3a1c7d5832031c16', '{\"currency\":\"USD\",\"user_id\":\"1\",\"user_token\":\"a409b4d483cbffc2caf6f9fde58555ee\",\"review_token\":\"facb519d3bdad568d740262a3d801e2f\",\"success\":\"Success: You have modified Ishi Slider Block module!\"}', '2024-04-28 06:35:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_setting`
+--
+
+CREATE TABLE `oc_setting` (
+  `setting_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL DEFAULT 0,
+  `code` varchar(128) NOT NULL,
+  `key` varchar(128) NOT NULL,
+  `value` text NOT NULL,
+  `serialized` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_setting`
+--
+
+INSERT INTO `oc_setting` (`setting_id`, `store_id`, `code`, `key`, `value`, `serialized`) VALUES
+(123, 0, 'developer', 'developer_sass', '1', 0),
+(124, 0, 'currency_ecb', 'currency_ecb_status', '1', 0),
+(125, 0, 'payment_free_checkout', 'payment_free_checkout_status', '1', 0),
+(126, 0, 'payment_free_checkout', 'payment_free_checkout_order_status_id', '1', 0),
+(127, 0, 'payment_free_checkout', 'payment_free_checkout_sort_order', '1', 0),
+(128, 0, 'payment_cod', 'payment_cod_sort_order', '5', 0),
+(129, 0, 'payment_cod', 'payment_cod_total', '0.01', 0),
+(130, 0, 'payment_cod', 'payment_cod_order_status_id', '1', 0),
+(131, 0, 'payment_cod', 'payment_cod_geo_zone_id', '0', 0),
+(132, 0, 'payment_cod', 'payment_cod_status', '1', 0),
+(133, 0, 'shipping_flat', 'shipping_flat_sort_order', '1', 0),
+(134, 0, 'shipping_flat', 'shipping_flat_status', '1', 0),
+(135, 0, 'shipping_flat', 'shipping_flat_geo_zone_id', '0', 0),
+(136, 0, 'shipping_flat', 'shipping_flat_tax_class_id', '9', 0),
+(137, 0, 'shipping_flat', 'shipping_flat_cost', '5.00', 0),
+(138, 0, 'total_shipping', 'total_shipping_sort_order', '3', 0),
+(139, 0, 'total_sub_total', 'total_sub_total_sort_order', '1', 0),
+(140, 0, 'total_sub_total', 'total_sub_total_status', '1', 0),
+(141, 0, 'total_tax', 'total_tax_sort_order', '5', 0),
+(142, 0, 'total_tax', 'total_tax_status', '1', 0),
+(143, 0, 'total_total', 'total_total_sort_order', '9', 0),
+(144, 0, 'total_total', 'total_total_status', '1', 0),
+(145, 0, 'total_credit', 'total_credit_sort_order', '7', 0),
+(146, 0, 'total_credit', 'total_credit_status', '1', 0),
+(147, 0, 'total_reward', 'total_reward_sort_order', '2', 0),
+(148, 0, 'total_reward', 'total_reward_status', '1', 0),
+(149, 0, 'total_shipping', 'total_shipping_status', '1', 0),
+(150, 0, 'total_shipping', 'total_shipping_estimator', '1', 0),
+(151, 0, 'total_coupon', 'total_coupon_sort_order', '4', 0),
+(152, 0, 'total_coupon', 'total_coupon_status', '1', 0),
+(153, 0, 'total_voucher', 'total_voucher_sort_order', '8', 0),
+(154, 0, 'total_voucher', 'total_voucher_status', '1', 0),
+(155, 0, 'module_category', 'module_category_status', '1', 0),
+(156, 0, 'module_account', 'module_account_status', '1', 0),
+(157, 0, 'theme_basic', 'theme_basic_status', '1', 0),
+(158, 0, 'dashboard_activity', 'dashboard_activity_status', '1', 0),
+(159, 0, 'dashboard_activity', 'dashboard_activity_sort_order', '7', 0),
+(160, 0, 'dashboard_sale', 'dashboard_sale_status', '1', 0),
+(161, 0, 'dashboard_sale', 'dashboard_sale_width', '3', 0),
+(162, 0, 'dashboard_chart', 'dashboard_chart_status', '1', 0),
+(163, 0, 'dashboard_chart', 'dashboard_chart_width', '6', 0),
+(164, 0, 'dashboard_customer', 'dashboard_customer_status', '1', 0),
+(165, 0, 'dashboard_customer', 'dashboard_customer_width', '3', 0),
+(166, 0, 'dashboard_map', 'dashboard_map_status', '1', 0),
+(167, 0, 'dashboard_map', 'dashboard_map_width', '6', 0),
+(168, 0, 'dashboard_online', 'dashboard_online_status', '1', 0),
+(169, 0, 'dashboard_online', 'dashboard_online_width', '3', 0),
+(170, 0, 'dashboard_order', 'dashboard_order_sort_order', '1', 0),
+(171, 0, 'dashboard_order', 'dashboard_order_status', '1', 0),
+(172, 0, 'dashboard_order', 'dashboard_order_width', '3', 0),
+(173, 0, 'dashboard_sale', 'dashboard_sale_sort_order', '2', 0),
+(174, 0, 'dashboard_customer', 'dashboard_customer_sort_order', '3', 0),
+(175, 0, 'dashboard_online', 'dashboard_online_sort_order', '4', 0),
+(176, 0, 'dashboard_map', 'dashboard_map_sort_order', '5', 0),
+(177, 0, 'dashboard_chart', 'dashboard_chart_sort_order', '6', 0),
+(178, 0, 'dashboard_recent', 'dashboard_recent_status', '1', 0),
+(179, 0, 'dashboard_recent', 'dashboard_recent_sort_order', '8', 0),
+(180, 0, 'dashboard_activity', 'dashboard_activity_width', '4', 0),
+(181, 0, 'dashboard_recent', 'dashboard_recent_width', '8', 0),
+(182, 0, 'report_customer_activity', 'report_customer_activity_status', '1', 0),
+(183, 0, 'report_customer_activity', 'report_customer_activity_sort_order', '1', 0),
+(184, 0, 'report_customer_order', 'report_customer_order_status', '1', 0),
+(185, 0, 'report_customer_order', 'report_customer_order_sort_order', '2', 0),
+(186, 0, 'report_customer_reward', 'report_customer_reward_status', '1', 0),
+(187, 0, 'report_customer_reward', 'report_customer_reward_sort_order', '3', 0),
+(188, 0, 'report_customer_search', 'report_customer_search_sort_order', '3', 0),
+(189, 0, 'report_customer_search', 'report_customer_search_status', '1', 0),
+(190, 0, 'report_customer_transaction', 'report_customer_transaction_status', '1', 0),
+(191, 0, 'report_customer_transaction', 'report_customer_transaction_sort_order', '4', 0),
+(192, 0, 'report_sale_tax', 'report_sale_tax_status', '1', 0),
+(193, 0, 'report_sale_tax', 'report_sale_tax_sort_order', '5', 0),
+(194, 0, 'report_sale_shipping', 'report_sale_shipping_status', '1', 0),
+(195, 0, 'report_sale_shipping', 'report_sale_shipping_sort_order', '6', 0),
+(196, 0, 'report_sale_return', 'report_sale_return_status', '1', 0),
+(197, 0, 'report_sale_return', 'report_sale_return_sort_order', '7', 0),
+(198, 0, 'report_sale_order', 'report_sale_order_status', '1', 0),
+(199, 0, 'report_sale_order', 'report_sale_order_sort_order', '8', 0),
+(200, 0, 'report_sale_coupon', 'report_sale_coupon_status', '1', 0),
+(201, 0, 'report_sale_coupon', 'report_sale_coupon_sort_order', '9', 0),
+(202, 0, 'report_product_viewed', 'report_product_viewed_status', '1', 0),
+(203, 0, 'report_product_viewed', 'report_product_viewed_sort_order', '10', 0),
+(204, 0, 'report_product_purchased', 'report_product_purchased_status', '1', 0),
+(205, 0, 'report_product_purchased', 'report_product_purchased_sort_order', '11', 0),
+(206, 0, 'report_marketing', 'report_marketing_status', '1', 0),
+(207, 0, 'report_marketing', 'report_marketing_sort_order', '12', 0),
+(208, 0, 'report_customer_subscription', 'report_customer_subscription_status', '1', 0),
+(209, 0, 'report_customer_subscription', 'report_customer_subscription_sort_order', '13', 0),
+(728, 0, 'module_filter', 'module_filter_status', '1', 0),
+(734, 0, 'language_traditional_arabic', 'language_traditional_arabic_status', '1', 0),
+(3081, 0, 'config', 'config_meta_title', 'Your Store', 0),
+(3082, 0, 'config', 'config_meta_description', 'My Store', 0),
+(3083, 0, 'config', 'config_meta_keyword', '', 0),
+(3084, 0, 'config', 'config_logo', 'catalog/otherimage/Logo.png', 0),
+(3085, 0, 'config', 'config_icon', 'catalog/cart.png', 0),
+(3086, 0, 'config', 'config_theme', 'basic', 0),
+(3087, 0, 'config', 'config_layout_id', '4', 0),
+(3088, 0, 'config', 'config_name', 'Your Store', 0),
+(3089, 0, 'config', 'config_owner', 'Your Name', 0),
+(3090, 0, 'config', 'config_address', '4005,Silver Business Point\r\nIndia', 0),
+(3091, 0, 'config', 'config_geocode', '', 0),
+(3092, 0, 'config', 'config_email', 'info@gmail.com', 0),
+(3093, 0, 'config', 'config_telephone', '+91 123456789', 0),
+(3094, 0, 'config', 'config_open', 'We are open: Monday - Saturday (10AM - 5PM) and closed on sunday.', 0),
+(3095, 0, 'config', 'config_comment', 'Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore adipisicing elit, sed do eiusmod. Fusce quisest bibendum ornare erat in pretium aliquam', 0),
+(3096, 0, 'config', 'config_country_id', '222', 0),
+(3097, 0, 'config', 'config_zone_id', '3563', 0),
+(3098, 0, 'config', 'config_timezone', 'UTC', 0),
+(3099, 0, 'config', 'config_language', 'en-gb', 0),
+(3100, 0, 'config', 'config_language_admin', 'en-gb', 0),
+(3101, 0, 'config', 'config_currency', 'USD', 0),
+(3102, 0, 'config', 'config_currency_engine', 'ecb', 0),
+(3103, 0, 'config', 'config_currency_auto', '1', 0),
+(3104, 0, 'config', 'config_length_class_id', '1', 0),
+(3105, 0, 'config', 'config_weight_class_id', '1', 0),
+(3106, 0, 'config', 'config_product_description_length', '100', 0),
+(3107, 0, 'config', 'config_pagination', '10', 0),
+(3108, 0, 'config', 'config_product_count', '1', 0),
+(3109, 0, 'config', 'config_pagination_admin', '10', 0),
+(3110, 0, 'config', 'config_product_report_status', '0', 0),
+(3111, 0, 'config', 'config_review_status', '1', 0),
+(3112, 0, 'config', 'config_review_purchased', '0', 0),
+(3113, 0, 'config', 'config_review_guest', '1', 0),
+(3114, 0, 'config', 'config_voucher_min', '1', 0),
+(3115, 0, 'config', 'config_voucher_max', '1000', 0),
+(3116, 0, 'config', 'config_cookie_id', '0', 0),
+(3117, 0, 'config', 'config_gdpr_id', '0', 0),
+(3118, 0, 'config', 'config_gdpr_limit', '180', 0),
+(3119, 0, 'config', 'config_tax', '1', 0),
+(3120, 0, 'config', 'config_tax_default', 'shipping', 0),
+(3121, 0, 'config', 'config_tax_customer', 'shipping', 0),
+(3122, 0, 'config', 'config_customer_online', '0', 0),
+(3123, 0, 'config', 'config_customer_online_expire', '1', 0),
+(3124, 0, 'config', 'config_customer_activity', '0', 0),
+(3125, 0, 'config', 'config_customer_search', '0', 0),
+(3126, 0, 'config', 'config_customer_group_id', '1', 0),
+(3127, 0, 'config', 'config_customer_group_display', '[\"1\"]', 1),
+(3128, 0, 'config', 'config_customer_price', '0', 0),
+(3129, 0, 'config', 'config_telephone_display', '0', 0),
+(3130, 0, 'config', 'config_telephone_required', '0', 0),
+(3131, 0, 'config', 'config_login_attempts', '5', 0),
+(3132, 0, 'config', 'config_account_id', '3', 0),
+(3133, 0, 'config', 'config_invoice_prefix', 'INV-2024-00', 0),
+(3134, 0, 'config', 'config_cart_weight', '1', 0),
+(3135, 0, 'config', 'config_checkout_guest', '1', 0),
+(3136, 0, 'config', 'config_checkout_payment_address', '0', 0),
+(3137, 0, 'config', 'config_checkout_shipping_address', '0', 0),
+(3138, 0, 'config', 'config_checkout_id', '0', 0),
+(3139, 0, 'config', 'config_order_status_id', '1', 0),
+(3140, 0, 'config', 'config_processing_status', '[\"5\",\"1\",\"2\",\"12\",\"3\"]', 1),
+(3141, 0, 'config', 'config_complete_status', '[\"5\",\"3\"]', 1),
+(3142, 0, 'config', 'config_fraud_status_id', '8', 0),
+(3144, 0, 'config', 'config_subscription_status_id', '1', 0),
+(3145, 0, 'config', 'config_subscription_active_status_id', '2', 0),
+(3146, 0, 'config', 'config_subscription_expired_status_id', '3', 0),
+(3147, 0, 'config', 'config_subscription_suspended_status_id', '2', 0),
+(3148, 0, 'config', 'config_subscription_canceled_status_id', '5', 0),
+(3149, 0, 'config', 'config_subscription_failed_status_id', '6', 0),
+(3150, 0, 'config', 'config_subscription_denied_status_id', '7', 0),
+(3151, 0, 'config', 'config_stock_display', '0', 0),
+(3152, 0, 'config', 'config_stock_warning', '0', 0),
+(3153, 0, 'config', 'config_stock_checkout', '0', 0),
+(3154, 0, 'config', 'config_affiliate_status', '1', 0),
+(3155, 0, 'config', 'config_affiliate_group_id', '1', 0),
+(3156, 0, 'config', 'config_affiliate_approval', '0', 0),
+(3157, 0, 'config', 'config_affiliate_auto', '0', 0),
+(3158, 0, 'config', 'config_affiliate_commission', '5', 0),
+(3159, 0, 'config', 'config_affiliate_expire', '0', 0),
+(3160, 0, 'config', 'config_affiliate_id', '4', 0),
+(3161, 0, 'config', 'config_return_status_id', '2', 0),
+(3162, 0, 'config', 'config_return_id', '0', 0),
+(3163, 0, 'config', 'config_captcha', '', 0),
+(3164, 0, 'config', 'config_captcha_page', '[\"review\",\"contact\"]', 1),
+(3165, 0, 'config', 'config_image_category_width', '370', 0),
+(3166, 0, 'config', 'config_image_category_height', '370', 0),
+(3167, 0, 'config', 'config_image_thumb_width', '1000', 0),
+(3168, 0, 'config', 'config_image_thumb_height', '1000', 0),
+(3169, 0, 'config', 'config_image_popup_width', '370', 0),
+(3170, 0, 'config', 'config_image_popup_height', '370', 0),
+(3171, 0, 'config', 'config_image_product_width', '370', 0),
+(3172, 0, 'config', 'config_image_product_height', '370', 0),
+(3173, 0, 'config', 'config_image_additional_width', '1000', 0),
+(3174, 0, 'config', 'config_image_additional_height', '1000', 0),
+(3175, 0, 'config', 'config_image_related_width', '370', 0),
+(3176, 0, 'config', 'config_image_related_height', '370', 0),
+(3177, 0, 'config', 'config_image_compare_width', '370', 0),
+(3178, 0, 'config', 'config_image_compare_height', '370', 0),
+(3179, 0, 'config', 'config_image_wishlist_width', '100', 0),
+(3180, 0, 'config', 'config_image_wishlist_height', '100', 0),
+(3181, 0, 'config', 'config_image_cart_width', '100', 0),
+(3182, 0, 'config', 'config_image_cart_height', '100', 0),
+(3183, 0, 'config', 'config_image_location_width', '370', 0),
+(3184, 0, 'config', 'config_image_location_height', '370', 0),
+(3185, 0, 'config', 'config_mail_engine', '', 0),
+(3186, 0, 'config', 'config_mail_parameter', '', 0),
+(3187, 0, 'config', 'config_mail_smtp_hostname', '', 0),
+(3188, 0, 'config', 'config_mail_smtp_username', '', 0),
+(3189, 0, 'config', 'config_mail_smtp_password', '', 0),
+(3190, 0, 'config', 'config_mail_smtp_port', '25', 0),
+(3191, 0, 'config', 'config_mail_smtp_timeout', '5', 0),
+(3192, 0, 'config', 'config_mail_alert', '[\"order\"]', 1),
+(3193, 0, 'config', 'config_mail_alert_email', '', 0),
+(3194, 0, 'config', 'config_maintenance', '0', 0),
+(3195, 0, 'config', 'config_session_expire', '86400', 0),
+(3196, 0, 'config', 'config_session_samesite', 'Strict', 0),
+(3197, 0, 'config', 'config_seo_url', '0', 0),
+(3198, 0, 'config', 'config_robots', 'abot\r\ndbot\r\nebot\r\nhbot\r\nkbot\r\nlbot\r\nmbot\r\nnbot\r\nobot\r\npbot\r\nrbot\r\nsbot\r\ntbot\r\nvbot\r\nybot\r\nzbot\r\nbot.\r\nbot/\r\n_bot\r\n.bot\r\n/bot\r\n-bot\r\n:bot\r\n(bot\r\ncrawl\r\nslurp\r\nspider\r\nseek\r\naccoona\r\nacoon\r\nadressendeutschland\r\nah-ha.com\r\nahoy\r\naltavista\r\nananzi\r\nanthill\r\nappie\r\narachnophilia\r\narale\r\naraneo\r\naranha\r\narchitext\r\naretha\r\narks\r\nasterias\r\natlocal\r\natn\r\natomz\r\naugurfind\r\nbackrub\r\nbannana_bot\r\nbaypup\r\nbdfetch\r\nbig brother\r\nbiglotron\r\nbjaaland\r\nblackwidow\r\nblaiz\r\nblog\r\nblo.\r\nbloodhound\r\nboitho\r\nbooch\r\nbradley\r\nbutterfly\r\ncalif\r\ncassandra\r\nccubee\r\ncfetch\r\ncharlotte\r\nchurl\r\ncienciaficcion\r\ncmc\r\ncollective\r\ncomagent\r\ncombine\r\ncomputingsite\r\ncsci\r\ncurl\r\ncusco\r\ndaumoa\r\ndeepindex\r\ndelorie\r\ndepspid\r\ndeweb\r\ndie blinde kuh\r\ndigger\r\nditto\r\ndmoz\r\ndocomo\r\ndownload express\r\ndtaagent\r\ndwcp\r\nebiness\r\nebingbong\r\ne-collector\r\nejupiter\r\nemacs-w3 search engine\r\nesther\r\nevliya celebi\r\nezresult\r\nfalcon\r\nfelix ide\r\nferret\r\nfetchrover\r\nfido\r\nfindlinks\r\nfireball\r\nfish search\r\nfouineur\r\nfunnelweb\r\ngazz\r\ngcreep\r\ngenieknows\r\ngetterroboplus\r\ngeturl\r\nglx\r\ngoforit\r\ngolem\r\ngrabber\r\ngrapnel\r\ngralon\r\ngriffon\r\ngromit\r\ngrub\r\ngulliver\r\nhamahakki\r\nharvest\r\nhavindex\r\nhelix\r\nheritrix\r\nhku www octopus\r\nhomerweb\r\nhtdig\r\nhtml index\r\nhtml_analyzer\r\nhtmlgobble\r\nhubater\r\nhyper-decontextualizer\r\nia_archiver\r\nibm_planetwide\r\nichiro\r\niconsurf\r\niltrovatore\r\nimage.kapsi.net\r\nimagelock\r\nincywincy\r\nindexer\r\ninfobee\r\ninformant\r\ningrid\r\ninktomisearch.com\r\ninspector web\r\nintelliagent\r\ninternet shinchakubin\r\nip3000\r\niron33\r\nisraeli-search\r\nivia\r\njack\r\njakarta\r\njavabee\r\njetbot\r\njumpstation\r\nkatipo\r\nkdd-explorer\r\nkilroy\r\nknowledge\r\nkototoi\r\nkretrieve\r\nlabelgrabber\r\nlachesis\r\nlarbin\r\nlegs\r\nlibwww\r\nlinkalarm\r\nlink validator\r\nlinkscan\r\nlockon\r\nlwp\r\nlycos\r\nmagpie\r\nmantraagent\r\nmapoftheinternet\r\nmarvin/\r\nmattie\r\nmediafox\r\nmediapartners\r\nmercator\r\nmerzscope\r\nmicrosoft url control\r\nminirank\r\nmiva\r\nmj12\r\nmnogosearch\r\nmoget\r\nmonster\r\nmoose\r\nmotor\r\nmultitext\r\nmuncher\r\nmuscatferret\r\nmwd.search\r\nmyweb\r\nnajdi\r\nnameprotect\r\nnationaldirectory\r\nnazilla\r\nncsa beta\r\nnec-meshexplorer\r\nnederland.zoek\r\nnetcarta webmap engine\r\nnetmechanic\r\nnetresearchserver\r\nnetscoop\r\nnewscan-online\r\nnhse\r\nnokia6682/\r\nnomad\r\nnoyona\r\nnutch\r\nnzexplorer\r\nobjectssearch\r\noccam\r\nomni\r\nopen text\r\nopenfind\r\nopenintelligencedata\r\norb search\r\nosis-project\r\npack rat\r\npageboy\r\npagebull\r\npage_verifier\r\npanscient\r\nparasite\r\npartnersite\r\npatric\r\npear.\r\npegasus\r\nperegrinator\r\npgp key agent\r\nphantom\r\nphpdig\r\npicosearch\r\npiltdownman\r\npimptrain\r\npinpoint\r\npioneer\r\npiranha\r\nplumtreewebaccessor\r\npogodak\r\npoirot\r\npompos\r\npoppelsdorf\r\npoppi\r\npopular iconoclast\r\npsycheclone\r\npublisher\r\npython\r\nrambler\r\nraven search\r\nroach\r\nroad runner\r\nroadhouse\r\nrobbie\r\nrobofox\r\nrobozilla\r\nrules\r\nsalty\r\nsbider\r\nscooter\r\nscoutjet\r\nscrubby\r\nsearch.\r\nsearchprocess\r\nsemanticdiscovery\r\nsenrigan\r\nsg-scout\r\nshai\'hulud\r\nshark\r\nshopwiki\r\nsidewinder\r\nsift\r\nsilk\r\nsimmany\r\nsite searcher\r\nsite valet\r\nsitetech-rover\r\nskymob.com\r\nsleek\r\nsmartwit\r\nsna-\r\nsnappy\r\nsnooper\r\nsohu\r\nspeedfind\r\nsphere\r\nsphider\r\nspinner\r\nspyder\r\nsteeler/\r\nsuke\r\nsuntek\r\nsupersnooper\r\nsurfnomore\r\nsven\r\nsygol\r\nszukacz\r\ntach black widow\r\ntarantula\r\ntempleton\r\n/teoma\r\nt-h-u-n-d-e-r-s-t-o-n-e\r\ntheophrastus\r\ntitan\r\ntitin\r\ntkwww\r\ntoutatis\r\nt-rex\r\ntutorgig\r\ntwiceler\r\ntwisted\r\nucsd\r\nudmsearch\r\nurl check\r\nupdated\r\nvagabondo\r\nvalkyrie\r\nverticrawl\r\nvictoria\r\nvision-search\r\nvolcano\r\nvoyager/\r\nvoyager-hc\r\nw3c_validator\r\nw3m2\r\nw3mir\r\nwalker\r\nwallpaper\r\nwanderer\r\nwauuu\r\nwavefire\r\nweb core\r\nweb hopper\r\nweb wombat\r\nwebbandit\r\nwebcatcher\r\nwebcopy\r\nwebfoot\r\nweblayers\r\nweblinker\r\nweblog monitor\r\nwebmirror\r\nwebmonkey\r\nwebquest\r\nwebreaper\r\nwebsitepulse\r\nwebsnarf\r\nwebstolperer\r\nwebvac\r\nwebwalk\r\nwebwatch\r\nwebwombat\r\nwebzinger\r\nwhizbang\r\nwhowhere\r\nwild ferret\r\nworldlight\r\nwwwc\r\nwwwster\r\nxenu\r\nxget\r\nxift\r\nxirq\r\nyandex\r\nyanga\r\nyeti\r\nyodao\r\nzao\r\nzippp\r\nzyborg', 0),
+(3199, 0, 'config', 'config_compression', '0', 0),
+(3200, 0, 'config', 'config_security', '0', 0),
+(3201, 0, 'config', 'config_shared', '0', 0),
+(3203, 0, 'config', 'config_file_max_size', '20', 0),
+(3204, 0, 'config', 'config_file_ext_allowed', 'zip\r\ntxt\r\npng\r\njpe\r\njpeg\r\nwebp\r\njpg\r\ngif\r\nbmp\r\nico\r\ntiff\r\ntif\r\nsvg\r\nsvgz\r\nzip\r\nrar\r\nmsi\r\ncab\r\nmp3\r\nmp4\r\nqt\r\nmov\r\npdf\r\npsd\r\nai\r\neps\r\nps\r\ndoc', 0),
+(3205, 0, 'config', 'config_file_mime_allowed', 'text/plain\r\nimage/png\r\nimage/webp\r\nimage/jpeg\r\nimage/gif\r\nimage/bmp\r\nimage/tiff\r\nimage/svg+xml\r\napplication/zip\r\napplication/x-zip\r\napplication/x-zip-compressed\r\napplication/rar\r\napplication/x-rar\r\napplication/x-rar-compressed\r\napplication/octet-stream\r\naudio/mpeg\r\nvideo/mp4\r\nvideo/quicktime\r\napplication/pdf', 0),
+(3206, 0, 'config', 'config_error_display', '1', 0),
+(3207, 0, 'config', 'config_error_log', '1', 0),
+(3208, 0, 'config', 'config_error_filename', 'error.log', 0),
+(3211, 0, 'config', 'config_encryption', '1f6a2f85414cc85d5af3cecd637dfea3cea0cbc734228590097adf0722bca5f3456639708a0035018c1135df29c5d71e1af3799545f4ce332f0b8b1e4c6e097a574fae65be9d91687911f8797aba43a436c636a6b9a7226b4fb6527a18ab9573d0087dc822f2503cee8b6977f33ad8fa50455d526f2a49b3121d3cc83261e76ecbc4c38f82a10013b110c64e2f278519b88725bd86aa5f766e380e4713654ba88cdf8e9b941a688c21ad3c029022fd13c369e2be719c13b91a0b461164c902a64dcbc3728ae43acdbb75ae1cafdf7698fea9fc10cc669b77e3410f31e0b325bafce9b118621ae056da32fa221ace637548a20d896061584a2e1e04ff43432442', 0),
+(3212, 0, 'config', 'config_api_id', '21', 0),
+(3213, 0, 'language_ukrainian', 'language_ukrainian_status', '1', 0),
+(3215, 0, 'language_russian', 'language_russian_status', '1', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_startup`
+--
+
+CREATE TABLE `oc_startup` (
+  `startup_id` int(11) NOT NULL,
+  `code` varchar(64) NOT NULL,
+  `action` text NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_statistics`
 --
 
-DROP TABLE IF EXISTS `oc_statistics`;
 CREATE TABLE `oc_statistics` (
-  `statistics_id` int(11) NOT NULL AUTO_INCREMENT,
+  `statistics_id` int(11) NOT NULL,
   `code` varchar(64) NOT NULL,
-  `value` decimal(15,4) NOT NULL,
-  PRIMARY KEY (`statistics_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+  `value` decimal(15,4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_statistics`
 --
 
 INSERT INTO `oc_statistics` (`statistics_id`, `code`, `value`) VALUES
-(1, 'order_sale', 0),
-(2, 'order_processing', 0),
-(3, 'order_complete', 0),
-(4, 'order_other', 0),
-(5, 'returns', 0),
-(6, 'product', 0),
-(7, 'review', 0);
+(1, 'order_sale', '6161.0000'),
+(2, 'order_processing', '6.0000'),
+(3, 'order_complete', '0.0000'),
+(4, 'order_other', '0.0000'),
+(5, 'returns', '2.0000'),
+(6, 'product', '0.0000'),
+(7, 'review', '2.0000');
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_session`
---
-
-DROP TABLE IF EXISTS `oc_session`;
-CREATE TABLE `oc_session` (
-  `session_id` varchar(32) NOT NULL,
-  `data` text NOT NULL,
-  `expire` datetime NOT NULL,
-  PRIMARY KEY (`session_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
------------------------------------------------------------
-
---
--- Table structure for table `oc_setting`
---
-
-DROP TABLE IF EXISTS `oc_setting`;
-CREATE TABLE `oc_setting` (
-  `setting_id` int(11) NOT NULL AUTO_INCREMENT,
-  `store_id` int(11) NOT NULL DEFAULT '0',
-  `code` varchar(128) NOT NULL,
-  `key` varchar(128) NOT NULL,
-  `value` text NOT NULL,
-  `serialized` tinyint(1) NOT NULL,
-  PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `oc_setting`
---
-
-INSERT INTO `oc_setting` (`store_id`, `code`, `key`, `value`, `serialized`) VALUES
-(0, 'config', 'config_robots', 'abot\r\ndbot\r\nebot\r\nhbot\r\nkbot\r\nlbot\r\nmbot\r\nnbot\r\nobot\r\npbot\r\nrbot\r\nsbot\r\ntbot\r\nvbot\r\nybot\r\nzbot\r\nbot.\r\nbot/\r\n_bot\r\n.bot\r\n/bot\r\n-bot\r\n:bot\r\n(bot\r\ncrawl\r\nslurp\r\nspider\r\nseek\r\naccoona\r\nacoon\r\nadressendeutschland\r\nah-ha.com\r\nahoy\r\naltavista\r\nananzi\r\nanthill\r\nappie\r\narachnophilia\r\narale\r\naraneo\r\naranha\r\narchitext\r\naretha\r\narks\r\nasterias\r\natlocal\r\natn\r\natomz\r\naugurfind\r\nbackrub\r\nbannana_bot\r\nbaypup\r\nbdfetch\r\nbig brother\r\nbiglotron\r\nbjaaland\r\nblackwidow\r\nblaiz\r\nblog\r\nblo.\r\nbloodhound\r\nboitho\r\nbooch\r\nbradley\r\nbutterfly\r\ncalif\r\ncassandra\r\nccubee\r\ncfetch\r\ncharlotte\r\nchurl\r\ncienciaficcion\r\ncmc\r\ncollective\r\ncomagent\r\ncombine\r\ncomputingsite\r\ncsci\r\ncurl\r\ncusco\r\ndaumoa\r\ndeepindex\r\ndelorie\r\ndepspid\r\ndeweb\r\ndie blinde kuh\r\ndigger\r\nditto\r\ndmoz\r\ndocomo\r\ndownload express\r\ndtaagent\r\ndwcp\r\nebiness\r\nebingbong\r\ne-collector\r\nejupiter\r\nemacs-w3 search engine\r\nesther\r\nevliya celebi\r\nezresult\r\nfalcon\r\nfelix ide\r\nferret\r\nfetchrover\r\nfido\r\nfindlinks\r\nfireball\r\nfish search\r\nfouineur\r\nfunnelweb\r\ngazz\r\ngcreep\r\ngenieknows\r\ngetterroboplus\r\ngeturl\r\nglx\r\ngoforit\r\ngolem\r\ngrabber\r\ngrapnel\r\ngralon\r\ngriffon\r\ngromit\r\ngrub\r\ngulliver\r\nhamahakki\r\nharvest\r\nhavindex\r\nhelix\r\nheritrix\r\nhku www octopus\r\nhomerweb\r\nhtdig\r\nhtml index\r\nhtml_analyzer\r\nhtmlgobble\r\nhubater\r\nhyper-decontextualizer\r\nia_archiver\r\nibm_planetwide\r\nichiro\r\niconsurf\r\niltrovatore\r\nimage.kapsi.net\r\nimagelock\r\nincywincy\r\nindexer\r\ninfobee\r\ninformant\r\ningrid\r\ninktomisearch.com\r\ninspector web\r\nintelliagent\r\ninternet shinchakubin\r\nip3000\r\niron33\r\nisraeli-search\r\nivia\r\njack\r\njakarta\r\njavabee\r\njetbot\r\njumpstation\r\nkatipo\r\nkdd-explorer\r\nkilroy\r\nknowledge\r\nkototoi\r\nkretrieve\r\nlabelgrabber\r\nlachesis\r\nlarbin\r\nlegs\r\nlibwww\r\nlinkalarm\r\nlink validator\r\nlinkscan\r\nlockon\r\nlwp\r\nlycos\r\nmagpie\r\nmantraagent\r\nmapoftheinternet\r\nmarvin/\r\nmattie\r\nmediafox\r\nmediapartners\r\nmercator\r\nmerzscope\r\nmicrosoft url control\r\nminirank\r\nmiva\r\nmj12\r\nmnogosearch\r\nmoget\r\nmonster\r\nmoose\r\nmotor\r\nmultitext\r\nmuncher\r\nmuscatferret\r\nmwd.search\r\nmyweb\r\nnajdi\r\nnameprotect\r\nnationaldirectory\r\nnazilla\r\nncsa beta\r\nnec-meshexplorer\r\nnederland.zoek\r\nnetcarta webmap engine\r\nnetmechanic\r\nnetresearchserver\r\nnetscoop\r\nnewscan-online\r\nnhse\r\nnokia6682/\r\nnomad\r\nnoyona\r\nnutch\r\nnzexplorer\r\nobjectssearch\r\noccam\r\nomni\r\nopen text\r\nopenfind\r\nopenintelligencedata\r\norb search\r\nosis-project\r\npack rat\r\npageboy\r\npagebull\r\npage_verifier\r\npanscient\r\nparasite\r\npartnersite\r\npatric\r\npear.\r\npegasus\r\nperegrinator\r\npgp key agent\r\nphantom\r\nphpdig\r\npicosearch\r\npiltdownman\r\npimptrain\r\npinpoint\r\npioneer\r\npiranha\r\nplumtreewebaccessor\r\npogodak\r\npoirot\r\npompos\r\npoppelsdorf\r\npoppi\r\npopular iconoclast\r\npsycheclone\r\npublisher\r\npython\r\nrambler\r\nraven search\r\nroach\r\nroad runner\r\nroadhouse\r\nrobbie\r\nrobofox\r\nrobozilla\r\nrules\r\nsalty\r\nsbider\r\nscooter\r\nscoutjet\r\nscrubby\r\nsearch.\r\nsearchprocess\r\nsemanticdiscovery\r\nsenrigan\r\nsg-scout\r\nshai''hulud\r\nshark\r\nshopwiki\r\nsidewinder\r\nsift\r\nsilk\r\nsimmany\r\nsite searcher\r\nsite valet\r\nsitetech-rover\r\nskymob.com\r\nsleek\r\nsmartwit\r\nsna-\r\nsnappy\r\nsnooper\r\nsohu\r\nspeedfind\r\nsphere\r\nsphider\r\nspinner\r\nspyder\r\nsteeler/\r\nsuke\r\nsuntek\r\nsupersnooper\r\nsurfnomore\r\nsven\r\nsygol\r\nszukacz\r\ntach black widow\r\ntarantula\r\ntempleton\r\n/teoma\r\nt-h-u-n-d-e-r-s-t-o-n-e\r\ntheophrastus\r\ntitan\r\ntitin\r\ntkwww\r\ntoutatis\r\nt-rex\r\ntutorgig\r\ntwiceler\r\ntwisted\r\nucsd\r\nudmsearch\r\nurl check\r\nupdated\r\nvagabondo\r\nvalkyrie\r\nverticrawl\r\nvictoria\r\nvision-search\r\nvolcano\r\nvoyager/\r\nvoyager-hc\r\nw3c_validator\r\nw3m2\r\nw3mir\r\nwalker\r\nwallpaper\r\nwanderer\r\nwauuu\r\nwavefire\r\nweb core\r\nweb hopper\r\nweb wombat\r\nwebbandit\r\nwebcatcher\r\nwebcopy\r\nwebfoot\r\nweblayers\r\nweblinker\r\nweblog monitor\r\nwebmirror\r\nwebmonkey\r\nwebquest\r\nwebreaper\r\nwebsitepulse\r\nwebsnarf\r\nwebstolperer\r\nwebvac\r\nwebwalk\r\nwebwatch\r\nwebwombat\r\nwebzinger\r\nwhizbang\r\nwhowhere\r\nwild ferret\r\nworldlight\r\nwwwc\r\nwwwster\r\nxenu\r\nxget\r\nxift\r\nxirq\r\nyandex\r\nyanga\r\nyeti\r\nyodao\r\nzao\r\nzippp\r\nzyborg', 0),
-(0, 'config', 'config_shared', '0', 0),
-(0, 'config', 'config_secure', '0', 0),
-(0, 'voucher', 'total_voucher_sort_order', '8', 0),
-(0, 'voucher', 'total_voucher_status', '1', 0),
-(0, 'config', 'config_fraud_detection', '0', 0),
-(0, 'config', 'config_ftp_status', '0', 0),
-(0, 'config', 'config_ftp_root', '', 0),
-(0, 'config', 'config_ftp_password', '', 0),
-(0, 'config', 'config_ftp_username', '', 0),
-(0, 'config', 'config_ftp_port', '21', 0),
-(0, 'config', 'config_ftp_hostname', '', 0),
-(0, 'config', 'config_meta_title', 'Your Store', 0),
-(0, 'config', 'config_meta_description', 'My Store', 0),
-(0, 'config', 'config_meta_keyword', '', 0),
-(0, 'config', 'config_theme', 'default', 0),
-(0, 'config', 'config_layout_id', '4', 0),
-(0, 'config', 'config_country_id', '222', 0),
-(0, 'config', 'config_zone_id', '3563', 0),
-(0, 'config', 'config_language', 'en-gb', 0),
-(0, 'config', 'config_admin_language', 'en-gb', 0),
-(0, 'config', 'config_currency', 'USD', 0),
-(0, 'config', 'config_currency_auto', '1', 0),
-(0, 'config', 'config_length_class_id', '1', 0),
-(0, 'config', 'config_weight_class_id', '1', 0),
-(0, 'config', 'config_product_count', '1', 0),
-(0, 'config', 'config_limit_admin', '20', 0),
-(0, 'config', 'config_review_status', '1', 0),
-(0, 'config', 'config_review_guest', '1', 0),
-(0, 'config', 'config_voucher_min', '1', 0),
-(0, 'config', 'config_voucher_max', '1000', 0),
-(0, 'config', 'config_tax', '1', 0),
-(0, 'config', 'config_tax_default', 'shipping', 0),
-(0, 'config', 'config_tax_customer', 'shipping', 0),
-(0, 'config', 'config_customer_online', '0', 0),
-(0, 'config', 'config_customer_activity', '0', 0),
-(0, 'config', 'config_customer_search', '0', 0),
-(0, 'config', 'config_customer_group_id', '1', 0),
-(0, 'config', 'config_customer_group_display', '["1"]', 1),
-(0, 'config', 'config_customer_price', '0', 0),
-(0, 'config', 'config_account_id', '3', 0),
-(0, 'config', 'config_invoice_prefix', 'INV-2013-00', 0),
-(0, 'config', 'config_api_id', '1', 0),
-(0, 'config', 'config_cart_weight', '1', 0),
-(0, 'config', 'config_checkout_guest', '1', 0),
-(0, 'config', 'config_checkout_id', '5', 0),
-(0, 'config', 'config_order_status_id', '1', 0),
-(0, 'config', 'config_processing_status', '["5","1","2","12","3"]', 1),
-(0, 'config', 'config_complete_status', '["5","3"]', 1),
-(0, 'config', 'config_stock_display', '0', 0),
-(0, 'config', 'config_stock_warning', '0', 0),
-(0, 'config', 'config_stock_checkout', '0', 0),
-(0, 'config', 'config_affiliate_approval', '0', 0),
-(0, 'config', 'config_affiliate_auto', '0', 0),
-(0, 'config', 'config_affiliate_commission', '5', 0),
-(0, 'config', 'config_affiliate_id', '4', 0),
-(0, 'config', 'config_return_id', '0', 0),
-(0, 'config', 'config_return_status_id', '2', 0),
-(0, 'config', 'config_logo', 'catalog/logo.png', 0),
-(0, 'config', 'config_icon', 'catalog/cart.png', 0),
-(0, 'config', 'config_comment', '', 0),
-(0, 'config', 'config_open', '', 0),
-(0, 'config', 'config_image', '', 0),
-(0, 'config', 'config_fax', '', 0),
-(0, 'config', 'config_telephone', '123456789', 0),
-(0, 'config', 'config_email', 'demo@opencart.com', 0),
-(0, 'config', 'config_geocode', '', 0),
-(0, 'config', 'config_owner', 'Your Name', 0),
-(0, 'config', 'config_address', 'Address 1', 0),
-(0, 'config', 'config_name', 'Your Store', 0),
-(0, 'config', 'config_seo_url', '0', 0),
-(0, 'config', 'config_file_max_size', '300000', 0),
-(0, 'config', 'config_file_ext_allowed', 'zip\r\ntxt\r\npng\r\njpe\r\njpeg\r\njpg\r\ngif\r\nbmp\r\nico\r\ntiff\r\ntif\r\nsvg\r\nsvgz\r\nzip\r\nrar\r\nmsi\r\ncab\r\nmp3\r\nqt\r\nmov\r\npdf\r\npsd\r\nai\r\neps\r\nps\r\ndoc', 0),
-(0, 'config', 'config_file_mime_allowed', 'text/plain\r\nimage/png\r\nimage/jpeg\r\nimage/gif\r\nimage/bmp\r\nimage/tiff\r\nimage/svg+xml\r\napplication/zip\r\n&quot;application/zip&quot;\r\napplication/x-zip\r\n&quot;application/x-zip&quot;\r\napplication/x-zip-compressed\r\n&quot;application/x-zip-compressed&quot;\r\napplication/rar\r\n&quot;application/rar&quot;\r\napplication/x-rar\r\n&quot;application/x-rar&quot;\r\napplication/x-rar-compressed\r\n&quot;application/x-rar-compressed&quot;\r\napplication/octet-stream\r\n&quot;application/octet-stream&quot;\r\naudio/mpeg\r\nvideo/quicktime\r\napplication/pdf', 0),
-(0, 'config', 'config_maintenance', '0', 0),
-(0, 'config', 'config_password', '1', 0),
-(0, 'config', 'config_encryption', '', 0),
-(0, 'config', 'config_compression', '0', 0),
-(0, 'config', 'config_error_display', '1', 0),
-(0, 'config', 'config_error_log', '1', 0),
-(0, 'config', 'config_error_filename', 'error.log', 0),
-(0, 'config', 'config_google_analytics', '', 0),
-(0, 'config', 'config_mail_engine', 'mail', 0),
-(0, 'config', 'config_mail_parameter', '', 0),
-(0, 'config', 'config_mail_smtp_hostname', '', 0),
-(0, 'config', 'config_mail_smtp_username', '', 0),
-(0, 'config', 'config_mail_smtp_password', '', 0),
-(0, 'config', 'config_mail_smtp_port', '25', 0),
-(0, 'config', 'config_mail_smtp_timeout', '5', 0),
-(0, 'config', 'config_mail_alert_email', '', 0),
-(0, 'config', 'config_mail_alert', '["order"]', 1),
-(0, 'config', 'config_captcha', 'basic', 0),
-(0, 'config', 'config_captcha_page', '["review","return","contact"]', 1),
-(0, 'config', 'config_login_attempts', '5', 0),
-(0, 'payment_free_checkout', 'payment_free_checkout_status', '1', 0),
-(0, 'payment_free_checkout', 'free_checkout_order_status_id', '1', 0),
-(0, 'payment_free_checkout', 'payment_free_checkout_sort_order', '1', 0),
-(0, 'payment_cod', 'payment_cod_sort_order', '5', 0),
-(0, 'payment_cod', 'payment_cod_total', '0.01', 0),
-(0, 'payment_cod', 'payment_cod_order_status_id', '1', 0),
-(0, 'payment_cod', 'payment_cod_geo_zone_id', '0', 0),
-(0, 'payment_cod', 'payment_cod_status', '1', 0),
-(0, 'shipping_flat', 'shipping_flat_sort_order', '1', 0),
-(0, 'shipping_flat', 'shipping_flat_status', '1', 0),
-(0, 'shipping_flat', 'shipping_flat_geo_zone_id', '0', 0),
-(0, 'shipping_flat', 'shipping_flat_tax_class_id', '9', 0),
-(0, 'shipping_flat', 'shipping_flat_cost', '5.00', 0),
-(0, 'total_shipping', 'total_shipping_sort_order', '3', 0),
-(0, 'total_sub_total', 'sub_total_sort_order', '1', 0),
-(0, 'total_sub_total', 'total_sub_total_status', '1', 0),
-(0, 'total_tax', 'total_tax_status', '1', 0),
-(0, 'total_total', 'total_total_sort_order', '9', 0),
-(0, 'total_total', 'total_total_status', '1', 0),
-(0, 'total_tax', 'total_tax_sort_order', '5', 0),
-(0, 'total_credit', 'total_credit_sort_order', '7', 0),
-(0, 'total_credit', 'total_credit_status', '1', 0),
-(0, 'total_reward', 'total_reward_sort_order', '2', 0),
-(0, 'total_reward', 'total_reward_status', '1', 0),
-(0, 'total_shipping', 'total_shipping_status', '1', 0),
-(0, 'total_shipping', 'total_shipping_estimator', '1', 0),
-(0, 'total_coupon', 'total_coupon_sort_order', '4', 0),
-(0, 'total_coupon', 'total_coupon_status', '1', 0),
-(0, 'module_category', 'module_category_status', '1', 0),
-(0, 'module_account', 'module_account_status', '1', 0),
-(0, 'theme_default', 'theme_default_product_limit', '15', 0),
-(0, 'theme_default', 'theme_default_product_description_length', '100', 0),
-(0, 'theme_default', 'theme_default_image_thumb_width', '228', 0),
-(0, 'theme_default', 'theme_default_image_thumb_height', '228', 0),
-(0, 'theme_default', 'theme_default_image_popup_width', '500', 0),
-(0, 'theme_default', 'theme_default_image_popup_height', '500', 0),
-(0, 'theme_default', 'theme_default_image_category_width', '80', 0),
-(0, 'theme_default', 'theme_default_image_category_height', '80', 0),
-(0, 'theme_default', 'theme_default_image_product_width', '228', 0),
-(0, 'theme_default', 'theme_default_image_product_height', '228', 0),
-(0, 'theme_default', 'theme_default_image_additional_width', '74', 0),
-(0, 'theme_default', 'theme_default_image_additional_height', '74', 0),
-(0, 'theme_default', 'theme_default_image_related_width', '200', 0),
-(0, 'theme_default', 'theme_default_image_related_height', '200', 0),
-(0, 'theme_default', 'theme_default_image_compare_width', '90', 0),
-(0, 'theme_default', 'theme_default_image_compare_height', '90', 0),
-(0, 'theme_default', 'theme_default_image_wishlist_width', '47', 0),
-(0, 'theme_default', 'theme_default_image_wishlist_height', '47', 0),
-(0, 'theme_default', 'theme_default_image_cart_height', '47', 0),
-(0, 'theme_default', 'theme_default_image_cart_width', '47', 0),
-(0, 'theme_default', 'theme_default_image_location_height', '50', 0),
-(0, 'theme_default', 'theme_default_image_location_width', '268', 0),
-(0, 'theme_default', 'theme_default_directory', 'default', 0),
-(0, 'theme_default', 'theme_default_status', '1', 0),
-(0, 'dashboard_activity', 'dashboard_activity_status', '1', 0),
-(0, 'dashboard_activity', 'dashboard_activity_sort_order', '7', 0),
-(0, 'dashboard_sale', 'dashboard_sale_status', '1', 0),
-(0, 'dashboard_sale', 'dashboard_sale_width', '3', 0),
-(0, 'dashboard_chart', 'dashboard_chart_status', '1', 0),
-(0, 'dashboard_chart', 'dashboard_chart_width', '6', 0),
-(0, 'dashboard_customer', 'dashboard_customer_status', '1', 0),
-(0, 'dashboard_customer', 'dashboard_customer_width', '3', 0),
-(0, 'dashboard_map', 'dashboard_map_status', '1', 0),
-(0, 'dashboard_map', 'dashboard_map_width', '6', 0),
-(0, 'dashboard_online', 'dashboard_online_status', '1', 0),
-(0, 'dashboard_online', 'dashboard_online_width', '3', 0),
-(0, 'dashboard_order', 'dashboard_order_sort_order', '1', 0),
-(0, 'dashboard_order', 'dashboard_order_status', '1', 0),
-(0, 'dashboard_order', 'dashboard_order_width', '3', 0),
-(0, 'dashboard_sale', 'dashboard_sale_sort_order', '2', 0),
-(0, 'dashboard_customer', 'dashboard_customer_sort_order', '3', 0),
-(0, 'dashboard_online', 'dashboard_online_sort_order', '4', 0),
-(0, 'dashboard_map', 'dashboard_map_sort_order', '5', 0),
-(0, 'dashboard_chart', 'dashboard_chart_sort_order', '6', 0),
-(0, 'dashboard_recent', 'dashboard_recent_status', '1', 0),
-(0, 'dashboard_recent', 'dashboard_recent_sort_order', '8', 0),
-(0, 'dashboard_activity', 'dashboard_activity_width', '4', 0),
-(0, 'dashboard_recent', 'dashboard_recent_width', '8', 0),
-(0, 'report_customer_activity', 'report_customer_activity_status', '1', 0),
-(0, 'report_customer_activity', 'report_customer_activity_sort_order', '1', 0),
-(0, 'report_customer_order', 'report_customer_order_status', '1', 0),
-(0, 'report_customer_order', 'report_customer_order_sort_order', '2', 0),
-(0, 'report_customer_reward', 'report_customer_reward_status', '1', 0),
-(0, 'report_customer_reward', 'report_customer_reward_sort_order', '3', 0),
-(0, 'report_customer_search', 'report_customer_search_sort_order', '3', 0),
-(0, 'report_customer_search', 'report_customer_search_status', '1', 0),
-(0, 'report_customer_transaction', 'report_customer_transaction_status', '1', 0),
-(0, 'report_customer_transaction', 'report_customer_transaction_status_sort_order', '4', 0),
-(0, 'report_sale_tax', 'report_sale_tax_status', '1', 0),
-(0, 'report_sale_tax', 'report_sale_tax_sort_order', '5', 0),
-(0, 'report_sale_shipping', 'report_sale_shipping_status', '1', 0),
-(0, 'report_sale_shipping', 'report_sale_shipping_sort_order', '6', 0),
-(0, 'report_sale_return', 'report_sale_return_status', '1', 0),
-(0, 'report_sale_return', 'report_sale_return_sort_order', '7', 0),
-(0, 'report_sale_order', 'report_sale_order_status', '1', 0),
-(0, 'report_sale_order', 'report_sale_order_sort_order', '8', 0),
-(0, 'report_sale_coupon', 'report_sale_coupon_status', '1', 0),
-(0, 'report_sale_coupon', 'report_sale_coupon_sort_order', '9', 0),
-(0, 'report_product_viewed', 'report_product_viewed_status', '1', 0),
-(0, 'report_product_viewed', 'report_product_viewed_sort_order', '10', 0),
-(0, 'report_product_purchased', 'report_product_purchased_status', '1', 0),
-(0, 'report_product_purchased', 'report_product_purchased_sort_order', '11', 0),
-(0, 'report_marketing', 'report_marketing_status', '1', 0),
-(0, 'report_marketing', 'report_marketing_sort_order', '12', 0),
-(0, 'developer', 'developer_theme', '1', 0),
-(0, 'developer', 'developer_sass', '1', 0);
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_stock_status`
 --
 
-DROP TABLE IF EXISTS `oc_stock_status`;
 CREATE TABLE `oc_stock_status` (
-  `stock_status_id` int(11) NOT NULL AUTO_INCREMENT,
+  `stock_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`stock_status_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_stock_status`
 --
 
 INSERT INTO `oc_stock_status` (`stock_status_id`, `language_id`, `name`) VALUES
-(7, 1, 'In Stock'),
-(8, 1, 'Pre-Order'),
 (5, 1, 'Out Of Stock'),
-(6, 1, '2-3 Days');
+(5, 2, 'Out Of Stock'),
+(5, 3, 'Out Of Stock'),
+(5, 4, 'Out Of Stock'),
+(5, 5, 'Out Of Stock'),
+(5, 6, 'Out Of Stock'),
+(5, 7, 'Out Of Stock'),
+(5, 8, 'Out Of Stock'),
+(6, 1, '2-3 Days'),
+(6, 2, '2-3 Days'),
+(6, 3, '2-3 Days'),
+(6, 4, '2-3 Days'),
+(6, 5, '2-3 Days'),
+(6, 6, '2-3 Days'),
+(6, 7, '2-3 Days'),
+(6, 8, '2-3 Days'),
+(7, 1, 'In Stock'),
+(7, 2, 'In Stock'),
+(7, 3, 'In Stock'),
+(7, 4, 'In Stock'),
+(7, 5, 'In Stock'),
+(7, 6, 'In Stock'),
+(7, 7, 'In Stock'),
+(7, 8, 'In Stock'),
+(8, 1, 'Pre-Order'),
+(8, 2, 'Pre-Order'),
+(8, 3, 'Pre-Order'),
+(8, 4, 'Pre-Order'),
+(8, 5, 'Pre-Order'),
+(8, 6, 'Pre-Order'),
+(8, 7, 'Pre-Order'),
+(8, 8, 'Pre-Order'),
+(9, 1, 'Direct Download'),
+(9, 7, 'Direct Download'),
+(9, 8, 'Direct Download');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_store`
 --
 
-DROP TABLE IF EXISTS `oc_store`;
 CREATE TABLE `oc_store` (
-  `store_id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `ssl` varchar(255) NOT NULL,
-  PRIMARY KEY (`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `url` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_subscribe`
+--
+
+CREATE TABLE `oc_subscribe` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `email_id` varchar(225) NOT NULL,
+  `name` varchar(225) NOT NULL,
+  `date` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_subscription`
+--
+
+CREATE TABLE `oc_subscription` (
+  `subscription_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `order_product_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `customer_group_id` int(11) NOT NULL,
+  `payment_address_id` int(11) NOT NULL,
+  `payment_method` text NOT NULL,
+  `shipping_address_id` int(11) NOT NULL,
+  `shipping_method` text NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(4) NOT NULL,
+  `subscription_plan_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `trial_price` decimal(10,4) NOT NULL,
+  `trial_frequency` enum('day','week','semi_month','month','year') NOT NULL,
+  `trial_cycle` smallint(6) NOT NULL,
+  `trial_duration` smallint(6) NOT NULL,
+  `trial_remaining` smallint(6) NOT NULL,
+  `trial_status` tinyint(1) NOT NULL,
+  `price` decimal(10,4) NOT NULL,
+  `frequency` enum('day','week','semi_month','month','year') NOT NULL,
+  `cycle` smallint(6) NOT NULL,
+  `duration` smallint(6) NOT NULL,
+  `remaining` smallint(6) NOT NULL,
+  `date_next` datetime NOT NULL,
+  `comment` text NOT NULL,
+  `subscription_status_id` int(11) NOT NULL,
+  `affiliate_id` int(11) NOT NULL,
+  `commission` decimal(10,4) NOT NULL,
+  `marketing_id` int(11) NOT NULL,
+  `tracking` varchar(64) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `currency_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `forwarded_ip` varchar(40) NOT NULL,
+  `user_agent` varchar(255) NOT NULL,
+  `accept_language` varchar(255) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_subscription_history`
+--
+
+CREATE TABLE `oc_subscription_history` (
+  `subscription_history_id` int(11) NOT NULL,
+  `subscription_id` int(11) NOT NULL,
+  `subscription_status_id` int(11) NOT NULL,
+  `notify` tinyint(1) NOT NULL DEFAULT 0,
+  `comment` text NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_subscription_plan`
+--
+
+CREATE TABLE `oc_subscription_plan` (
+  `subscription_plan_id` int(11) NOT NULL,
+  `trial_price` decimal(10,4) NOT NULL,
+  `trial_frequency` enum('day','week','semi_month','month','year') NOT NULL,
+  `trial_duration` int(10) NOT NULL,
+  `trial_cycle` int(10) NOT NULL,
+  `trial_status` tinyint(4) NOT NULL,
+  `frequency` enum('day','week','semi_month','month','year') NOT NULL,
+  `duration` int(10) NOT NULL,
+  `cycle` int(10) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `sort_order` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_subscription_plan`
+--
+
+INSERT INTO `oc_subscription_plan` (`subscription_plan_id`, `trial_price`, `trial_frequency`, `trial_duration`, `trial_cycle`, `trial_status`, `frequency`, `duration`, `cycle`, `status`, `sort_order`) VALUES
+(1, '0.0000', 'day', 10, 1, 1, 'day', 0, 1, 1, 0),
+(2, '0.0000', 'week', 11, 2, 1, 'month', 10, 1, 1, 0),
+(3, '0.0000', 'day', 0, 1, 0, 'day', 0, 1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_subscription_plan_description`
+--
+
+CREATE TABLE `oc_subscription_plan_description` (
+  `subscription_plan_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_subscription_plan_description`
+--
+
+INSERT INTO `oc_subscription_plan_description` (`subscription_plan_id`, `language_id`, `name`) VALUES
+(1, 1, 'Subscription Plan 1'),
+(2, 1, 'Subscription Plan 2'),
+(3, 1, 'Subscription Plan 3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_subscription_status`
+--
+
+CREATE TABLE `oc_subscription_status` (
+  `subscription_status_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `name` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_subscription_status`
+--
+
+INSERT INTO `oc_subscription_status` (`subscription_status_id`, `language_id`, `name`) VALUES
+(1, 1, 'Pending'),
+(1, 2, 'Pending'),
+(1, 3, 'Pending'),
+(1, 4, 'Pending'),
+(1, 5, 'Pending'),
+(1, 6, 'Pending'),
+(1, 7, 'Pending'),
+(1, 8, 'Pending'),
+(2, 1, 'Active'),
+(2, 2, 'Active'),
+(2, 3, 'Active'),
+(2, 4, 'Active'),
+(2, 5, 'Active'),
+(2, 6, 'Active'),
+(2, 7, 'Active'),
+(2, 8, 'Active'),
+(3, 1, 'Expired'),
+(3, 2, 'Expired'),
+(3, 3, 'Expired'),
+(3, 4, 'Expired'),
+(3, 5, 'Expired'),
+(3, 6, 'Expired'),
+(3, 7, 'Expired'),
+(3, 8, 'Expired'),
+(4, 1, 'Suspended'),
+(4, 2, 'Suspended'),
+(4, 3, 'Suspended'),
+(4, 4, 'Suspended'),
+(4, 5, 'Suspended'),
+(4, 6, 'Suspended'),
+(4, 7, 'Suspended'),
+(4, 8, 'Suspended'),
+(5, 1, 'Cancelled'),
+(5, 2, 'Cancelled'),
+(5, 3, 'Cancelled'),
+(5, 4, 'Cancelled'),
+(5, 5, 'Cancelled'),
+(5, 6, 'Cancelled'),
+(5, 7, 'Cancelled'),
+(5, 8, 'Cancelled'),
+(6, 1, 'Failed'),
+(6, 2, 'Failed'),
+(6, 3, 'Failed'),
+(6, 4, 'Failed'),
+(6, 5, 'Failed'),
+(6, 6, 'Failed'),
+(6, 7, 'Failed'),
+(6, 8, 'Failed'),
+(7, 1, 'Denied'),
+(7, 2, 'Denied'),
+(7, 3, 'Denied'),
+(7, 4, 'Denied'),
+(7, 5, 'Denied'),
+(7, 6, 'Denied'),
+(7, 7, 'Denied'),
+(7, 8, 'Denied');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_tax_class`
 --
 
-DROP TABLE IF EXISTS `oc_tax_class`;
 CREATE TABLE `oc_tax_class` (
-  `tax_class_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tax_class_id` int(11) NOT NULL,
   `title` varchar(32) NOT NULL,
   `description` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`tax_class_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_tax_class`
@@ -3608,23 +8778,21 @@ INSERT INTO `oc_tax_class` (`tax_class_id`, `title`, `description`, `date_added`
 (9, 'Taxable Goods', 'Taxed goods', '2009-01-06 23:21:53', '2011-09-23 14:07:50'),
 (10, 'Downloadable Products', 'Downloadable', '2011-09-21 22:19:39', '2011-09-22 10:27:36');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_tax_rate`
 --
 
-DROP TABLE IF EXISTS `oc_tax_rate`;
 CREATE TABLE `oc_tax_rate` (
-  `tax_rate_id` int(11) NOT NULL AUTO_INCREMENT,
-  `geo_zone_id` int(11) NOT NULL DEFAULT '0',
+  `tax_rate_id` int(11) NOT NULL,
+  `geo_zone_id` int(11) NOT NULL DEFAULT 0,
   `name` varchar(32) NOT NULL,
-  `rate` decimal(15,4) NOT NULL DEFAULT '0.0000',
+  `rate` decimal(15,4) NOT NULL DEFAULT 0.0000,
   `type` char(1) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`tax_rate_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_tax_rate`
@@ -3634,18 +8802,16 @@ INSERT INTO `oc_tax_rate` (`tax_rate_id`, `geo_zone_id`, `name`, `rate`, `type`,
 (86, 3, 'VAT (20%)', '20.0000', 'P', '2011-03-09 21:17:10', '2011-09-22 22:24:29'),
 (87, 3, 'Eco Tax (-2.00)', '2.0000', 'F', '2011-09-21 21:49:23', '2011-09-23 00:40:19');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_tax_rate_to_customer_group`
 --
 
-DROP TABLE IF EXISTS `oc_tax_rate_to_customer_group`;
 CREATE TABLE `oc_tax_rate_to_customer_group` (
   `tax_rate_id` int(11) NOT NULL,
-  `customer_group_id` int(11) NOT NULL,
-  PRIMARY KEY (`tax_rate_id`,`customer_group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `customer_group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_tax_rate_to_customer_group`
@@ -3655,229 +8821,445 @@ INSERT INTO `oc_tax_rate_to_customer_group` (`tax_rate_id`, `customer_group_id`)
 (86, 1),
 (87, 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_tax_rule`
 --
 
-DROP TABLE IF EXISTS `oc_tax_rule`;
 CREATE TABLE `oc_tax_rule` (
-  `tax_rule_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tax_rule_id` int(11) NOT NULL,
   `tax_class_id` int(11) NOT NULL,
   `tax_rate_id` int(11) NOT NULL,
   `based` varchar(10) NOT NULL,
-  `priority` int(5) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`tax_rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `priority` int(5) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_tax_rule`
 --
 
 INSERT INTO `oc_tax_rule` (`tax_rule_id`, `tax_class_id`, `tax_rate_id`, `based`, `priority`) VALUES
-(121, 10, 86, 'payment', 1),
 (120, 10, 87, 'store', 0),
-(128, 9, 86, 'shipping', 1),
-(127, 9, 87, 'shipping', 2);
+(121, 10, 86, 'payment', 1),
+(127, 9, 87, 'shipping', 2),
+(128, 9, 86, 'shipping', 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_theme`
 --
 
-DROP TABLE IF EXISTS `oc_theme`;
 CREATE TABLE `oc_theme` (
-  `theme_id` int(11) NOT NULL AUTO_INCREMENT,
+  `theme_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `theme` varchar(64) NOT NULL,
   `route` varchar(64) NOT NULL,
   `code` mediumtext NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`theme_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+--
+-- Dumping data for table `oc_theme`
+--
+
+INSERT INTO `oc_theme` (`theme_id`, `store_id`, `route`, `code`, `date_added`) VALUES
+(1, 0, 'information/contact', '{{ header }}\n&lt;div class=&quot;breadcrumb-container&quot;&gt;\n  &lt;h2 class=&quot;page-title&quot;&gt;{{ heading_title }}&lt;/h2&gt;\n  &lt;ul class=&quot;breadcrumb&quot;&gt;\n    {% for breadcrumb in breadcrumbs %}\n      &lt;li class=&quot;breadcrumb-item&quot;&gt;&lt;a href=&quot;{{ breadcrumb.href }}&quot;&gt;{{ breadcrumb.text }}&lt;/a&gt;&lt;/li&gt;\n    {% endfor %}\n  &lt;/ul&gt;\n&lt;/div&gt;\n&lt;div id=&quot;information-contact&quot;&gt;\n	{{ column_left }}\n		&lt;div id=&quot;content&quot;&gt;\n			&lt;legend class=&quot;contact-info&quot;&gt;{{ text_contact }}&lt;/legend&gt;\n				&lt;div class=&quot;container&quot;&gt;\n					&lt;div class=&quot;row&quot;&gt;\n						{% if locations %}\n							&lt;h3&gt;{{ text_store }}&lt;/h3&gt;\n							&lt;div id=&quot;accordion&quot; class=&quot;card-group&quot;&gt;\n								{% for location in locations %}\n									&lt;div class=&quot;card&quot;&gt;\n										&lt;div class=&quot;card-header&quot;&gt;\n											&lt;h4 class=&quot;card-title pt-2&quot;&gt;&lt;a href=&quot;#collapse-location-{{ location.location_id }}&quot; class=&quot;accordion-toggle&quot; data-bs-toggle=&quot;collapse&quot; data-bs-parent=&quot;#accordion&quot;&gt;{{ location.name }} &lt;i class=&quot;fa-solid fa-caret-down&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/h4&gt;\n										&lt;/div&gt;\n										&lt;div class=&quot;card-collapse collapse&quot; id=&quot;collapse-location-{{ location.location_id }}&quot;&gt;\n											&lt;div class=&quot;card-body&quot;&gt;\n												&lt;div class=&quot;row&quot;&gt;\n													{% if location.image %}\n														&lt;div class=&quot;col-sm-3&quot;&gt;&lt;img src=&quot;{{ location.image }}&quot; alt=&quot;{{ location.name }}&quot; title=&quot;{{ location.name }}&quot; class=&quot;img-thumbnail&quot;/&gt;&lt;/div&gt;\n													{% endif %}\n													&lt;div class=&quot;col-sm-3&quot;&gt;&lt;h3&gt;{{ location.name }}&lt;/h3&gt;\n														&lt;br/&gt;\n														&lt;address&gt;\n															{{ location.address }}\n														&lt;/address&gt;\n														{% if location.geocode %}\n															&lt;a href=&quot;https://maps.google.com/maps?q={{ location.geocode|url_encode }}&amp;hl={{ geocode_hl }}&amp;t=m&amp;z=15&quot; target=&quot;_blank&quot; class=&quot;btn btn-info&quot;&gt;&lt;i class=&quot;fa-solid fa-location-dot&quot;&gt;&lt;/i&gt; {{ button_map }}&lt;/a&gt;\n														{% endif %}\n													&lt;/div&gt;\n													&lt;div class=&quot;col-sm-3&quot;&gt;&lt;h3&gt;{{ text_telephone }}&lt;/h3&gt;\n														&lt;br/&gt;\n														{{ location.telephone }}\n														&lt;br/&gt;\n														&lt;br/&gt;\n													&lt;/div&gt;\n													&lt;div class=&quot;col-sm-3&quot;&gt;\n														{% if location.open %}\n															&lt;h3&gt;{{ text_open }}&lt;/h3&gt;\n															&lt;br/&gt;\n															{{ location.open }}\n															&lt;br/&gt;\n															&lt;br/&gt;\n														{% endif %}\n														{% if location.comment %}\n															&lt;h3&gt;{{ text_comment }}&lt;/h3&gt;\n															&lt;br/&gt;\n															{{ location.comment }}\n														{% endif %}\n													&lt;/div&gt;\n												&lt;/div&gt;\n											&lt;/div&gt;\n										&lt;/div&gt;\n									&lt;/div&gt;\n								{% endfor %}\n							&lt;/div&gt;\n						{% endif %}\n					 &lt;/div&gt;\n					&lt;div class=&quot;row contact-form-information&quot;&gt;\n						&lt;div class=&quot;contact-image col-12 col-lg-6 col-md-12&quot;&gt;\n							{{ content_top }}{{ content_center }}\n						&lt;/div&gt;\n						&lt;div class=&quot;contact_info col-12 col-lg-6 col-md-12&quot;&gt;\n							&lt;div class=&quot;card&quot;&gt;\n								&lt;div class=&quot;title-container&quot;&gt;\n									&lt;h3&gt;{{text_heading	}}&lt;/h3&gt;\n									&lt;span class=&quot;subheading&quot;&gt;{{text_subheading}}&lt;/span&gt;\n								&lt;/div&gt;\n								&lt;div class=&quot;card-body contact-location&quot;&gt;\n									&lt;div class=&quot;row&quot;&gt;\n										&lt;div class=&quot; col-lg-6 col-md-6 col-sm-6 col-12 store-address&quot;&gt;\n											&lt;div class=&quot;address-inner&quot;&gt;\n												&lt;div class=&quot;address-image&quot;&gt;\n													&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;feather feather-map-pin&quot;&gt;&lt;path d=&quot;M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z&quot;&gt;&lt;/path&gt;&lt;circle cx=&quot;12&quot; cy=&quot;10&quot; r=&quot;3&quot;&gt;&lt;/circle&gt;&lt;/svg&gt;\n												&lt;/div&gt;\n												&lt;div class=&quot;address-content&quot;&gt;\n													&lt;h3&gt;{{ text_location }}&lt;/h3&gt;\n													&lt;address class=&quot;location-detail&quot;&gt;\n														{{ address }}\n													&lt;/address&gt;\n												&lt;/div&gt;\n											&lt;/div&gt;\n										&lt;/div&gt;\n										&lt;div class=&quot; col-lg-6 col-md-6 col-sm-6 col-12 store-contact&quot;&gt;\n											&lt;div class=&quot;contact-inner&quot;&gt;\n												&lt;div class=&quot;call-image&quot;&gt;\n													&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;feather feather-phone-call&quot;&gt;&lt;path d=&quot;M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;\n												&lt;/div&gt;\n												&lt;div class=&quot;call-content&quot;&gt;\n													&lt;h3&gt;{{ text_telephone }}&lt;/h3&gt;\n													&lt;a href=&quot;tel:{{ telephone }}&quot; class=&quot;call-detail&quot;&gt;\n														{{ telephone }}\n													&lt;/a&gt;\n												&lt;/div&gt;\n											&lt;/div&gt;\n										&lt;/div&gt;\n										&lt;div class=&quot; col-lg-6 col-md-6 col-sm-6 col-12 store-email&quot;&gt;\n											&lt;div class=&quot;email-inner&quot;&gt;\n												&lt;div class=&quot;email-image&quot;&gt;\n													 &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;feather feather-mail&quot;&gt;&lt;path d=&quot;M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z&quot;&gt;&lt;/path&gt;&lt;polyline points=&quot;22,6 12,13 2,6&quot;&gt;&lt;/polyline&gt;&lt;/svg&gt;\n												&lt;/div&gt;\n												&lt;div class=&quot;email-content&quot;&gt;\n													&lt;h3&gt;{{ text_emails }}&lt;/h3&gt;\n													&lt;a href=&quot;mailto:{{ config_email }}&quot; class=&quot;email-detail&quot;&gt;\n														{{ config_email }}\n													&lt;/a&gt;\n												&lt;/div&gt;\n											&lt;/div&gt;\n										&lt;/div&gt;\n										&lt;div class=&quot; col-lg-6 col-md-6 col-sm-6 col-12 store-time&quot;&gt;\n											{% if open %}\n												&lt;div class=&quot;location-icon&quot;&gt;\n													&lt;i class=&quot;fa-regular fa-clock&quot;&gt;&lt;/i&gt;\n												&lt;/div&gt;\n												&lt;div class=&quot;location-detail&quot;&gt;\n													&lt;div class=&quot;location-title&quot;&gt;\n														&lt;h3&gt;{{ text_open }}&lt;/h3&gt;\n													&lt;/div&gt;\n													&lt;p&gt;{{ open }}&lt;/p&gt;\n												&lt;/div&gt;\n											{% endif %}\n										&lt;/div&gt;	\n										&lt;div class=&quot;col-12 social&quot;&gt;\n											&lt;h3&gt;{{ text_social }}&lt;/h3&gt;\n											{{ content_middle }}\n										&lt;/div&gt;\n										\n										&lt;!-- &lt;div class=&quot;col-lg-4 col-sm-6 col-md-12 store-comment&quot;&gt;\n											{% if comment %}\n												&lt;div class=&quot;location-title&quot;&gt;\n													&lt;i class=&quot;fa fa-light fa-comment&quot;&gt;&lt;/i&gt;\n													{{ text_comment }}\n												&lt;/div&gt;\n												&lt;div class=&quot;location-detail&quot;&gt;\n													{{ comment }}\n												&lt;/div&gt;\n											{% endif %}\n										&lt;/div&gt; --&gt;\n										\n									&lt;/div&gt;	\n								&lt;/div&gt;\n							&lt;/div&gt;\n						&lt;/div&gt;\n					&lt;/div&gt;\n					&lt;div class=&quot;contact-form&quot;&gt;\n							&lt;form id=&quot;form-contact&quot; action=&quot;{{ send }}&quot; method=&quot;post&quot; data-oc-toggle=&quot;ajax&quot;&gt;\n								&lt;fieldset&gt;\n									&lt;div class=&quot;title-container&quot;&gt;\n										&lt;h3&gt;{{ text_headingtitle }}&lt;/h3&gt;\n										&lt;span class=&quot;subheading&quot;&gt;{{ text_subheadingtitle }}&lt;/span&gt;\n									&lt;/div&gt;\n									&lt;div class=&quot;row&quot;&gt;\n										&lt;div class=&quot;mb-3 required col-12 col-md-6 contact_form&quot;&gt;\n											&lt;input type=&quot;text&quot; placeholder=&quot;{{ entry_name }}&quot; name=&quot;name&quot; value=&quot;{{ name }}&quot; id=&quot;input-name&quot; class=&quot;form-control&quot;/&gt;\n											&lt;div id=&quot;error-name&quot; class=&quot;invalid-feedback&quot;&gt;&lt;/div&gt;\n										&lt;/div&gt;\n										&lt;div class=&quot;mb-3 required col-12 col-md-6 contact_form&quot;&gt;\n											&lt;input type=&quot;text&quot; placeholder=&quot;{{ entry_email }}&quot; name=&quot;email&quot; value=&quot;{{ email }}&quot; id=&quot;input-email&quot; class=&quot;form-control&quot;/&gt;\n											&lt;div id=&quot;error-email&quot; class=&quot;invalid-feedback&quot;&gt;&lt;/div&gt;\n										&lt;/div&gt;\n										&lt;div class=&quot;mb-3 required contact_form&quot;&gt;\n											&lt;textarea name=&quot;enquiry&quot; placeholder=&quot;{{ entry_enquiry }}&quot; rows=&quot;6&quot; id=&quot;input-enquiry&quot; class=&quot;form-control&quot;&gt;&lt;/textarea&gt;\n											&lt;div id=&quot;error-enquiry&quot; class=&quot;invalid-feedback&quot;&gt;&lt;/div&gt;\n										&lt;/div&gt;\n									&lt;/div&gt;\n									{{ captcha }}\n								&lt;/fieldset&gt;\n								&lt;div class=&quot;d-inline-block pt-2 pd-2 w-100&quot;&gt;\n									&lt;div class=&quot;text-center&quot;&gt;\n										&lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;{{ button_submit }}&lt;/button&gt;\n									&lt;/div&gt;\n								&lt;/div&gt;\n							&lt;/form&gt;\n					&lt;/div&gt;\n				&lt;/div&gt;\n				{% if geocode %}\n					&lt;a href=&quot;https://maps.google.com/maps?q={{ geocode|url_encode }}&amp;hl={{ geocode_hl }}&amp;t=m&amp;z=15&quot; target=&quot;_blank&quot; class=&quot;btn btn-info&quot;&gt;&lt;i class=&quot;fa-solid fa-location-dot&quot;&gt;&lt;/i&gt; {{ button_map }}&lt;/a&gt;\n				{% endif %}\n			{{ content_bottom }}\n		   &lt;/div&gt;\n		{{ column_right }}\n&lt;/div&gt;\n{{ footer }}', '2024-01-11 04:01:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_themeoption`
+--
+
+CREATE TABLE `oc_themeoption` (
+  `id` int(11) NOT NULL,
+  `themecolor` varchar(20) DEFAULT NULL,
+  `teritry_color` varchar(20) DEFAULT NULL,
+  `breadcrumb_color` varchar(20) DEFAULT NULL,
+  `pattern_image` varchar(500) DEFAULT NULL,
+  `breadcrumb_image` varchar(500) DEFAULT NULL,
+  `tophome_img` varchar(500) DEFAULT NULL,
+  `tophome_bgcolor` varchar(20) DEFAULT NULL,
+  `headernav_bgcolor` varchar(20) DEFAULT NULL,
+  `headernav_textcolor` varchar(20) DEFAULT NULL,
+  `header_bgcolor` varchar(20) DEFAULT NULL,
+  `header_textcolor` varchar(20) DEFAULT NULL,
+  `header_text_hovercolor` varchar(20) DEFAULT NULL,
+  `btn_bgcolor` varchar(20) DEFAULT NULL,
+  `btnhover_bgcolor` varchar(20) DEFAULT NULL,
+  `btn_textcolor` varchar(20) DEFAULT NULL,
+  `btnhover_textcolor` varchar(20) DEFAULT NULL,
+  `footer_bgcolor` varchar(20) DEFAULT NULL,
+  `footer_bgimage` varchar(500) DEFAULT NULL,
+  `footer_sepretor` varchar(500) DEFAULT NULL,
+  `footer_titlecolor` varchar(20) DEFAULT NULL,
+  `footer_textcolor` varchar(20) DEFAULT NULL,
+  `footer_text_hovercolor` varchar(20) DEFAULT NULL,
+  `footerafter_bgcolor` varchar(500) DEFAULT NULL,
+  `footerafter_textcolor` varchar(20) DEFAULT NULL,
+  `subcategory_type` varchar(20) DEFAULT NULL,
+  `productimage_type` varchar(20) DEFAULT NULL,
+  `category_counter` tinyint(1) DEFAULT NULL,
+  `product_counter` tinyint(1) DEFAULT NULL,
+  `dev_mode` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_themeoption`
+--
+
+INSERT INTO `oc_themeoption` (`id`, `themecolor`, `teritry_color`, `breadcrumb_color`, `pattern_image`, `breadcrumb_image`, `tophome_img`, `tophome_bgcolor`, `headernav_bgcolor`, `headernav_textcolor`, `header_bgcolor`, `header_textcolor`, `header_text_hovercolor`, `btn_bgcolor`, `btnhover_bgcolor`, `btn_textcolor`, `btnhover_textcolor`, `footer_bgcolor`, `footer_bgimage`, `footer_sepretor`, `footer_titlecolor`, `footer_textcolor`, `footer_text_hovercolor`, `footerafter_bgcolor`, `footerafter_textcolor`, `subcategory_type`, `productimage_type`, `category_counter`, `product_counter`, `dev_mode`) VALUES
+(1, '#cc9966', NULL, '#f5f5f5', '', 'catalog/otherimage/breadcrumb.jpg', NULL, NULL, '#f7f8f9', '#999999', '#ffffff', '#232323', '#cc9966', '#cc9966', '#232323', '#ffffff', '#ffffff', '#f7f7f7', '', NULL, '#171717', '#7a7a7a', '#cc9966', '', '#7a7a7a', 'grid', NULL, 1, 1, 0);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_translation`
 --
 
-DROP TABLE IF EXISTS `oc_translation`;
 CREATE TABLE `oc_translation` (
-  `translation_id` int(11) NOT NULL AUTO_INCREMENT,
+  `translation_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `route` varchar(64) NOT NULL,
   `key` varchar(64) NOT NULL,
   `value` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`translation_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_upload`
 --
 
-DROP TABLE IF EXISTS `oc_upload`;
 CREATE TABLE `oc_upload` (
-  `upload_id` int(11) NOT NULL AUTO_INCREMENT,
+  `upload_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `filename` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`upload_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
-
---
--- Table structure for table `oc_seo_url`
---
-
-DROP TABLE IF EXISTS `oc_seo_url`;
-CREATE TABLE `oc_seo_url` (
-  `seo_url_id` int(11) NOT NULL AUTO_INCREMENT,
-  `store_id` int(11) NOT NULL,
-  `language_id` int(11) NOT NULL,  
-  `query` varchar(255) NOT NULL,
-  `keyword` varchar(255) NOT NULL,
-  PRIMARY KEY (`seo_url_id`),
-  KEY `query` (`query`),
-  KEY `keyword` (`keyword`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `oc_seo_url`
---
-
-INSERT INTO `oc_seo_url` (`seo_url_id`, `store_id`, `language_id`, `query`, `keyword`) VALUES
-(824, 0, 1, 'product_id=48', 'ipod-classic'),
-(836, 0, 1, 'category_id=20', 'desktops'),
-(834, 0, 1, 'category_id=26', 'pc'),
-(835, 0, 1, 'category_id=27', 'mac'),
-(730, 0, 1, 'manufacturer_id=8', 'apple'),
-(772, 0, 1, 'information_id=4', 'about_us'),
-(768, 0, 1, 'product_id=42', 'test'),
-(789, 0, 1, 'category_id=34', 'mp3-players'),
-(781, 0, 1, 'category_id=36', 'test2'),
-(774, 0, 1, 'category_id=18', 'laptop-notebook'),
-(775, 0, 1, 'category_id=46', 'macs'),
-(776, 0, 1, 'category_id=45', 'windows'),
-(777, 0, 1, 'category_id=25', 'component'),
-(778, 0, 1, 'category_id=29', 'mouse'),
-(779, 0, 1, 'category_id=28', 'monitor'),
-(780, 0, 1, 'category_id=35', 'test1'),
-(782, 0, 1, 'category_id=30', 'printer'),
-(783, 0, 1, 'category_id=31', 'scanner'),
-(784, 0, 1, 'category_id=32', 'web-camera'),
-(785, 0, 1, 'category_id=57', 'tablet'),
-(786, 0, 1, 'category_id=17', 'software'),
-(787, 0, 1, 'category_id=24', 'smartphone'),
-(788, 0, 1, 'category_id=33', 'camera'),
-(790, 0, 1, 'category_id=43', 'test11'),
-(791, 0, 1, 'category_id=44', 'test12'),
-(792, 0, 1, 'category_id=47', 'test15'),
-(793, 0, 1, 'category_id=48', 'test16'),
-(794, 0, 1, 'category_id=49', 'test17'),
-(795, 0, 1, 'category_id=50', 'test18'),
-(796, 0, 1, 'category_id=51', 'test19'),
-(797, 0, 1, 'category_id=52', 'test20'),
-(798, 0, 1, 'category_id=58', 'test25'),
-(799, 0, 1, 'category_id=53', 'test21'),
-(800, 0, 1, 'category_id=54', 'test22'),
-(801, 0, 1, 'category_id=55', 'test23'),
-(802, 0, 1, 'category_id=56', 'test24'),
-(803, 0, 1, 'category_id=38', 'test4'),
-(804, 0, 1, 'category_id=37', 'test5'),
-(805, 0, 1, 'category_id=39', 'test6'),
-(806, 0, 1, 'category_id=40', 'test7'),
-(807, 0, 1, 'category_id=41', 'test8'),
-(808, 0, 1, 'category_id=42', 'test9'),
-(809, 0, 1, 'product_id=30', 'canon-eos-5d'),
-(840, 0, 1, 'product_id=47', 'hp-lp3065'),
-(811, 0, 1, 'product_id=28', 'htc-touch-hd'),
-(812, 0, 1, 'product_id=43', 'macbook'),
-(813, 0, 1, 'product_id=44', 'macbook-air'),
-(814, 0, 1, 'product_id=45', 'macbook-pro'),
-(816, 0, 1, 'product_id=31', 'nikon-d300'),
-(817, 0, 1, 'product_id=29', 'palm-treo-pro'),
-(818, 0, 1, 'product_id=35', 'product-8'),
-(819, 0, 1, 'product_id=49', 'samsung-galaxy-tab-10-1'),
-(820, 0, 1, 'product_id=33', 'samsung-syncmaster-941bw'),
-(821, 0, 1, 'product_id=46', 'sony-vaio'),
-(837, 0, 1, 'product_id=41', 'imac'),
-(823, 0, 1, 'product_id=40', 'iphone'),
-(825, 0, 1, 'product_id=36', 'ipod-nano'),
-(826, 0, 1, 'product_id=34', 'ipod-shuffle'),
-(827, 0, 1, 'product_id=32', 'ipod-touch'),
-(828, 0, 1, 'manufacturer_id=9', 'canon'),
-(829, 0, 1, 'manufacturer_id=5', 'htc'),
-(830, 0, 1, 'manufacturer_id=7', 'hewlett-packard'),
-(831, 0, 1, 'manufacturer_id=6', 'palm'),
-(832, 0, 1, 'manufacturer_id=10', 'sony'),
-(841, 0, 1, 'information_id=6', 'delivery'),
-(842, 0, 1, 'information_id=3', 'privacy'),
-(843, 0, 1, 'information_id=5', 'terms');
-
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_user`
 --
 
-DROP TABLE IF EXISTS `oc_user`;
 CREATE TABLE `oc_user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `user_group_id` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `salt` varchar(9) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `firstname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
   `email` varchar(96) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `code` varchar(40) NOT NULL,
-  `ip` varchar(40) NOT NULL,
+  `image` varchar(255) NOT NULL DEFAULT '',
+  `code` varchar(40) NOT NULL DEFAULT '',
+  `ip` varchar(40) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_user_authorize`
+--
+
+CREATE TABLE `oc_user_authorize` (
+  `user_authorize_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(96) NOT NULL,
+  `total` int(1) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `user_agent` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_user_group`
 --
 
-DROP TABLE IF EXISTS `oc_user_group`;
 CREATE TABLE `oc_user_group` (
-  `user_group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_group_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `permission` text NOT NULL,
-  PRIMARY KEY (`user_group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `permission` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_user_group`
 --
 
 INSERT INTO `oc_user_group` (`user_group_id`, `name`, `permission`) VALUES
-(1, 'Administrator', '{"access":["catalog\\/attribute","catalog\\/attribute_group","catalog\\/category","catalog\\/download","catalog\\/filter","catalog\\/information","catalog\\/manufacturer","catalog\\/option","catalog\\/product","catalog\\/recurring","catalog\\/review","common\\/column_left","common\\/developer","common\\/filemanager","common\\/profile","common\\/security","customer\\/custom_field","customer\\/customer","customer\\/customer_approval","customer\\/customer_group","design\\/banner","design\\/layout","design\\/theme","design\\/translation","design\\/seo_url","event\\/statistics","event\\/theme","extension\\/advertise\\/google","extension\\/analytics\\/google","extension\\/captcha\\/basic","extension\\/captcha\\/google","extension\\/dashboard\\/activity","extension\\/dashboard\\/chart","extension\\/dashboard\\/customer","extension\\/dashboard\\/map","extension\\/dashboard\\/online","extension\\/dashboard\\/order","extension\\/dashboard\\/recent","extension\\/dashboard\\/sale","extension\\/extension\\/advertise","extension\\/extension\\/analytics","extension\\/extension\\/captcha","extension\\/extension\\/dashboard","extension\\/extension\\/feed","extension\\/extension\\/fraud","extension\\/extension\\/menu","extension\\/extension\\/module","extension\\/extension\\/payment","extension\\/extension\\/report","extension\\/extension\\/shipping","extension\\/extension\\/theme","extension\\/extension\\/total","extension\\/feed\\/google_base","extension\\/feed\\/google_sitemap","extension\\/feed\\/openbaypro","extension\\/fraud\\/fraudlabspro","extension\\/fraud\\/ip","extension\\/fraud\\/maxmind","extension\\/marketing\\/remarketing","extension\\/module\\/account","extension\\/module\\/amazon_login","extension\\/module\\/amazon_pay","extension\\/module\\/banner","extension\\/module\\/bestseller","extension\\/module\\/carousel","extension\\/module\\/category","extension\\/module\\/divido_calculator","extension\\/module\\/ebay_listing","extension\\/module\\/featured","extension\\/module\\/filter","extension\\/module\\/google_hangouts","extension\\/module\\/html","extension\\/module\\/information","extension\\/module\\/klarna_checkout_module","extension\\/module\\/latest","extension\\/module\\/laybuy_layout","extension\\/module\\/pilibaba_button","extension\\/module\\/sagepay_direct_cards","extension\\/module\\/sagepay_server_cards","extension\\/module\\/slideshow","extension\\/module\\/special","extension\\/module\\/store","extension\\/openbay\\/amazon","extension\\/openbay\\/amazon_listing","extension\\/openbay\\/amazon_product","extension\\/openbay\\/amazonus","extension\\/openbay\\/amazonus_listing","extension\\/openbay\\/amazonus_product","extension\\/openbay\\/ebay","extension\\/openbay\\/ebay_profile","extension\\/openbay\\/ebay_template","extension\\/openbay\\/etsy","extension\\/openbay\\/etsy_product","extension\\/openbay\\/etsy_shipping","extension\\/openbay\\/etsy_shop","extension\\/openbay\\/fba","extension\\/payment\\/amazon_login_pay","extension\\/payment\\/authorizenet_aim","extension\\/payment\\/authorizenet_sim","extension\\/payment\\/bank_transfer","extension\\/payment\\/bluepay_hosted","extension\\/payment\\/bluepay_redirect","extension\\/payment\\/cardconnect","extension\\/payment\\/cardinity","extension\\/payment\\/cheque","extension\\/payment\\/cod","extension\\/payment\\/divido","extension\\/payment\\/eway","extension\\/payment\\/firstdata","extension\\/payment\\/firstdata_remote","extension\\/payment\\/free_checkout","extension\\/payment\\/g2apay","extension\\/payment\\/globalpay","extension\\/payment\\/globalpay_remote","extension\\/payment\\/klarna_account","extension\\/payment\\/klarna_checkout","extension\\/payment\\/klarna_invoice","extension\\/payment\\/laybuy","extension\\/payment\\/liqpay","extension\\/payment\\/nochex","extension\\/payment\\/paymate","extension\\/payment\\/paypoint","extension\\/payment\\/payza","extension\\/payment\\/perpetual_payments","extension\\/payment\\/pilibaba","extension\\/payment\\/realex","extension\\/payment\\/realex_remote","extension\\/payment\\/sagepay_direct","extension\\/payment\\/sagepay_server","extension\\/payment\\/sagepay_us","extension\\/payment\\/securetrading_pp","extension\\/payment\\/securetrading_ws","extension\\/payment\\/skrill","extension\\/payment\\/twocheckout","extension\\/payment\\/web_payment_software","extension\\/payment\\/worldpay","extension\\/module\\/pp_braintree_button","extension\\/payment\\/pp_braintree","extension\\/report\\/customer_activity","extension\\/report\\/customer_order","extension\\/report\\/customer_reward","extension\\/report\\/customer_search","extension\\/report\\/customer_transaction","extension\\/report\\/marketing","extension\\/report\\/product_purchased","extension\\/report\\/product_viewed","extension\\/report\\/sale_coupon","extension\\/report\\/sale_order","extension\\/report\\/sale_return","extension\\/report\\/sale_shipping","extension\\/report\\/sale_tax","extension\\/shipping\\/auspost","extension\\/shipping\\/ec_ship","extension\\/shipping\\/fedex","extension\\/shipping\\/flat","extension\\/shipping\\/free","extension\\/shipping\\/item","extension\\/shipping\\/parcelforce_48","extension\\/shipping\\/pickup","extension\\/shipping\\/royal_mail","extension\\/shipping\\/ups","extension\\/shipping\\/usps","extension\\/shipping\\/weight","extension\\/theme\\/default","extension\\/total\\/coupon","extension\\/total\\/credit","extension\\/total\\/handling","extension\\/total\\/klarna_fee","extension\\/total\\/low_order_fee","extension\\/total\\/reward","extension\\/total\\/shipping","extension\\/total\\/sub_total","extension\\/total\\/tax","extension\\/total\\/total","extension\\/total\\/voucher","localisation\\/country","localisation\\/currency","localisation\\/geo_zone","localisation\\/language","localisation\\/length_class","localisation\\/location","localisation\\/order_status","localisation\\/return_action","localisation\\/return_reason","localisation\\/return_status","localisation\\/stock_status","localisation\\/tax_class","localisation\\/tax_rate","localisation\\/weight_class","localisation\\/zone","mail\\/affiliate","mail\\/customer","mail\\/forgotten","mail\\/return","mail\\/reward","mail\\/transaction","marketing\\/contact","marketing\\/coupon","marketing\\/marketing","marketplace\\/api","marketplace\\/event","marketplace\\/extension","marketplace\\/install","marketplace\\/installer","marketplace\\/marketplace","marketplace\\/modification","marketplace\\/openbay","report\\/online","report\\/report","report\\/statistics","sale\\/order","sale\\/recurring","sale\\/return","sale\\/voucher","sale\\/voucher_theme","setting\\/setting","setting\\/store","startup\\/error","startup\\/event","startup\\/login","startup\\/permission","startup\\/router","startup\\/sass","startup\\/startup","tool\\/backup","tool\\/log","tool\\/upload","user\\/api","user\\/user","user\\/user_permission"],"modify":["catalog\\/attribute","catalog\\/attribute_group","catalog\\/category","catalog\\/download","catalog\\/filter","catalog\\/information","catalog\\/manufacturer","catalog\\/option","catalog\\/product","catalog\\/recurring","catalog\\/review","common\\/column_left","common\\/developer","common\\/filemanager","common\\/profile","common\\/security","customer\\/custom_field","customer\\/customer","customer\\/customer_approval","customer\\/customer_group","design\\/banner","design\\/layout","design\\/theme","design\\/translation","design\\/seo_url","event\\/statistics","event\\/theme","extension\\/advertise\\/google","extension\\/analytics\\/google","extension\\/captcha\\/basic","extension\\/captcha\\/google","extension\\/dashboard\\/activity","extension\\/dashboard\\/chart","extension\\/dashboard\\/customer","extension\\/dashboard\\/map","extension\\/dashboard\\/online","extension\\/dashboard\\/order","extension\\/dashboard\\/recent","extension\\/dashboard\\/sale","extension\\/extension\\/advertise","extension\\/extension\\/analytics","extension\\/extension\\/captcha","extension\\/extension\\/dashboard","extension\\/extension\\/feed","extension\\/extension\\/fraud","extension\\/extension\\/menu","extension\\/extension\\/module","extension\\/extension\\/payment","extension\\/extension\\/report","extension\\/extension\\/shipping","extension\\/extension\\/theme","extension\\/extension\\/total","extension\\/feed\\/google_base","extension\\/feed\\/google_sitemap","extension\\/feed\\/openbaypro","extension\\/fraud\\/fraudlabspro","extension\\/fraud\\/ip","extension\\/fraud\\/maxmind","extension\\/marketing\\/remarketing","extension\\/module\\/account","extension\\/module\\/amazon_login","extension\\/module\\/amazon_pay","extension\\/module\\/banner","extension\\/module\\/bestseller","extension\\/module\\/carousel","extension\\/module\\/category","extension\\/module\\/divido_calculator","extension\\/module\\/ebay_listing","extension\\/module\\/featured","extension\\/module\\/filter","extension\\/module\\/google_hangouts","extension\\/module\\/html","extension\\/module\\/information","extension\\/module\\/klarna_checkout_module","extension\\/module\\/latest","extension\\/module\\/laybuy_layout","extension\\/module\\/pilibaba_button","extension\\/module\\/sagepay_direct_cards","extension\\/module\\/sagepay_server_cards","extension\\/module\\/slideshow","extension\\/module\\/special","extension\\/module\\/store","extension\\/openbay\\/amazon","extension\\/openbay\\/amazon_listing","extension\\/openbay\\/amazon_product","extension\\/openbay\\/amazonus","extension\\/openbay\\/amazonus_listing","extension\\/openbay\\/amazonus_product","extension\\/openbay\\/ebay","extension\\/openbay\\/ebay_profile","extension\\/openbay\\/ebay_template","extension\\/openbay\\/etsy","extension\\/openbay\\/etsy_product","extension\\/openbay\\/etsy_shipping","extension\\/openbay\\/etsy_shop","extension\\/openbay\\/fba","extension\\/payment\\/amazon_login_pay","extension\\/payment\\/authorizenet_aim","extension\\/payment\\/authorizenet_sim","extension\\/payment\\/bank_transfer","extension\\/payment\\/bluepay_hosted","extension\\/payment\\/bluepay_redirect","extension\\/payment\\/cardconnect","extension\\/payment\\/cardinity","extension\\/payment\\/cheque","extension\\/payment\\/cod","extension\\/payment\\/divido","extension\\/payment\\/eway","extension\\/payment\\/firstdata","extension\\/payment\\/firstdata_remote","extension\\/payment\\/free_checkout","extension\\/payment\\/g2apay","extension\\/payment\\/globalpay","extension\\/payment\\/globalpay_remote","extension\\/payment\\/klarna_account","extension\\/payment\\/klarna_checkout","extension\\/payment\\/klarna_invoice","extension\\/payment\\/laybuy","extension\\/payment\\/liqpay","extension\\/payment\\/nochex","extension\\/payment\\/paymate","extension\\/payment\\/paypoint","extension\\/payment\\/payza","extension\\/payment\\/perpetual_payments","extension\\/payment\\/pilibaba","extension\\/payment\\/realex","extension\\/payment\\/realex_remote","extension\\/payment\\/sagepay_direct","extension\\/payment\\/sagepay_server","extension\\/payment\\/sagepay_us","extension\\/payment\\/securetrading_pp","extension\\/payment\\/securetrading_ws","extension\\/payment\\/skrill","extension\\/payment\\/twocheckout","extension\\/payment\\/web_payment_software","extension\\/payment\\/worldpay","extension\\/module\\/pp_braintree_button","extension\\/payment\\/pp_braintree","extension\\/report\\/customer_activity","extension\\/report\\/customer_order","extension\\/report\\/customer_reward","extension\\/report\\/customer_search","extension\\/report\\/customer_transaction","extension\\/report\\/marketing","extension\\/report\\/product_purchased","extension\\/report\\/product_viewed","extension\\/report\\/sale_coupon","extension\\/report\\/sale_order","extension\\/report\\/sale_return","extension\\/report\\/sale_shipping","extension\\/report\\/sale_tax","extension\\/shipping\\/auspost","extension\\/shipping\\/ec_ship","extension\\/shipping\\/fedex","extension\\/shipping\\/flat","extension\\/shipping\\/free","extension\\/shipping\\/item","extension\\/shipping\\/parcelforce_48","extension\\/shipping\\/pickup","extension\\/shipping\\/royal_mail","extension\\/shipping\\/ups","extension\\/shipping\\/usps","extension\\/shipping\\/weight","extension\\/theme\\/default","extension\\/total\\/coupon","extension\\/total\\/credit","extension\\/total\\/handling","extension\\/total\\/klarna_fee","extension\\/total\\/low_order_fee","extension\\/total\\/reward","extension\\/total\\/shipping","extension\\/total\\/sub_total","extension\\/total\\/tax","extension\\/total\\/total","extension\\/total\\/voucher","localisation\\/country","localisation\\/currency","localisation\\/geo_zone","localisation\\/language","localisation\\/length_class","localisation\\/location","localisation\\/order_status","localisation\\/return_action","localisation\\/return_reason","localisation\\/return_status","localisation\\/stock_status","localisation\\/tax_class","localisation\\/tax_rate","localisation\\/weight_class","localisation\\/zone","mail\\/affiliate","mail\\/customer","mail\\/forgotten","mail\\/return","mail\\/reward","mail\\/transaction","marketing\\/contact","marketing\\/coupon","marketing\\/marketing","marketplace\\/event","marketplace\\/api","marketplace\\/extension","marketplace\\/install","marketplace\\/installer","marketplace\\/marketplace","marketplace\\/modification","marketplace\\/openbay","report\\/online","report\\/report","report\\/statistics","sale\\/order","sale\\/recurring","sale\\/return","sale\\/voucher","sale\\/voucher_theme","setting\\/setting","setting\\/store","startup\\/error","startup\\/event","startup\\/login","startup\\/permission","startup\\/router","startup\\/sass","startup\\/startup","tool\\/backup","tool\\/log","tool\\/upload","user\\/api","user\\/user","user\\/user_permission"]}'),
-(10, 'Demonstration', '');
+(1, 'Administrator', '{\"access\":[\"catalog\\/attribute\",\"catalog\\/attribute_group\",\"catalog\\/category\",\"catalog\\/download\",\"catalog\\/filter\",\"catalog\\/information\",\"catalog\\/manufacturer\",\"catalog\\/option\",\"catalog\\/product\",\"catalog\\/review\",\"catalog\\/subscription_plan\",\"common\\/developer\",\"common\\/filemanager\",\"common\\/ishithemeoption\",\"common\\/security\",\"customer\\/custom_field\",\"customer\\/customer\",\"customer\\/customer_approval\",\"customer\\/customer_group\",\"customer\\/gdpr\",\"design\\/banner\",\"design\\/layout\",\"design\\/seo_url\",\"design\\/theme\",\"design\\/translation\",\"error\\/exception\",\"extension\\/analytics\",\"extension\\/captcha\",\"extension\\/currency\",\"extension\\/dashboard\",\"extension\\/feed\",\"extension\\/fraud\",\"extension\\/language\",\"extension\\/module\",\"extension\\/other\",\"extension\\/payment\",\"extension\\/report\",\"extension\\/shipping\",\"extension\\/theme\",\"extension\\/total\",\"localisation\\/address_format\",\"localisation\\/country\",\"localisation\\/currency\",\"localisation\\/geo_zone\",\"localisation\\/language\",\"localisation\\/length_class\",\"localisation\\/location\",\"localisation\\/order_status\",\"localisation\\/return_action\",\"localisation\\/return_reason\",\"localisation\\/return_status\",\"localisation\\/stock_status\",\"localisation\\/subscription_status\",\"localisation\\/tax_class\",\"localisation\\/tax_rate\",\"localisation\\/weight_class\",\"localisation\\/zone\",\"mail\\/affiliate\",\"mail\\/authorize\",\"mail\\/customer\",\"mail\\/forgotten\",\"mail\\/gdpr\",\"mail\\/returns\",\"mail\\/reward\",\"mail\\/subscription\",\"mail\\/transaction\",\"mail\\/voucher\",\"marketing\\/affiliate\",\"marketing\\/contact\",\"marketing\\/coupon\",\"marketing\\/marketing\",\"marketplace\\/api\",\"marketplace\\/cron\",\"marketplace\\/event\",\"marketplace\\/extension\",\"marketplace\\/installer\",\"marketplace\\/marketplace\",\"marketplace\\/promotion\",\"marketplace\\/startup\",\"report\\/online\",\"report\\/report\",\"report\\/statistics\",\"sale\\/order\",\"sale\\/returns\",\"sale\\/subscription\",\"sale\\/voucher\",\"sale\\/voucher_theme\",\"setting\\/setting\",\"setting\\/store\",\"tool\\/backup\",\"tool\\/log\",\"tool\\/notification\",\"tool\\/upgrade\",\"tool\\/upload\",\"user\\/api\",\"user\\/profile\",\"user\\/user\",\"user\\/user_permission\",\"extension\\/arabic_language\\/language\\/traditional_arabic\",\"extension\\/blogger\\/module\\/blogger\",\"extension\\/ishiaboutusblock\\/module\\/ishiaboutusblock\",\"extension\\/ishiaboutusservicesblock\\/module\\/ishiaboutusservicesblock\",\"extension\\/ishibannerblock\\/module\\/ishibannerblock\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishifaqblock\\/module\\/ishifaqblock\",\"extension\\/ishifooterlinkblock\\/module\\/ishifooterlinkblock\",\"extension\\/ishilinklist\\/module\\/ishilinklist\",\"extension\\/ishimanufacture\\/module\\/ishimanufacturerblock\",\"extension\\/ishimaplinkblock\\/module\\/ishimaplinkblock\",\"extension\\/ishipaymentblock\\/module\\/ishipaymentblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishiservicesblock\\/module\\/ishiservicesblock\",\"extension\\/ishislider\\/module\\/ishislider\",\"extension\\/ishisocialfollowblock\\/module\\/ishisocialfollow\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialsblock\",\"extension\\/newslettersubscribe\\/module\\/newslettersubscribe\",\"extension\\/oc_theme_example\\/theme\\/theme_example\",\"extension\\/opencart\\/captcha\\/basic\",\"extension\\/opencart\\/currency\\/ecb\",\"extension\\/opencart\\/currency\\/fixer\",\"extension\\/opencart\\/dashboard\\/activity\",\"extension\\/opencart\\/dashboard\\/chart\",\"extension\\/opencart\\/dashboard\\/customer\",\"extension\\/opencart\\/dashboard\\/map\",\"extension\\/opencart\\/dashboard\\/online\",\"extension\\/opencart\\/dashboard\\/order\",\"extension\\/opencart\\/dashboard\\/recent\",\"extension\\/opencart\\/dashboard\\/sale\",\"extension\\/opencart\\/fraud\\/ip\",\"extension\\/opencart\\/module\\/account\",\"extension\\/opencart\\/module\\/banner\",\"extension\\/opencart\\/module\\/bestseller\",\"extension\\/opencart\\/module\\/category\",\"extension\\/opencart\\/module\\/featured\",\"extension\\/opencart\\/module\\/filter\",\"extension\\/opencart\\/module\\/html\",\"extension\\/opencart\\/module\\/information\",\"extension\\/opencart\\/module\\/latest\",\"extension\\/opencart\\/module\\/special\",\"extension\\/opencart\\/module\\/store\",\"extension\\/opencart\\/payment\\/bank_transfer\",\"extension\\/opencart\\/payment\\/cheque\",\"extension\\/opencart\\/payment\\/cod\",\"extension\\/opencart\\/payment\\/free_checkout\",\"extension\\/opencart\\/report\\/customer_activity\",\"extension\\/opencart\\/report\\/customer_order\",\"extension\\/opencart\\/report\\/customer_reward\",\"extension\\/opencart\\/report\\/customer_search\",\"extension\\/opencart\\/report\\/customer_subscription\",\"extension\\/opencart\\/report\\/customer_transaction\",\"extension\\/opencart\\/report\\/marketing\",\"extension\\/opencart\\/report\\/product_purchased\",\"extension\\/opencart\\/report\\/product_viewed\",\"extension\\/opencart\\/report\\/sale_coupon\",\"extension\\/opencart\\/report\\/sale_order\",\"extension\\/opencart\\/report\\/sale_return\",\"extension\\/opencart\\/report\\/sale_shipping\",\"extension\\/opencart\\/report\\/sale_tax\",\"extension\\/opencart\\/shipping\\/flat\",\"extension\\/opencart\\/shipping\\/free\",\"extension\\/opencart\\/shipping\\/item\",\"extension\\/opencart\\/shipping\\/pickup\",\"extension\\/opencart\\/shipping\\/weight\",\"extension\\/opencart\\/theme\\/basic\",\"extension\\/opencart\\/total\\/coupon\",\"extension\\/opencart\\/total\\/credit\",\"extension\\/opencart\\/total\\/handling\",\"extension\\/opencart\\/total\\/low_order_fee\",\"extension\\/opencart\\/total\\/reward\",\"extension\\/opencart\\/total\\/shipping\",\"extension\\/opencart\\/total\\/sub_total\",\"extension\\/opencart\\/total\\/tax\",\"extension\\/opencart\\/total\\/total\",\"extension\\/opencart\\/total\\/voucher\",\"extension\\/ishicategoryblock\\/module\\/ishicategoryblock\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/ishifeaturesblock\\/module\\/ishifeaturesblock\",\"extension\\/ishistoryblock\\/module\\/ishistoryblock\",\"extension\\/ishiproductbestsellerblock\\/module\\/ishiproductbestsellerblock\",\"extension\\/ishifaqwithimageblock\\/module\\/ishifaqwithimageblock\",\"extension\\/newslettersubscribe\\/module\\/newslettersubscribe\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishifooterlinkblock\\/module\\/ishifooterlinkblock\",\"extension\\/ishistoreinfoblock\\/module\\/ishistoreinfoblock\",\"extension\\/ishioffersblock\\/module\\/ishioffersblock\",\"extension\\/ishitimmerwithimageblock\\/module\\/ishitimmerwithimageblock\",\"extension\\/ishivideoblock\\/module\\/ishivideoblock\",\"extension\\/opencart\\/module\\/information\",\"extension\\/newslettersubscribe\\/module\\/newslettersubscribe\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishiextensivesearchblock\\/module\\/ishiextensivesearchblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishilinklist\\/module\\/ishilinklist\",\"extension\\/ishifeaturesblock\\/module\\/ishifeaturesblock\",\"extension\\/ishifeaturesblock\\/module\\/ishifeaturesblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialsblock\",\"extension\\/ishistoryblock\\/module\\/ishistoryblock\",\"extension\\/ishiparallaxblock\\/module\\/ishiparallaxblock\",\"extension\\/ishistoryblock\\/module\\/ishistoryblock\",\"extension\\/ishifivebannerblock\\/module\\/ishifivebannerblock\",\"extension\\/ishioffersblock\\/module\\/ishioffersblock\",\"extension\\/ishispecialdealblock\\/module\\/ishispecialdeals\",\"extension\\/ishifeatureproductsblock\\/module\\/ishifeatureproductsblock\",\"extension\\/ishiinstagramblock\\/module\\/ishiinstagramblock\",\"extension\\/ishistoreinfoblock\\/module\\/ishistoreinfoblock\",\"extension\\/ishiheaderlinkblock\\/module\\/ishiheaderlinkblock\",\"extension\\/ishicategoryblock\\/module\\/ishicategoryblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialsblock\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/ishioffersblock\\/module\\/ishioffersblock\",\"extension\\/ishistoryblock\\/module\\/ishistoryblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialblock\",\"extension\\/language_german\\/language\\/german\",\"extension\\/opencart\\/module\\/html\",\"extension\\/ishispecialdealblock\\/module\\/ishispecialdeals\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialblock\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/newslettersubscribepopup\\/module\\/newslettersubscribepopup\",\"extension\\/ishicartservicesblock\\/module\\/ishicartservicesblock\",\"extension\\/ishishopreassurance\\/module\\/ishishopreassurance\",\"extension\\/ukrainian\\/language\\/ukrainian\",\"extension\\/ocn_language_russian\\/language\\/russian\"],\"modify\":[\"catalog\\/attribute\",\"catalog\\/attribute_group\",\"catalog\\/category\",\"catalog\\/download\",\"catalog\\/filter\",\"catalog\\/information\",\"catalog\\/manufacturer\",\"catalog\\/option\",\"catalog\\/product\",\"catalog\\/review\",\"catalog\\/subscription_plan\",\"common\\/developer\",\"common\\/filemanager\",\"common\\/ishithemeoption\",\"common\\/security\",\"customer\\/custom_field\",\"customer\\/customer\",\"customer\\/customer_approval\",\"customer\\/customer_group\",\"customer\\/gdpr\",\"design\\/banner\",\"design\\/layout\",\"design\\/seo_url\",\"design\\/theme\",\"design\\/translation\",\"error\\/exception\",\"extension\\/analytics\",\"extension\\/captcha\",\"extension\\/currency\",\"extension\\/dashboard\",\"extension\\/feed\",\"extension\\/fraud\",\"extension\\/language\",\"extension\\/module\",\"extension\\/other\",\"extension\\/payment\",\"extension\\/report\",\"extension\\/shipping\",\"extension\\/theme\",\"extension\\/total\",\"localisation\\/address_format\",\"localisation\\/country\",\"localisation\\/currency\",\"localisation\\/geo_zone\",\"localisation\\/language\",\"localisation\\/length_class\",\"localisation\\/location\",\"localisation\\/order_status\",\"localisation\\/return_action\",\"localisation\\/return_reason\",\"localisation\\/return_status\",\"localisation\\/stock_status\",\"localisation\\/subscription_status\",\"localisation\\/tax_class\",\"localisation\\/tax_rate\",\"localisation\\/weight_class\",\"localisation\\/zone\",\"mail\\/affiliate\",\"mail\\/authorize\",\"mail\\/customer\",\"mail\\/forgotten\",\"mail\\/gdpr\",\"mail\\/returns\",\"mail\\/reward\",\"mail\\/subscription\",\"mail\\/transaction\",\"mail\\/voucher\",\"marketing\\/affiliate\",\"marketing\\/contact\",\"marketing\\/coupon\",\"marketing\\/marketing\",\"marketplace\\/api\",\"marketplace\\/cron\",\"marketplace\\/event\",\"marketplace\\/extension\",\"marketplace\\/installer\",\"marketplace\\/marketplace\",\"marketplace\\/promotion\",\"marketplace\\/startup\",\"report\\/online\",\"report\\/report\",\"report\\/statistics\",\"sale\\/order\",\"sale\\/returns\",\"sale\\/subscription\",\"sale\\/voucher\",\"sale\\/voucher_theme\",\"setting\\/setting\",\"setting\\/store\",\"tool\\/backup\",\"tool\\/log\",\"tool\\/notification\",\"tool\\/upgrade\",\"tool\\/upload\",\"user\\/api\",\"user\\/profile\",\"user\\/user\",\"user\\/user_permission\",\"extension\\/arabic_language\\/language\\/traditional_arabic\",\"extension\\/blogger\\/module\\/blogger\",\"extension\\/ishiaboutusblock\\/module\\/ishiaboutusblock\",\"extension\\/ishiaboutusservicesblock\\/module\\/ishiaboutusservicesblock\",\"extension\\/ishibannerblock\\/module\\/ishibannerblock\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishifaqblock\\/module\\/ishifaqblock\",\"extension\\/ishifooterlinkblock\\/module\\/ishifooterlinkblock\",\"extension\\/ishilinklist\\/module\\/ishilinklist\",\"extension\\/ishimanufacture\\/module\\/ishimanufacturerblock\",\"extension\\/ishimaplinkblock\\/module\\/ishimaplinkblock\",\"extension\\/ishipaymentblock\\/module\\/ishipaymentblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishiservicesblock\\/module\\/ishiservicesblock\",\"extension\\/ishislider\\/module\\/ishislider\",\"extension\\/ishisocialfollowblock\\/module\\/ishisocialfollow\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialsblock\",\"extension\\/newslettersubscribe\\/module\\/newslettersubscribe\",\"extension\\/oc_theme_example\\/theme\\/theme_example\",\"extension\\/opencart\\/captcha\\/basic\",\"extension\\/opencart\\/currency\\/ecb\",\"extension\\/opencart\\/currency\\/fixer\",\"extension\\/opencart\\/dashboard\\/activity\",\"extension\\/opencart\\/dashboard\\/chart\",\"extension\\/opencart\\/dashboard\\/customer\",\"extension\\/opencart\\/dashboard\\/map\",\"extension\\/opencart\\/dashboard\\/online\",\"extension\\/opencart\\/dashboard\\/order\",\"extension\\/opencart\\/dashboard\\/recent\",\"extension\\/opencart\\/dashboard\\/sale\",\"extension\\/opencart\\/fraud\\/ip\",\"extension\\/opencart\\/module\\/account\",\"extension\\/opencart\\/module\\/banner\",\"extension\\/opencart\\/module\\/bestseller\",\"extension\\/opencart\\/module\\/category\",\"extension\\/opencart\\/module\\/featured\",\"extension\\/opencart\\/module\\/filter\",\"extension\\/opencart\\/module\\/html\",\"extension\\/opencart\\/module\\/information\",\"extension\\/opencart\\/module\\/latest\",\"extension\\/opencart\\/module\\/special\",\"extension\\/opencart\\/module\\/store\",\"extension\\/opencart\\/payment\\/bank_transfer\",\"extension\\/opencart\\/payment\\/cheque\",\"extension\\/opencart\\/payment\\/cod\",\"extension\\/opencart\\/payment\\/free_checkout\",\"extension\\/opencart\\/report\\/customer_activity\",\"extension\\/opencart\\/report\\/customer_order\",\"extension\\/opencart\\/report\\/customer_reward\",\"extension\\/opencart\\/report\\/customer_search\",\"extension\\/opencart\\/report\\/customer_subscription\",\"extension\\/opencart\\/report\\/customer_transaction\",\"extension\\/opencart\\/report\\/marketing\",\"extension\\/opencart\\/report\\/product_purchased\",\"extension\\/opencart\\/report\\/product_viewed\",\"extension\\/opencart\\/report\\/sale_coupon\",\"extension\\/opencart\\/report\\/sale_order\",\"extension\\/opencart\\/report\\/sale_return\",\"extension\\/opencart\\/report\\/sale_shipping\",\"extension\\/opencart\\/report\\/sale_tax\",\"extension\\/opencart\\/shipping\\/flat\",\"extension\\/opencart\\/shipping\\/free\",\"extension\\/opencart\\/shipping\\/item\",\"extension\\/opencart\\/shipping\\/pickup\",\"extension\\/opencart\\/shipping\\/weight\",\"extension\\/opencart\\/theme\\/basic\",\"extension\\/opencart\\/total\\/coupon\",\"extension\\/opencart\\/total\\/credit\",\"extension\\/opencart\\/total\\/handling\",\"extension\\/opencart\\/total\\/low_order_fee\",\"extension\\/opencart\\/total\\/reward\",\"extension\\/opencart\\/total\\/shipping\",\"extension\\/opencart\\/total\\/sub_total\",\"extension\\/opencart\\/total\\/tax\",\"extension\\/opencart\\/total\\/total\",\"extension\\/opencart\\/total\\/voucher\",\"extension\\/ishicategoryblock\\/module\\/ishicategoryblock\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/ishifeaturesblock\\/module\\/ishifeaturesblock\",\"extension\\/ishistoryblock\\/module\\/ishistoryblock\",\"extension\\/ishiproductbestsellerblock\\/module\\/ishiproductbestsellerblock\",\"extension\\/ishifaqwithimageblock\\/module\\/ishifaqwithimageblock\",\"extension\\/newslettersubscribe\\/module\\/newslettersubscribe\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishifooterlinkblock\\/module\\/ishifooterlinkblock\",\"extension\\/ishistoreinfoblock\\/module\\/ishistoreinfoblock\",\"extension\\/ishioffersblock\\/module\\/ishioffersblock\",\"extension\\/ishitimmerwithimageblock\\/module\\/ishitimmerwithimageblock\",\"extension\\/ishivideoblock\\/module\\/ishivideoblock\",\"extension\\/opencart\\/module\\/information\",\"extension\\/newslettersubscribe\\/module\\/newslettersubscribe\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishiextensivesearchblock\\/module\\/ishiextensivesearchblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishilinklist\\/module\\/ishilinklist\",\"extension\\/ishifeaturesblock\\/module\\/ishifeaturesblock\",\"extension\\/ishifeaturesblock\\/module\\/ishifeaturesblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialsblock\",\"extension\\/ishistoryblock\\/module\\/ishistoryblock\",\"extension\\/ishiparallaxblock\\/module\\/ishiparallaxblock\",\"extension\\/ishistoryblock\\/module\\/ishistoryblock\",\"extension\\/ishifivebannerblock\\/module\\/ishifivebannerblock\",\"extension\\/ishioffersblock\\/module\\/ishioffersblock\",\"extension\\/ishispecialdealblock\\/module\\/ishispecialdeals\",\"extension\\/ishifeatureproductsblock\\/module\\/ishifeatureproductsblock\",\"extension\\/ishiinstagramblock\\/module\\/ishiinstagramblock\",\"extension\\/ishistoreinfoblock\\/module\\/ishistoreinfoblock\",\"extension\\/ishiheaderlinkblock\\/module\\/ishiheaderlinkblock\",\"extension\\/ishicategoryblock\\/module\\/ishicategoryblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialsblock\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/ishioffersblock\\/module\\/ishioffersblock\",\"extension\\/ishistoryblock\\/module\\/ishistoryblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialblock\",\"extension\\/language_german\\/language\\/german\",\"extension\\/opencart\\/module\\/html\",\"extension\\/ishispecialdealblock\\/module\\/ishispecialdeals\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialblock\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/newslettersubscribepopup\\/module\\/newslettersubscribepopup\",\"extension\\/ishicartservicesblock\\/module\\/ishicartservicesblock\",\"extension\\/ishishopreassurance\\/module\\/ishishopreassurance\",\"extension\\/ukrainian\\/language\\/ukrainian\",\"extension\\/ocn_language_russian\\/language\\/russian\"]}'),
+(2, 'Demonstration', '{\"access\":[\"catalog\\/attribute\",\"catalog\\/attribute_group\",\"catalog\\/category\",\"catalog\\/download\",\"catalog\\/filter\",\"catalog\\/information\",\"catalog\\/manufacturer\",\"catalog\\/option\",\"catalog\\/product\",\"catalog\\/review\",\"catalog\\/subscription_plan\",\"common\\/developer\",\"common\\/filemanager\",\"common\\/ishithemeoption\",\"common\\/security\",\"customer\\/custom_field\",\"customer\\/customer\",\"customer\\/customer_approval\",\"customer\\/customer_group\",\"customer\\/gdpr\",\"design\\/banner\",\"design\\/layout\",\"design\\/seo_url\",\"design\\/theme\",\"design\\/translation\",\"error\\/exception\",\"extension\\/analytics\",\"extension\\/captcha\",\"extension\\/currency\",\"extension\\/dashboard\",\"extension\\/feed\",\"extension\\/fraud\",\"extension\\/language\",\"extension\\/module\",\"extension\\/other\",\"extension\\/payment\",\"extension\\/report\",\"extension\\/shipping\",\"extension\\/theme\",\"extension\\/total\",\"localisation\\/address_format\",\"localisation\\/country\",\"localisation\\/currency\",\"localisation\\/geo_zone\",\"localisation\\/language\",\"localisation\\/length_class\",\"localisation\\/location\",\"localisation\\/order_status\",\"localisation\\/return_action\",\"localisation\\/return_reason\",\"localisation\\/return_status\",\"localisation\\/stock_status\",\"localisation\\/subscription_status\",\"localisation\\/tax_class\",\"localisation\\/tax_rate\",\"localisation\\/weight_class\",\"localisation\\/zone\",\"mail\\/affiliate\",\"mail\\/authorize\",\"mail\\/customer\",\"mail\\/forgotten\",\"mail\\/gdpr\",\"mail\\/returns\",\"mail\\/reward\",\"mail\\/subscription\",\"mail\\/transaction\",\"mail\\/voucher\",\"marketing\\/affiliate\",\"marketing\\/contact\",\"marketing\\/coupon\",\"marketing\\/marketing\",\"marketplace\\/api\",\"marketplace\\/cron\",\"marketplace\\/event\",\"marketplace\\/extension\",\"marketplace\\/installer\",\"marketplace\\/marketplace\",\"marketplace\\/promotion\",\"marketplace\\/startup\",\"report\\/online\",\"report\\/report\",\"report\\/statistics\",\"sale\\/order\",\"sale\\/returns\",\"sale\\/subscription\",\"sale\\/voucher\",\"sale\\/voucher_theme\",\"setting\\/setting\",\"setting\\/store\",\"tool\\/backup\",\"tool\\/log\",\"tool\\/notification\",\"tool\\/upgrade\",\"tool\\/upload\",\"user\\/api\",\"user\\/profile\",\"user\\/user\",\"user\\/user_permission\",\"extension\\/arabic_language\\/language\\/traditional_arabic\",\"extension\\/blogger\\/module\\/blogger\",\"extension\\/ishiaboutusblock\\/module\\/ishiaboutusblock\",\"extension\\/ishiaboutusservicesblock\\/module\\/ishiaboutusservicesblock\",\"extension\\/ishibannerblock\\/module\\/ishibannerblock\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishifaqblock\\/module\\/ishifaqblock\",\"extension\\/ishifooterlinkblock\\/module\\/ishifooterlinkblock\",\"extension\\/ishilinklist\\/module\\/ishilinklist\",\"extension\\/ishimanufacture\\/module\\/ishimanufacturerblock\",\"extension\\/ishimaplinkblock\\/module\\/ishimaplinkblock\",\"extension\\/ishipaymentblock\\/module\\/ishipaymentblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishiservicesblock\\/module\\/ishiservicesblock\",\"extension\\/ishislider\\/module\\/ishislider\",\"extension\\/ishisocialfollowblock\\/module\\/ishisocialfollow\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialsblock\",\"extension\\/newslettersubscribe\\/module\\/newslettersubscribe\",\"extension\\/oc_theme_example\\/theme\\/theme_example\",\"extension\\/opencart\\/captcha\\/basic\",\"extension\\/opencart\\/currency\\/ecb\",\"extension\\/opencart\\/currency\\/fixer\",\"extension\\/opencart\\/dashboard\\/activity\",\"extension\\/opencart\\/dashboard\\/chart\",\"extension\\/opencart\\/dashboard\\/customer\",\"extension\\/opencart\\/dashboard\\/map\",\"extension\\/opencart\\/dashboard\\/online\",\"extension\\/opencart\\/dashboard\\/order\",\"extension\\/opencart\\/dashboard\\/recent\",\"extension\\/opencart\\/dashboard\\/sale\",\"extension\\/opencart\\/fraud\\/ip\",\"extension\\/opencart\\/module\\/account\",\"extension\\/opencart\\/module\\/banner\",\"extension\\/opencart\\/module\\/bestseller\",\"extension\\/opencart\\/module\\/category\",\"extension\\/opencart\\/module\\/featured\",\"extension\\/opencart\\/module\\/filter\",\"extension\\/opencart\\/module\\/html\",\"extension\\/opencart\\/module\\/information\",\"extension\\/opencart\\/module\\/latest\",\"extension\\/opencart\\/module\\/special\",\"extension\\/opencart\\/module\\/store\",\"extension\\/opencart\\/payment\\/bank_transfer\",\"extension\\/opencart\\/payment\\/cheque\",\"extension\\/opencart\\/payment\\/cod\",\"extension\\/opencart\\/payment\\/free_checkout\",\"extension\\/opencart\\/report\\/customer_activity\",\"extension\\/opencart\\/report\\/customer_order\",\"extension\\/opencart\\/report\\/customer_reward\",\"extension\\/opencart\\/report\\/customer_search\",\"extension\\/opencart\\/report\\/customer_subscription\",\"extension\\/opencart\\/report\\/customer_transaction\",\"extension\\/opencart\\/report\\/marketing\",\"extension\\/opencart\\/report\\/product_purchased\",\"extension\\/opencart\\/report\\/product_viewed\",\"extension\\/opencart\\/report\\/sale_coupon\",\"extension\\/opencart\\/report\\/sale_order\",\"extension\\/opencart\\/report\\/sale_return\",\"extension\\/opencart\\/report\\/sale_shipping\",\"extension\\/opencart\\/report\\/sale_tax\",\"extension\\/opencart\\/shipping\\/flat\",\"extension\\/opencart\\/shipping\\/free\",\"extension\\/opencart\\/shipping\\/item\",\"extension\\/opencart\\/shipping\\/pickup\",\"extension\\/opencart\\/shipping\\/weight\",\"extension\\/opencart\\/theme\\/basic\",\"extension\\/opencart\\/total\\/coupon\",\"extension\\/opencart\\/total\\/credit\",\"extension\\/opencart\\/total\\/handling\",\"extension\\/opencart\\/total\\/low_order_fee\",\"extension\\/opencart\\/total\\/reward\",\"extension\\/opencart\\/total\\/shipping\",\"extension\\/opencart\\/total\\/sub_total\",\"extension\\/opencart\\/total\\/tax\",\"extension\\/opencart\\/total\\/total\",\"extension\\/opencart\\/total\\/voucher\"],\"modify\":[\"catalog\\/attribute\",\"catalog\\/attribute_group\",\"catalog\\/category\",\"catalog\\/download\",\"catalog\\/filter\",\"catalog\\/information\",\"catalog\\/manufacturer\",\"catalog\\/option\",\"catalog\\/product\",\"catalog\\/review\",\"catalog\\/subscription_plan\",\"common\\/developer\",\"common\\/filemanager\",\"common\\/ishithemeoption\",\"common\\/security\",\"customer\\/custom_field\",\"customer\\/customer\",\"customer\\/customer_approval\",\"customer\\/customer_group\",\"customer\\/gdpr\",\"design\\/banner\",\"design\\/layout\",\"design\\/seo_url\",\"design\\/theme\",\"design\\/translation\",\"error\\/exception\",\"extension\\/analytics\",\"extension\\/captcha\",\"extension\\/currency\",\"extension\\/dashboard\",\"extension\\/feed\",\"extension\\/fraud\",\"extension\\/language\",\"extension\\/module\",\"extension\\/other\",\"extension\\/payment\",\"extension\\/report\",\"extension\\/shipping\",\"extension\\/theme\",\"extension\\/total\",\"localisation\\/address_format\",\"localisation\\/country\",\"localisation\\/currency\",\"localisation\\/geo_zone\",\"localisation\\/language\",\"localisation\\/length_class\",\"localisation\\/location\",\"localisation\\/order_status\",\"localisation\\/return_action\",\"localisation\\/return_reason\",\"localisation\\/return_status\",\"localisation\\/stock_status\",\"localisation\\/subscription_status\",\"localisation\\/tax_class\",\"localisation\\/tax_rate\",\"localisation\\/weight_class\",\"localisation\\/zone\",\"mail\\/affiliate\",\"mail\\/authorize\",\"mail\\/customer\",\"mail\\/forgotten\",\"mail\\/gdpr\",\"mail\\/returns\",\"mail\\/reward\",\"mail\\/subscription\",\"mail\\/transaction\",\"mail\\/voucher\",\"marketing\\/affiliate\",\"marketing\\/contact\",\"marketing\\/coupon\",\"marketing\\/marketing\",\"marketplace\\/api\",\"marketplace\\/cron\",\"marketplace\\/event\",\"marketplace\\/extension\",\"marketplace\\/installer\",\"marketplace\\/marketplace\",\"marketplace\\/promotion\",\"marketplace\\/startup\",\"report\\/online\",\"report\\/report\",\"report\\/statistics\",\"sale\\/order\",\"sale\\/returns\",\"sale\\/subscription\",\"sale\\/voucher\",\"sale\\/voucher_theme\",\"setting\\/setting\",\"setting\\/store\",\"tool\\/backup\",\"tool\\/log\",\"tool\\/notification\",\"tool\\/upgrade\",\"tool\\/upload\",\"user\\/api\",\"user\\/profile\",\"user\\/user\",\"user\\/user_permission\",\"extension\\/arabic_language\\/language\\/traditional_arabic\",\"extension\\/blogger\\/module\\/blogger\",\"extension\\/ishiaboutusblock\\/module\\/ishiaboutusblock\",\"extension\\/ishiaboutusservicesblock\\/module\\/ishiaboutusservicesblock\",\"extension\\/ishibannerblock\\/module\\/ishibannerblock\",\"extension\\/ishicontactinfoblock\\/module\\/ishicontactinfoblock\",\"extension\\/ishifaqblock\\/module\\/ishifaqblock\",\"extension\\/ishifooterlinkblock\\/module\\/ishifooterlinkblock\",\"extension\\/ishilinklist\\/module\\/ishilinklist\",\"extension\\/ishimanufacture\\/module\\/ishimanufacturerblock\",\"extension\\/ishimaplinkblock\\/module\\/ishimaplinkblock\",\"extension\\/ishipaymentblock\\/module\\/ishipaymentblock\",\"extension\\/ishiproductsblock\\/module\\/ishiproductsblock\",\"extension\\/ishiservicesblock\\/module\\/ishiservicesblock\",\"extension\\/ishislider\\/module\\/ishislider\",\"extension\\/ishisocialfollowblock\\/module\\/ishisocialfollow\",\"extension\\/ishispecialproductblock\\/module\\/ishispecialblock\",\"extension\\/ishitestimonialblock\\/module\\/ishitestimonialsblock\",\"extension\\/newslettersubscribe\\/module\\/newslettersubscribe\",\"extension\\/oc_theme_example\\/theme\\/theme_example\",\"extension\\/opencart\\/captcha\\/basic\",\"extension\\/opencart\\/currency\\/ecb\",\"extension\\/opencart\\/currency\\/fixer\",\"extension\\/opencart\\/dashboard\\/activity\",\"extension\\/opencart\\/dashboard\\/chart\",\"extension\\/opencart\\/dashboard\\/customer\",\"extension\\/opencart\\/dashboard\\/map\",\"extension\\/opencart\\/dashboard\\/online\",\"extension\\/opencart\\/dashboard\\/order\",\"extension\\/opencart\\/dashboard\\/recent\",\"extension\\/opencart\\/dashboard\\/sale\",\"extension\\/opencart\\/fraud\\/ip\",\"extension\\/opencart\\/module\\/account\",\"extension\\/opencart\\/module\\/banner\",\"extension\\/opencart\\/module\\/bestseller\",\"extension\\/opencart\\/module\\/category\",\"extension\\/opencart\\/module\\/featured\",\"extension\\/opencart\\/module\\/filter\",\"extension\\/opencart\\/module\\/html\",\"extension\\/opencart\\/module\\/information\",\"extension\\/opencart\\/module\\/latest\",\"extension\\/opencart\\/module\\/special\",\"extension\\/opencart\\/module\\/store\",\"extension\\/opencart\\/payment\\/bank_transfer\",\"extension\\/opencart\\/payment\\/cheque\",\"extension\\/opencart\\/payment\\/cod\",\"extension\\/opencart\\/payment\\/free_checkout\",\"extension\\/opencart\\/report\\/customer_activity\",\"extension\\/opencart\\/report\\/customer_order\",\"extension\\/opencart\\/report\\/customer_reward\",\"extension\\/opencart\\/report\\/customer_search\",\"extension\\/opencart\\/report\\/customer_subscription\",\"extension\\/opencart\\/report\\/customer_transaction\",\"extension\\/opencart\\/report\\/marketing\",\"extension\\/opencart\\/report\\/product_purchased\",\"extension\\/opencart\\/report\\/product_viewed\",\"extension\\/opencart\\/report\\/sale_coupon\",\"extension\\/opencart\\/report\\/sale_order\",\"extension\\/opencart\\/report\\/sale_return\",\"extension\\/opencart\\/report\\/sale_shipping\",\"extension\\/opencart\\/report\\/sale_tax\",\"extension\\/opencart\\/shipping\\/flat\",\"extension\\/opencart\\/shipping\\/free\",\"extension\\/opencart\\/shipping\\/item\",\"extension\\/opencart\\/shipping\\/pickup\",\"extension\\/opencart\\/shipping\\/weight\",\"extension\\/opencart\\/theme\\/basic\",\"extension\\/opencart\\/total\\/coupon\",\"extension\\/opencart\\/total\\/credit\",\"extension\\/opencart\\/total\\/handling\",\"extension\\/opencart\\/total\\/low_order_fee\",\"extension\\/opencart\\/total\\/reward\",\"extension\\/opencart\\/total\\/shipping\",\"extension\\/opencart\\/total\\/sub_total\",\"extension\\/opencart\\/total\\/tax\",\"extension\\/opencart\\/total\\/total\",\"extension\\/opencart\\/total\\/voucher\"]}');
 
------------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_user_login`
+--
+
+CREATE TABLE `oc_user_login` (
+  `user_login_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `user_agent` varchar(255) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `oc_user_login`
+--
+
+INSERT INTO `oc_user_login` (`user_login_id`, `user_id`, `ip`, `user_agent`, `date_added`) VALUES
+(1, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 03:55:08'),
+(2, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 04:04:10'),
+(3, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 04:20:06'),
+(4, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 05:21:03'),
+(5, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 10:17:46'),
+(6, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 10:30:31'),
+(7, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 10:33:54'),
+(8, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 10:47:41'),
+(9, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 10:48:30'),
+(10, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-21 11:22:00'),
+(11, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-22 03:41:46'),
+(12, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-24 03:34:20'),
+(13, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-26 03:34:39'),
+(14, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-27 03:39:57'),
+(15, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-28 03:36:24'),
+(16, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-28 06:02:39'),
+(17, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-28 09:26:05'),
+(18, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-04-29 03:44:09'),
+(19, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-05-01 03:36:58'),
+(20, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-05-02 03:38:49'),
+(21, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-05-02 06:09:30'),
+(22, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', '2023-05-03 03:41:54'),
+(23, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', '2023-07-12 05:03:13'),
+(24, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-07-31 04:36:16'),
+(25, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-07-31 10:49:51'),
+(26, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-01 05:09:12'),
+(27, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-01 06:04:49'),
+(28, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-01 08:47:17'),
+(29, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-01 09:39:14'),
+(30, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-02 03:32:43'),
+(31, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-03 11:50:00'),
+(32, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-05 03:43:03'),
+(33, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-07 05:08:59'),
+(34, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-07 10:51:35'),
+(35, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-08 04:08:02'),
+(36, 1, '::1', 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 OPR/95.0.0.0', '2023-08-08 04:49:31'),
+(37, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-08 05:59:47'),
+(38, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-08 06:09:21'),
+(39, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-08 10:57:15'),
+(40, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-08 10:59:57'),
+(41, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-08 11:01:57'),
+(42, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-08 11:04:48'),
+(43, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-09 03:43:08'),
+(44, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-09 08:48:37'),
+(45, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-09 11:21:44'),
+(46, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-09 11:23:04'),
+(47, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-10 09:20:02'),
+(48, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-11 04:42:39'),
+(49, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-11 11:32:53'),
+(50, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-12 05:00:45'),
+(51, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-14 09:01:45'),
+(52, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-14 09:01:55'),
+(53, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-15 03:38:20'),
+(54, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-15 06:00:44'),
+(55, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-15 08:59:53'),
+(56, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-16 05:27:15'),
+(57, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-18 07:23:24'),
+(58, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-21 03:29:59'),
+(59, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-21 09:41:11'),
+(60, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-22 03:33:07'),
+(61, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-22 04:45:21'),
+(62, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-22 09:26:42'),
+(63, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', '2023-08-22 10:25:17'),
+(64, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36', '2023-08-23 03:39:28'),
+(65, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36', '2023-08-23 11:39:49'),
+(66, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36', '2023-08-24 03:38:47'),
+(67, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 06:57:05'),
+(68, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 07:10:37'),
+(69, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 07:10:42'),
+(70, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 07:11:22'),
+(71, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 07:11:28'),
+(72, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 07:11:42'),
+(73, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 07:11:51'),
+(74, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 10:26:52'),
+(75, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 10:28:13'),
+(76, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 10:54:23'),
+(77, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 11:37:41'),
+(78, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 11:51:44'),
+(79, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 12:11:16'),
+(80, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 12:45:15'),
+(81, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-25 12:54:21'),
+(82, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-26 04:03:12'),
+(83, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-28 08:44:00'),
+(84, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-29 03:42:23'),
+(85, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-08-31 03:33:57'),
+(86, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-09-01 03:54:09'),
+(87, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-03 05:10:29'),
+(88, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-04 03:44:35'),
+(89, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-04 04:29:39'),
+(90, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-04 04:29:57'),
+(91, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-04 04:45:47'),
+(92, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-04 04:46:24'),
+(93, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-05 03:43:01'),
+(94, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-06 06:39:23'),
+(95, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-06 08:50:22'),
+(96, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-06 09:31:49'),
+(97, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-17 04:44:23'),
+(98, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36', '2023-10-17 05:42:57'),
+(99, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36', '2023-10-19 03:46:36'),
+(100, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36', '2023-10-19 11:33:58'),
+(101, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36', '2023-10-20 08:37:36'),
+(102, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-10-31 09:58:52'),
+(103, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-01 04:54:51'),
+(104, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-01 11:30:46'),
+(105, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-02 03:32:03'),
+(106, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-02 04:50:24'),
+(107, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-02 06:11:15'),
+(108, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-03 03:41:17'),
+(109, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-03 04:55:05'),
+(110, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-03 04:56:17'),
+(111, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-03 08:34:51'),
+(112, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-03 10:29:22'),
+(113, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-03 10:30:22'),
+(114, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-03 10:38:20'),
+(115, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-03 12:07:01'),
+(116, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-04 03:32:42'),
+(117, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-04 04:04:46'),
+(118, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-04 04:14:55'),
+(119, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-06 05:04:08'),
+(120, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-06 12:07:09'),
+(121, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-08 05:02:46'),
+(122, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-08 06:11:35'),
+(123, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-08 11:04:00'),
+(124, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-09 05:36:25'),
+(125, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-09 11:14:18'),
+(126, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-09 12:25:43'),
+(127, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-10 03:32:46'),
+(128, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-10 03:35:10'),
+(129, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-10 05:22:32'),
+(130, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2023-11-10 05:53:41'),
+(131, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-11-16 06:05:17'),
+(132, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-11-17 03:44:56'),
+(133, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-11-17 08:33:48'),
+(134, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-02 04:05:28'),
+(135, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-02 04:27:36'),
+(136, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-02 05:22:25'),
+(137, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-02 05:54:39'),
+(138, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-04 05:23:14'),
+(139, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-05 04:07:45'),
+(140, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-05 04:07:58'),
+(141, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-12 03:37:51'),
+(142, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '2023-12-12 04:25:04'),
+(143, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-09 04:36:47'),
+(144, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-09 11:00:17'),
+(145, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-10 04:40:26'),
+(146, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-11 03:59:08'),
+(147, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-11 11:47:11'),
+(148, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-15 04:12:44'),
+(149, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-15 04:18:47'),
+(150, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-17 07:05:24'),
+(151, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-17 07:21:05'),
+(152, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-17 11:55:36'),
+(153, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-17 12:55:53'),
+(154, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 03:44:12'),
+(155, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 03:47:43'),
+(156, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 03:50:30'),
+(157, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 03:52:45'),
+(158, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 03:54:17'),
+(159, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 04:01:47'),
+(160, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 04:02:15'),
+(161, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 04:08:31'),
+(162, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 05:48:32'),
+(163, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 06:26:48'),
+(164, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 10:19:16'),
+(165, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 10:22:57'),
+(166, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-18 10:42:39'),
+(167, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-19 05:20:10'),
+(168, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-19 06:16:59'),
+(169, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-19 10:18:36'),
+(170, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-20 03:47:55'),
+(171, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-20 04:07:04'),
+(172, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-20 04:08:25'),
+(173, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-20 04:58:01'),
+(174, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-20 07:27:45'),
+(175, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-22 08:24:09'),
+(176, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-24 12:01:54'),
+(177, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-24 12:45:18'),
+(178, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-24 14:47:33'),
+(179, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-25 03:27:07'),
+(180, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-25 04:38:53'),
+(181, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 04:31:41'),
+(182, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 04:31:47'),
+(183, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 05:46:42'),
+(184, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 07:00:19'),
+(185, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 07:13:59'),
+(186, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 07:14:04'),
+(187, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 07:14:08'),
+(188, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 07:14:16'),
+(189, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 07:34:25'),
+(190, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 09:03:21'),
+(191, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 09:05:53'),
+(192, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 09:08:42'),
+(193, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 09:30:25'),
+(194, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 10:22:50'),
+(195, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 13:11:42'),
+(196, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-26 13:24:57'),
+(197, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-27 03:59:14'),
+(198, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-27 04:07:05'),
+(199, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-27 05:49:08'),
+(200, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-27 06:00:31'),
+(201, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-29 04:20:50'),
+(202, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-29 05:49:56'),
+(203, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-29 06:09:06'),
+(204, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-29 06:09:10'),
+(205, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-29 06:09:18'),
+(206, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-29 11:37:47'),
+(207, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-29 12:17:05'),
+(208, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-30 04:42:08'),
+(209, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-30 09:32:51'),
+(210, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-30 11:20:13'),
+(211, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-31 06:47:50'),
+(212, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-31 11:58:49'),
+(213, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-31 12:43:24'),
+(214, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-01-31 13:01:14'),
+(215, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-02-01 06:00:22'),
+(216, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-02-01 10:04:28'),
+(217, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-02-12 09:17:04'),
+(218, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-02-13 12:51:13'),
+(219, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-02-15 10:48:15'),
+(220, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-02-16 07:09:14'),
+(221, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-02-27 11:58:31'),
+(222, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-03-22 08:35:13'),
+(223, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-03-22 09:19:15'),
+(224, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-03-22 12:29:15'),
+(225, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-03-23 03:37:32'),
+(226, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-03-26 07:29:08'),
+(227, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-03-26 08:40:05'),
+(228, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-03-26 12:12:50'),
+(229, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-04-27 04:03:44'),
+(230, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-04-27 04:12:16'),
+(231, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-04-27 05:17:28'),
+(232, 1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36', '2024-04-27 05:19:53');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_voucher`
 --
 
-DROP TABLE IF EXISTS `oc_voucher`;
 CREATE TABLE `oc_voucher` (
-  `voucher_id` int(11) NOT NULL AUTO_INCREMENT,
+  `voucher_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `code` varchar(10) NOT NULL,
   `from_name` varchar(64) NOT NULL,
@@ -3888,61 +9270,54 @@ CREATE TABLE `oc_voucher` (
   `message` text NOT NULL,
   `amount` decimal(15,4) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`voucher_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_voucher_history`
 --
 
-DROP TABLE IF EXISTS `oc_voucher_history`;
 CREATE TABLE `oc_voucher_history` (
-  `voucher_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `voucher_history_id` int(11) NOT NULL,
   `voucher_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `amount` decimal(15,4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`voucher_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_voucher_theme`
 --
 
-DROP TABLE IF EXISTS `oc_voucher_theme`;
 CREATE TABLE `oc_voucher_theme` (
-  `voucher_theme_id` int(11) NOT NULL AUTO_INCREMENT,
-  `image` varchar(255) NOT NULL,
-  PRIMARY KEY (`voucher_theme_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `voucher_theme_id` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_voucher_theme`
 --
 
 INSERT INTO `oc_voucher_theme` (`voucher_theme_id`, `image`) VALUES
-(8, 'catalog/demo/canon_eos_5d_2.jpg'),
+(6, 'catalog/demo/apple_logo.jpg'),
 (7, 'catalog/demo/gift-voucher-birthday.jpg'),
-(6, 'catalog/demo/apple_logo.jpg');
+(8, 'catalog/demo/canon_eos_5d_2.jpg');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_voucher_theme_description`
 --
 
-DROP TABLE IF EXISTS `oc_voucher_theme_description`;
 CREATE TABLE `oc_voucher_theme_description` (
   `voucher_theme_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`voucher_theme_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `name` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_voucher_theme_description`
@@ -3950,21 +9325,40 @@ CREATE TABLE `oc_voucher_theme_description` (
 
 INSERT INTO `oc_voucher_theme_description` (`voucher_theme_id`, `language_id`, `name`) VALUES
 (6, 1, 'Christmas'),
+(6, 2, 'Christmas'),
+(6, 3, 'Christmas'),
+(6, 4, 'Christmas'),
+(6, 5, 'Christmas'),
+(6, 6, 'Christmas'),
+(6, 7, 'Christmas'),
+(6, 8, 'Christmas'),
 (7, 1, 'Birthday'),
-(8, 1, 'General');
+(7, 2, 'Birthday'),
+(7, 3, 'Birthday'),
+(7, 4, 'Birthday'),
+(7, 5, 'Birthday'),
+(7, 6, 'Birthday'),
+(7, 7, 'Birthday'),
+(7, 8, 'Birthday'),
+(8, 1, 'General'),
+(8, 2, 'General'),
+(8, 3, 'General'),
+(8, 4, 'General'),
+(8, 5, 'General'),
+(8, 6, 'General'),
+(8, 7, 'General'),
+(8, 8, 'General');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_weight_class`
 --
 
-DROP TABLE IF EXISTS `oc_weight_class`;
 CREATE TABLE `oc_weight_class` (
-  `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `value` decimal(15,8) NOT NULL DEFAULT '0.00000000',
-  PRIMARY KEY (`weight_class_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `weight_class_id` int(11) NOT NULL,
+  `value` decimal(15,8) NOT NULL DEFAULT 0.00000000
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_weight_class`
@@ -3976,20 +9370,18 @@ INSERT INTO `oc_weight_class` (`weight_class_id`, `value`) VALUES
 (5, '2.20460000'),
 (6, '35.27400000');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_weight_class_description`
 --
 
-DROP TABLE IF EXISTS `oc_weight_class_description`;
 CREATE TABLE `oc_weight_class_description` (
   `weight_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `title` varchar(32) NOT NULL,
-  `unit` varchar(4) NOT NULL,
-  PRIMARY KEY (`weight_class_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `unit` varchar(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_weight_class_description`
@@ -3997,25 +9389,51 @@ CREATE TABLE `oc_weight_class_description` (
 
 INSERT INTO `oc_weight_class_description` (`weight_class_id`, `language_id`, `title`, `unit`) VALUES
 (1, 1, 'Kilogram', 'kg'),
+(1, 2, 'Kilogram', 'kg'),
+(1, 3, 'Kilogram', 'kg'),
+(1, 4, 'Kilogram', 'kg'),
+(1, 5, 'Kilogram', 'kg'),
+(1, 6, 'Kilogram', 'kg'),
+(1, 7, 'Kilogram', 'kg'),
+(1, 8, 'Kilogram', 'kg'),
 (2, 1, 'Gram', 'g'),
+(2, 2, 'Gram', 'g'),
+(2, 3, 'Gram', 'g'),
+(2, 4, 'Gram', 'g'),
+(2, 5, 'Gram', 'g'),
+(2, 6, 'Gram', 'g'),
+(2, 7, 'Gram', 'g'),
+(2, 8, 'Gram', 'g'),
 (5, 1, 'Pound ', 'lb'),
-(6, 1, 'Ounce', 'oz');
+(5, 2, 'Pound ', 'lb'),
+(5, 3, 'Pound ', 'lb'),
+(5, 4, 'Pound ', 'lb'),
+(5, 5, 'Pound ', 'lb'),
+(5, 6, 'Pound ', 'lb'),
+(5, 7, 'Pound ', 'lb'),
+(5, 8, 'Pound ', 'lb'),
+(6, 1, 'Ounce', 'oz'),
+(6, 2, 'Ounce', 'oz'),
+(6, 3, 'Ounce', 'oz'),
+(6, 4, 'Ounce', 'oz'),
+(6, 5, 'Ounce', 'oz'),
+(6, 6, 'Ounce', 'oz'),
+(6, 7, 'Ounce', 'oz'),
+(6, 8, 'Ounce', 'oz');
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_zone`
 --
 
-DROP TABLE IF EXISTS `oc_zone`;
 CREATE TABLE `oc_zone` (
-  `zone_id` int(11) NOT NULL AUTO_INCREMENT,
+  `zone_id` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `code` varchar(32) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`zone_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_zone`
@@ -4090,56 +9508,56 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (66, 2, 'Tropoje', 'TP', 1),
 (67, 2, 'Tirane', 'TR', 1),
 (68, 2, 'Vlore', 'VL', 1),
-(69, 3, 'Adrar', 'ADR', 1),
-(70, 3, 'Ain Defla', 'ADE', 1),
-(71, 3, 'Ain Temouchent', 'ATE', 1),
-(72, 3, 'Alger', 'ALG', 1),
-(73, 3, 'Annaba', 'ANN', 1),
-(74, 3, 'Batna', 'BAT', 1),
-(75, 3, 'Bechar', 'BEC', 1),
-(76, 3, 'Bejaia', 'BEJ', 1),
-(77, 3, 'Biskra', 'BIS', 1),
-(78, 3, 'Blida', 'BLI', 1),
-(79, 3, 'Bordj Bou Arreridj', 'BBA', 1),
-(80, 3, 'Bouira', 'BOA', 1),
-(81, 3, 'Boumerdes', 'BMD', 1),
-(82, 3, 'Chlef', 'CHL', 1),
-(83, 3, 'Constantine', 'CON', 1),
-(84, 3, 'Djelfa', 'DJE', 1),
-(85, 3, 'El Bayadh', 'EBA', 1),
-(86, 3, 'El Oued', 'EOU', 1),
-(87, 3, 'El Tarf', 'ETA', 1),
-(88, 3, 'Ghardaia', 'GHA', 1),
-(89, 3, 'Guelma', 'GUE', 1),
-(90, 3, 'Illizi', 'ILL', 1),
-(91, 3, 'Jijel', 'JIJ', 1),
-(92, 3, 'Khenchela', 'KHE', 1),
-(93, 3, 'Laghouat', 'LAG', 1),
-(94, 3, 'Muaskar', 'MUA', 1),
-(95, 3, 'Medea', 'MED', 1),
-(96, 3, 'Mila', 'MIL', 1),
-(97, 3, 'Mostaganem', 'MOS', 1),
-(98, 3, 'M''Sila', 'MSI', 1),
-(99, 3, 'Naama', 'NAA', 1),
-(100, 3, 'Oran', 'ORA', 1),
-(101, 3, 'Ouargla', 'OUA', 1),
-(102, 3, 'Oum el-Bouaghi', 'OEB', 1),
-(103, 3, 'Relizane', 'REL', 1),
-(104, 3, 'Saida', 'SAI', 1),
-(105, 3, 'Setif', 'SET', 1),
-(106, 3, 'Sidi Bel Abbes', 'SBA', 1),
-(107, 3, 'Skikda', 'SKI', 1),
-(108, 3, 'Souk Ahras', 'SAH', 1),
-(109, 3, 'Tamanghasset', 'TAM', 1),
-(110, 3, 'Tebessa', 'TEB', 1),
-(111, 3, 'Tiaret', 'TIA', 1),
-(112, 3, 'Tindouf', 'TIN', 1),
-(113, 3, 'Tipaza', 'TIP', 1),
-(114, 3, 'Tissemsilt', 'TIS', 1),
-(115, 3, 'Tizi Ouzou', 'TOU', 1),
-(116, 3, 'Tlemcen', 'TLE', 1),
+(69, 3, 'Adrar', '01', 1),
+(70, 3, 'Ain Defla', '44', 1),
+(71, 3, 'Ain Temouchent', '46', 1),
+(72, 3, 'Alger', '16', 1),
+(73, 3, 'Annaba', '23', 1),
+(74, 3, 'Batna', '05', 1),
+(75, 3, 'Bechar', '08', 1),
+(76, 3, 'Bejaia', '06', 1),
+(77, 3, 'Biskra', '07', 1),
+(78, 3, 'Blida', '09', 1),
+(79, 3, 'Bordj Bou Arreridj', '34', 1),
+(80, 3, 'Bouira', '10', 1),
+(81, 3, 'Boumerdes', '35', 1),
+(82, 3, 'Chlef', '02', 1),
+(83, 3, 'Constantine', '26', 1),
+(84, 3, 'Djelfa', '17', 1),
+(85, 3, 'El Bayadh', '32', 1),
+(86, 3, 'El Oued', '39', 1),
+(87, 3, 'El Tarf', '36', 1),
+(88, 3, 'Ghardaia', '47', 1),
+(89, 3, 'Guelma', '24', 1),
+(90, 3, 'Illizi', '33', 1),
+(91, 3, 'Jijel', '18', 1),
+(92, 3, 'Khenchela', '40', 1),
+(93, 3, 'Laghouat', '03', 1),
+(94, 3, 'Mascara', '29', 1),
+(95, 3, 'Medea', '26', 1),
+(96, 3, 'Mila', '43', 1),
+(97, 3, 'Mostaganem', '27', 1),
+(98, 3, 'M\'Sila', '28', 1),
+(99, 3, 'Naama', '45', 1),
+(100, 3, 'Oran', '31', 1),
+(101, 3, 'Ouargla', '30', 1),
+(102, 3, 'Oum el-Bouaghi', '04', 1),
+(103, 3, 'Relizane', '48', 1),
+(104, 3, 'Saida', '20', 1),
+(105, 3, 'Setif', '19', 1),
+(106, 3, 'Sidi Bel Abbes', '22', 1),
+(107, 3, 'Skikda', '21', 1),
+(108, 3, 'Souk Ahras', '41', 1),
+(109, 3, 'Tamanrasset', '11', 1),
+(110, 3, 'Tebessa', '12', 1),
+(111, 3, 'Tiaret', '14', 1),
+(112, 3, 'Tindouf', '37', 1),
+(113, 3, 'Tipaza', '42', 1),
+(114, 3, 'Tissemsilt', '38', 1),
+(115, 3, 'Tizi Ouzou', '15', 1),
+(116, 3, 'Tlemcen', '13', 1),
 (117, 4, 'Eastern', 'E', 1),
-(118, 4, 'Manu''a', 'M', 1),
+(118, 4, 'Manu\'a', 'M', 1),
 (119, 4, 'Rose Island', 'R', 1),
 (120, 4, 'Swains Island', 'S', 1),
 (121, 4, 'Western', 'W', 1),
@@ -4177,40 +9595,40 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (153, 9, 'Barbuda', 'BAR', 1),
 (154, 9, 'Redonda', 'RED', 1),
 (155, 10, 'Antartida e Islas del Atlantico', 'AN', 1),
-(156, 10, 'Buenos Aires', 'BA', 1),
-(157, 10, 'Catamarca', 'CA', 1),
-(158, 10, 'Chaco', 'CH', 1),
-(159, 10, 'Chubut', 'CU', 1),
-(160, 10, 'Cordoba', 'CO', 1),
-(161, 10, 'Corrientes', 'CR', 1),
-(162, 10, 'Distrito Federal', 'DF', 1),
-(163, 10, 'Entre Rios', 'ER', 1),
-(164, 10, 'Formosa', 'FO', 1),
-(165, 10, 'Jujuy', 'JU', 1),
-(166, 10, 'La Pampa', 'LP', 1),
-(167, 10, 'La Rioja', 'LR', 1),
-(168, 10, 'Mendoza', 'ME', 1),
-(169, 10, 'Misiones', 'MI', 1),
-(170, 10, 'Neuquen', 'NE', 1),
-(171, 10, 'Rio Negro', 'RN', 1),
-(172, 10, 'Salta', 'SA', 1),
-(173, 10, 'San Juan', 'SJ', 1),
-(174, 10, 'San Luis', 'SL', 1),
-(175, 10, 'Santa Cruz', 'SC', 1),
-(176, 10, 'Santa Fe', 'SF', 1),
-(177, 10, 'Santiago del Estero', 'SD', 1),
-(178, 10, 'Tierra del Fuego', 'TF', 1),
-(179, 10, 'Tucuman', 'TU', 1),
+(156, 10, 'Buenos Aires', 'B', 1),
+(157, 10, 'Catamarca', 'K', 1),
+(158, 10, 'Chaco', 'H', 1),
+(159, 10, 'Chubut', 'U', 1),
+(160, 10, 'Cordoba', 'X', 1),
+(161, 10, 'Corrientes', 'W', 1),
+(162, 10, 'Ciudad Autónoma de Buenos Aires', 'C', 1),
+(163, 10, 'Entre Rios', 'E', 1),
+(164, 10, 'Formosa', 'P', 1),
+(165, 10, 'Jujuy', 'Y', 1),
+(166, 10, 'La Pampa', 'L', 1),
+(167, 10, 'La Rioja', 'F', 1),
+(168, 10, 'Mendoza', 'M', 1),
+(169, 10, 'Misiones', 'N', 1),
+(170, 10, 'Neuquen', 'Q', 1),
+(171, 10, 'Rio Negro', 'R', 1),
+(172, 10, 'Salta', 'A', 1),
+(173, 10, 'San Juan', 'J', 1),
+(174, 10, 'San Luis', 'D', 1),
+(175, 10, 'Santa Cruz', 'Z', 1),
+(176, 10, 'Santa Fe', 'S', 1),
+(177, 10, 'Santiago del Estero', 'G', 1),
+(178, 10, 'Tierra del Fuego', 'V', 1),
+(179, 10, 'Tucuman', 'T', 1),
 (180, 11, 'Aragatsotn', 'AGT', 1),
 (181, 11, 'Ararat', 'ARR', 1),
 (182, 11, 'Armavir', 'ARM', 1),
-(183, 11, 'Geghark''unik''', 'GEG', 1),
-(184, 11, 'Kotayk''', 'KOT', 1),
+(183, 11, 'Geghark\'unik\'', 'GEG', 1),
+(184, 11, 'Kotayk\'', 'KOT', 1),
 (185, 11, 'Lorri', 'LOR', 1),
 (186, 11, 'Shirak', 'SHI', 1),
-(187, 11, 'Syunik''', 'SYU', 1),
+(187, 11, 'Syunik\'', 'SYU', 1),
 (188, 11, 'Tavush', 'TAV', 1),
-(189, 11, 'Vayots'' Dzor', 'VAY', 1),
+(189, 11, 'Vayots\' Dzor', 'VAY', 1),
 (190, 11, 'Yerevan', 'YER', 1),
 (191, 13, 'Australian Capital Territory', 'ACT', 1),
 (192, 13, 'New South Wales', 'NSW', 1),
@@ -4220,15 +9638,15 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (196, 13, 'Tasmania', 'TAS', 1),
 (197, 13, 'Victoria', 'VIC', 1),
 (198, 13, 'Western Australia', 'WA', 1),
-(199, 14, 'Burgenland', 'BUR', 1),
-(200, 14, 'Kärnten', 'KAR', 1),
-(201, 14, 'Niederösterreich', 'NOS', 1),
-(202, 14, 'Oberösterreich', 'OOS', 1),
-(203, 14, 'Salzburg', 'SAL', 1),
-(204, 14, 'Steiermark', 'STE', 1),
-(205, 14, 'Tirol', 'TIR', 1),
-(206, 14, 'Vorarlberg', 'VOR', 1),
-(207, 14, 'Wien', 'WIE', 1),
+(199, 14, 'Burgenland', '1', 1),
+(200, 14, 'Kärnten', '2', 1),
+(201, 14, 'Niederösterreich', '3', 1),
+(202, 14, 'Oberösterreich', '4', 1),
+(203, 14, 'Salzburg', '5', 1),
+(204, 14, 'Steiermark', '6', 1),
+(205, 14, 'Tirol', '7', 1),
+(206, 14, 'Vorarlberg', '8', 1),
+(207, 14, 'Wien', '9', 1),
 (208, 15, 'Ali Bayramli', 'AB', 1),
 (209, 15, 'Abseron', 'ABS', 1),
 (210, 15, 'AgcabAdi', 'AGC', 1),
@@ -4324,7 +9742,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (300, 16, 'Long Island', 'LNG', 1),
 (301, 16, 'Mangrove Cay', 'MAN', 1),
 (302, 16, 'Mayaguana', 'MAY', 1),
-(303, 16, 'Moore''s Island', 'MOO', 1),
+(303, 16, 'Moore\'s Island', 'MOO', 1),
 (304, 16, 'North Abaco', 'NAB', 1),
 (305, 16, 'North Andros', 'NAN', 1),
 (306, 16, 'North Eleuthera', 'NEL', 1),
@@ -4359,7 +9777,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (335, 19, 'Saint Philip', 'PHI', 1),
 (336, 19, 'Saint Thomas', 'THO', 1),
 (337, 20, 'Brestskaya (Brest)', 'BR', 1),
-(338, 20, 'Homyel''skaya (Homyel'')', 'HO', 1),
+(338, 20, 'Homyel\'skaya (Homyel\')', 'HO', 1),
 (339, 20, 'Horad Minsk', 'HM', 1),
 (340, 20, 'Hrodzyenskaya (Hrodna)', 'HR', 1),
 (341, 20, 'Mahilyowskaya (Mahilyow)', 'MA', 1),
@@ -4399,9 +9817,9 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (375, 24, 'Paget', 'PG', 1),
 (376, 24, 'Pembroke', 'PB', 1),
 (377, 24, 'Saint George City', 'GC', 1),
-(378, 24, 'Saint George''s', 'SG', 1),
+(378, 24, 'Saint George\'s', 'SG', 1),
 (379, 24, 'Sandys', 'SA', 1),
-(380, 24, 'Smith''s', 'SM', 1),
+(380, 24, 'Smith\'s', 'SM', 1),
 (381, 24, 'Southampton', 'SH', 1),
 (382, 24, 'Warwick', 'WA', 1),
 (383, 25, 'Bumthang', 'BUM', 1),
@@ -4670,7 +10088,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (646, 41, 'Mambere-KadeÔ', 'MKD', 1),
 (647, 41, 'Mbomou', 'MBO', 1),
 (648, 41, 'Nana-Mambere', 'NMM', 1),
-(649, 41, 'Ombella-M''Poko', 'OMP', 1),
+(649, 41, 'Ombella-M\'Poko', 'OMP', 1),
 (650, 41, 'Ouaka', 'OUK', 1),
 (651, 41, 'Ouham', 'OUH', 1),
 (652, 41, 'Ouham-Pende', 'OPE', 1),
@@ -4698,7 +10116,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (674, 43, 'Atacama', 'AT', 1),
 (675, 43, 'Bio-Bio', 'BI', 1),
 (676, 43, 'Coquimbo', 'CO', 1),
-(677, 43, 'Libertador General Bernardo O''Higgins', 'LI', 1),
+(677, 43, 'Libertador General Bernardo O\'Higgins', 'LI', 1),
 (678, 43, 'Los Lagos', 'LL', 1),
 (679, 43, 'Magallanes y de la Antartica Chilena', 'MA', 1),
 (680, 43, 'Maule', 'ML', 1),
@@ -4741,11 +10159,11 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (717, 46, 'Horsburgh Island', 'O', 1),
 (718, 46, 'South Island', 'S', 1),
 (719, 46, 'West Island', 'W', 1),
-(720, 47, 'Amazonas', 'AMZ', 1),
+(720, 47, 'Amazonas', 'AMA', 1),
 (721, 47, 'Antioquia', 'ANT', 1),
 (722, 47, 'Arauca', 'ARA', 1),
 (723, 47, 'Atlantico', 'ATL', 1),
-(724, 47, 'Bogota D.C.', 'BDC', 1),
+(724, 47, 'Bogota D.C.', 'DC', 1),
 (725, 47, 'Bolivar', 'BOL', 1),
 (726, 47, 'Boyaca', 'BOY', 1),
 (727, 47, 'Caldas', 'CAL', 1),
@@ -4755,15 +10173,15 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (731, 47, 'Cesar', 'CES', 1),
 (732, 47, 'Choco', 'CHO', 1),
 (733, 47, 'Cordoba', 'COR', 1),
-(734, 47, 'Cundinamarca', 'CAM', 1),
+(734, 47, 'Cundinamarca', 'CUN', 1),
 (735, 47, 'Guainia', 'GNA', 1),
 (736, 47, 'Guajira', 'GJR', 1),
-(737, 47, 'Guaviare', 'GVR', 1),
+(737, 47, 'Guaviare', 'GUV', 1),
 (738, 47, 'Huila', 'HUI', 1),
 (739, 47, 'Magdalena', 'MAG', 1),
 (740, 47, 'Meta', 'MET', 1),
 (741, 47, 'Narino', 'NAR', 1),
-(742, 47, 'Norte de Santander', 'NDS', 1),
+(742, 47, 'Norte de Santander', 'NSA', 1),
 (743, 47, 'Putumayo', 'PUT', 1),
 (744, 47, 'Quindio', 'QUI', 1),
 (745, 47, 'Risaralda', 'RIS', 1),
@@ -4771,9 +10189,9 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (747, 47, 'Santander', 'SAN', 1),
 (748, 47, 'Sucre', 'SUC', 1),
 (749, 47, 'Tolima', 'TOL', 1),
-(750, 47, 'Valle del Cauca', 'VDC', 1),
+(750, 47, 'Valle del Cauca', 'VAC', 1),
 (751, 47, 'Vaupes', 'VAU', 1),
-(752, 47, 'Vichada', 'VIC', 1),
+(752, 47, 'Vichada', 'VID', 1),
 (753, 48, 'Grande Comore', 'G', 1),
 (754, 48, 'Anjouan', 'A', 1),
 (755, 48, 'Moheli', 'M', 1),
@@ -4924,23 +10342,13 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (900, 56, 'Středočeský', 'S', 1),
 (901, 56, 'Vysočina', 'J', 1),
 (902, 56, 'Zlínský', 'Z', 1),
-(903, 57, 'Arhus', 'AR', 1),
-(904, 57, 'Bornholm', 'BH', 1),
-(905, 57, 'Copenhagen', 'CO', 1),
+(903, 57, 'Nordjyland', '81', 1),
+(904, 57, 'Midtjylland', '82', 1),
+(905, 57, 'Syddanmark', '83', 1),
 (906, 57, 'Faroe Islands', 'FO', 1),
-(907, 57, 'Frederiksborg', 'FR', 1),
-(908, 57, 'Fyn', 'FY', 1),
-(909, 57, 'Kobenhavn', 'KO', 1),
-(910, 57, 'Nordjylland', 'NO', 1),
-(911, 57, 'Ribe', 'RI', 1),
-(912, 57, 'Ringkobing', 'RK', 1),
-(913, 57, 'Roskilde', 'RO', 1),
-(914, 57, 'Sonderjylland', 'SO', 1),
-(915, 57, 'Storstrom', 'ST', 1),
-(916, 57, 'Vejle', 'VK', 1),
-(917, 57, 'Vestj&aelig;lland', 'VJ', 1),
-(918, 57, 'Viborg', 'VB', 1),
-(919, 58, '''Ali Sabih', 'S', 1),
+(907, 57, 'Hovedstaden', '84', 1),
+(908, 57, 'Sjælland', '85', 1),
+(919, 58, '\'Ali Sabih', 'S', 1),
 (920, 58, 'Dikhil', 'K', 1),
 (921, 58, 'Djibouti', 'J', 1),
 (922, 58, 'Obock', 'O', 1),
@@ -5028,7 +10436,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1004, 63, 'Al Fayyum', 'FYM', 1),
 (1005, 63, 'Al Gharbiyah', 'GBY', 1),
 (1006, 63, 'Al Iskandariyah', 'IDR', 1),
-(1007, 63, 'Al Isma''iliyah', 'IML', 1),
+(1007, 63, 'Al Isma\'iliyah', 'IML', 1),
 (1008, 63, 'Al Jizah', 'JZH', 1),
 (1009, 63, 'Al Minufiyah', 'MFY', 1),
 (1010, 63, 'Al Minya', 'MNY', 1),
@@ -5040,13 +10448,13 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1016, 63, 'Aswan', 'ASW', 1),
 (1017, 63, 'Asyut', 'ASY', 1),
 (1018, 63, 'Bani Suwayf', 'BSW', 1),
-(1019, 63, 'Bur Sa''id', 'BSD', 1),
+(1019, 63, 'Bur Sa\'id', 'BSD', 1),
 (1020, 63, 'Dumyat', 'DMY', 1),
-(1021, 63, 'Janub Sina''', 'JNS', 1),
+(1021, 63, 'Janub Sina\'', 'JNS', 1),
 (1022, 63, 'Kafr ash Shaykh', 'KSH', 1),
 (1023, 63, 'Matruh', 'MAT', 1),
 (1024, 63, 'Qina', 'QIN', 1),
-(1025, 63, 'Shamal Sina''', 'SHS', 1),
+(1025, 63, 'Shamal Sina\'', 'SHS', 1),
 (1026, 63, 'Suhaj', 'SUH', 1),
 (1027, 64, 'Ahuachapan', 'AH', 1),
 (1028, 64, 'Cabanas', 'CA', 1),
@@ -5207,7 +10615,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1206, 74, 'Hauts de Seine', '92', 1),
 (1207, 74, 'Seine St-Denis', '93', 1),
 (1208, 74, 'Val de Marne', '94', 1),
-(1209, 74, 'Val d''Oise', '95', 1),
+(1209, 74, 'Val d\'Oise', '95', 1),
 (1210, 76, 'Archipel des Marquises', 'M', 1),
 (1211, 76, 'Archipel des Tuamotu', 'T', 1),
 (1212, 76, 'Archipel des Tubuai', 'I', 1),
@@ -5252,22 +10660,22 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1251, 80, 'Samegrelo-Zemo Svaneti', 'SZ', 1),
 (1252, 80, 'Samtskhe-Javakheti', 'SJ', 1),
 (1253, 80, 'Shida Kartli', 'SK', 1),
-(1254, 81, 'Baden-Württemberg', 'BAW', 1),
-(1255, 81, 'Bayern', 'BAY', 1),
-(1256, 81, 'Berlin', 'BER', 1),
-(1257, 81, 'Brandenburg', 'BRG', 1),
-(1258, 81, 'Bremen', 'BRE', 1),
-(1259, 81, 'Hamburg', 'HAM', 1),
-(1260, 81, 'Hessen', 'HES', 1),
-(1261, 81, 'Mecklenburg-Vorpommern', 'MEC', 1),
-(1262, 81, 'Niedersachsen', 'NDS', 1),
-(1263, 81, 'Nordrhein-Westfalen', 'NRW', 1),
-(1264, 81, 'Rheinland-Pfalz', 'RHE', 1),
-(1265, 81, 'Saarland', 'SAR', 1),
-(1266, 81, 'Sachsen', 'SAS', 1),
-(1267, 81, 'Sachsen-Anhalt', 'SAC', 1),
-(1268, 81, 'Schleswig-Holstein', 'SCN', 1),
-(1269, 81, 'Thüringen', 'THE', 1),
+(1254, 81, 'Baden-Württemberg', 'BW', 1),
+(1255, 81, 'Bayern', 'BY', 1),
+(1256, 81, 'Berlin', 'BE', 1),
+(1257, 81, 'Brandenburg', 'BB', 1),
+(1258, 81, 'Bremen', 'HB', 1),
+(1259, 81, 'Hamburg', 'HH', 1),
+(1260, 81, 'Hessen', 'HE', 1),
+(1261, 81, 'Mecklenburg-Vorpommern', 'MV', 1),
+(1262, 81, 'Niedersachsen', 'NI', 1),
+(1263, 81, 'Nordrhein-Westfalen', 'NW', 1),
+(1264, 81, 'Rheinland-Pfalz', 'RP', 1),
+(1265, 81, 'Saarland', 'SL', 1),
+(1266, 81, 'Sachsen', 'SN', 1),
+(1267, 81, 'Sachsen-Anhalt', 'ST', 1),
+(1268, 81, 'Schleswig-Holstein', 'SH', 1),
+(1269, 81, 'Thüringen', 'TH', 1),
 (1270, 82, 'Ashanti Region', 'AS', 1),
 (1271, 82, 'Brong-Ahafo Region', 'BA', 1),
 (1272, 82, 'Central Region', 'CE', 1),
@@ -5379,7 +10787,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1378, 92, 'Upper Takutu-Upper Essequibo', 'UT', 1),
 (1379, 93, 'Artibonite', 'AR', 1),
 (1380, 93, 'Centre', 'CE', 1),
-(1381, 93, 'Grand''Anse', 'GA', 1),
+(1381, 93, 'Grand\'Anse', 'GA', 1),
 (1382, 93, 'Nord', 'ND', 1),
 (1383, 93, 'Nord-Est', 'NE', 1),
 (1384, 93, 'Nord-Ouest', 'NO', 1),
@@ -5438,30 +10846,29 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1476, 99, 'Andhra Pradesh', 'AP', 1),
 (1477, 99, 'Arunachal Pradesh', 'AR', 1),
 (1478, 99, 'Assam', 'AS', 1),
-(1479, 99, 'Bihar', 'BI', 1),
+(1479, 99, 'Bihar', 'BR', 1),
 (1480, 99, 'Chandigarh', 'CH', 1),
-(1481, 99, 'Dadra and Nagar Haveli', 'DA', 1),
-(1482, 99, 'Daman and Diu', 'DM', 1),
-(1483, 99, 'Delhi', 'DE', 1),
-(1484, 99, 'Goa', 'GO', 1),
-(1485, 99, 'Gujarat', 'GU', 1),
-(1486, 99, 'Haryana', 'HA', 1),
+(1481, 99, 'Dadra and Nagar Haveli and Davan and Diu', 'DH', 1),
+(1483, 99, 'Delhi', 'DL', 1),
+(1484, 99, 'Goa', 'GA', 1),
+(1485, 99, 'Gujarat', 'GJ', 1),
+(1486, 99, 'Haryana', 'HR', 1),
 (1487, 99, 'Himachal Pradesh', 'HP', 1),
-(1488, 99, 'Jammu and Kashmir', 'JA', 1),
+(1488, 99, 'Jammu and Kashmir', 'JK', 1),
 (1489, 99, 'Karnataka', 'KA', 1),
-(1490, 99, 'Kerala', 'KE', 1),
-(1491, 99, 'Lakshadweep Islands', 'LI', 1),
+(1490, 99, 'Kerala', 'KL', 1),
+(1491, 99, 'Lakshadweep', 'LD', 1),
 (1492, 99, 'Madhya Pradesh', 'MP', 1),
-(1493, 99, 'Maharashtra', 'MA', 1),
+(1493, 99, 'Maharashtra', 'MH', 1),
 (1494, 99, 'Manipur', 'MN', 1),
-(1495, 99, 'Meghalaya', 'ME', 1),
-(1496, 99, 'Mizoram', 'MI', 1),
-(1497, 99, 'Nagaland', 'NA', 1),
-(1498, 99, 'Orissa', 'OR', 1),
-(1499, 99, 'Puducherry', 'PO', 1),
-(1500, 99, 'Punjab', 'PU', 1),
-(1501, 99, 'Rajasthan', 'RA', 1),
-(1502, 99, 'Sikkim', 'SI', 1),
+(1495, 99, 'Meghalaya', 'ML', 1),
+(1496, 99, 'Mizoram', 'MZ', 1),
+(1497, 99, 'Nagaland', 'NL', 1),
+(1498, 99, 'Odisha', 'OR', 1),
+(1499, 99, 'Puducherry', 'PY', 1),
+(1500, 99, 'Punjab', 'PB', 1),
+(1501, 99, 'Rajasthan', 'RJ', 1),
+(1502, 99, 'Sikkim', 'SK', 1),
 (1503, 99, 'Tamil Nadu', 'TN', 1),
 (1504, 99, 'Tripura', 'TR', 1),
 (1505, 99, 'Uttar Pradesh', 'UP', 1),
@@ -5515,8 +10922,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1553, 101, 'Chahar Mahaal and Bakhtiari', 'CMB', 1),
 (1554, 101, 'Kohkiluyeh and Buyer Ahmad', 'KBA', 1),
 (1555, 101, 'Bushehr', 'BSH', 1),
-(1556, 101, 'Fars', 'FAR', 1);
-INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
+(1556, 101, 'Fars', 'FAR', 1),
 (1557, 101, 'Hormozgan', 'HRM', 1),
 (1558, 101, 'Sistan and Baluchistan', 'SBL', 1),
 (1559, 101, 'Kerman', 'KRB', 1),
@@ -5544,7 +10950,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1581, 102, 'Ninawa', 'NN', 1),
 (1582, 102, 'Dahuk', 'DH', 1),
 (1583, 102, 'Arbil', 'AL', 1),
-(1584, 102, 'At Ta''mim', 'TM', 1),
+(1584, 102, 'Kirkuk', 'KI', 1),
 (1585, 102, 'As Sulaymaniyah', 'SL', 1),
 (1586, 103, 'Carlow', 'CA', 1),
 (1587, 103, 'Cavan', 'CV', 1),
@@ -5571,9 +10977,10 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1608, 103, 'Waterford', 'WA', 1),
 (1609, 103, 'Westmeath', 'WE', 1),
 (1610, 103, 'Wexford', 'WX', 1),
-(1611, 103, 'Wicklow', 'WI', 1),
-(1612, 104, 'Be''er Sheva', 'BS', 1),
-(1613, 104, 'Bika''at Hayarden', 'BH', 1),
+(1611, 103, 'Wicklow', 'WI', 1);
+INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
+(1612, 104, 'Be\'er Sheva', 'BS', 1),
+(1613, 104, 'Bika\'at Hayarden', 'BH', 1),
 (1614, 104, 'Eilat and Arava', 'EA', 1),
 (1615, 104, 'Galil', 'GA', 1),
 (1616, 104, 'Haifa', 'HA', 1),
@@ -5583,25 +10990,6 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1620, 104, 'Semaria', 'SE', 1),
 (1621, 104, 'Sharon', 'SH', 1),
 (1622, 104, 'Tel Aviv (Gosh Dan)', 'TA', 1),
-(3860, 105, 'Caltanissetta', 'CL', 1),
-(3842, 105, 'Agrigento', 'AG', 1),
-(3843, 105, 'Alessandria', 'AL', 1),
-(3844, 105, 'Ancona', 'AN', 1),
-(3845, 105, 'Aosta', 'AO', 1),
-(3846, 105, 'Arezzo', 'AR', 1),
-(3847, 105, 'Ascoli Piceno', 'AP', 1),
-(3848, 105, 'Asti', 'AT', 1),
-(3849, 105, 'Avellino', 'AV', 1),
-(3850, 105, 'Bari', 'BA', 1),
-(3851, 105, 'Belluno', 'BL', 1),
-(3852, 105, 'Benevento', 'BN', 1),
-(3853, 105, 'Bergamo', 'BG', 1),
-(3854, 105, 'Biella', 'BI', 1),
-(3855, 105, 'Bologna', 'BO', 1),
-(3856, 105, 'Bolzano', 'BZ', 1),
-(3857, 105, 'Brescia', 'BS', 1),
-(3858, 105, 'Brindisi', 'BR', 1),
-(3859, 105, 'Cagliari', 'CA', 1),
 (1643, 106, 'Clarendon Parish', 'CLA', 1),
 (1644, 106, 'Hanover Parish', 'HAN', 1),
 (1645, 106, 'Kingston Parish', 'KIN', 1),
@@ -5663,17 +11051,17 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1701, 107, 'Yamagata', 'YA', 1),
 (1702, 107, 'Yamaguchi', 'YM', 1),
 (1703, 107, 'Yamanashi', 'YN', 1),
-(1704, 108, '''Amman', 'AM', 1),
+(1704, 108, '\'Amman', 'AM', 1),
 (1705, 108, 'Ajlun', 'AJ', 1),
-(1706, 108, 'Al ''Aqabah', 'AA', 1),
-(1707, 108, 'Al Balqa''', 'AB', 1),
+(1706, 108, 'Al \'Aqabah', 'AA', 1),
+(1707, 108, 'Al Balqa\'', 'AB', 1),
 (1708, 108, 'Al Karak', 'AK', 1),
 (1709, 108, 'Al Mafraq', 'AL', 1),
 (1710, 108, 'At Tafilah', 'AT', 1),
-(1711, 108, 'Az Zarqa''', 'AZ', 1),
+(1711, 108, 'Az Zarqa\'', 'AZ', 1),
 (1712, 108, 'Irbid', 'IR', 1),
 (1713, 108, 'Jarash', 'JA', 1),
-(1714, 108, 'Ma''an', 'MA', 1),
+(1714, 108, 'Ma\'an', 'MA', 1),
 (1715, 108, 'Madaba', 'MD', 1),
 (1716, 109, 'Almaty', 'AL', 1),
 (1717, 109, 'Almaty City', 'AC', 1),
@@ -5727,30 +11115,15 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1765, 112, 'Hwanghae-bukto', 'HWB', 1),
 (1766, 112, 'Hwanghae-namdo', 'HWN', 1),
 (1767, 112, 'Kangwon-do', 'KAN', 1),
-(1768, 112, 'P''yongan-bukto', 'PYB', 1),
-(1769, 112, 'P''yongan-namdo', 'PYN', 1),
+(1768, 112, 'P\'yongan-bukto', 'PYB', 1),
+(1769, 112, 'P\'yongan-namdo', 'PYN', 1),
 (1770, 112, 'Ryanggang-do (Yanggang-do)', 'YAN', 1),
 (1771, 112, 'Rason Directly Governed City', 'NAJ', 1),
-(1772, 112, 'P''yongyang Special City', 'PYO', 1),
-(1773, 113, 'Ch''ungch''ong-bukto', 'CO', 1),
-(1774, 113, 'Ch''ungch''ong-namdo', 'CH', 1),
-(1775, 113, 'Cheju-do', 'CD', 1),
-(1776, 113, 'Cholla-bukto', 'CB', 1),
-(1777, 113, 'Cholla-namdo', 'CN', 1),
-(1778, 113, 'Inch''on-gwangyoksi', 'IG', 1),
-(1779, 113, 'Kangwon-do', 'KA', 1),
-(1780, 113, 'Kwangju-gwangyoksi', 'KG', 1),
-(1781, 113, 'Kyonggi-do', 'KD', 1),
-(1782, 113, 'Kyongsang-bukto', 'KB', 1),
-(1783, 113, 'Kyongsang-namdo', 'KN', 1),
-(1784, 113, 'Pusan-gwangyoksi', 'PG', 1),
-(1785, 113, 'Soul-t''ukpyolsi', 'SO', 1),
-(1786, 113, 'Taegu-gwangyoksi', 'TA', 1),
-(1787, 113, 'Taejon-gwangyoksi', 'TG', 1),
-(1788, 114, 'Al ''Asimah', 'AL', 1),
+(1772, 112, 'P\'yongyang Special City', 'PYO', 1),
+(1788, 114, 'Al \'Asimah', 'AL', 1),
 (1789, 114, 'Al Ahmadi', 'AA', 1),
 (1790, 114, 'Al Farwaniyah', 'AF', 1),
-(1791, 114, 'Al Jahra''', 'AJ', 1),
+(1791, 114, 'Al Jahra\'', 'AJ', 1),
 (1792, 114, 'Hawalli', 'HA', 1),
 (1793, 115, 'Bishkek', 'GB', 1),
 (1794, 115, 'Batken', 'B', 1),
@@ -5783,9 +11156,9 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1854, 119, 'Leribe', 'LE', 1),
 (1855, 119, 'Mafeteng', 'MF', 1),
 (1856, 119, 'Maseru', 'MS', 1),
-(1857, 119, 'Mohale''s Hoek', 'MH', 1),
+(1857, 119, 'Mohale\'s Hoek', 'MH', 1),
 (1858, 119, 'Mokhotlong', 'MK', 1),
-(1859, 119, 'Qacha''s Nek', 'QN', 1),
+(1859, 119, 'Qacha\'s Nek', 'QN', 1),
 (1860, 119, 'Quthing', 'QT', 1),
 (1861, 119, 'Thaba-Tseka', 'TT', 1),
 (1862, 120, 'Bomi', 'BI', 1),
@@ -5802,14 +11175,14 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1873, 120, 'River Cess', 'RC', 1),
 (1874, 120, 'Sinoe', 'SN', 1),
 (1875, 121, 'Ajdabiya', 'AJ', 1),
-(1876, 121, 'Al ''Aziziyah', 'AZ', 1),
+(1876, 121, 'Al \'Aziziyah', 'AZ', 1),
 (1877, 121, 'Al Fatih', 'FA', 1),
 (1878, 121, 'Al Jabal al Akhdar', 'JA', 1),
 (1879, 121, 'Al Jufrah', 'JU', 1),
 (1880, 121, 'Al Khums', 'KH', 1),
 (1881, 121, 'Al Kufrah', 'KU', 1),
 (1882, 121, 'An Nuqat al Khams', 'NK', 1),
-(1883, 121, 'Ash Shati''', 'AS', 1),
+(1883, 121, 'Ash Shati\'', 'AS', 1),
 (1884, 121, 'Awbari', 'AW', 1),
 (1885, 121, 'Az Zawiyah', 'ZA', 1),
 (1886, 121, 'Banghazi', 'BA', 1),
@@ -5912,7 +11285,6 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1983, 129, 'Selangor', 'MY-10', 1),
 (1984, 129, 'Terengganu', 'MY-11', 1),
 (1985, 129, 'Kuala Lumpur', 'MY-14', 1),
-(4035, 129, 'Putrajaya', 'MY-16', 1),
 (1986, 130, 'Thiladhunmathi Uthuru', 'THU', 1),
 (1987, 130, 'Thiladhunmathi Dhekunu', 'THD', 1),
 (1988, 130, 'Miladhunmadulu Uthuru', 'MLU', 1),
@@ -6073,37 +11445,37 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2143, 136, 'Port Louis', 'PL', 1),
 (2144, 136, 'Riviere du Rempart', 'RR', 1),
 (2145, 136, 'Savanne', 'SA', 1),
-(2146, 138, 'Baja California Norte', 'BN', 1),
-(2147, 138, 'Baja California Sur', 'BS', 1),
-(2148, 138, 'Campeche', 'CA', 1),
-(2149, 138, 'Chiapas', 'CI', 1),
-(2150, 138, 'Chihuahua', 'CH', 1),
-(2151, 138, 'Coahuila de Zaragoza', 'CZ', 1),
-(2152, 138, 'Colima', 'CL', 1),
-(2153, 138, 'Distrito Federal', 'DF', 1),
-(2154, 138, 'Durango', 'DU', 1),
-(2155, 138, 'Guanajuato', 'GA', 1),
-(2156, 138, 'Guerrero', 'GE', 1),
-(2157, 138, 'Hidalgo', 'HI', 1),
-(2158, 138, 'Jalisco', 'JA', 1),
-(2159, 138, 'Mexico', 'ME', 1),
-(2160, 138, 'Michoacan de Ocampo', 'MI', 1),
-(2161, 138, 'Morelos', 'MO', 1),
-(2162, 138, 'Nayarit', 'NA', 1),
-(2163, 138, 'Nuevo Leon', 'NL', 1),
-(2164, 138, 'Oaxaca', 'OA', 1),
-(2165, 138, 'Puebla', 'PU', 1),
-(2166, 138, 'Queretaro de Arteaga', 'QA', 1),
-(2167, 138, 'Quintana Roo', 'QR', 1),
-(2168, 138, 'San Luis Potosi', 'SA', 1),
-(2169, 138, 'Sinaloa', 'SI', 1),
-(2170, 138, 'Sonora', 'SO', 1),
-(2171, 138, 'Tabasco', 'TB', 1),
-(2172, 138, 'Tamaulipas', 'TM', 1),
-(2173, 138, 'Tlaxcala', 'TL', 1),
-(2174, 138, 'Veracruz-Llave', 'VE', 1),
-(2175, 138, 'Yucatan', 'YU', 1),
-(2176, 138, 'Zacatecas', 'ZA', 1),
+(2146, 138, 'Baja California', 'BCN', 1),
+(2147, 138, 'Baja California Sur', 'BCS', 1),
+(2148, 138, 'Campeche', 'CAM', 1),
+(2149, 138, 'Chiapas', 'CHP', 1),
+(2150, 138, 'Chihuahua', 'CHH', 1),
+(2151, 138, 'Coahuila de Zaragoza', 'COA', 1),
+(2152, 138, 'Colima', 'COL', 1),
+(2153, 138, 'Cuidad de Mexico', 'CMX', 1),
+(2154, 138, 'Durango', 'DUR', 1),
+(2155, 138, 'Guanajuato', 'GUA', 1),
+(2156, 138, 'Guerrero', 'GRO', 1),
+(2157, 138, 'Hidalgo', 'HID', 1),
+(2158, 138, 'Jalisco', 'JAL', 1),
+(2159, 138, 'Mexico', 'MEX', 1),
+(2160, 138, 'Michoacan de Ocampo', 'MIC', 1),
+(2161, 138, 'Morelos', 'MOR', 1),
+(2162, 138, 'Nayarit', 'NAY', 1),
+(2163, 138, 'Nuevo Leon', 'NLE', 1),
+(2164, 138, 'Oaxaca', 'OAX', 1),
+(2165, 138, 'Puebla', 'PUE', 1),
+(2166, 138, 'Queretaro', 'QUE', 1),
+(2167, 138, 'Quintana Roo', 'ROO', 1),
+(2168, 138, 'San Luis Potosi', 'SLP', 1),
+(2169, 138, 'Sinaloa', 'SIN', 1),
+(2170, 138, 'Sonora', 'SON', 1),
+(2171, 138, 'Tabasco', 'TAB', 1),
+(2172, 138, 'Tamaulipas', 'TAM', 1),
+(2173, 138, 'Tlaxcala', 'TLA', 1),
+(2174, 138, 'Veracruz de Ignacio de la Llave', 'VER', 1),
+(2175, 138, 'Yucatan', 'YUC', 1),
+(2176, 138, 'Zacatecas', 'ZAC', 1),
 (2177, 139, 'Chuuk', 'C', 1),
 (2178, 139, 'Kosrae', 'K', 1),
 (2179, 139, 'Pohnpei', 'P', 1),
@@ -6277,7 +11649,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2347, 153, 'Coromandel', 'COR', 1),
 (2348, 153, 'Gisborne', 'GIS', 1),
 (2349, 153, 'Fiordland', 'FIO', 1),
-(2350, 153, 'Hawke''s Bay', 'HKB', 1),
+(2350, 153, 'Hawke\'s Bay', 'HKB', 1),
 (2351, 153, 'Marlborough', 'MBH', 1),
 (2352, 153, 'Manawatu-Wanganui', 'MWT', 1),
 (2353, 153, 'Mt Cook-Mackenzie', 'MCM', 1),
@@ -6576,25 +11948,25 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2646, 170, 'Zachodniopomorskie', 'ZA', 1),
 (2647, 198, 'Saint Pierre', 'P', 1),
 (2648, 198, 'Miquelon', 'M', 1),
-(2649, 171, 'A&ccedil;ores', 'AC', 1),
-(2650, 171, 'Aveiro', 'AV', 1),
-(2651, 171, 'Beja', 'BE', 1),
-(2652, 171, 'Braga', 'BR', 1),
-(2653, 171, 'Bragan&ccedil;a', 'BA', 1),
-(2654, 171, 'Castelo Branco', 'CB', 1),
-(2655, 171, 'Coimbra', 'CO', 1),
-(2656, 171, '&Eacute;vora', 'EV', 1),
-(2657, 171, 'Faro', 'FA', 1),
-(2658, 171, 'Guarda', 'GU', 1),
-(2659, 171, 'Leiria', 'LE', 1),
-(2660, 171, 'Lisboa', 'LI', 1),
-(2661, 171, 'Madeira', 'ME', 1),
-(2662, 171, 'Portalegre', 'PO', 1),
-(2663, 171, 'Porto', 'PR', 1),
-(2664, 171, 'Santar&eacute;m', 'SA', 1),
-(2665, 171, 'Set&uacute;bal', 'SE', 1),
-(2666, 171, 'Viana do Castelo', 'VC', 1),
-(2667, 171, 'Vila Real', 'VR', 1),
+(2649, 171, 'A&ccedil;ores', '20', 1),
+(2650, 171, 'Aveiro', '01', 1),
+(2651, 171, 'Beja', '02', 1),
+(2652, 171, 'Braga', '03', 1),
+(2653, 171, 'Bragan&ccedil;a', '04', 1),
+(2654, 171, 'Castelo Branco', '05', 1),
+(2655, 171, 'Coimbra', '06', 1),
+(2656, 171, '&Eacute;vora', '07', 1),
+(2657, 171, 'Faro', '08', 1),
+(2658, 171, 'Guarda', '09', 1),
+(2659, 171, 'Leiria', '10', 1),
+(2660, 171, 'Lisboa', '11', 1),
+(2661, 171, 'Madeira', '30', 1),
+(2662, 171, 'Portalegre', '12', 1),
+(2663, 171, 'Porto', '13', 1),
+(2664, 171, 'Santar&eacute;m', '14', 1),
+(2665, 171, 'Set&uacute;bal', '15', 1),
+(2666, 171, 'Viana do Castelo', '16', 1),
+(2667, 171, 'Vila Real', '17', 1),
 (2668, 171, 'Viseu', 'VI', 1),
 (2669, 173, 'Ad Dawhah', 'DW', 1),
 (2670, 173, 'Al Ghuwayriyah', 'GW', 1),
@@ -6604,137 +11976,50 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2674, 173, 'Ar Rayyan', 'RN', 1),
 (2675, 173, 'Jarayan al Batinah', 'JB', 1),
 (2676, 173, 'Madinat ash Shamal', 'MS', 1),
-(2677, 173, 'Umm Sa''id', 'UD', 1),
+(2677, 173, 'Umm Sa\'id', 'UD', 1),
 (2678, 173, 'Umm Salal', 'UL', 1),
 (2679, 175, 'Alba', 'AB', 1),
 (2680, 175, 'Arad', 'AR', 1),
-(2681, 175, 'Arges', 'AG', 1),
-(2682, 175, 'Bacau', 'BC', 1),
+(2681, 175, 'Argeș', 'AG', 1),
+(2682, 175, 'Bacău', 'BC', 1),
 (2683, 175, 'Bihor', 'BH', 1),
-(2684, 175, 'Bistrita-Nasaud', 'BN', 1),
-(2685, 175, 'Botosani', 'BT', 1),
-(2686, 175, 'Brasov', 'BV', 1),
-(2687, 175, 'Braila', 'BR', 1),
-(2688, 175, 'Bucuresti', 'B', 1),
-(2689, 175, 'Buzau', 'BZ', 1),
-(2690, 175, 'Caras-Severin', 'CS', 1),
-(2691, 175, 'Calarasi', 'CL', 1),
+(2684, 175, 'Bistrița-Năsăud', 'BN', 1),
+(2685, 175, 'Botoșani', 'BT', 1),
+(2686, 175, 'Brașov', 'BV', 1),
+(2687, 175, 'Brăila', 'BR', 1),
+(2688, 175, 'București', 'B', 1),
+(2689, 175, 'Buzău', 'BZ', 1),
+(2690, 175, 'Caraș-Severin', 'CS', 1),
+(2691, 175, 'Călărași', 'CL', 1),
 (2692, 175, 'Cluj', 'CJ', 1),
-(2693, 175, 'Constanta', 'CT', 1),
+(2693, 175, 'Constanța', 'CT', 1),
 (2694, 175, 'Covasna', 'CV', 1),
-(2695, 175, 'Dimbovita', 'DB', 1),
+(2695, 175, 'Dâmbovița', 'DB', 1),
 (2696, 175, 'Dolj', 'DJ', 1),
-(2697, 175, 'Galati', 'GL', 1),
+(2697, 175, 'Galați', 'GL', 1),
 (2698, 175, 'Giurgiu', 'GR', 1),
 (2699, 175, 'Gorj', 'GJ', 1),
 (2700, 175, 'Harghita', 'HR', 1),
 (2701, 175, 'Hunedoara', 'HD', 1),
-(2702, 175, 'Ialomita', 'IL', 1),
-(2703, 175, 'Iasi', 'IS', 1),
+(2702, 175, 'Ialomița', 'IL', 1),
+(2703, 175, 'Iași', 'IS', 1),
 (2704, 175, 'Ilfov', 'IF', 1),
-(2705, 175, 'Maramures', 'MM', 1),
-(2706, 175, 'Mehedinti', 'MH', 1),
-(2707, 175, 'Mures', 'MS', 1),
-(2708, 175, 'Neamt', 'NT', 1),
+(2705, 175, 'Maramureș', 'MM', 1),
+(2706, 175, 'Mehedinți', 'MH', 1),
+(2707, 175, 'Mureș', 'MS', 1),
+(2708, 175, 'Neamț', 'NT', 1),
 (2709, 175, 'Olt', 'OT', 1),
 (2710, 175, 'Prahova', 'PH', 1),
 (2711, 175, 'Satu-Mare', 'SM', 1),
-(2712, 175, 'Salaj', 'SJ', 1),
+(2712, 175, 'Sălaj', 'SJ', 1),
 (2713, 175, 'Sibiu', 'SB', 1),
 (2714, 175, 'Suceava', 'SV', 1),
 (2715, 175, 'Teleorman', 'TR', 1),
-(2716, 175, 'Timis', 'TM', 1),
+(2716, 175, 'Timiș', 'TM', 1),
 (2717, 175, 'Tulcea', 'TL', 1),
 (2718, 175, 'Vaslui', 'VS', 1),
-(2719, 175, 'Valcea', 'VL', 1),
+(2719, 175, 'Vâlcea', 'VL', 1),
 (2720, 175, 'Vrancea', 'VN', 1),
-(2721, 176, 'Abakan', 'AB', 1),
-(2722, 176, 'Aginskoye', 'AG', 1),
-(2723, 176, 'Anadyr', 'AN', 1),
-(2724, 176, 'Arkahangelsk', 'AR', 1),
-(2725, 176, 'Astrakhan', 'AS', 1),
-(2726, 176, 'Barnaul', 'BA', 1),
-(2727, 176, 'Belgorod', 'BE', 1),
-(2728, 176, 'Birobidzhan', 'BI', 1),
-(2729, 176, 'Blagoveshchensk', 'BL', 1),
-(2730, 176, 'Bryansk', 'BR', 1),
-(2731, 176, 'Cheboksary', 'CH', 1),
-(2732, 176, 'Chelyabinsk', 'CL', 1),
-(2733, 176, 'Cherkessk', 'CR', 1),
-(2734, 176, 'Chita', 'CI', 1),
-(2735, 176, 'Dudinka', 'DU', 1),
-(2736, 176, 'Elista', 'EL', 1),
-(2738, 176, 'Gorno-Altaysk', 'GA', 1),
-(2739, 176, 'Groznyy', 'GR', 1),
-(2740, 176, 'Irkutsk', 'IR', 1),
-(2741, 176, 'Ivanovo', 'IV', 1),
-(2742, 176, 'Izhevsk', 'IZ', 1),
-(2743, 176, 'Kalinigrad', 'KA', 1),
-(2744, 176, 'Kaluga', 'KL', 1),
-(2745, 176, 'Kasnodar', 'KS', 1),
-(2746, 176, 'Kazan', 'KZ', 1),
-(2747, 176, 'Kemerovo', 'KE', 1),
-(2748, 176, 'Khabarovsk', 'KH', 1),
-(2749, 176, 'Khanty-Mansiysk', 'KM', 1),
-(2750, 176, 'Kostroma', 'KO', 1),
-(2751, 176, 'Krasnodar', 'KR', 1),
-(2752, 176, 'Krasnoyarsk', 'KN', 1),
-(2753, 176, 'Kudymkar', 'KU', 1),
-(2754, 176, 'Kurgan', 'KG', 1),
-(2755, 176, 'Kursk', 'KK', 1),
-(2756, 176, 'Kyzyl', 'KY', 1),
-(2757, 176, 'Lipetsk', 'LI', 1),
-(2758, 176, 'Magadan', 'MA', 1),
-(2759, 176, 'Makhachkala', 'MK', 1),
-(2760, 176, 'Maykop', 'MY', 1),
-(2761, 176, 'Moscow', 'MO', 1),
-(2762, 176, 'Murmansk', 'MU', 1),
-(2763, 176, 'Nalchik', 'NA', 1),
-(2764, 176, 'Naryan Mar', 'NR', 1),
-(2765, 176, 'Nazran', 'NZ', 1),
-(2766, 176, 'Nizhniy Novgorod', 'NI', 1),
-(2767, 176, 'Novgorod', 'NO', 1),
-(2768, 176, 'Novosibirsk', 'NV', 1),
-(2769, 176, 'Omsk', 'OM', 1),
-(2770, 176, 'Orel', 'OR', 1),
-(2771, 176, 'Orenburg', 'OE', 1),
-(2772, 176, 'Palana', 'PA', 1),
-(2773, 176, 'Penza', 'PE', 1),
-(2774, 176, 'Perm', 'PR', 1),
-(2775, 176, 'Petropavlovsk-Kamchatskiy', 'PK', 1),
-(2776, 176, 'Petrozavodsk', 'PT', 1),
-(2777, 176, 'Pskov', 'PS', 1),
-(2778, 176, 'Rostov-na-Donu', 'RO', 1),
-(2779, 176, 'Ryazan', 'RY', 1),
-(2780, 176, 'Salekhard', 'SL', 1),
-(2781, 176, 'Samara', 'SA', 1),
-(2782, 176, 'Saransk', 'SR', 1),
-(2783, 176, 'Saratov', 'SV', 1),
-(2784, 176, 'Smolensk', 'SM', 1),
-(2785, 176, 'St. Petersburg', 'SP', 1),
-(2786, 176, 'Stavropol', 'ST', 1),
-(2787, 176, 'Syktyvkar', 'SY', 1),
-(2788, 176, 'Tambov', 'TA', 1),
-(2789, 176, 'Tomsk', 'TO', 1),
-(2790, 176, 'Tula', 'TU', 1),
-(2791, 176, 'Tura', 'TR', 1),
-(2792, 176, 'Tver', 'TV', 1),
-(2793, 176, 'Tyumen', 'TY', 1),
-(2794, 176, 'Ufa', 'UF', 1),
-(2795, 176, 'Ul''yanovsk', 'UL', 1),
-(2796, 176, 'Ulan-Ude', 'UU', 1),
-(2797, 176, 'Ust''-Ordynskiy', 'US', 1),
-(2798, 176, 'Vladikavkaz', 'VL', 1),
-(2799, 176, 'Vladimir', 'VA', 1),
-(2800, 176, 'Vladivostok', 'VV', 1),
-(2801, 176, 'Volgograd', 'VG', 1),
-(2802, 176, 'Vologda', 'VD', 1),
-(2803, 176, 'Voronezh', 'VO', 1),
-(2804, 176, 'Vyatka', 'VY', 1),
-(2805, 176, 'Yakutsk', 'YA', 1),
-(2806, 176, 'Yaroslavl', 'YR', 1),
-(2807, 176, 'Yekaterinburg', 'YE', 1),
-(2808, 176, 'Yoshkar-Ola', 'YO', 1),
 (2809, 177, 'Butare', 'BU', 1),
 (2810, 177, 'Byumba', 'BY', 1),
 (2811, 177, 'Cyangugu', 'CY', 1),
@@ -6778,16 +12063,16 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2849, 180, 'Saint David', 'D', 1),
 (2850, 180, 'Saint George', 'G', 1),
 (2851, 180, 'Saint Patrick', 'P', 1),
-(2852, 181, 'A''ana', 'AN', 1),
+(2852, 181, 'A\'ana', 'AN', 1),
 (2853, 181, 'Aiga-i-le-Tai', 'AI', 1),
 (2854, 181, 'Atua', 'AT', 1),
-(2855, 181, 'Fa''asaleleaga', 'FA', 1),
-(2856, 181, 'Gaga''emauga', 'GE', 1),
+(2855, 181, 'Fa\'asaleleaga', 'FA', 1),
+(2856, 181, 'Gaga\'emauga', 'GE', 1),
 (2857, 181, 'Gagaifomauga', 'GF', 1),
 (2858, 181, 'Palauli', 'PA', 1),
-(2859, 181, 'Satupa''itea', 'SA', 1),
+(2859, 181, 'Satupa\'itea', 'SA', 1),
 (2860, 181, 'Tuamasaga', 'TU', 1),
-(2861, 181, 'Va''a-o-Fonoti', 'VF', 1),
+(2861, 181, 'Va\'a-o-Fonoti', 'VF', 1),
 (2862, 181, 'Vaisigano', 'VS', 1),
 (2863, 182, 'Acquaviva', 'AC', 1),
 (2864, 182, 'Borgo Maggiore', 'BM', 1),
@@ -6807,8 +12092,8 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2878, 184, 'Al Qasim', 'QS', 1),
 (2879, 184, 'Ar Riyad', 'RD', 1),
 (2880, 184, 'Ash Sharqiyah (Eastern)', 'AQ', 1),
-(2881, 184, '''Asir', 'AS', 1),
-(2882, 184, 'Ha''il', 'HL', 1),
+(2881, 184, '\'Asir', 'AS', 1),
+(2882, 184, 'Ha\'il', 'HL', 1),
 (2883, 184, 'Jizan', 'JZ', 1),
 (2884, 184, 'Makkah', 'ML', 1),
 (2885, 184, 'Najran', 'NR', 1),
@@ -6836,8 +12121,8 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2907, 186, 'Bel Ombre', 'BO', 1),
 (2908, 186, 'Cascade', 'CA', 1),
 (2909, 186, 'Glacis', 'GL', 1),
-(2910, 186, 'Grand'' Anse (on Mahe)', 'GM', 1),
-(2911, 186, 'Grand'' Anse (on Praslin)', 'GP', 1),
+(2910, 186, 'Grand\' Anse (on Mahe)', 'GM', 1),
+(2911, 186, 'Grand\' Anse (on Praslin)', 'GP', 1),
 (2912, 186, 'La Digue', 'DG', 1),
 (2913, 186, 'La Riviere Anglaise', 'RA', 1),
 (2914, 186, 'Mont Buxton', 'MB', 1),
@@ -6851,13 +12136,13 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2922, 187, 'Northern', 'N', 1),
 (2923, 187, 'Southern', 'S', 1),
 (2924, 187, 'Western', 'W', 1),
-(2925, 189, 'Banskobystrický', 'BA', 1),
-(2926, 189, 'Bratislavský', 'BR', 1),
-(2927, 189, 'Košický', 'KO', 1),
+(2925, 189, 'Banskobystrický', 'BC', 1),
+(2926, 189, 'Bratislavský', 'BL', 1),
+(2927, 189, 'Košický', 'KI', 1),
 (2928, 189, 'Nitriansky', 'NI', 1),
-(2929, 189, 'Prešovský', 'PR', 1),
+(2929, 189, 'Prešovský', 'PV', 1),
 (2930, 189, 'Trenčiansky', 'TC', 1),
-(2931, 189, 'Trnavský', 'TV', 1),
+(2931, 189, 'Trnavský', 'TA', 1),
 (2932, 189, 'Žilinský', 'ZI', 1),
 (2933, 191, 'Central', 'CE', 1),
 (2934, 191, 'Choiseul', 'CH', 1),
@@ -6889,65 +12174,65 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (2960, 192, 'Woqooyi Galbeed', 'WG', 1),
 (2961, 193, 'Eastern Cape', 'EC', 1),
 (2962, 193, 'Free State', 'FS', 1),
-(2963, 193, 'Gauteng', 'GT', 1),
-(2964, 193, 'KwaZulu-Natal', 'KN', 1),
+(2963, 193, 'Gauteng', 'GP', 1),
+(2964, 193, 'KwaZulu-Natal', 'KZN', 1),
 (2965, 193, 'Limpopo', 'LP', 1),
 (2966, 193, 'Mpumalanga', 'MP', 1),
 (2967, 193, 'North West', 'NW', 1),
 (2968, 193, 'Northern Cape', 'NC', 1),
 (2969, 193, 'Western Cape', 'WC', 1),
-(2970, 195, 'La Coru&ntilde;a', 'CA', 1),
-(2971, 195, '&Aacute;lava', 'AL', 1),
+(2970, 195, 'La Coru&ntilde;a', 'C', 1),
+(2971, 195, '&Aacute;lava', 'VI', 1),
 (2972, 195, 'Albacete', 'AB', 1),
-(2973, 195, 'Alicante', 'AC', 1),
-(2974, 195, 'Almeria', 'AM', 1),
-(2975, 195, 'Asturias', 'AS', 1),
+(2973, 195, 'Alicante', 'A', 1),
+(2974, 195, 'Almeria', 'AL', 1),
+(2975, 195, 'Asturias', 'O', 1),
 (2976, 195, '&Aacute;vila', 'AV', 1),
-(2977, 195, 'Badajoz', 'BJ', 1),
+(2977, 195, 'Badajoz', 'BA', 1),
 (2978, 195, 'Baleares', 'IB', 1),
-(2979, 195, 'Barcelona', 'BA', 1),
+(2979, 195, 'Barcelona', 'B', 1),
 (2980, 195, 'Burgos', 'BU', 1),
 (2981, 195, 'C&aacute;ceres', 'CC', 1),
-(2982, 195, 'C&aacute;diz', 'CZ', 1),
-(2983, 195, 'Cantabria', 'CT', 1),
-(2984, 195, 'Castell&oacute;n', 'CL', 1),
+(2982, 195, 'C&aacute;diz', 'CA', 1),
+(2983, 195, 'Cantabria', 'S', 1),
+(2984, 195, 'Castell&oacute;n', 'CS', 1),
 (2985, 195, 'Ceuta', 'CE', 1),
 (2986, 195, 'Ciudad Real', 'CR', 1),
-(2987, 195, 'C&oacute;rdoba', 'CD', 1),
+(2987, 195, 'C&oacute;rdoba', 'CO', 1),
 (2988, 195, 'Cuenca', 'CU', 1),
 (2989, 195, 'Girona', 'GI', 1),
-(2990, 195, 'Granada', 'GD', 1),
-(2991, 195, 'Guadalajara', 'GJ', 1),
-(2992, 195, 'Guip&uacute;zcoa', 'GP', 1),
-(2993, 195, 'Huelva', 'HL', 1),
-(2994, 195, 'Huesca', 'HS', 1),
-(2995, 195, 'Ja&eacute;n', 'JN', 1),
-(2996, 195, 'La Rioja', 'RJ', 1),
-(2997, 195, 'Las Palmas', 'PM', 1),
-(2998, 195, 'Leon', 'LE', 1),
-(2999, 195, 'Lleida', 'LL', 1),
-(3000, 195, 'Lugo', 'LG', 1),
-(3001, 195, 'Madrid', 'MD', 1),
+(2990, 195, 'Granada', 'GR', 1),
+(2991, 195, 'Guadalajara', 'GU', 1),
+(2992, 195, 'Guip&uacute;zcoa', 'SS', 1),
+(2993, 195, 'Huelva', 'H', 1),
+(2994, 195, 'Huesca', 'HU', 1),
+(2995, 195, 'Ja&eacute;n', 'J', 1),
+(2996, 195, 'La Rioja', 'LO', 1),
+(2997, 195, 'Las Palmas', 'GC', 1),
+(2998, 195, 'Leon', 'CL', 1),
+(2999, 195, 'Lleida', 'L', 1),
+(3000, 195, 'Lugo', 'LU', 1),
+(3001, 195, 'Madrid', 'M', 1),
 (3002, 195, 'Malaga', 'MA', 1),
 (3003, 195, 'Melilla', 'ML', 1),
 (3004, 195, 'Murcia', 'MU', 1),
-(3005, 195, 'Navarra', 'NV', 1),
-(3006, 195, 'Ourense', 'OU', 1),
-(3007, 195, 'Palencia', 'PL', 1),
+(3005, 195, 'Navarra', 'NA', 1),
+(3006, 195, 'Ourense', 'OR', 1),
+(3007, 195, 'Palencia', 'P', 1),
 (3008, 195, 'Pontevedra', 'PO', 1),
-(3009, 195, 'Salamanca', 'SL', 1),
-(3010, 195, 'Santa Cruz de Tenerife', 'SC', 1),
+(3009, 195, 'Salamanca', 'SA', 1),
+(3010, 195, 'Santa Cruz de Tenerife', 'TF', 1),
 (3011, 195, 'Segovia', 'SG', 1),
-(3012, 195, 'Sevilla', 'SV', 1),
+(3012, 195, 'Sevilla', 'SE', 1),
 (3013, 195, 'Soria', 'SO', 1),
-(3014, 195, 'Tarragona', 'TA', 1),
+(3014, 195, 'Tarragona', 'T', 1),
 (3015, 195, 'Teruel', 'TE', 1),
 (3016, 195, 'Toledo', 'TO', 1),
-(3017, 195, 'Valencia', 'VC', 1),
-(3018, 195, 'Valladolid', 'VD', 1),
-(3019, 195, 'Vizcaya', 'VZ', 1),
-(3020, 195, 'Zamora', 'ZM', 1),
-(3021, 195, 'Zaragoza', 'ZR', 1),
+(3017, 195, 'Valencia', 'V', 1),
+(3018, 195, 'Valladolid', 'VA', 1),
+(3019, 195, 'Bizkaia', 'BI', 1),
+(3020, 195, 'Zamora', 'ZA', 1),
+(3021, 195, 'Zaragoza', 'Z', 1),
 (3022, 196, 'Central', 'CE', 1),
 (3023, 196, 'Eastern', 'EA', 1),
 (3024, 196, 'North Central', 'NC', 1),
@@ -6958,7 +12243,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3029, 196, 'Uva', 'UV', 1),
 (3030, 196, 'Western', 'WE', 1),
 (3032, 197, 'Saint Helena', 'S', 1),
-(3034, 199, 'A''ali an Nil', 'ANL', 1),
+(3034, 199, 'A\'ali an Nil', 'ANL', 1),
 (3035, 199, 'Al Bahr al Ahmar', 'BAM', 1),
 (3036, 199, 'Al Buhayrat', 'BRT', 1),
 (3037, 199, 'Al Jazirah', 'JZR', 1),
@@ -6969,7 +12254,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3042, 199, 'An Nil al Azraq', 'ANZ', 1),
 (3043, 199, 'Ash Shamaliyah', 'ASH', 1),
 (3044, 199, 'Bahr al Jabal', 'BJA', 1),
-(3045, 199, 'Gharb al Istiwa''iyah', 'GIS', 1),
+(3045, 199, 'Gharb al Istiwa\'iyah', 'GIS', 1),
 (3046, 199, 'Gharb Bahr al Ghazal', 'GBG', 1),
 (3047, 199, 'Gharb Darfur', 'GDA', 1),
 (3048, 199, 'Gharb Kurdufan', 'GKU', 1),
@@ -6981,7 +12266,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3054, 199, 'Shamal Bahr al Ghazal', 'SBG', 1),
 (3055, 199, 'Shamal Darfur', 'SDA', 1),
 (3056, 199, 'Shamal Kurdufan', 'SKU', 1),
-(3057, 199, 'Sharq al Istiwa''iyah', 'SIS', 1),
+(3057, 199, 'Sharq al Istiwa\'iyah', 'SIS', 1),
 (3058, 199, 'Sinnar', 'SNR', 1),
 (3059, 199, 'Warab', 'WRB', 1),
 (3060, 200, 'Brokopondo', 'BR', 1),
@@ -7016,8 +12301,7 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3089, 203, 'Uppsala', 'C', 1),
 (3090, 203, 'Värmland', 'S', 1),
 (3091, 203, 'Västerbotten', 'AC', 1),
-(3092, 203, 'Västernorrland', 'Y', 1);
-INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
+(3092, 203, 'Västernorrland', 'Y', 1),
 (3093, 203, 'Västmanland', 'U', 1),
 (3094, 203, 'Västra Götaland', 'O', 1),
 (3095, 204, 'Aargau', 'AG', 1),
@@ -7069,22 +12353,22 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3141, 206, 'Kin-men', 'KM', 1),
 (3142, 206, 'Lien-chiang', 'LC', 1),
 (3143, 206, 'Miao-li', 'ML', 1),
-(3144, 206, 'Nan-t''ou', 'NT', 1),
-(3145, 206, 'P''eng-hu', 'PH', 1),
-(3146, 206, 'P''ing-tung', 'PT', 1),
-(3147, 206, 'T''ai-chung', 'TG', 1),
-(3148, 206, 'T''ai-nan', 'TA', 1),
-(3149, 206, 'T''ai-pei county', 'TP', 1),
-(3150, 206, 'T''ai-tung', 'TT', 1),
-(3151, 206, 'T''ao-yuan', 'TY', 1),
+(3144, 206, 'Nan-t\'ou', 'NT', 1),
+(3145, 206, 'P\'eng-hu', 'PH', 1),
+(3146, 206, 'P\'ing-tung', 'PT', 1),
+(3147, 206, 'T\'ai-chung', 'TG', 1),
+(3148, 206, 'T\'ai-nan', 'TA', 1),
+(3149, 206, 'T\'ai-pei county', 'TP', 1),
+(3150, 206, 'T\'ai-tung', 'TT', 1),
+(3151, 206, 'T\'ao-yuan', 'TY', 1),
 (3152, 206, 'Yun-lin', 'YL', 1),
 (3153, 206, 'Chia-i city', 'CC', 1),
 (3154, 206, 'Chi-lung', 'CL', 1),
 (3155, 206, 'Hsin-chu', 'HC', 1),
-(3156, 206, 'T''ai-chung', 'TH', 1),
-(3157, 206, 'T''ai-nan', 'TN', 1),
+(3156, 206, 'T\'ai-chung', 'TH', 1),
+(3157, 206, 'T\'ai-nan', 'TN', 1),
 (3158, 206, 'Kao-hsiung city', 'KC', 1),
-(3159, 206, 'T''ai-pei city', 'TC', 1),
+(3159, 206, 'T\'ai-pei city', 'TC', 1),
 (3160, 207, 'Gorno-Badakhstan', 'GB', 1),
 (3161, 207, 'Khatlon', 'KT', 1),
 (3162, 207, 'Sughd', 'SU', 1),
@@ -7114,93 +12398,93 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3186, 208, 'Zanzibar Central/South', 'ZC', 1),
 (3187, 208, 'Zanzibar North', 'ZN', 1),
 (3188, 208, 'Zanzibar Urban/West', 'ZU', 1),
-(3189, 209, 'Amnat Charoen', 'Amnat Charoen', 1),
-(3190, 209, 'Ang Thong', 'Ang Thong', 1),
-(3191, 209, 'Ayutthaya', 'Ayutthaya', 1),
-(3192, 209, 'Bangkok', 'Bangkok', 1),
-(3193, 209, 'Buriram', 'Buriram', 1),
-(3194, 209, 'Chachoengsao', 'Chachoengsao', 1),
-(3195, 209, 'Chai Nat', 'Chai Nat', 1),
-(3196, 209, 'Chaiyaphum', 'Chaiyaphum', 1),
-(3197, 209, 'Chanthaburi', 'Chanthaburi', 1),
-(3198, 209, 'Chiang Mai', 'Chiang Mai', 1),
-(3199, 209, 'Chiang Rai', 'Chiang Rai', 1),
-(3200, 209, 'Chon Buri', 'Chon Buri', 1),
-(3201, 209, 'Chumphon', 'Chumphon', 1),
-(3202, 209, 'Kalasin', 'Kalasin', 1),
-(3203, 209, 'Kamphaeng Phet', 'Kamphaeng Phet', 1),
-(3204, 209, 'Kanchanaburi', 'Kanchanaburi', 1),
-(3205, 209, 'Khon Kaen', 'Khon Kaen', 1),
-(3206, 209, 'Krabi', 'Krabi', 1),
-(3207, 209, 'Lampang', 'Lampang', 1),
-(3208, 209, 'Lamphun', 'Lamphun', 1),
-(3209, 209, 'Loei', 'Loei', 1),
-(3210, 209, 'Lop Buri', 'Lop Buri', 1),
-(3211, 209, 'Mae Hong Son', 'Mae Hong Son', 1),
-(3212, 209, 'Maha Sarakham', 'Maha Sarakham', 1),
-(3213, 209, 'Mukdahan', 'Mukdahan', 1),
-(3214, 209, 'Nakhon Nayok', 'Nakhon Nayok', 1),
-(3215, 209, 'Nakhon Pathom', 'Nakhon Pathom', 1),
-(3216, 209, 'Nakhon Phanom', 'Nakhon Phanom', 1),
-(3217, 209, 'Nakhon Ratchasima', 'Nakhon Ratchasima', 1),
-(3218, 209, 'Nakhon Sawan', 'Nakhon Sawan', 1),
-(3219, 209, 'Nakhon Si Thammarat', 'Nakhon Si Thammarat', 1),
-(3220, 209, 'Nan', 'Nan', 1),
-(3221, 209, 'Narathiwat', 'Narathiwat', 1),
-(3222, 209, 'Nong Bua Lamphu', 'Nong Bua Lamphu', 1),
-(3223, 209, 'Nong Khai', 'Nong Khai', 1),
-(3224, 209, 'Nonthaburi', 'Nonthaburi', 1),
-(3225, 209, 'Pathum Thani', 'Pathum Thani', 1),
-(3226, 209, 'Pattani', 'Pattani', 1),
-(3227, 209, 'Phangnga', 'Phangnga', 1),
-(3228, 209, 'Phatthalung', 'Phatthalung', 1),
+(3189, 209, 'Amnat Charoen', '37', 1),
+(3190, 209, 'Ang Thong', '15', 1),
+(3192, 209, 'Bangkok', '10', 1),
+(3193, 209, 'Buri Ram', '31', 1),
+(3194, 209, 'Chachoengsao', '24', 1),
+(3195, 209, 'Chai Nat', '18', 1),
+(3196, 209, 'Chaiyaphum', '36', 1),
+(3197, 209, 'Chanthaburi', '22', 1),
+(3198, 209, 'Chiang Mai', '50', 1),
+(3199, 209, 'Chiang Rai', '57', 1),
+(3200, 209, 'Chon Buri', '20', 1),
+(3201, 209, 'Chumphon', '86', 1),
+(3202, 209, 'Kalasin', '46', 1),
+(3203, 209, 'Kamphaeng Phet', '62', 1),
+(3204, 209, 'Kanchanaburi', '71', 1),
+(3205, 209, 'Khon Kaen', '40', 1),
+(3206, 209, 'Krabi', '81', 1),
+(3207, 209, 'Lampang', '52', 1),
+(3208, 209, 'Lamphun', '51', 1),
+(3209, 209, 'Loei', '42', 1),
+(3210, 209, 'Lop Buri', '1', 1),
+(3211, 209, 'Mae Hong Son', '55', 1),
+(3212, 209, 'Maha Sarakham', '44', 1),
+(3213, 209, 'Mukdahan', '49', 1),
+(3214, 209, 'Nakhon Nayok', '26', 1),
+(3215, 209, 'Nakhon Pathom', '73', 1),
+(3216, 209, 'Nakhon Phanom', '48', 1),
+(3217, 209, 'Nakhon Ratchasima', '30', 1),
+(3218, 209, 'Nakhon Sawan', '60', 1),
+(3219, 209, 'Nakhon Si Thammarat', '80', 1),
+(3220, 209, 'Nan', '55', 1),
+(3221, 209, 'Narathiwat', '96', 1),
+(3222, 209, 'Nong Bua Lamphu', '39', 1),
+(3223, 209, 'Nong Khai', '43', 1),
+(3224, 209, 'Nonthaburi', '12', 1),
+(3225, 209, 'Pathum Thani', '13', 1),
+(3226, 209, 'Pattani', '94', 1),
+(3227, 209, 'Phangnga', '82', 1),
+(3228, 209, 'Phatthalung', '93', 1),
 (3229, 209, 'Phayao', 'Phayao', 1),
-(3230, 209, 'Phetchabun', 'Phetchabun', 1),
-(3231, 209, 'Phetchaburi', 'Phetchaburi', 1),
-(3232, 209, 'Phichit', 'Phichit', 1),
-(3233, 209, 'Phitsanulok', 'Phitsanulok', 1),
-(3234, 209, 'Phrae', 'Phrae', 1),
-(3235, 209, 'Phuket', 'Phuket', 1),
-(3236, 209, 'Prachin Buri', 'Prachin Buri', 1),
-(3237, 209, 'Prachuap Khiri Khan', 'Prachuap Khiri Khan', 1),
-(3238, 209, 'Ranong', 'Ranong', 1),
-(3239, 209, 'Ratchaburi', 'Ratchaburi', 1),
-(3240, 209, 'Rayong', 'Rayong', 1),
-(3241, 209, 'Roi Et', 'Roi Et', 1),
-(3242, 209, 'Sa Kaeo', 'Sa Kaeo', 1),
-(3243, 209, 'Sakon Nakhon', 'Sakon Nakhon', 1),
-(3244, 209, 'Samut Prakan', 'Samut Prakan', 1),
-(3245, 209, 'Samut Sakhon', 'Samut Sakhon', 1),
-(3246, 209, 'Samut Songkhram', 'Samut Songkhram', 1),
-(3247, 209, 'Sara Buri', 'Sara Buri', 1),
-(3248, 209, 'Satun', 'Satun', 1),
-(3249, 209, 'Sing Buri', 'Sing Buri', 1),
-(3250, 209, 'Sisaket', 'Sisaket', 1),
-(3251, 209, 'Songkhla', 'Songkhla', 1),
-(3252, 209, 'Sukhothai', 'Sukhothai', 1),
-(3253, 209, 'Suphan Buri', 'Suphan Buri', 1),
-(3254, 209, 'Surat Thani', 'Surat Thani', 1),
-(3255, 209, 'Surin', 'Surin', 1),
-(3256, 209, 'Tak', 'Tak', 1),
-(3257, 209, 'Trang', 'Trang', 1),
-(3258, 209, 'Trat', 'Trat', 1),
-(3259, 209, 'Ubon Ratchathani', 'Ubon Ratchathani', 1),
-(3260, 209, 'Udon Thani', 'Udon Thani', 1),
-(3261, 209, 'Uthai Thani', 'Uthai Thani', 1),
-(3262, 209, 'Uttaradit', 'Uttaradit', 1),
-(3263, 209, 'Yala', 'Yala', 1),
-(3264, 209, 'Yasothon', 'Yasothon', 1),
+(3230, 209, 'Phetchabun', '67', 1),
+(3231, 209, 'Phetchaburi', '76', 1),
+(3232, 209, 'Phichit', '66', 1),
+(3233, 209, 'Phitsanulok', '65', 1),
+(3234, 209, 'Phrae', '54', 1),
+(3235, 209, 'Phuket', '83', 1),
+(3236, 209, 'Prachin Buri', '25', 1),
+(3237, 209, 'Prachuap Khiri Khan', '77', 1),
+(3238, 209, 'Ranong', '21', 1),
+(3239, 209, 'Ratchaburi', '70', 1),
+(3240, 209, 'Rayong', '21', 1),
+(3241, 209, 'Roi Et', '45', 1),
+(3242, 209, 'Sa Kaeo', '27', 1),
+(3243, 209, 'Sakon Nakhon', '47', 1),
+(3244, 209, 'Samut Prakan', '11', 1),
+(3245, 209, 'Samut Sakhon', '74', 1),
+(3246, 209, 'Samut Songkhram', '75', 1),
+(3247, 209, 'Saraburi', '19', 1),
+(3248, 209, 'Satun', '91', 1),
+(3249, 209, 'Sing Buri', '17', 1),
+(3250, 209, 'Si Sa Ket', '33', 1),
+(3251, 209, 'Songkhla', '90', 1),
+(3252, 209, 'Sukhothai', '64', 1),
+(3253, 209, 'Suphan Buri', '72', 1),
+(3254, 209, 'Surat Thani', '84', 1),
+(3255, 209, 'Surin', '32', 1),
+(3256, 209, 'Tak', '63', 1),
+(3257, 209, 'Trang', '92', 1),
+(3258, 209, 'Trat', '23', 1),
+(3259, 209, 'Ubon Ratchathani', '34', 1),
+(3260, 209, 'Udon Thani', '41', 1),
+(3261, 209, 'Uthai Thani', '61', 1),
+(3262, 209, 'Uttaradit', '53', 1),
+(3263, 209, 'Yala', '95', 1),
+(3264, 209, 'Yasothon', '35', 1),
 (3265, 210, 'Kara', 'K', 1),
 (3266, 210, 'Plateaux', 'P', 1),
 (3267, 210, 'Savanes', 'S', 1),
 (3268, 210, 'Centrale', 'C', 1),
 (3269, 210, 'Maritime', 'M', 1),
 (3270, 211, 'Atafu', 'A', 1),
-(3271, 211, 'Fakaofo', 'F', 1),
+(3271, 211, 'Fakaofo', 'F', 1);
+INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3272, 211, 'Nukunonu', 'N', 1),
-(3273, 212, 'Ha''apai', 'H', 1),
+(3273, 212, 'Ha\'apai', 'H', 1),
 (3274, 212, 'Tongatapu', 'T', 1),
-(3275, 212, 'Vava''u', 'V', 1),
+(3275, 212, 'Vava\'u', 'V', 1),
 (3276, 213, 'Couva/Tabaquite/Talparo', 'CT', 1),
 (3277, 213, 'Diego Martin', 'DM', 1),
 (3278, 213, 'Mayaro/Rio Claro', 'MR', 1),
@@ -7240,87 +12524,87 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3312, 214, 'Tozeur', 'TO', 1),
 (3313, 214, 'Tunis', 'TU', 1),
 (3314, 214, 'Zaghouan', 'ZA', 1),
-(3315, 215, 'Adana', 'ADA', 1),
-(3316, 215, 'Adıyaman', 'ADI', 1),
-(3317, 215, 'Afyonkarahisar', 'AFY', 1),
-(3318, 215, 'Ağrı', 'AGR', 1),
-(3319, 215, 'Aksaray', 'AKS', 1),
-(3320, 215, 'Amasya', 'AMA', 1),
-(3321, 215, 'Ankara', 'ANK', 1),
-(3322, 215, 'Antalya', 'ANT', 1),
-(3323, 215, 'Ardahan', 'ARD', 1),
-(3324, 215, 'Artvin', 'ART', 1),
-(3325, 215, 'Aydın', 'AYI', 1),
-(3326, 215, 'Balıkesir', 'BAL', 1),
-(3327, 215, 'Bartın', 'BAR', 1),
-(3328, 215, 'Batman', 'BAT', 1),
-(3329, 215, 'Bayburt', 'BAY', 1),
-(3330, 215, 'Bilecik', 'BIL', 1),
-(3331, 215, 'Bingöl', 'BIN', 1),
-(3332, 215, 'Bitlis', 'BIT', 1),
-(3333, 215, 'Bolu', 'BOL', 1),
-(3334, 215, 'Burdur', 'BRD', 1),
-(3335, 215, 'Bursa', 'BRS', 1),
-(3336, 215, 'Çanakkale', 'CKL', 1),
-(3337, 215, 'Çankırı', 'CKR', 1),
-(3338, 215, 'Çorum', 'COR', 1),
-(3339, 215, 'Denizli', 'DEN', 1),
-(3340, 215, 'Diyarbakır', 'DIY', 1),
-(3341, 215, 'Düzce', 'DUZ', 1),
-(3342, 215, 'Edirne', 'EDI', 1),
-(3343, 215, 'Elazığ', 'ELA', 1),
-(3344, 215, 'Erzincan', 'EZC', 1),
-(3345, 215, 'Erzurum', 'EZR', 1),
-(3346, 215, 'Eskişehir', 'ESK', 1),
-(3347, 215, 'Gaziantep', 'GAZ', 1),
-(3348, 215, 'Giresun', 'GIR', 1),
-(3349, 215, 'Gümüşhane', 'GMS', 1),
-(3350, 215, 'Hakkari', 'HKR', 1),
-(3351, 215, 'Hatay', 'HTY', 1),
-(3352, 215, 'Iğdır', 'IGD', 1),
-(3353, 215, 'Isparta', 'ISP', 1),
-(3354, 215, 'İstanbul', 'IST', 1),
-(3355, 215, 'İzmir', 'IZM', 1),
-(3356, 215, 'Kahramanmaraş', 'KAH', 1),
-(3357, 215, 'Karabük', 'KRB', 1),
-(3358, 215, 'Karaman', 'KRM', 1),
-(3359, 215, 'Kars', 'KRS', 1),
-(3360, 215, 'Kastamonu', 'KAS', 1),
-(3361, 215, 'Kayseri', 'KAY', 1),
-(3362, 215, 'Kilis', 'KLS', 1),
-(3363, 215, 'Kırıkkale', 'KRK', 1),
-(3364, 215, 'Kırklareli', 'KLR', 1),
-(3365, 215, 'Kırşehir', 'KRH', 1),
-(3366, 215, 'Kocaeli', 'KOC', 1),
-(3367, 215, 'Konya', 'KON', 1),
-(3368, 215, 'Kütahya', 'KUT', 1),
-(3369, 215, 'Malatya', 'MAL', 1),
-(3370, 215, 'Manisa', 'MAN', 1),
-(3371, 215, 'Mardin', 'MAR', 1),
-(3372, 215, 'Mersin', 'MER', 1),
-(3373, 215, 'Muğla', 'MUG', 1),
-(3374, 215, 'Muş', 'MUS', 1),
-(3375, 215, 'Nevşehir', 'NEV', 1),
-(3376, 215, 'Niğde', 'NIG', 1),
-(3377, 215, 'Ordu', 'ORD', 1),
-(3378, 215, 'Osmaniye', 'OSM', 1),
-(3379, 215, 'Rize', 'RIZ', 1),
-(3380, 215, 'Sakarya', 'SAK', 1),
-(3381, 215, 'Samsun', 'SAM', 1),
-(3382, 215, 'Şanlıurfa', 'SAN', 1),
-(3383, 215, 'Siirt', 'SII', 1),
-(3384, 215, 'Sinop', 'SIN', 1),
-(3385, 215, 'Şırnak', 'SIR', 1),
-(3386, 215, 'Sivas', 'SIV', 1),
-(3387, 215, 'Tekirdağ', 'TEL', 1),
-(3388, 215, 'Tokat', 'TOK', 1),
-(3389, 215, 'Trabzon', 'TRA', 1),
-(3390, 215, 'Tunceli', 'TUN', 1),
-(3391, 215, 'Uşak', 'USK', 1),
-(3392, 215, 'Van', 'VAN', 1),
-(3393, 215, 'Yalova', 'YAL', 1),
-(3394, 215, 'Yozgat', 'YOZ', 1),
-(3395, 215, 'Zonguldak', 'ZON', 1),
+(3315, 215, 'Adana', 'TR-01', 1),
+(3316, 215, 'Adıyaman', 'TR-02', 1),
+(3317, 215, 'Afyonkarahisar', 'TR-03', 1),
+(3318, 215, 'Ağrı', 'TR-04', 1),
+(3319, 215, 'Aksaray', 'TR-68', 1),
+(3320, 215, 'Amasya', 'TR-05', 1),
+(3321, 215, 'Ankara', 'TR-06', 1),
+(3322, 215, 'Antalya', 'TR-07', 1),
+(3323, 215, 'Ardahan', 'TR-75', 1),
+(3324, 215, 'Artvin', 'TR-08', 1),
+(3325, 215, 'Aydın', 'TR-09', 1),
+(3326, 215, 'Balıkesir', 'TR-10', 1),
+(3327, 215, 'Bartın', 'TR-74', 1),
+(3328, 215, 'Batman', 'TR-72', 1),
+(3329, 215, 'Bayburt', 'TR-69', 1),
+(3330, 215, 'Bilecik', 'TR-11', 1),
+(3331, 215, 'Bingöl', 'TR-12', 1),
+(3332, 215, 'Bitlis', 'TR-13', 1),
+(3333, 215, 'Bolu', 'TR-14', 1),
+(3334, 215, 'Burdur', 'TR-15', 1),
+(3335, 215, 'Bursa', 'TR-16', 1),
+(3336, 215, 'Çanakkale', 'TR-17', 1),
+(3337, 215, 'Çankırı', 'TR-18', 1),
+(3338, 215, 'Çorum', 'TR-19', 1),
+(3339, 215, 'Denizli', 'TR-20', 1),
+(3340, 215, 'Diyarbakır', 'TR-21', 1),
+(3341, 215, 'Düzce', 'TR-81', 1),
+(3342, 215, 'Edirne', 'TR-22', 1),
+(3343, 215, 'Elazığ', 'TR-23', 1),
+(3344, 215, 'Erzincan', 'TR-24', 1),
+(3345, 215, 'Erzurum', 'TR-25', 1),
+(3346, 215, 'Eskişehir', 'TR-26', 1),
+(3347, 215, 'Gaziantep', 'TR-27', 1),
+(3348, 215, 'Giresun', 'TR-28', 1),
+(3349, 215, 'Gümüşhane', 'TR-29', 1),
+(3350, 215, 'Hakkari', 'TR-30', 1),
+(3351, 215, 'Hatay', 'TR-31', 1),
+(3352, 215, 'Iğdır', 'TR-76', 1),
+(3353, 215, 'Isparta', 'TR-32', 1),
+(3354, 215, 'İstanbul', 'TR-34', 1),
+(3355, 215, 'İzmir', 'TR-35', 1),
+(3356, 215, 'Kahramanmaraş', 'TR-46', 1),
+(3357, 215, 'Karabük', 'TR-78', 1),
+(3358, 215, 'Karaman', 'TR-70', 1),
+(3359, 215, 'Kars', 'TR-36', 1),
+(3360, 215, 'Kastamonu', 'TR-37', 1),
+(3361, 215, 'Kayseri', 'TR-38', 1),
+(3362, 215, 'Kilis', 'TR-79', 1),
+(3363, 215, 'Kırıkkale', 'TR-71', 1),
+(3364, 215, 'Kırklareli', 'TR-39', 1),
+(3365, 215, 'Kırşehir', 'TR-40', 1),
+(3366, 215, 'Kocaeli', 'TR-41', 1),
+(3367, 215, 'Konya', 'TR-42', 1),
+(3368, 215, 'Kütahya', 'TR-43', 1),
+(3369, 215, 'Malatya', 'TR-44', 1),
+(3370, 215, 'Manisa', 'TR-45', 1),
+(3371, 215, 'Mardin', 'TR-47', 1),
+(3372, 215, 'Mersin', 'TR-33', 1),
+(3373, 215, 'Muğla', 'TR-48', 1),
+(3374, 215, 'Muş', 'TR-49', 1),
+(3375, 215, 'Nevşehir', 'TR-50', 1),
+(3376, 215, 'Niğde', 'TR-51', 1),
+(3377, 215, 'Ordu', 'TR-52', 1),
+(3378, 215, 'Osmaniye', 'TR-80', 1),
+(3379, 215, 'Rize', 'TR-53', 1),
+(3380, 215, 'Sakarya', 'TR-54', 1),
+(3381, 215, 'Samsun', 'TR-55', 1),
+(3382, 215, 'Şanlıurfa', 'TR-63', 1),
+(3383, 215, 'Siirt', 'TR-56', 1),
+(3384, 215, 'Sinop', 'TR-57', 1),
+(3385, 215, 'Şırnak', 'TR-73', 1),
+(3386, 215, 'Sivas', 'TR-58', 1),
+(3387, 215, 'Tekirdağ', 'TR-59', 1),
+(3388, 215, 'Tokat', 'TR-60', 1),
+(3389, 215, 'Trabzon', 'TR-61', 1),
+(3390, 215, 'Tunceli', 'TR-62', 1),
+(3391, 215, 'Uşak', 'TR-64', 1),
+(3392, 215, 'Van', 'TR-65', 1),
+(3393, 215, 'Yalova', 'TR-77', 1),
+(3394, 215, 'Yozgat', 'TR-66', 1),
+(3395, 215, 'Zonguldak', 'TR-67', 1),
 (3396, 216, 'Ahal Welayaty', 'A', 1),
 (3397, 216, 'Balkan Welayaty', 'B', 1),
 (3398, 216, 'Dashhowuz Welayaty', 'D', 1),
@@ -7405,38 +12689,38 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3477, 219, 'Mbarara', 'MBR', 1),
 (3478, 219, 'Ntungamo', 'NTU', 1),
 (3479, 219, 'Rukungiri', 'RUK', 1),
-(3480, 220, 'Cherkas''ka Oblast''', '71', 1),
-(3481, 220, 'Chernihivs''ka Oblast''', '74', 1),
-(3482, 220, 'Chernivets''ka Oblast''', '77', 1),
-(3483, 220, 'Crimea', '43', 1),
-(3484, 220, 'Dnipropetrovs''ka Oblast''', '12', 1),
-(3485, 220, 'Donets''ka Oblast''', '14', 1),
-(3486, 220, 'Ivano-Frankivs''ka Oblast''', '26', 1),
-(3487, 220, 'Khersons''ka Oblast''', '65', 1),
-(3488, 220, 'Khmel''nyts''ka Oblast''', '68', 1),
-(3489, 220, 'Kirovohrads''ka Oblast''', '35', 1),
-(3490, 220, 'Kyiv', '30', 1),
-(3491, 220, 'Kyivs''ka Oblast''', '32', 1),
-(3492, 220, 'Luhans''ka Oblast''', '09', 1),
-(3493, 220, 'L''vivs''ka Oblast''', '46', 1),
-(3494, 220, 'Mykolayivs''ka Oblast''', '48', 1),
-(3495, 220, 'Odes''ka Oblast''', '51', 1),
-(3496, 220, 'Poltavs''ka Oblast''', '53', 1),
-(3497, 220, 'Rivnens''ka Oblast''', '56', 1),
-(3498, 220, 'Sevastopol''', '40', 1),
-(3499, 220, 'Sums''ka Oblast''', '59', 1),
-(3500, 220, 'Ternopil''s''ka Oblast''', '61', 1),
-(3501, 220, 'Vinnyts''ka Oblast''', '05', 1),
-(3502, 220, 'Volyns''ka Oblast''', '07', 1),
-(3503, 220, 'Zakarpats''ka Oblast''', '21', 1),
-(3504, 220, 'Zaporiz''ka Oblast''', '23', 1),
-(3505, 220, 'Zhytomyrs''ka oblast''', '18', 1),
+(3480, 220, 'Cherkaska', '23', 1),
+(3481, 220, 'Chernihivska', '25', 1),
+(3482, 220, 'Chernivetska', '24', 1),
+(3483, 220, 'Avtonomna Respublika Krym', '27', 1),
+(3484, 220, 'Dnipropetrovska', '04', 1),
+(3485, 220, 'Donetska', '05', 1),
+(3486, 220, 'Ivano-Frankivska', '09', 1),
+(3487, 220, 'Khersonska', '21', 1),
+(3488, 220, 'Khmelnytska', '22', 1),
+(3489, 220, 'Kirovohradska', '35', 1),
+(3490, 220, 'Kyiv', '26', 1),
+(3491, 220, 'Kyivska', '10', 1),
+(3492, 220, 'Luhanska', '12', 1),
+(3493, 220, 'Lvivska', '13', 1),
+(3494, 220, 'Mykolaivska', '14', 1),
+(3495, 220, 'Odeska', '15', 1),
+(3496, 220, 'Poltavska', '16', 1),
+(3497, 220, 'Rivnenska', '17', 1),
+(3498, 220, 'Sevastopol', '28', 1),
+(3499, 220, 'Sumska', '18', 1),
+(3500, 220, 'Ternopilska', '19', 1),
+(3501, 220, 'Vinnytska', '02', 1),
+(3502, 220, 'Volynska', '03', 1),
+(3503, 220, 'Zakarpatska', '07', 1),
+(3504, 220, 'Zaporizka', '08', 1),
+(3505, 220, 'Zhytomyrskа', '06', 1),
 (3506, 221, 'Abu Dhabi', 'ADH', 1),
-(3507, 221, '''Ajman', 'AJ', 1),
+(3507, 221, '\'Ajman', 'AJ', 1),
 (3508, 221, 'Al Fujayrah', 'FU', 1),
-(3509, 221, 'Ash Shariqah', 'SH', 1),
+(3509, 221, 'Ash Shāriqah', 'SH', 1),
 (3510, 221, 'Dubai', 'DU', 1),
-(3511, 221, 'R''as al Khaymah', 'RK', 1),
+(3511, 221, 'Ra’s al Khaymah', 'RK', 1),
 (3512, 221, 'Umm al Qaywayn', 'UQ', 1),
 (3513, 222, 'Aberdeen', 'ABN', 1),
 (3514, 222, 'Aberdeenshire', 'ABNS', 1),
@@ -7633,12 +12917,12 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3705, 225, 'Treinta y Tres', 'TT', 1),
 (3706, 226, 'Andijon', 'AN', 1),
 (3707, 226, 'Buxoro', 'BU', 1),
-(3708, 226, 'Farg''ona', 'FA', 1),
+(3708, 226, 'Farg\'ona', 'FA', 1),
 (3709, 226, 'Jizzax', 'JI', 1),
 (3710, 226, 'Namangan', 'NG', 1),
 (3711, 226, 'Navoiy', 'NW', 1),
 (3712, 226, 'Qashqadaryo', 'QA', 1),
-(3713, 226, 'Qoraqalpog''iston Republikasi', 'QR', 1),
+(3713, 226, 'Qoraqalpog\'iston Republikasi', 'QR', 1),
 (3714, 226, 'Samarqand', 'SA', 1),
 (3715, 226, 'Sirdaryo', 'SI', 1),
 (3716, 226, 'Surxondaryo', 'SU', 1),
@@ -7651,31 +12935,31 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3723, 227, 'Shefa', 'SH', 1),
 (3724, 227, 'Tafea', 'TA', 1),
 (3725, 227, 'Torba', 'TO', 1),
-(3726, 229, 'Amazonas', 'AM', 1),
-(3727, 229, 'Anzoategui', 'AN', 1),
-(3728, 229, 'Apure', 'AP', 1),
-(3729, 229, 'Aragua', 'AR', 1),
-(3730, 229, 'Barinas', 'BA', 1),
-(3731, 229, 'Bolivar', 'BO', 1),
-(3732, 229, 'Carabobo', 'CA', 1),
-(3733, 229, 'Cojedes', 'CO', 1),
-(3734, 229, 'Delta Amacuro', 'DA', 1),
-(3735, 229, 'Dependencias Federales', 'DF', 1),
-(3736, 229, 'Distrito Federal', 'DI', 1),
-(3737, 229, 'Falcon', 'FA', 1),
-(3738, 229, 'Guarico', 'GU', 1),
-(3739, 229, 'Lara', 'LA', 1),
-(3740, 229, 'Merida', 'ME', 1),
-(3741, 229, 'Miranda', 'MI', 1),
-(3742, 229, 'Monagas', 'MO', 1),
-(3743, 229, 'Nueva Esparta', 'NE', 1),
-(3744, 229, 'Portuguesa', 'PO', 1),
-(3745, 229, 'Sucre', 'SU', 1),
-(3746, 229, 'Tachira', 'TA', 1),
-(3747, 229, 'Trujillo', 'TR', 1),
-(3748, 229, 'Vargas', 'VA', 1),
-(3749, 229, 'Yaracuy', 'YA', 1),
-(3750, 229, 'Zulia', 'ZU', 1),
+(3726, 229, 'Amazonas', 'Z', 1),
+(3727, 229, 'Anzoategui', 'B', 1),
+(3728, 229, 'Apure', 'C', 1),
+(3729, 229, 'Aragua', 'D', 1),
+(3730, 229, 'Barinas', 'E', 1),
+(3731, 229, 'Bolivar', 'F', 1),
+(3732, 229, 'Carabobo', 'G', 1),
+(3733, 229, 'Cojedes', 'H', 1),
+(3734, 229, 'Delta Amacuro', 'Y', 1),
+(3735, 229, 'Dependencias Federales', 'W', 1),
+(3736, 229, 'Distrito Capital', 'A', 1),
+(3737, 229, 'Falcon', 'I', 1),
+(3738, 229, 'Guarico', 'J', 1),
+(3739, 229, 'Lara', 'K', 1),
+(3740, 229, 'Merida', 'L', 1),
+(3741, 229, 'Miranda', 'M', 1),
+(3742, 229, 'Monagas', 'N', 1),
+(3743, 229, 'Nueva Esparta', 'O', 1),
+(3744, 229, 'Portuguesa', 'P', 1),
+(3745, 229, 'Sucre', 'R', 1),
+(3746, 229, 'Tachira', 'S', 1),
+(3747, 229, 'Trujillo', 'T', 1),
+(3748, 229, 'Vargas', 'X', 1),
+(3749, 229, 'Yaracuy', 'U', 1),
+(3750, 229, 'Zulia', 'V', 1),
 (3751, 230, 'An Giang', 'AG', 1),
 (3752, 230, 'Bac Giang', 'BG', 1),
 (3753, 230, 'Bac Kan', 'BK', 1),
@@ -7726,13 +13010,13 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3798, 235, 'Ibb', 'IB', 1),
 (3799, 235, 'Al Jawf', 'JA', 1),
 (3800, 235, 'Lahij', 'LA', 1),
-(3801, 235, 'Ma''rib', 'MA', 1),
+(3801, 235, 'Ma\'rib', 'MA', 1),
 (3802, 235, 'Al Mahrah', 'MR', 1),
 (3803, 235, 'Al Mahwit', 'MW', 1),
-(3804, 235, 'Sa''dah', 'SD', 1),
-(3805, 235, 'San''a', 'SN', 1),
+(3804, 235, 'Sa\'dah', 'SD', 1),
+(3805, 235, 'San\'a', 'SN', 1),
 (3806, 235, 'Shabwah', 'SH', 1),
-(3807, 235, 'Ta''izz', 'TA', 1),
+(3807, 235, 'Ta\'izz', 'TA', 1),
 (3812, 237, 'Bas-Congo', 'BC', 1),
 (3813, 237, 'Bandundu', 'BN', 1),
 (3814, 237, 'Equateur', 'EQ', 1),
@@ -7763,6 +13047,25 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (3839, 239, 'Matabeleland North', 'MN', 1),
 (3840, 239, 'Matabeleland South', 'MS', 1),
 (3841, 239, 'Midlands', 'MD', 1),
+(3842, 105, 'Agrigento', 'AG', 1),
+(3843, 105, 'Alessandria', 'AL', 1),
+(3844, 105, 'Ancona', 'AN', 1),
+(3845, 105, 'Aosta', 'AO', 1),
+(3846, 105, 'Arezzo', 'AR', 1),
+(3847, 105, 'Ascoli Piceno', 'AP', 1),
+(3848, 105, 'Asti', 'AT', 1),
+(3849, 105, 'Avellino', 'AV', 1),
+(3850, 105, 'Bari', 'BA', 1),
+(3851, 105, 'Belluno', 'BL', 1),
+(3852, 105, 'Benevento', 'BN', 1),
+(3853, 105, 'Bergamo', 'BG', 1),
+(3854, 105, 'Biella', 'BI', 1),
+(3855, 105, 'Bologna', 'BO', 1),
+(3856, 105, 'Bolzano', 'BZ', 1),
+(3857, 105, 'Brescia', 'BS', 1),
+(3858, 105, 'Brindisi', 'BR', 1),
+(3859, 105, 'Cagliari', 'CA', 1),
+(3860, 105, 'Caltanissetta', 'CL', 1),
 (3861, 105, 'Campobasso', 'CB', 1),
 (3863, 105, 'Caserta', 'CE', 1),
 (3864, 105, 'Catania', 'CT', 1),
@@ -7929,195 +13232,128 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (4030, 248, 'Warrap', 'WR', 1),
 (4031, 248, 'Western Bahr el-Ghazal', 'BW', 1),
 (4032, 248, 'Western Equatoria', 'EW', 1),
-(4036, 117, 'Ainaži, Salacgrīvas novads', '0661405', 1),
-(4037, 117, 'Aizkraukle, Aizkraukles novads', '0320201', 1),
-(4038, 117, 'Aizkraukles novads', '0320200', 1),
-(4039, 117, 'Aizpute, Aizputes novads', '0640605', 1),
-(4040, 117, 'Aizputes novads', '0640600', 1),
-(4041, 117, 'Aknīste, Aknīstes novads', '0560805', 1),
-(4042, 117, 'Aknīstes novads', '0560800', 1),
-(4043, 117, 'Aloja, Alojas novads', '0661007', 1),
-(4044, 117, 'Alojas novads', '0661000', 1),
-(4045, 117, 'Alsungas novads', '0624200', 1),
-(4046, 117, 'Alūksne, Alūksnes novads', '0360201', 1),
-(4047, 117, 'Alūksnes novads', '0360200', 1),
-(4048, 117, 'Amatas novads', '0424701', 1),
-(4049, 117, 'Ape, Apes novads', '0360805', 1),
-(4050, 117, 'Apes novads', '0360800', 1),
-(4051, 117, 'Auce, Auces novads', '0460805', 1),
-(4052, 117, 'Auces novads', '0460800', 1),
-(4053, 117, 'Ādažu novads', '0804400', 1),
-(4054, 117, 'Babītes novads', '0804900', 1),
-(4055, 117, 'Baldone, Baldones novads', '0800605', 1),
-(4056, 117, 'Baldones novads', '0800600', 1),
-(4057, 117, 'Baloži, Ķekavas novads', '0800807', 1),
-(4058, 117, 'Baltinavas novads', '0384400', 1),
-(4059, 117, 'Balvi, Balvu novads', '0380201', 1),
-(4060, 117, 'Balvu novads', '0380200', 1),
-(4061, 117, 'Bauska, Bauskas novads', '0400201', 1),
-(4062, 117, 'Bauskas novads', '0400200', 1),
-(4063, 117, 'Beverīnas novads', '0964700', 1),
-(4064, 117, 'Brocēni, Brocēnu novads', '0840605', 1),
-(4065, 117, 'Brocēnu novads', '0840601', 1),
-(4066, 117, 'Burtnieku novads', '0967101', 1),
-(4067, 117, 'Carnikavas novads', '0805200', 1),
-(4068, 117, 'Cesvaine, Cesvaines novads', '0700807', 1),
-(4069, 117, 'Cesvaines novads', '0700800', 1),
-(4070, 117, 'Cēsis, Cēsu novads', '0420201', 1),
-(4071, 117, 'Cēsu novads', '0420200', 1),
-(4072, 117, 'Ciblas novads', '0684901', 1),
-(4073, 117, 'Dagda, Dagdas novads', '0601009', 1),
-(4074, 117, 'Dagdas novads', '0601000', 1),
-(4075, 117, 'Daugavpils', '0050000', 1),
-(4076, 117, 'Daugavpils novads', '0440200', 1),
-(4077, 117, 'Dobele, Dobeles novads', '0460201', 1),
-(4078, 117, 'Dobeles novads', '0460200', 1),
-(4079, 117, 'Dundagas novads', '0885100', 1),
-(4080, 117, 'Durbe, Durbes novads', '0640807', 1),
-(4081, 117, 'Durbes novads', '0640801', 1),
-(4082, 117, 'Engures novads', '0905100', 1),
-(4083, 117, 'Ērgļu novads', '0705500', 1),
-(4084, 117, 'Garkalnes novads', '0806000', 1),
-(4085, 117, 'Grobiņa, Grobiņas novads', '0641009', 1),
-(4086, 117, 'Grobiņas novads', '0641000', 1),
-(4087, 117, 'Gulbene, Gulbenes novads', '0500201', 1),
-(4088, 117, 'Gulbenes novads', '0500200', 1),
-(4089, 117, 'Iecavas novads', '0406400', 1),
-(4090, 117, 'Ikšķile, Ikšķiles novads', '0740605', 1),
-(4091, 117, 'Ikšķiles novads', '0740600', 1),
-(4092, 117, 'Ilūkste, Ilūkstes novads', '0440807', 1),
-(4093, 117, 'Ilūkstes novads', '0440801', 1),
-(4094, 117, 'Inčukalna novads', '0801800', 1),
-(4095, 117, 'Jaunjelgava, Jaunjelgavas novads', '0321007', 1),
-(4096, 117, 'Jaunjelgavas novads', '0321000', 1),
-(4097, 117, 'Jaunpiebalgas novads', '0425700', 1),
-(4098, 117, 'Jaunpils novads', '0905700', 1),
-(4099, 117, 'Jelgava', '0090000', 1),
-(4100, 117, 'Jelgavas novads', '0540200', 1),
-(4101, 117, 'Jēkabpils', '0110000', 1),
-(4102, 117, 'Jēkabpils novads', '0560200', 1),
-(4103, 117, 'Jūrmala', '0130000', 1),
-(4104, 117, 'Kalnciems, Jelgavas novads', '0540211', 1),
-(4105, 117, 'Kandava, Kandavas novads', '0901211', 1),
-(4106, 117, 'Kandavas novads', '0901201', 1),
-(4107, 117, 'Kārsava, Kārsavas novads', '0681009', 1),
-(4108, 117, 'Kārsavas novads', '0681000', 1),
-(4109, 117, 'Kocēnu novads ,bij. Valmieras)', '0960200', 1),
-(4110, 117, 'Kokneses novads', '0326100', 1),
-(4111, 117, 'Krāslava, Krāslavas novads', '0600201', 1),
-(4112, 117, 'Krāslavas novads', '0600202', 1),
-(4113, 117, 'Krimuldas novads', '0806900', 1),
-(4114, 117, 'Krustpils novads', '0566900', 1),
-(4115, 117, 'Kuldīga, Kuldīgas novads', '0620201', 1),
-(4116, 117, 'Kuldīgas novads', '0620200', 1),
-(4117, 117, 'Ķeguma novads', '0741001', 1),
-(4118, 117, 'Ķegums, Ķeguma novads', '0741009', 1),
-(4119, 117, 'Ķekavas novads', '0800800', 1),
-(4120, 117, 'Lielvārde, Lielvārdes novads', '0741413', 1),
-(4121, 117, 'Lielvārdes novads', '0741401', 1),
-(4122, 117, 'Liepāja', '0170000', 1),
-(4123, 117, 'Limbaži, Limbažu novads', '0660201', 1),
-(4124, 117, 'Limbažu novads', '0660200', 1),
-(4125, 117, 'Līgatne, Līgatnes novads', '0421211', 1),
-(4126, 117, 'Līgatnes novads', '0421200', 1),
-(4127, 117, 'Līvāni, Līvānu novads', '0761211', 1),
-(4128, 117, 'Līvānu novads', '0761201', 1),
-(4129, 117, 'Lubāna, Lubānas novads', '0701413', 1),
-(4130, 117, 'Lubānas novads', '0701400', 1),
-(4131, 117, 'Ludza, Ludzas novads', '0680201', 1),
-(4132, 117, 'Ludzas novads', '0680200', 1),
-(4133, 117, 'Madona, Madonas novads', '0700201', 1),
-(4134, 117, 'Madonas novads', '0700200', 1),
-(4135, 117, 'Mazsalaca, Mazsalacas novads', '0961011', 1),
-(4136, 117, 'Mazsalacas novads', '0961000', 1),
-(4137, 117, 'Mālpils novads', '0807400', 1),
-(4138, 117, 'Mārupes novads', '0807600', 1),
-(4139, 117, 'Mērsraga novads', '0887600', 1),
-(4140, 117, 'Naukšēnu novads', '0967300', 1),
-(4141, 117, 'Neretas novads', '0327100', 1),
-(4142, 117, 'Nīcas novads', '0647900', 1),
-(4143, 117, 'Ogre, Ogres novads', '0740201', 1),
-(4144, 117, 'Ogres novads', '0740202', 1),
-(4145, 117, 'Olaine, Olaines novads', '0801009', 1),
-(4146, 117, 'Olaines novads', '0801000', 1),
-(4147, 117, 'Ozolnieku novads', '0546701', 1),
-(4148, 117, 'Pārgaujas novads', '0427500', 1),
-(4149, 117, 'Pāvilosta, Pāvilostas novads', '0641413', 1),
-(4150, 117, 'Pāvilostas novads', '0641401', 1),
-(4151, 117, 'Piltene, Ventspils novads', '0980213', 1),
-(4152, 117, 'Pļaviņas, Pļaviņu novads', '0321413', 1),
-(4153, 117, 'Pļaviņu novads', '0321400', 1),
-(4154, 117, 'Preiļi, Preiļu novads', '0760201', 1),
-(4155, 117, 'Preiļu novads', '0760202', 1),
-(4156, 117, 'Priekule, Priekules novads', '0641615', 1),
-(4157, 117, 'Priekules novads', '0641600', 1),
-(4158, 117, 'Priekuļu novads', '0427300', 1),
-(4159, 117, 'Raunas novads', '0427700', 1),
-(4160, 117, 'Rēzekne', '0210000', 1),
-(4161, 117, 'Rēzeknes novads', '0780200', 1),
-(4162, 117, 'Riebiņu novads', '0766300', 1),
-(4163, 117, 'Rīga', '0010000', 1),
-(4164, 117, 'Rojas novads', '0888300', 1),
-(4165, 117, 'Ropažu novads', '0808400', 1),
-(4166, 117, 'Rucavas novads', '0648500', 1),
-(4167, 117, 'Rugāju novads', '0387500', 1),
-(4168, 117, 'Rundāles novads', '0407700', 1),
-(4169, 117, 'Rūjiena, Rūjienas novads', '0961615', 1),
-(4170, 117, 'Rūjienas novads', '0961600', 1),
-(4171, 117, 'Sabile, Talsu novads', '0880213', 1),
-(4172, 117, 'Salacgrīva, Salacgrīvas novads', '0661415', 1),
-(4173, 117, 'Salacgrīvas novads', '0661400', 1),
-(4174, 117, 'Salas novads', '0568700', 1),
-(4175, 117, 'Salaspils novads', '0801200', 1),
-(4176, 117, 'Salaspils, Salaspils novads', '0801211', 1),
-(4177, 117, 'Saldus novads', '0840200', 1),
+(4035, 129, 'Putrajaya', 'MY-16', 1),
+(4038, 117, 'Aizkraukles novads', '002', 1),
+(4040, 117, 'Aizputes novads', '003', 1),
+(4042, 117, 'Aknīstes novads', '004', 1),
+(4044, 117, 'Alojas novads', '005', 1),
+(4045, 117, 'Alsungas novads', '006', 1),
+(4047, 117, 'Alūksnes novads', '007', 1),
+(4048, 117, 'Amatas novads', '008', 1),
+(4050, 117, 'Apes novads', '008', 1),
+(4052, 117, 'Auces novads', '010', 1),
+(4053, 117, 'Ādažu novads', '011', 1),
+(4054, 117, 'Babītes novads', '012', 1),
+(4056, 117, 'Baldones novads', '013', 1),
+(4058, 117, 'Baltinavas novads', '014', 1),
+(4060, 117, 'Balvu novads', '015', 1),
+(4062, 117, 'Bauskas novads', '016', 1),
+(4063, 117, 'Beverīnas novads', '017', 1),
+(4065, 117, 'Brocēnu novads', '018', 1),
+(4066, 117, 'Burtnieku novads', '019', 1),
+(4067, 117, 'Carnikavas novads', '020', 1),
+(4069, 117, 'Cesvaines novads', '021', 1),
+(4071, 117, 'Cēsu novads', '022', 1),
+(4072, 117, 'Ciblas novads', '023', 1),
+(4074, 117, 'Dagdas novads', '024', 1),
+(4075, 117, 'Daugavpils', 'DGV', 1),
+(4076, 117, 'Daugavpils novads', '025', 1),
+(4078, 117, 'Dobeles novads', '026', 1),
+(4079, 117, 'Dundagas novads', '027', 1),
+(4081, 117, 'Durbes novads', '028', 1),
+(4082, 117, 'Engures novads', '029', 1),
+(4083, 117, 'Ērgļu novads', '030', 1),
+(4084, 117, 'Garkalnes novads', '031', 1),
+(4086, 117, 'Grobiņas novads', '032', 1),
+(4088, 117, 'Gulbenes novads', '033', 1),
+(4089, 117, 'Iecavas novads', '034', 1),
+(4091, 117, 'Ikšķiles novads', '035', 1),
+(4093, 117, 'Ilūkstes novads', '036', 1),
+(4094, 117, 'Inčukalna novads', '037', 1),
+(4096, 117, 'Jaunjelgavas novads', '038', 1),
+(4097, 117, 'Jaunpiebalgas novads', '039', 1),
+(4098, 117, 'Jaunpils novads', '040', 1),
+(4099, 117, 'Jelgava', 'JEL', 1),
+(4100, 117, 'Jelgavas novads', '041', 1),
+(4101, 117, 'Jēkabpils', 'JKB', 1),
+(4102, 117, 'Jēkabpils novads', '042', 1),
+(4103, 117, 'Jūrmala', 'JUR', 1),
+(4106, 117, 'Kandavas novads', '043', 1),
+(4108, 117, 'Kārsavas novads', '044', 1),
+(4110, 117, 'Kokneses novads', '046', 1),
+(4112, 117, 'Krāslavas novads', '047', 1),
+(4113, 117, 'Krimuldas novads', '048', 1),
+(4114, 117, 'Krustpils novads', '049', 1),
+(4116, 117, 'Kuldīgas novads', '050', 1),
+(4117, 117, 'Ķeguma novads', '051', 1),
+(4119, 117, 'Ķekavas novads', '052', 1),
+(4121, 117, 'Lielvārdes novads', '053', 1),
+(4122, 117, 'Liepāja', 'LPX', 1),
+(4124, 117, 'Limbažu novads', '054', 1),
+(4126, 117, 'Līgatnes novads', '055', 1),
+(4128, 117, 'Līvānu novads', '056', 1),
+(4130, 117, 'Lubānas novads', '057', 1),
+(4132, 117, 'Ludzas novads', '058', 1),
+(4134, 117, 'Madonas novads', '059', 1),
+(4136, 117, 'Mazsalacas novads', '060', 1),
+(4137, 117, 'Mālpils novads', '061', 1),
+(4138, 117, 'Mārupes novads', '062', 1),
+(4139, 117, 'Mērsraga novads', '063', 1),
+(4140, 117, 'Naukšēnu novads', '064', 1),
+(4141, 117, 'Neretas novads', '065', 1),
+(4142, 117, 'Nīcas novads', '066', 1),
+(4144, 117, 'Ogres novads', '067', 1),
+(4146, 117, 'Olaines novads', '068', 1),
+(4147, 117, 'Ozolnieku novads', '069', 1),
+(4148, 117, 'Pārgaujas novads', '070', 1),
+(4150, 117, 'Pāvilostas novads', '071', 1),
+(4153, 117, 'Pļaviņu novads', '072', 1),
+(4155, 117, 'Preiļu novads', '073', 1),
+(4157, 117, 'Priekules novads', '074', 1),
+(4158, 117, 'Priekuļu novads', '075', 1),
+(4159, 117, 'Raunas novads', '076', 1),
+(4160, 117, 'Rēzekne', 'REZ', 1),
+(4161, 117, 'Rēzeknes novads', '077', 1),
+(4162, 117, 'Riebiņu novads', '078', 1),
+(4163, 117, 'Rīga', 'RIX', 1),
+(4164, 117, 'Rojas novads', '079', 1),
+(4165, 117, 'Ropažu novads', '080', 1),
+(4166, 117, 'Rucavas novads', '081', 1),
+(4167, 117, 'Rugāju novads', '082', 1),
+(4168, 117, 'Rundāles novads', '083', 1),
+(4170, 117, 'Rūjienas novads', '084', 1),
+(4173, 117, 'Salacgrīvas novads', '086', 1),
+(4174, 117, 'Salas novads', '085', 1),
+(4175, 117, 'Salaspils novads', '087', 1),
+(4177, 117, 'Saldus novads', '088', 1),
 (4178, 117, 'Saldus, Saldus novads', '0840201', 1),
-(4179, 117, 'Saulkrasti, Saulkrastu novads', '0801413', 1),
-(4180, 117, 'Saulkrastu novads', '0801400', 1),
-(4181, 117, 'Seda, Strenču novads', '0941813', 1),
-(4182, 117, 'Sējas novads', '0809200', 1),
-(4183, 117, 'Sigulda, Siguldas novads', '0801615', 1),
-(4184, 117, 'Siguldas novads', '0801601', 1),
-(4185, 117, 'Skrīveru novads', '0328200', 1),
-(4186, 117, 'Skrunda, Skrundas novads', '0621209', 1),
-(4187, 117, 'Skrundas novads', '0621200', 1),
-(4188, 117, 'Smiltene, Smiltenes novads', '0941615', 1),
-(4189, 117, 'Smiltenes novads', '0941600', 1),
-(4190, 117, 'Staicele, Alojas novads', '0661017', 1),
-(4191, 117, 'Stende, Talsu novads', '0880215', 1),
-(4192, 117, 'Stopiņu novads', '0809600', 1),
-(4193, 117, 'Strenči, Strenču novads', '0941817', 1),
-(4194, 117, 'Strenču novads', '0941800', 1),
-(4195, 117, 'Subate, Ilūkstes novads', '0440815', 1),
-(4196, 117, 'Talsi, Talsu novads', '0880201', 1),
-(4197, 117, 'Talsu novads', '0880200', 1),
-(4198, 117, 'Tērvetes novads', '0468900', 1),
-(4199, 117, 'Tukuma novads', '0900200', 1),
-(4200, 117, 'Tukums, Tukuma novads', '0900201', 1),
-(4201, 117, 'Vaiņodes novads', '0649300', 1),
-(4202, 117, 'Valdemārpils, Talsu novads', '0880217', 1),
-(4203, 117, 'Valka, Valkas novads', '0940201', 1),
-(4204, 117, 'Valkas novads', '0940200', 1),
-(4205, 117, 'Valmiera', '0250000', 1),
-(4206, 117, 'Vangaži, Inčukalna novads', '0801817', 1),
-(4207, 117, 'Varakļāni, Varakļānu novads', '0701817', 1),
-(4208, 117, 'Varakļānu novads', '0701800', 1),
-(4209, 117, 'Vārkavas novads', '0769101', 1),
-(4210, 117, 'Vecpiebalgas novads', '0429300', 1),
-(4211, 117, 'Vecumnieku novads', '0409500', 1),
-(4212, 117, 'Ventspils', '0270000', 1),
-(4213, 117, 'Ventspils novads', '0980200', 1),
-(4214, 117, 'Viesīte, Viesītes novads', '0561815', 1),
-(4215, 117, 'Viesītes novads', '0561800', 1),
-(4216, 117, 'Viļaka, Viļakas novads', '0381615', 1),
-(4217, 117, 'Viļakas novads', '0381600', 1),
-(4218, 117, 'Viļāni, Viļānu novads', '0781817', 1),
-(4219, 117, 'Viļānu novads', '0781800', 1),
-(4220, 117, 'Zilupe, Zilupes novads', '0681817', 1),
-(4221, 117, 'Zilupes novads', '0681801', 1),
+(4180, 117, 'Saulkrastu novads', '089', 1),
+(4182, 117, 'Sējas novads', '090', 1),
+(4184, 117, 'Siguldas novads', '091', 1),
+(4185, 117, 'Skrīveru novads', '092', 1),
+(4187, 117, 'Skrundas novads', '093', 1),
+(4189, 117, 'Smiltenes novads', '094', 1),
+(4192, 117, 'Stopiņu novads', '095', 1),
+(4194, 117, 'Strenču novads', '096', 1),
+(4197, 117, 'Talsu novads', '097', 1),
+(4198, 117, 'Tērvetes novads', '098', 1),
+(4199, 117, 'Tukuma novads', '099', 1),
+(4201, 117, 'Vaiņodes novads', '100', 1),
+(4204, 117, 'Valkas novads', '101', 1),
+(4205, 117, 'Valmiera', 'VMR', 1),
+(4208, 117, 'Varakļānu novads', '102', 1),
+(4209, 117, 'Vārkavas novads', '103', 1),
+(4210, 117, 'Vecpiebalgas novads', '104', 1),
+(4211, 117, 'Vecumnieku novads', '105', 1),
+(4212, 117, 'Ventspils', 'VEN', 1),
+(4213, 117, 'Ventspils novads', '106', 1),
+(4215, 117, 'Viesītes novads', '107', 1),
+(4217, 117, 'Viļakas novads', '108', 1),
+(4219, 117, 'Viļānu novads', '109', 1),
+(4221, 117, 'Zilupes novads', '110', 1),
 (4222, 43, 'Arica y Parinacota', 'AP', 1),
 (4223, 43, 'Los Rios', 'LR', 1),
-(4224, 220, 'Kharkivs''ka Oblast''', '63', 1),
+(4224, 220, 'Kharkivs\'ka Oblast\'', '63', 1),
 (4225, 118, 'Beirut', 'LB-BR', 1),
 (4226, 118, 'Bekaa', 'LB-BE', 1),
 (4227, 118, 'Mount Lebanon', 'LB-ML', 1),
@@ -8131,24 +13367,127 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (4235, 100, 'Kepulauan Riau', 'KR', 1),
 (4236, 105, 'Barletta-Andria-Trani', 'BT', 1),
 (4237, 105, 'Fermo', 'FM', 1),
-(4238, 105, 'Monza Brianza', 'MB', 1);
+(4238, 105, 'Monza Brianza', 'MB', 1),
+(4239, 113, 'Seoul-teukbyeolsi', '11', 1),
+(4240, 113, 'Busan-gwangyeoksi', '26', 1),
+(4241, 113, 'Daegu-gwangyeoksi', '27', 1),
+(4242, 113, 'Daejeon-gwangyeoksi', '30', 1),
+(4243, 113, 'Gwangju-gwangyeoksi', '29', 1),
+(4244, 113, 'Incheon-gwangyeoksi', '28', 1),
+(4245, 113, 'Ulsan-gwangyeoksi', '31', 1),
+(4246, 113, 'Chungcheongbuk-do', '43', 1),
+(4247, 113, 'Chungcheongnam-do', '44', 1),
+(4248, 113, 'Gangwon-do', '42', 1),
+(4249, 113, 'Gyeonggi-do', '41', 1),
+(4250, 113, 'Gyeongsangbuk-do', '47', 1),
+(4251, 113, 'Gyeongsangnam-do', '48', 1),
+(4252, 113, 'Jeollabuk-do', '45', 1),
+(4253, 113, 'Jeollanam-do', '46', 1),
+(4254, 113, 'Jeju-teukbyeoljachido', '49', 1),
+(4255, 113, 'Sejong-teukbyeoljachisi', '50', 1),
+(4256, 209, 'Phra Nakhon Si Ayutthaya', '14', 1),
+(4257, 176, 'Adygea, Republic of', 'RU-AD', 1),
+(4258, 176, 'Bashkortostan, Republic of', 'RU-BA', 1),
+(4259, 176, 'Buryatia, Republic of', 'RU-BU', 1),
+(4260, 176, 'Altai Republic', 'RU-AL', 1),
+(4261, 176, 'Dagestan, Republic of', 'RU-DA', 1),
+(4262, 176, 'Ingushetia, Republic of', 'RU-IN', 1),
+(4263, 176, 'Kabardino-Balkar Republic', 'RU-KB', 1),
+(4264, 176, 'Kalmykia, Republic of', 'RU-KL', 1),
+(4265, 176, 'Karachay-Cherkess Republic', 'RU-KC', 1),
+(4266, 176, 'Karelia, Republic of', 'RU-KR', 1),
+(4267, 176, 'Komi Republic', 'RU-KO', 1),
+(4268, 176, 'Mari El Republic', 'RU-ME', 1),
+(4269, 176, 'Mordovia, Republic of', 'RU-MO', 1),
+(4270, 176, 'Sakha (Yakutia) Republic', 'RU-SA', 1),
+(4271, 176, 'North Ossetia-Alania, Republic of', 'RU-SE', 1),
+(4272, 176, 'Tatarstan, Republic of', 'RU-TA', 1),
+(4273, 176, 'Tuva Republic', 'RU-TY', 1),
+(4274, 176, 'Udmurt Republic', 'RU-UD', 1),
+(4275, 176, 'Khakassia, Republic of', 'RU-KK', 1),
+(4276, 176, 'Chechen Republic', 'RU-CE', 1),
+(4277, 176, 'Chuvash Republic', 'RU-CU', 1),
+(4278, 176, 'Altai Krai', 'RU-ALT', 1),
+(4279, 176, 'Krasnodar Krai', 'RU-KDA', 1),
+(4280, 176, 'Krasnoyarsk Krai', 'RU-KYA', 1),
+(4281, 176, 'Primorsky Krai', 'RU-PRI', 1),
+(4282, 176, 'Stavropol Krai', 'RU-STA', 1),
+(4283, 176, 'Khabarovsk Krai', 'RU-KHA', 1),
+(4284, 176, 'Amur Oblast', 'RU-AMU', 1),
+(4285, 176, 'Arkhangelsk Oblast', 'RU-ARK', 1),
+(4286, 176, 'Astrakhan Oblast', 'RU-AST', 1),
+(4287, 176, 'Belgorod Oblast', 'RU-BEL', 1),
+(4288, 176, 'Bryansk Oblast', 'RU-BRY', 1),
+(4289, 176, 'Vladimir Oblast', 'RU-VLA', 1),
+(4290, 176, 'Volgograd Oblast', 'RU-VGG', 1),
+(4291, 176, 'Vologda Oblast', 'RU-VLG', 1),
+(4292, 176, 'Voronezh Oblast', 'RU-VOR', 1),
+(4293, 176, 'Ivanovo Oblast', 'RU-IVA', 1),
+(4294, 176, 'Irkutsk Oblast', 'RU-IRK', 1),
+(4295, 176, 'Kaliningrad Oblast', 'RU-KGD', 1),
+(4296, 176, 'Kaluga Oblast', 'RU-KLU', 1),
+(4297, 176, 'Kamchatka Krai', 'RU-KAM', 1),
+(4298, 176, 'Kemerovo Oblast', 'RU-KEM', 1),
+(4299, 176, 'Kirov Oblast', 'RU-KIR', 1),
+(4300, 176, 'Kostroma Oblast', 'RU-KOS', 1),
+(4301, 176, 'Kurgan Oblast', 'RU-KGN', 1),
+(4302, 176, 'Kursk Oblast', 'RU-KRS', 1),
+(4303, 176, 'Leningrad Oblast', 'RU-LEN', 1),
+(4304, 176, 'Lipetsk Oblast', 'RU-LIP', 1),
+(4305, 176, 'Magadan Oblast', 'RU-MAG', 1),
+(4306, 176, 'Moscow Oblast', 'RU-MOS', 1),
+(4307, 176, 'Murmansk Oblast', 'RU-MUR', 1),
+(4308, 176, 'Nizhny Novgorod Oblast', 'RU-NIZ', 1),
+(4309, 176, 'Novgorod Oblast', 'RU-NGR', 1),
+(4310, 176, 'Novosibirsk Oblast', 'RU-NVS', 1),
+(4311, 176, 'Omsk Oblast', 'RU-OMS', 1),
+(4312, 176, 'Orenburg Oblast', 'RU-ORE', 1),
+(4313, 176, 'Oryol Oblast', 'RU-ORL', 1),
+(4314, 176, 'Penza Oblast', 'RU-PNZ', 1),
+(4315, 176, 'Perm Krai', 'RU-PER', 1),
+(4316, 176, 'Pskov Oblast', 'RU-PSK', 1),
+(4317, 176, 'Rostov Oblast', 'RU-ROS', 1),
+(4318, 176, 'Ryazan Oblast', 'RU-RYA', 1),
+(4319, 176, 'Samara Oblast', 'RU-SAM', 1),
+(4320, 176, 'Saratov Oblast', 'RU-SAR', 1),
+(4321, 176, 'Sakhalin Oblast', 'RU-SAK', 1),
+(4322, 176, 'Sverdlovsk Oblast', 'RU-SVE', 1),
+(4323, 176, 'Smolensk Oblast', 'RU-SMO', 1),
+(4324, 176, 'Tambov Oblast', 'RU-TAM', 1),
+(4325, 176, 'Tver Oblast', 'RU-TVE', 1),
+(4326, 176, 'Tomsk Oblast', 'RU-TOM', 1),
+(4327, 176, 'Tula Oblast', 'RU-TUL', 1),
+(4328, 176, 'Tyumen Oblast', 'RU-TYU', 1),
+(4329, 176, 'Ulyanovsk Oblast', 'RU-ULY', 1),
+(4330, 176, 'Chelyabinsk Oblast', 'RU-CHE', 1),
+(4331, 176, 'Zabaykalsky Krai', 'RU-ZAB', 1),
+(4332, 176, 'Yaroslavl Oblast', 'RU-YAR', 1),
+(4333, 176, 'Moscow', 'RU-MOW', 1),
+(4334, 176, 'Saint Petersburg', 'RU-SPE', 1),
+(4335, 176, 'Jewish Autonomous Oblast', 'RU-YEV', 1),
+(4336, 176, 'Nenets Autonomous Okrug', 'RU-NEN', 1),
+(4337, 176, 'Khanty–Mansi Autonomous Okrug – Yugra', 'RU-KHM', 1),
+(4338, 176, 'Chukotka Autonomous Okrug', 'RU-CHU', 1),
+(4339, 176, 'Yamalo-Nenets Autonomous Okrug', 'RU-YAN', 1),
+(4340, 117, 'Aglonas novads', '001', 1),
+(4341, 99, 'Chhattisgarh', 'CT', 1),
+(4342, 99, 'Ladakh', 'LA', 1),
+(4343, 99, 'Uttarakhand', 'UT', 1);
 
------------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `oc_zone_to_geo_zone`
 --
 
-DROP TABLE IF EXISTS `oc_zone_to_geo_zone`;
 CREATE TABLE `oc_zone_to_geo_zone` (
-  `zone_to_geo_zone_id` int(11) NOT NULL AUTO_INCREMENT,
+  `zone_to_geo_zone_id` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
-  `zone_id` int(11) NOT NULL DEFAULT '0',
+  `zone_id` int(11) NOT NULL DEFAULT 0,
   `geo_zone_id` int(11) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`zone_to_geo_zone_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `date_modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `oc_zone_to_geo_zone`
@@ -8262,5 +13601,8 @@ INSERT INTO `oc_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id
 (105, 222, 3952, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (106, 222, 3953, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (107, 222, 3954, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(108, 222, 3955, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(109, 222, 3972, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(108, 222, 3955, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+--
+-- Indexes for dumped tables
+--

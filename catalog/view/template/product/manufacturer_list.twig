@@ -1,0 +1,47 @@
+{{ header }}
+<div class="breadcrumb-container">
+  <h1 class="page-title">{{ heading_title }}</h1>
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+<div id="product-manufacturer" class="container">
+  <div class="wrapper_container row">{{ column_left }}
+    <div id="content" class="col">{{ content_top }}
+      {% if categories %}
+      <div class="a-link-group">
+        <strong>{{ text_index }}</strong>
+          {% for category in categories %}
+            &nbsp;&nbsp;&nbsp;<a href="{{ category.href }}#{{ category.name }}">{{ category.name }}</a>
+          {% endfor %}
+      </div>
+        {% for category in categories %}
+        <div class="a-link-list">
+          <div class="a-link-heading">
+            <p id="{{ category.name }}">{{ category.name }}</p>
+          </div>
+          <div class="a-link-content">  
+            {% if category.manufacturer %}
+              {% for manufacturers in category.manufacturer|batch(4) %}
+                <div class="row mb-3">
+                  {% for manufacturer in manufacturers %}
+                    <div class="col-lg-3 col-sm-12 col-md-12"><a href="{{ manufacturer.href }}">{{ manufacturer.name }}</a></div>
+                  {% endfor %}
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p>{{ text_no_results }}</p>
+        <div class="d-inline-block pt-2 pd-2 w-100">
+          <div class="float-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+        </div>
+      {% endif %}
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

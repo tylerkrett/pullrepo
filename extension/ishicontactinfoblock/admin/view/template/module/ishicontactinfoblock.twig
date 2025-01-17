@@ -1,0 +1,108 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
+        <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+   <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="card panel-default">
+      <div class="card-header">
+        <i class="fa fa-pencil"></i>{{ text_edit }}
+      </div>
+      <div class="card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="input-name">{{ entry_name }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+              {% if error_name %}
+              <div class="text-danger">{{ error_name }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="input-title">{{ entry_title }}</label>
+            <div class="col-sm-10">
+            {% for language in languages %}
+              <div class="input-group"><span class="input-group-addon input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                <input type="text" name="title[{{ language.language_id }}]" value="{{ title[language.language_id] }}" placeholder="{{ entry_title }}" class="form-control" required id="input-title-{{language.language_id}}" />
+              </div> 
+            {% endfor %}
+            </div>
+          </div>
+          <div class="row mb-3 required">
+            <label class="col-sm-2 col-form-label" for="input-column">{{ entry_column }}</label>
+            <div class="col-sm-10">
+              <select name="column" id="input-column" class="form-control">
+                <option value="1" {% if column == 1 %} selected=selected {% endif %}>1</option>
+                <option value="2" {% if column == 2 %} selected=selected {% endif %}>2</option>
+                <option value="3" {% if column == 3 %} selected=selected {% endif %}>3</option>
+                <option value="4" {% if column == 4 %} selected=selected {% endif %}>4</option>
+                <option value="6" {% if column == 6 %} selected=selected {% endif %}>6</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="status" id="input-status" class="form-control">
+                {% if status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</style>
+<script src="view/javascript/bootstrap/colorpicker/jquery.minicolors.js" type="text/javascript"></script>
+  <link href="view/javascript/bootstrap/colorpicker/jquery.minicolors.css" type="text/css" rel="stylesheet"/>
+  <script type="text/javascript"><!--
+    $('#language a:first').tab('show');
+
+    $(document).ready( function() {
+      $('.color').each( function() {
+        $(this).minicolors({
+          control: $(this).attr('data-control') || 'hue',
+          defaultValue: $(this).attr('data-defaultValue') || '',
+          format: $(this).attr('data-format') || 'hex',
+          keywords: $(this).attr('data-keywords') || '',
+          inline: $(this).attr('data-inline') === 'true',
+          letterCase: $(this).attr('data-letterCase') || 'lowercase',
+          opacity: $(this).attr('data-opacity'),
+          position: $(this).attr('data-position') || 'bottom',
+          swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+          change: function(value, opacity) {
+            if( !value ) return;
+            if( opacity ) value += ', ' + opacity;
+            if( typeof console === 'object' ) {
+              console.log(value);
+            }
+          },
+          theme: 'bootstrap',
+        });
+      });
+    });
+  //--></script>
+{{ footer }}

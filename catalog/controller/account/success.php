@@ -1,43 +1,51 @@
 <?php
-class ControllerAccountSuccess extends Controller {
-	public function index() {
+namespace Opencart\Catalog\Controller\Account;
+class Success extends \Opencart\System\Engine\Controller {
+	public function index(): void {
 		$this->load->language('account/success');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+		$this->document->setTitle($this->language->get('heading_succese'));
 
-		$data['breadcrumbs'] = array();
+		$data['breadcrumbs'] = [];
 
-		$data['breadcrumbs'][] = array(
+		$data['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
+			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+		];
 
-		$data['breadcrumbs'][] = array(
+		$data['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', '', true)
-		);
+			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''))
+		];
 
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_success'),
-			'href' => $this->url->link('account/success')
-		);
+		$data['breadcrumbs'][] = [
+			'text' => $this->language->get('heading_succese'),
+			'href' => $this->url->link('account/success', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''))
+		];
 
 		if ($this->customer->isLogged()) {
-			$data['text_message'] = sprintf($this->language->get('text_message'), $this->url->link('information/contact'));
+			$data['text_message'] = sprintf($this->language->get('text_success'), $this->url->link('information/contact', 'language=' . $this->config->get('config_language')));
 		} else {
-			$data['text_message'] = sprintf($this->language->get('text_approval'), $this->config->get('config_name'), $this->url->link('information/contact'));
+			$data['text_message'] = sprintf($this->language->get('text_approval'), $this->config->get('config_name'), $this->url->link('information/contact', 'language=' . $this->config->get('config_language')));
 		}
 
 		if ($this->cart->hasProducts()) {
-			$data['continue'] = $this->url->link('checkout/cart');
+			$data['continue'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'));
 		} else {
-			$data['continue'] = $this->url->link('account/account', '', true);
+			$data['continue'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
 		}
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['header_before'] = $this->load->controller('common/header_before');
+		$data['header_after'] = $this->load->controller('common/header_after');
 		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_center'] = $this->load->controller('common/content_center');
+		$data['content_middle'] = $this->load->controller('common/content_middle');
 		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer_before'] = $this->load->controller('common/footer_before');
+		$data['footer_middle'] = $this->load->controller('common/footer_middle');
+		$data['footer_after'] = $this->load->controller('common/footer_after');
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 

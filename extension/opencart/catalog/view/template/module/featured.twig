@@ -1,0 +1,18 @@
+<section class="featured-products clearfix">
+	<h3 class="page-title">{{ title }}</h3>
+	<div class="block-title clearfix  hidden-lg hidden-md collapsed" data-bs-target="#bestseller-container" data-bs-toggle="collapse" aria-expanded="false" aria-controls="bestseller-container">
+	    <span class="page-title feature_title">{{ title }}</span>
+	    <span class="navbar-toggler collapse-icons">
+	      <i class="fa fa-angle-down add"></i>
+	      <i class="fa fa-angle-up remove"></i>
+	    </span>
+	</div>
+
+	
+
+	<div id="bestseller-container" class="collapse data-toggler show {% if axis == 'horizontal' %} row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4{% endif %}">
+	  {% for product in products %}
+	    <div class="col-12 clearfix feature_container">{{ product }}</div>
+	  {% endfor %}
+	</div>
+</section>

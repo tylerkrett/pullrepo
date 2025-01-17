@@ -1,8 +1,9 @@
 <?php
-class ControllerInstallStep3 extends Controller {
-	private $error = array();
+namespace Opencart\Install\Controller\Install;
+class Step3 extends \Opencart\System\Engine\Controller {
+	private array $error = [];
 
-	public function index() {
+	public function index(): void {
 		$this->load->language('install/step_3');
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
@@ -10,25 +11,28 @@ class ControllerInstallStep3 extends Controller {
 
 			$this->model_install_install->database($this->request->post);
 
+			// Catalog config.php
 			$output  = '<?php' . "\n";
+
+			$output .= '// APPLICATION' . "\n";
+			$output .= 'define(\'APPLICATION\', \'Catalog\');' . "\n\n";
+
 			$output .= '// HTTP' . "\n";
 			$output .= 'define(\'HTTP_SERVER\', \'' . HTTP_OPENCART . '\');' . "\n\n";
 
-			$output .= '// HTTPS' . "\n";
-			$output .= 'define(\'HTTPS_SERVER\', \'' . HTTP_OPENCART . '\');' . "\n\n";
-
 			$output .= '// DIR' . "\n";
-			$output .= 'define(\'DIR_APPLICATION\', \'' . addslashes(DIR_OPENCART) . 'catalog/\');' . "\n";
-			$output .= 'define(\'DIR_SYSTEM\', \'' . addslashes(DIR_OPENCART) . 'system/\');' . "\n";
-			$output .= 'define(\'DIR_IMAGE\', \'' . addslashes(DIR_OPENCART) . 'image/\');' . "\n";
-			$output .= 'define(\'DIR_STORAGE\', DIR_SYSTEM . \'storage/\');' . "\n";			
+			$output .= 'define(\'DIR_OPENCART\', \'' . DIR_OPENCART . '\');' . "\n";
+			$output .= 'define(\'DIR_APPLICATION\', DIR_OPENCART . \'catalog/\');' . "\n";
+			$output .= 'define(\'DIR_EXTENSION\', DIR_OPENCART . \'extension/\');' . "\n";
+			$output .= 'define(\'DIR_IMAGE\', DIR_OPENCART . \'image/\');' . "\n";
+			$output .= 'define(\'DIR_SYSTEM\', DIR_OPENCART . \'system/\');' . "\n";
+			$output .= 'define(\'DIR_STORAGE\', DIR_SYSTEM . \'storage/\');' . "\n";
 			$output .= 'define(\'DIR_LANGUAGE\', DIR_APPLICATION . \'language/\');' . "\n";
-			$output .= 'define(\'DIR_TEMPLATE\', DIR_APPLICATION . \'view/theme/\');' . "\n";
+			$output .= 'define(\'DIR_TEMPLATE\', DIR_APPLICATION . \'view/template/\');' . "\n";
 			$output .= 'define(\'DIR_CONFIG\', DIR_SYSTEM . \'config/\');' . "\n";
 			$output .= 'define(\'DIR_CACHE\', DIR_STORAGE . \'cache/\');' . "\n";
 			$output .= 'define(\'DIR_DOWNLOAD\', DIR_STORAGE . \'download/\');' . "\n";
 			$output .= 'define(\'DIR_LOGS\', DIR_STORAGE . \'logs/\');' . "\n";
-			$output .= 'define(\'DIR_MODIFICATION\', DIR_STORAGE . \'modification/\');' . "\n";
 			$output .= 'define(\'DIR_SESSION\', DIR_STORAGE . \'session/\');' . "\n";
 			$output .= 'define(\'DIR_UPLOAD\', DIR_STORAGE . \'upload/\');' . "\n\n";
 			
@@ -47,28 +51,29 @@ class ControllerInstallStep3 extends Controller {
 
 			fclose($file);
 
+			// Admin config.php
 			$output  = '<?php' . "\n";
+			$output .= '// APPLICATION' . "\n";
+			$output .= 'define(\'APPLICATION\', \'Admin\');' . "\n\n";
+
 			$output .= '// HTTP' . "\n";
 			$output .= 'define(\'HTTP_SERVER\', \'' . HTTP_OPENCART . 'admin/\');' . "\n";
 			$output .= 'define(\'HTTP_CATALOG\', \'' . HTTP_OPENCART . '\');' . "\n\n";
 
-			$output .= '// HTTPS' . "\n";
-			$output .= 'define(\'HTTPS_SERVER\', \'' . HTTP_OPENCART . 'admin/\');' . "\n";
-			$output .= 'define(\'HTTPS_CATALOG\', \'' . HTTP_OPENCART . '\');' . "\n\n";
-
 			$output .= '// DIR' . "\n";
-			$output .= 'define(\'DIR_APPLICATION\', \'' . addslashes(DIR_OPENCART) . 'admin/\');' . "\n";
-			$output .= 'define(\'DIR_SYSTEM\', \'' . addslashes(DIR_OPENCART) . 'system/\');' . "\n";
-			$output .= 'define(\'DIR_IMAGE\', \'' . addslashes(DIR_OPENCART) . 'image/\');' . "\n";	
+			$output .= 'define(\'DIR_OPENCART\', \'' . DIR_OPENCART . '\');' . "\n";
+			$output .= 'define(\'DIR_APPLICATION\', DIR_OPENCART . \'admin/\');' . "\n";
+			$output .= 'define(\'DIR_EXTENSION\', DIR_OPENCART . \'extension/\');' . "\n";
+			$output .= 'define(\'DIR_IMAGE\', DIR_OPENCART . \'image/\');' . "\n";
+			$output .= 'define(\'DIR_SYSTEM\', DIR_OPENCART . \'system/\');' . "\n";
+			$output .= 'define(\'DIR_CATALOG\', DIR_OPENCART . \'catalog/\');' . "\n";
 			$output .= 'define(\'DIR_STORAGE\', DIR_SYSTEM . \'storage/\');' . "\n";
-			$output .= 'define(\'DIR_CATALOG\', \'' . addslashes(DIR_OPENCART) . 'catalog/\');' . "\n";
 			$output .= 'define(\'DIR_LANGUAGE\', DIR_APPLICATION . \'language/\');' . "\n";
 			$output .= 'define(\'DIR_TEMPLATE\', DIR_APPLICATION . \'view/template/\');' . "\n";
 			$output .= 'define(\'DIR_CONFIG\', DIR_SYSTEM . \'config/\');' . "\n";
 			$output .= 'define(\'DIR_CACHE\', DIR_STORAGE . \'cache/\');' . "\n";
 			$output .= 'define(\'DIR_DOWNLOAD\', DIR_STORAGE . \'download/\');' . "\n";
 			$output .= 'define(\'DIR_LOGS\', DIR_STORAGE . \'logs/\');' . "\n";
-			$output .= 'define(\'DIR_MODIFICATION\', DIR_STORAGE . \'modification/\');' . "\n";
 			$output .= 'define(\'DIR_SESSION\', DIR_STORAGE . \'session/\');' . "\n";
 			$output .= 'define(\'DIR_UPLOAD\', DIR_STORAGE . \'upload/\');' . "\n\n";
 			
@@ -90,7 +95,7 @@ class ControllerInstallStep3 extends Controller {
 
 			fclose($file);
 
-			$this->response->redirect($this->url->link('install/step_4'));
+			$this->response->redirect($this->url->link('install/step_4', 'language=' . $this->config->get('language_code')));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -103,6 +108,9 @@ class ControllerInstallStep3 extends Controller {
 		$data['text_mysqli'] = $this->language->get('text_mysqli');
 		$data['text_mpdo'] = $this->language->get('text_mpdo');
 		$data['text_pgsql'] = $this->language->get('text_pgsql');
+		$data['text_help'] = $this->language->get('text_help');
+		$data['text_cpanel'] = $this->language->get('text_cpanel');
+		$data['text_plesk'] = $this->language->get('text_plesk');
 
 		$data['entry_db_driver'] = $this->language->get('entry_db_driver');
 		$data['entry_db_hostname'] = $this->language->get('entry_db_hostname');
@@ -122,6 +130,12 @@ class ControllerInstallStep3 extends Controller {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
 			$data['error_warning'] = '';
+		}
+
+		if (isset($this->error['db_driver'])) {
+			$data['error_db_driver'] = $this->error['db_driver'];
+		} else {
+			$data['error_db_driver'] = '';
 		}
 
 		if (isset($this->error['db_hostname'])) {
@@ -172,7 +186,24 @@ class ControllerInstallStep3 extends Controller {
 			$data['error_email'] = '';
 		}
 
-		$data['action'] = $this->url->link('install/step_3');
+		$data['action'] = $this->url->link('install/step_3', 'language=' . $this->config->get('language_code'));
+
+		$db_drivers = [
+			'mysqli',
+			'pdo',
+			'pgsql'
+		];
+
+		$data['drivers'] = [];
+
+		foreach ($db_drivers as $db_driver) {
+			if (extension_loaded($db_driver)) {
+				$data['drivers'][] = [
+					'text'  => $this->language->get('text_' . $db_driver),
+					'value' => $db_driver
+				];
+			}
+		}
 
 		if (isset($this->request->post['db_driver'])) {
 			$data['db_driver'] = $this->request->post['db_driver'];
@@ -234,21 +265,16 @@ class ControllerInstallStep3 extends Controller {
 			$data['email'] = '';
 		}
 
-		$data['mysqli'] = extension_loaded('mysqli');
-		$data['mysql'] = extension_loaded('mysql');
-		$data['pdo'] = extension_loaded('pdo');
-		$data['pgsql'] = extension_loaded('pgsql');
-
-		$data['back'] = $this->url->link('install/step_2');
+		$data['back'] = $this->url->link('install/step_2', 'language=' . $this->config->get('language_code'));
 
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['language'] = $this->load->controller('common/language');
 
 		$this->response->setOutput($this->load->view('install/step_3', $data));
 	}
 
-	private function validate() {
+	private function validate(): bool {
 		if (!$this->request->post['db_hostname']) {
 			$this->error['db_hostname'] = $this->language->get('error_db_hostname');
 		}
@@ -263,44 +289,38 @@ class ControllerInstallStep3 extends Controller {
 
 		if (!$this->request->post['db_port']) {
 			$this->error['db_port'] = $this->language->get('error_db_port');
-		}		
+		}
 
 		if ($this->request->post['db_prefix'] && preg_match('/[^a-z0-9_]/', $this->request->post['db_prefix'])) {
 			$this->error['db_prefix'] = $this->language->get('error_db_prefix');
 		}
 
-		if ($this->request->post['db_driver'] == 'mysqli') {
+		$db_drivers = [
+			'mysqli',
+			'pdo',
+			'pgsql'
+		];
+
+		if (!in_array($this->request->post['db_driver'], $db_drivers)) {
+			$this->error['db_driver'] = $this->language->get('error_db_driver');
+		} else {
 			try {
-				$db = new \DB\MySQLi($this->request->post['db_hostname'], $this->request->post['db_username'], html_entity_decode($this->request->post['db_password'], ENT_QUOTES, 'UTF-8'), $this->request->post['db_database'], $this->request->post['db_port']);
-				
-				if (is_resource($db)) {
-					$db->close();
-				}
-			} catch(Exception $e) {
-				$this->error['warning'] = $mysql->connect_error;
-			}
-		} elseif ($this->request->post['db_driver'] == 'mpdo') {
-			try {
-				$db = new \DB\mPDO($this->request->post['db_hostname'], $this->request->post['db_username'], html_entity_decode($this->request->post['db_password'], ENT_QUOTES, 'UTF-8'), $this->request->post['db_database'], $this->request->post['db_port']);
-			
-				if (is_resource($db)) {
-					$db->close();
-				}
-			} catch(Exception $e) {
+				$db = new \Opencart\System\Library\DB($this->request->post['db_driver'], html_entity_decode($this->request->post['db_hostname'], ENT_QUOTES, 'UTF-8'), html_entity_decode($this->request->post['db_username'], ENT_QUOTES, 'UTF-8'), html_entity_decode($this->request->post['db_password'], ENT_QUOTES, 'UTF-8'), html_entity_decode($this->request->post['db_database'], ENT_QUOTES, 'UTF-8'), $this->request->post['db_port']);
+			} catch (\Exception $e) {
 				$this->error['warning'] = $e->getMessage();
 			}
-		}			
-		
+		}
+
 		if (!$this->request->post['username']) {
 			$this->error['username'] = $this->language->get('error_username');
 		}
 
-		if (!$this->request->post['password']) {
-			$this->error['password'] = $this->language->get('error_password');
+		if ((oc_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
+			$this->error['email'] = $this->language->get('error_email');
 		}
 
-		if ((utf8_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
-			$this->error['email'] = $this->language->get('error_email');
+		if (!$this->request->post['password']) {
+			$this->error['password'] = $this->language->get('error_password');
 		}
 
 		if (!is_writable(DIR_OPENCART . 'config.php')) {
